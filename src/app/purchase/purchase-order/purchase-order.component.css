@@ -1,0 +1,13 @@
+/* .full-width-field {
+    width: 40%;
+    margin-left: 10px;
+ } */
+
+ /* .mat-input-wrapper{
+    width:400px !important;
+  }
+   */
+
+   mat-form-field {
+      min-width: 230px !important;
+   }

@@ -1,0 +1,486 @@
+<div class="conatainer">
+  <h2 class="font-weight-bold">Basic</h2>
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="GST no" name="gstNo" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Code" name="code">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Territory" name="Territory">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Name" name="Name">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Under Ledger" name="underLedger">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Contact-Person" name="contactPerson">
+      </mat-form-field>
+    </div>
+    <!-- <div class="col-md-4">
+     
+    </div> -->
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Print Name" name="PrintName">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label>Firm Status</mat-label>
+        <mat-select name="documents">
+          <mat-option *ngFor="let document of documents" [value]="document.type" required>
+            {{ document.type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Party Category" name="partyCategory">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+
+        <div class="col-md-10">
+          <mat-label>Party Common For Sale Purchase</mat-label>
+        </div>
+
+        <div class="col-md-2">
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1"></mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-8">
+          <mat-label>is Sub Party</mat-label>
+        </div>
+        <div class="col-md-3">
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1"></mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-8">
+          <mat-label>Inactive</mat-label>
+        </div>
+        <div class="col-md-3">
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1"></mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field floatPlaceholder="never">
+        <input [hidden]="true" type="file" accept="all/*" #fileSelect>
+        <input readonly matInput name="inputFiles" placeholder="Please select file..." required />
+        <button matSuffix mat-icon-button (click)="fileSelect.click();" matTooltip="Select a file"
+          [matTooltipPosition]="'above'">
+          <mat-icon>file_upload</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+
+<div class="conatiner">
+  <h2 class="font-weight-bold">Statutory</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="GST" name="gst">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="GST Category" name="gstCategory">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="PAN" name="pan">
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Registration Date" name="registrationDate">
+      </mat-form-field>
+
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Distance" name="distance">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="GST TDS Applicable" name="gstTdsApplicable">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="CIN" name="gst">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <mat-label>TDS applicable </mat-label>
+      </div>
+      <div class="col-md-3">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="1"></mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<mat-divider></mat-divider>
+
+<div class="container">
+  <h2 class="font-weight-bold">Communication</h2>
+  <h3 class="font-weight-bold">Billing Information</h3>
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+
+    </div>
+
+    <div class="col-md-4 mt-3">
+      <mat-form-field>
+        <input matInput placeholder="City" name="city">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4 mt-3">
+      <mat-form-field>
+        <input matInput placeholder="Pin Code" name="pinCode">
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Country" name="country">
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="State" name="state">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Phone" name="phone">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Email" name="email">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Longitude" name="longitude">
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Latitude" name="latitude">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+</div>
+
+
+<mat-divider></mat-divider>
+<div class="mt-3"></div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="font-weight-bold">Billing Information</h3>
+    </div>
+    <div class="col-md-6 text-right">
+      <button mat-raised-button>Copy From Billing</button>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="City" name="city">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Pin Code" name="pinCode">
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Country" name="country">
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="State" name="state">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Phone" name="phone">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Email" name="email">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Longitude" name="longitude">
+      </mat-form-field>
+    </div>
+
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Latitude" name="latitude">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="container">
+  <h2 class="font-weight-bold">Digital</h2>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Website" name="website">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Facebook" name="facebook">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Skype" name="skype">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Twitter" name="Twitter">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="LinkedIn" name="LinkedIn">
+      </mat-form-field>
+    </div>
+  </div>
+
+
+</div>
+<mat-divider></mat-divider>
+<div class="container">
+  <h2 class="font-weight-bold">Defaults</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Payment Team" name="paymentTeam">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Price Category" name="priceCategory">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Agent Broker" name="agentBroker">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Transporter" name="transporter">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Credit Limit" name="creditLimit">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Interest Rate Yearly" name="interestRateYearly">
+      </mat-form-field>
+    </div>
+  </div>
+
+</div>
+<mat-divider></mat-divider>
+<div class="container">
+  <h2 class="font-weight-bold">Bank Details</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="RTGS/IFSC Code" name="rtgsIfscCode">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Accounts Number" name="accountNumber">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Branch Name" name="branchName">
+      </mat-form-field>
+    </div>
+    
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <input matInput placeholder="Branch" name="branch">
+      </mat-form-field>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary">Save</button>
+  <button mat-raised-button>Clear</button>
+  <button mat-raised-button>Print</button>
+  <button mat-raised-button>Import</button>
+  <button mat-raised-button mat-dialog-close>Close</button>
+</div>

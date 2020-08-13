@@ -156,16 +156,6 @@ export class AddAddressComponent implements OnInit {
       this.address.shipping_email = 'NULL';
     }
 
-
-    // if (this.vendor.code === null || this.vendor.code === undefined || this.vendor.code === '') {
-    //   formData.append('code', 'NULL');  //code
-    // }
-    // else {
-    //   formData.append('code', this.vendor.code);
-    // }
-
-
-
     this.purchaseService.saveAddressMaster(this.address).subscribe(data => {
       console.log(data);
       this.emitterService.isAddressCreated.emit(true);
@@ -191,12 +181,10 @@ export class AddAddressComponent implements OnInit {
     this.address.shipping_state = this.addressData.shipping_state;
     this.address.shipping_phone = this.addressData.shipping_phone;
     this.address.shipping_email = this.addressData.shipping_email;
-
   }
   copyBillingAddress() {
 
     this.copyAddressToggle = !this.copyAddressToggle;
-    console.log('current value', this.copyAddressToggle);
     if (this.copyAddressToggle) {
       this.address.shippingName = this.address.billingName;
       this.address.shipping_address = this.address.billing_address;

@@ -66,3 +66,7 @@ mat-form-field-infix {
 *:focus {
     outline: none;
 }
+
+.make-gold {
+    background-color: #F3FFFF;
+}

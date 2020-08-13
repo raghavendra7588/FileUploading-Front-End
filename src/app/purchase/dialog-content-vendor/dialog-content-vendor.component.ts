@@ -134,7 +134,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.assignData();
+    this.assignData();
     this.getAddressDetails();
     this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
     // this.vendor.sellerId = this.loginService.seller_id;
@@ -661,6 +661,12 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.accountNumber = this.vendorData.accountNumber;
       this.vendor.bankName = this.vendorData.bankName;
       this.vendor.branch = this.vendorData.branch;
+      this.vendor.Address = this.vendorData.Address;
+      // this.vendor.Address;
+      // this.vendor.Address;
+      // this.vendor.Address;
+      // this.vendor.Address;
+      // this.vendor.Address;
     }
     else {
 

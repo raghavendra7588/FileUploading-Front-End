@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
+
+
 import { VendorComponent } from './vendor/vendor.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
@@ -32,15 +36,25 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 
-
-
-
+import { ToastrModule } from 'ngx-toastr';
+import { AddAddressComponent } from './add-address/add-address.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { AddressDetailsComponent } from './address-details/address-details.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MyPipePipe } from './my-pipe.pipe';
+import { GetPriceListComponent } from './get-price-list/get-price-list.component';
 
 @NgModule({
-  declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent],
+  declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
+    PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent,
+    OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent, AddAddressComponent, DashboardComponent,
+    AddressDetailsComponent, MyPipePipe, GetPriceListComponent],
   imports: [
     CommonModule,
+    HttpClientModule,
     MatFormFieldModule,
     MatFormFieldModule,
     MatToolbarModule,
@@ -59,12 +73,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatDividerModule,
     MatListModule,
     MatCheckboxModule,
+    MatPaginatorModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    ToastrModule.forRoot(),
+    NgCircleProgressModule.forRoot({
+      radius: 100,
+      outerStrokeWidth: 23,
+      innerStrokeWidth: 8,
+      outerStrokeColor: "#78C000",
+      innerStrokeColor: "#C7E596",
+      animationDuration: 300
+    })
   ],
   entryComponents: [
-    DialogContentVendorComponent
+    DialogContentVendorComponent, AddAddressComponent
   ],
-  exports: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent]
+  exports: [VendorComponent, MyPipePipe, PriceListComponent, GetPriceListComponent, PurchaseOrderComponent, AddressDetailsComponent, GoodsReceiptNotesComponent, DashboardComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent, AddAddressComponent]
 })
 export class PurchaseModule { }

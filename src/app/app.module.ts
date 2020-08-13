@@ -34,7 +34,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
-
+import { LoginComponent } from './login/login.component';
+import { LoginService } from './login/login.service';
+import { ToastrModule } from 'ngx-toastr';
+import { PurchaseService } from './purchase/purchase.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     HomeComponent,
     NavbarComponent,
     DashboardComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,17 +68,17 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({
-      // set defaults here
       radius: 100,
-      outerStrokeWidth : 23,
+      outerStrokeWidth: 23,
       innerStrokeWidth: 8,
       outerStrokeColor: "#78C000",
       innerStrokeColor: "#C7E596",
       animationDuration: 300
     })
   ],
-  providers: [EmitterService, UploadDocumentsService],
+  providers: [EmitterService, UploadDocumentsService, LoginService, PurchaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

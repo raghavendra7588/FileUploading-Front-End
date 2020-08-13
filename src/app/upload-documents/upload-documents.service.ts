@@ -15,7 +15,7 @@ export class UploadDocumentsService {
   public GET_RECORD_BY_ID = this.BASE_API + '/' + 'api/UploadFiles';
 
 
-  constructor(private http: HttpClient) { }
+  constructor(public http: HttpClient) { }
 
 
   addHttptHeader(jsonType: boolean): HttpHeaders {

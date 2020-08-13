@@ -1,486 +1,330 @@
-<div class="conatainer">
-  <h2 class="font-weight-bold">Basic</h2>
+<form [formGroup]="saveVendorForm" (ngSubmit)="saveVendor()">
 
-  <div class="row">
+  <h2 mat-dialog-title style="text-align: center;">Vendor Master</h2>
+  <div class="container">
+    <h2 class="font-weight-bold">Basic</h2>
 
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="GST no" name="gstNo" />
-      </mat-form-field>
+    <div class="row">
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Name" type="text" formControlName="Name" [(ngModel)]="vendor.name">
+          <mat-error *ngIf="saveVendorForm.controls.Name.touched && saveVendorForm.controls.Name.invalid">
+            <span *ngIf="saveVendorForm.controls.Name.errors.required">This field is mandatory.</span>
+          </mat-error>
+  
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Code" type="text" formControlName="code" [(ngModel)]="vendor.code">
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Print Name" type="text" formControlName="PrintName"
+            [(ngModel)]="vendor.printName">
+        </mat-form-field>
+      </div>
+
+
     </div>
 
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Code" name="code">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Territory" name="Territory">
-      </mat-form-field>
-    </div>
-  </div>
+    <div class="row">
 
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Name" name="Name">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Under Ledger" name="underLedger">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Contact-Person" name="contactPerson">
-      </mat-form-field>
-    </div>
-    <!-- <div class="col-md-4">
-     
-    </div> -->
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Print Name" name="PrintName">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <mat-label>Firm Status</mat-label>
-        <mat-select name="documents">
-          <mat-option *ngFor="let document of documents" [value]="document.type" required>
-            {{ document.type }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Party Category" name="partyCategory">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <div class="row">
-
-        <div class="col-md-10">
-          <mat-label>Party Common For Sale Purchase</mat-label>
-        </div>
-
-        <div class="col-md-2">
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"></mat-radio-button>
-          </mat-radio-group>
-        </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select placeholder="Sub Category" [(ngModel)]="vendor.category" formControlName="category" multiple>
+            <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+              *ngFor="let category of loginService.seller_object.categories" [value]="category.name">
+              {{category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="row">
-        <div class="col-md-8">
-          <mat-label>is Sub Party</mat-label>
-        </div>
-        <div class="col-md-3">
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"></mat-radio-button>
-          </mat-radio-group>
-        </div>
+
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Sub Category</mat-label>
+          <mat-select placeholder="Sub Category" formControlName="subCategory" [(ngModel)]="vendor.subCategory"
+            multiple>
+            <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
+              *ngFor="let category of multipleCategoriesArray;let i = index;" [value]="i">
+              {{category.name }}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="row">
-        <div class="col-md-8">
-          <mat-label>Inactive</mat-label>
-        </div>
-        <div class="col-md-3">
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"></mat-radio-button>
-          </mat-radio-group>
-        </div>
+
+
+      <div class="col-md-4">
+
+
+        <mat-form-field>
+          <mat-label>Brand</mat-label>
+          <mat-select placeholder="Brand" formControlName="brand" [(ngModel)]="vendor.brand" multiple>
+
+            <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
+              [value]="brand">
+              {{brand }}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
       </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field floatPlaceholder="never">
-        <input [hidden]="true" type="file" accept="all/*" #fileSelect>
-        <input readonly matInput name="inputFiles" placeholder="Please select file..." required />
-        <button matSuffix mat-icon-button (click)="fileSelect.click();" matTooltip="Select a file"
-          [matTooltipPosition]="'above'">
-          <mat-icon>file_upload</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-
-  </div>
-</div>
-<mat-divider></mat-divider>
-
-
-<div class="conatiner">
-  <h2 class="font-weight-bold">Statutory</h2>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="GST" name="gst">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="GST Category" name="gstCategory">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="PAN" name="pan">
-      </mat-form-field>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Registration Date" name="registrationDate">
-      </mat-form-field>
-
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Distance" name="distance">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="GST TDS Applicable" name="gstTdsApplicable">
-      </mat-form-field>
-    </div>
-
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="CIN" name="gst">
-      </mat-form-field>
     </div>
     <div class="row">
-      <div class="col-md-9">
-        <mat-label>TDS applicable </mat-label>
+
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Under Ledger" type="text" formControlName="underLedger"
+            [(ngModel)]="vendor.underLedger">
+
+        </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-radio-group aria-label="Select an option">
-          <mat-radio-button value="1"></mat-radio-button>
-        </mat-radio-group>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Contact-Person" type="text" formControlName="contactPerson"
+            [(ngModel)]="vendor.contactPerson">
+
+        </mat-form-field>
+      </div>
+    </div>
+
+  </div>
+  <mat-divider></mat-divider>
+
+
+  <div class="container">
+    <h2 class="font-weight-bold">Statutory</h2>
+
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="GST No" formControlName="gst" [maxLength]="maxLengthGst"
+            [(ngModel)]="vendor.gst">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="GST Category" formControlName="gstCategory" [(ngModel)]="vendor.gstCategory">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="PAN" [maxLength]="maxLengthPan" formControlName="pan" [(ngModel)]="vendor.pan">
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="datePicker" [(ngModel)]="vendor.registrationDate"
+            (dateChange)="valueChanged()" [max]="maxDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Distance" formControlName="distance" [(ngModel)]="vendor.distance">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="CIN" [maxLength]="maxLengthCin" formControlName="cin" [(ngModel)]="vendor.cin">
+        </mat-form-field>
       </div>
     </div>
   </div>
-</div>
+  <mat-divider></mat-divider>
 
+  <div class="container">
+    <h2 class="font-weight-bold">Vendor Address Details</h2>
+    <div class="row">
 
-<mat-divider></mat-divider>
+      <div class="col-md-4">
 
-<div class="container">
-  <h2 class="font-weight-bold">Communication</h2>
-  <h3 class="font-weight-bold">Billing Information</h3>
-  <div class="row">
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <textarea matInput placeholder="Ex. It makes me feel..." [(ngModel)]="vendor.Address" formControlName="address"></textarea>
 
-    <div class="col-md-4">
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-      </mat-form-field>
+      </div>
 
-    </div>
+      <div class="col-md-4 mt-3">
+        <mat-form-field>
+          <input matInput placeholder="City"  [(ngModel)]="vendor.City" formControlName="city">
+        </mat-form-field>
+      </div>
 
-    <div class="col-md-4 mt-3">
-      <mat-form-field>
-        <input matInput placeholder="City" name="city">
-      </mat-form-field>
-    </div>
+      <div class="col-md-4 mt-3">
+        <mat-form-field>
+          <input matInput placeholder="Pin Code" [maxLength]="maxLengthPinCode"  [(ngModel)]="vendor.PinCode" formControlName="pinCode">
 
-    <div class="col-md-4 mt-3">
-      <mat-form-field>
-        <input matInput placeholder="Pin Code" name="pinCode">
-      </mat-form-field>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Country" name="country">
-      </mat-form-field>
+        </mat-form-field>
+      </div>
     </div>
 
 
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="State" name="state">
-      </mat-form-field>
+    <div class="row">
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="State"  [(ngModel)]="vendor.State"  formControlName="state">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Country" [(ngModel)]="vendor.Country"  formControlName="country">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Phone" [(ngModel)]="vendor.Phone"  formControlName="phone">
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Phone" name="phone">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Email" name="email">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Longitude" name="longitude">
-      </mat-form-field>
-    </div>
-
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Latitude" name="latitude">
-      </mat-form-field>
-    </div>
-
-  </div>
-
-</div>
-
-
-<mat-divider></mat-divider>
-<div class="mt-3"></div>
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h3 class="font-weight-bold">Billing Information</h3>
-    </div>
-    <div class="col-md-6 text-right">
-      <button mat-raised-button>Copy From Billing</button>
-    </div>
-  </div>
-
-  <div class="row">
-
-    <div class="col-md-4">
-
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-      </mat-form-field>
-
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="City" name="city">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Pin Code" name="pinCode">
-      </mat-form-field>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Country" name="country">
-      </mat-form-field>
-    </div>
-
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="State" name="state">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Phone" name="phone">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Email" name="email">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Longitude" name="longitude">
-      </mat-form-field>
-    </div>
-
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Latitude" name="latitude">
-      </mat-form-field>
-    </div>
-
-  </div>
-
-</div>
-
-<mat-divider></mat-divider>
-
-<div class="container">
-  <h2 class="font-weight-bold">Digital</h2>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Website" name="website">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Facebook" name="facebook">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Skype" name="skype">
-      </mat-form-field>
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Email" [(ngModel)]="vendor.Email"  formControlName="email">
+        </mat-form-field>
+      </div>
     </div>
 
   </div>
 
 
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Twitter" name="Twitter">
-      </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <div class="mt-3"></div>
+
+
+  <div class="container">
+    <h2 class="font-weight-bold">Defaults</h2>
+
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Payment Term</mat-label>
+          <mat-select [(ngModel)]="vendor.paymentTerm" formControlName="paymentTerm"
+            (ngModelChange)="selectePaymentTerm()">
+            <mat-option *ngFor="let term of paymentTerm" [value]="term.title" required>
+              {{ term.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Price Category</mat-label>
+          <mat-select [(ngModel)]="vendor.priceCategory" formControlName="priceCategory"
+            (ngModelChange)="selectePriceCategory()">
+            <mat-option *ngFor="let category of paymentCategory" [value]="category.title" required>
+              {{ category.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Transporter</mat-label>
+          <mat-select [(ngModel)]="vendor.transporter" formControlName="selectedTransporter"
+            (ngModelChange)="selectedTransporterDetail()">
+            <mat-option *ngFor="let transporter of transporters" [value]="transporter.title" required>
+              {{ transporter.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="LinkedIn" name="LinkedIn">
-      </mat-form-field>
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Agent Broker" formControlName="agentBroker" [(ngModel)]="vendor.agentBroker">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Credit Limit" formControlName="creditLimit" [(ngModel)]="vendor.creditLimit">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <input type="file" class="mt-3" id="filee" [(ngModel)]="vendor.fileUpload" formControlName="fileUpload"
+          (change)="onFileSelect($event)">
+      </div>
     </div>
+
+
+
+
+  </div>
+  <mat-divider></mat-divider>
+  <div class="container">
+    <h2 class="font-weight-bold">Bank Details</h2>
+
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="RTGS/IFSC Code" [maxLength]="maxLengthIfsc" formControlName="ifscCode"
+            [(ngModel)]="vendor.ifscCode">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Accounts Number" formControlName="accountNumber"
+            [maxLength]="maxLengthAccountNumber" [(ngModel)]="vendor.accountNumber">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Bank Name" formControlName="bankName" [(ngModel)]="vendor.bankName">
+        </mat-form-field>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Branch" formControlName="branch" [(ngModel)]="vendor.branch">
+        </mat-form-field>
+      </div>
+    </div>
+
   </div>
 
 
-</div>
-<mat-divider></mat-divider>
-<div class="container">
-  <h2 class="font-weight-bold">Defaults</h2>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Payment Team" name="paymentTeam">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Price Category" name="priceCategory">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Agent Broker" name="agentBroker">
-      </mat-form-field>
-    </div>
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" [disabled]="!saveVendorForm.valid">Save</button>
+    <button mat-raised-button mat-dialog-close>Close</button>
   </div>
 
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Transporter" name="transporter">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Credit Limit" name="creditLimit">
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Interest Rate Yearly" name="interestRateYearly">
-      </mat-form-field>
-    </div>
-  </div>
-
-</div>
-<mat-divider></mat-divider>
-<div class="container">
-  <h2 class="font-weight-bold">Bank Details</h2>
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="RTGS/IFSC Code" name="rtgsIfscCode">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Accounts Number" name="accountNumber">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Branch Name" name="branchName">
-      </mat-form-field>
-    </div>
-    
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Branch" name="branch">
-      </mat-form-field>
-    </div>
-  </div>
-
-</div>
-
-
-
-<div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary">Save</button>
-  <button mat-raised-button>Clear</button>
-  <button mat-raised-button>Print</button>
-  <button mat-raised-button>Import</button>
-  <button mat-raised-button mat-dialog-close>Close</button>
-</div>
+</form>

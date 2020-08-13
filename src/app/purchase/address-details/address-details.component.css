@@ -1,0 +1,13 @@
+table {
+    width: 100%;
+  }
+
+.mat-column-address {
+    flex: none;
+    width: 200px;
+}
+
+.mat-column-id{
+  flex: none;
+  width: 60px;
+}

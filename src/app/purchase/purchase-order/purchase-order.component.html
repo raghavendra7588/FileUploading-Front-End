@@ -5,48 +5,54 @@
     <div class="row">
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="GST Type" name="gstType" />
+                <input matInput placeholder="GST Type" name="gstType" [(ngModel)]="purchaseOrder.gstType" />
             </mat-form-field>
         </div>
 
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Vendor" name="vendor" />
+                <input matInput placeholder="Vendor" name="vendor" [(ngModel)]="purchaseOrder.vendor" />
             </mat-form-field>
         </div>
 
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Email" name="email" />
+                <input matInput placeholder="Email" name="email" [(ngModel)]="purchaseOrder.email" />
             </mat-form-field>
         </div>
 
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Tax" name="tax" />
+                <input matInput placeholder="Tax" name="tax" [(ngModel)]="purchaseOrder.tax" />
             </mat-form-field>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Order No" name="orderNo" />
+                <input matInput placeholder="Order No" name="orderNo" [(ngModel)]="purchaseOrder.orderNo" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <mat-form-field class="full-width-field">
-                <input matInput placeholder="Order Date" name="orderDate" />
+            <mat-form-field>
+                <mat-label>Order Date</mat-label>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="purchaseOrder.orderDate" placeholder="From Date"
+                    disabled>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
+
         </div>
         <div class="col-md-3">
 
             <mat-form-field class="full-width-field">
-                <input matInput placeholder="Reference No" name="referenceNo" />
+                <input matInput placeholder="Reference No" name="referenceNo" [(ngModel)]="purchaseOrder.referenceNo" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field class="full-width-field">
-                <input matInput placeholder="Reference Date" name="referenceDate" />
+                <input matInput placeholder="Reference Date" name="referenceDate"
+                    [(ngModel)]="purchaseOrder.referenceDate" />
             </mat-form-field>
         </div>
     </div>
@@ -54,17 +60,22 @@
     <div class="row">
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Delivery Date" name="deliveryDate" />
+                <mat-label>Delivery Date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="purchaseOrder.deliveryDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Agent" name="agent" />
+                <input matInput placeholder="Agent" name="agent" [(ngModel)]="purchaseOrder.agent" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Payment Terms" name="paymentTerms" />
+                <input matInput placeholder="Payment Terms" name="paymentTerms"
+                    [(ngModel)]="purchaseOrder.paymentTerms" />
             </mat-form-field>
         </div>
         <div class="col-md-3"></div>
@@ -81,18 +92,18 @@
         <div class="col-md-3">
             <mat-form-field>
                 <mat-label>Address</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <textarea matInput [(ngModel)]="purchaseOrder.gstType" placeholder="Ex. It makes me feel..."></textarea>
             </mat-form-field>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mt-3">
             <mat-form-field>
-                <input matInput placeholder="GST No" name="gstNo" />
+                <input matInput [(ngModel)]="purchaseOrder.gstType" placeholder="GST No" name="gstNo" />
             </mat-form-field>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 mt-3">
             <mat-form-field>
-                <input matInput placeholder="Contact Person" name="conatctPerson" />
+                <input matInput [(ngModel)]="purchaseOrder.gstType" placeholder="Contact Person" name="conatctPerson" />
             </mat-form-field>
         </div>
 
@@ -106,18 +117,22 @@
         <div class="col-md-3">
             <mat-form-field>
                 <mat-label>Address</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <textarea matInput [(ngModel)]="purchaseOrder.gstType" placeholder="Ex. It makes me feel..."></textarea>
             </mat-form-field>
 
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mt-3">
             <mat-form-field>
-                <input matInput placeholder="GST No" name="gstNo" />
+                <input matInput [(ngModel)]="purchaseOrder.gstType" placeholder="GST No" name="gstNo" />
             </mat-form-field>
         </div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row">
+        <button mat-raised-button (click)="openDialog()">Go to Price List</button>
+    </div>
+</div>
 
 <mat-divider></mat-divider>
 
@@ -163,64 +178,67 @@
         <div class="col-md-3">
             <mat-form-field>
                 <mat-label>Remarks</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <textarea matInput [(ngModel)]="purchaseOrder.remarks" placeholder="Ex. It makes me feel..."></textarea>
             </mat-form-field>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 mt-3">
             <mat-form-field>
-                <input matInput placeholder="Item Value" name="itemValue"/>
+                <input matInput [(ngModel)]="purchaseOrder.itemValue" placeholder="Item Value" name="itemValue" />
             </mat-form-field>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 mt-3">
             <mat-form-field>
-                <input matInput placeholder="Tax amount" name="taxAmount"/>
+                <input matInput [(ngModel)]="purchaseOrder.taxAmount" placeholder="Tax amount" name="taxAmount" />
             </mat-form-field>
         </div>
-        <div class="col-md-3 ">
+        <div class="col-md-3 mt-3 ">
             <mat-form-field>
-                <input matInput placeholder="Taxable" name="taxAble"/>
+                <input matInput [(ngModel)]="purchaseOrder.taxable" placeholder="Taxable" name="taxAble" />
             </mat-form-field>
         </div>
     </div>
 
     <div class="row">
+
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Tax Amount" name="taxAmount"/>
+                <input matInput [(ngModel)]="purchaseOrder.cessAmount" placeholder="CESS Amount" name="cessAmount" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="CESS Amount" name="cessAmount"/>
+                <input matInput [(ngModel)]="purchaseOrder.docAmount" placeholder="DOC Amount" name="docAmount" />
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-3">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaseOrder.advanceAmount" placeholder="Advance Amount"
+                    name="advanceAmount" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="DOC Amount" name="docAmount"/>
+                <input matInput [(ngModel)]="purchaseOrder.advanceLedger" placeholder="Advance Ledger"
+                    name="advanceLedger" />
             </mat-form-field>
-        </div>
-        <div class="col-md-3">
-            <mat-form-field>
-                <input matInput placeholder="File Input" name="fileInput"/>
-            </mat-form-field>
-     
         </div>
     </div>
-
+    <!-- 
     <div class="row">
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Advance Amount" name="advanceAmount"/>
+                <input matInput [(ngModel)]="purchaseOrder.advanceAmount" placeholder="Advance Amount" name="advanceAmount"/>
             </mat-form-field>
         </div>
         <div class="col-md-3">
             <mat-form-field>
-                <input matInput placeholder="Advance Ledger" name="advanceLedger"/>
+                <input matInput [(ngModel)]="purchaseOrder.advanceLedger" placeholder="Advance Ledger" name="advanceLedger"/>
             </mat-form-field>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div class="container my-3">

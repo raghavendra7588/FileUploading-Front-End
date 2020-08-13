@@ -1,3 +1,68 @@
 .table{
     width: 100%;
 }
+
+.mat-column-save {
+    flex: none;
+    width: 20px;
+}
+
+.mat-column-availableQuantity {
+    flex: none;
+    width: 40px !important;
+}
+
+ .mat-column-finalPrice {
+    flex: none;
+    width: 40px;
+} 
+
+.mat-column-discount {
+    flex: none;
+    width: 40px;
+    margin-left: 5px;
+} 
+
+.mat-column-actualPrice {
+    flex: none;
+    width: 40px;
+} 
+.mat-column-productId {
+    flex: none;
+    width: 60px;
+}  
+.mat-column-brandName {
+    flex: none;
+    width: 130px;
+} 
+
+.mat-column-productName {
+    flex: none;
+    width: 130px;
+} 
+.mat-column-quantity {
+    flex: none;
+    width: 100px;
+} 
+mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 80px !important;
+}
+.select-all{
+    margin: 5px 17px;
+  }
+.mat-column-quantity-select{
+    flex: none;
+    width: 20px;
+}
+
+.width-100{
+    width: 100% !important;
+    min-width: unset!important;
+}
+*:focus {
+    outline: none;
+}

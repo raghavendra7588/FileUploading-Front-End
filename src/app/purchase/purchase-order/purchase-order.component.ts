@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { PurchaseOrder } from '../purchase.model';
+import { GetPriceListComponent } from '../get-price-list/get-price-list.component';
+import { PurchaseService } from '../purchase.service';
 // import { DialogContentVendorComponent } from '../dialog-content-vendor/dialog-content-vendor.component';
 
 
@@ -36,11 +39,43 @@ export class PurchaseOrderComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  purchaseOrder: PurchaseOrder = new PurchaseOrder();
 
-  constructor(public dialog: MatDialog) { }
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  vendorData: any = [];
+
+  priceListData: any = [];
+  sellerId: any;
+  masterBrandData: any = [];
+  extractPriceListData: any = [];
+  finalPriceList: any = [];
+
+
+
+  constructor(public dialog: MatDialog, public purchaseService: PurchaseService) { }
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
+    this.purchaseOrder.orderDate = new Date();
+    // this.getBrandsMasterData();
+    this.getVendorData();
+    this.sellerId = Number(localStorage.getItem('sellerId'));
+    this.priceListData = this.purchaseService.getAllPriceListData(this.sellerId);
+    console.log('received PRICE LIST from service', this.priceListData);
   }
+
+  getVendorData() {
+    this.purchaseService.getAllVendorData().subscribe(data => {
+      this.vendorData = data;
+      // console.log('i received vendor Data', this.vendorData);
+    });
+  }
+
+  openDialog() {
+    this.dialog.open(GetPriceListComponent, {
+      height: '600px',
+      width: '800px',
+    });
+  }
+
 }

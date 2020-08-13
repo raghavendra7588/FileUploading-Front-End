@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 import { HomeComponent } from './home/home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './purchase/dashboard/dashboard.component';
 import { VendorComponent } from './purchase/vendor/vendor.component';
 import { PriceListComponent } from './purchase/price-list/price-list.component';
 import { PurchaseOrderComponent } from './purchase/purchase-order/purchase-order.component';
@@ -27,14 +27,20 @@ import { JobWorkOutwardRateComponent } from './inventory/job-work-outward-rate/j
 import { MaterialIssuedForJobWorkComponent } from './inventory/material-issued-for-job-work/material-issued-for-job-work.component';
 import { MaterialReceivedAfterJobWorkComponent } from './inventory/material-received-after-job-work/material-received-after-job-work.component';
 import { JobWorkOutworkInvoiceComponent } from './inventory/job-work-outwork-invoice/job-work-outwork-invoice.component';
+import { LoginComponent } from './login/login.component';
+import { AddAddressComponent } from './purchase/add-address/add-address.component';
+import { AddressDetailsComponent } from './purchase/address-details/address-details.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
   { path: 'uploadDocuments', component: UploadDocumentsComponent },
   { path: 'uploadDocuments/:userId/:role', component: UploadDocumentsComponent },
+  { path: 'purchase/address', component: AddressDetailsComponent },
   { path: 'purchase/vendor', component: VendorComponent },
   { path: 'purchase/priceList', component: PriceListComponent },
   { path: 'purchase/purchaseOrder', component: PurchaseOrderComponent },

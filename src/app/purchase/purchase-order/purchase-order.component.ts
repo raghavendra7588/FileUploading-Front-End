@@ -43,11 +43,14 @@ export class PurchaseOrderComponent implements OnInit {
   billingId: any;
   shippingId: any;
   vendorId: any;
+  grandTotal: any;
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService, public toastr: ToastrService) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value];
+        this.grandTotal = this.receivedPurchaseOrder.map(o => o.finalPrice).reduce((a, c) => { return a + c });
+        console.log('this is array', this.receivedPurchaseOrder);
         this.dataSource = new MatTableDataSource(this.receivedPurchaseOrder);
         this.dataSource.paginator = this.paginator;
       }

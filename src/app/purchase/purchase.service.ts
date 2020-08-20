@@ -33,6 +33,8 @@ export class PurchaseService {
   private SAVE_PRICE_LIST = 'http://localhost:55547/api/PriceList';
   private SAVE_MULTIPLE_PRICE_LIST = 'http://localhost:55547/api/PriceList/multiple';
   private GET_ALL_PRICELIST_DATA = 'http://localhost:55547/api/PriceList';
+  private SAVE_PURCHASE_ORDER_MASTER = 'http://localhost:55547/api/PurchaseOrder';
+  private SAVE_PURCHASE_ORDER_ITEM_MASTER = 'http://localhost:55547/api/PurchaseOrderItem';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = localStorage.getItem('token');
@@ -98,50 +100,12 @@ export class PurchaseService {
     return this.http.get(this.GET_ALL_PRICELIST_DATA + '/' + sellerId);
   }
 
-  getPriceListData(sellerId: number) {
-    // this.getAllPriceListData(this.storageSellerId).subscribe(data => {
-    //   this.priceListData = data;
-    //   console.log('received Price List Data', this.priceListData);
-    // });
-    this.http.get(this.GET_ALL_PRICELIST_DATA + '/' + sellerId).subscribe(data => {
-      this.priceListData = data;
-    });
-
-    return this.priceListData;
+  savePurchaseOrderMaster(purchaseOrderData) {
+    return this.http.post(this.SAVE_PURCHASE_ORDER_MASTER, purchaseOrderData);
   }
 
-  getBrandsMasterData() {
-    this.getEveryBrand().subscribe(data => {
-      this.masterBrandData = data;
-      console.log('master Data', this.masterBrandData);
-      this.extractPriceListData = this.extractPriceList(this.masterBrandData, this.priceListData);
-      this.finalPriceList = this.mapObj(this.extractPriceListData, this.priceListData);
-      console.log('APPEND THIS TO GRID', this.finalPriceList);
-    });
-    return this.finalPriceList;
-  }
-
-  extractPriceList(apiData, ownDbData) {
-
-    let result = apiData.filter(o1 => ownDbData.some(o2 => o1.ProductID === o2.ProductId && o1.ProductVarientId === o2.ProductVarientId));
-
-    
-    return result;
-  }
-
-
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-        }
-      }
-    }
-    return apiData;
+  savePurchaseOrderItemMaster(purchaseOrderItem) {
+    return this.http.post(this.SAVE_PURCHASE_ORDER_ITEM_MASTER, purchaseOrderItem);
   }
 
 }

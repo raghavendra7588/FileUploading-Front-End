@@ -34,7 +34,6 @@ export class AddressDetailsComponent implements OnInit {
 
   getAddressDetails() {
     this.purchaseService.getAddressData().subscribe(data => {
-      console.log(data);
       this.getAddress = data;
       this.dataSource = data;
     });

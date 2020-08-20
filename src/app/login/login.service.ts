@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from './user.model';
+import { PurchaseService } from '../purchase/purchase.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+
+  public masterBrandDataArray: any = [];
   // public BASE_API = 'http://localhost:64968';
 
   // public UPLOAD_DOCUMENT_URL = this.BASE_API + '/' + 'api/UploadFiles';
@@ -27,7 +30,4 @@ export class LoginService {
     return this.http.post<any>(this.LOGGED_IN_URL, user);
   }
 
-  // uploadDocuments(user: User): Observable<any> {
-  //   return this.http.post<any>(this.UPLOAD_DOCUMENT_URL, fileUpload);
-  // }
 }

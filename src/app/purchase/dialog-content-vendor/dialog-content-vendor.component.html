@@ -1,4 +1,4 @@
-<form [formGroup]="saveVendorForm" (ngSubmit)="saveVendor()">
+<form [formGroup]="saveVendorForm">
 
   <h2 mat-dialog-title style="text-align: center;">Vendor Master</h2>
   <div class="container">
@@ -12,7 +12,7 @@
           <mat-error *ngIf="saveVendorForm.controls.Name.touched && saveVendorForm.controls.Name.invalid">
             <span *ngIf="saveVendorForm.controls.Name.errors.required">This field is mandatory.</span>
           </mat-error>
-  
+
         </mat-form-field>
       </div>
 
@@ -36,48 +36,44 @@
     <div class="row">
 
       <div class="col-md-4">
-        <mat-form-field>
+        <mat-form-field style="width: 100%;">
           <mat-label>Category</mat-label>
-          <mat-select placeholder="Sub Category" [(ngModel)]="vendor.category" formControlName="category" multiple>
+          <mat-select placeholder="Category" [(ngModel)]="vendor.category" formControlName="category" multiple>
             <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
               *ngFor="let category of loginService.seller_object.categories" [value]="category.name">
               {{category.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </div>
 
 
       <div class="col-md-4">
-        <mat-form-field>
+   
+
+        <mat-form-field style="width: 100%;">
           <mat-label>Sub Category</mat-label>
-          <mat-select placeholder="Sub Category" formControlName="subCategory" [(ngModel)]="vendor.subCategory"
-            multiple>
+          <mat-select #select formControlName="subCategory"  [(ngModel)]="vendor.subCategory" multiple>
             <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
-              *ngFor="let category of multipleCategoriesArray;let i = index;" [value]="i">
+              *ngFor="let category of multipleCategoriesArray" [value]="category.id">
               {{category.name }}
             </mat-option>
           </mat-select>
-
         </mat-form-field>
+      
 
       </div>
 
-
       <div class="col-md-4">
 
-
-        <mat-form-field>
+        <mat-form-field style="width: 100%;">
           <mat-label>Brand</mat-label>
-          <mat-select placeholder="Brand" formControlName="brand" [(ngModel)]="vendor.brand" multiple>
-
+          <mat-select #BrandSelect formControlName="brand" [(ngModel)]="vendor.brand" multiple>
             <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
-              [value]="brand">
-              {{brand }}
+              [value]="brand.BrandName">
+              {{brand.BrandName}}
             </mat-option>
           </mat-select>
-
         </mat-form-field>
       </div>
     </div>
@@ -163,7 +159,8 @@
 
         <mat-form-field>
           <mat-label>Address</mat-label>
-          <textarea matInput placeholder="Ex. It makes me feel..." [(ngModel)]="vendor.Address" formControlName="address"></textarea>
+          <textarea matInput placeholder="Ex. It makes me feel..." [(ngModel)]="vendor.Address"
+            formControlName="address"></textarea>
 
         </mat-form-field>
 
@@ -171,13 +168,14 @@
 
       <div class="col-md-4 mt-3">
         <mat-form-field>
-          <input matInput placeholder="City"  [(ngModel)]="vendor.City" formControlName="city">
+          <input matInput placeholder="City" [(ngModel)]="vendor.City" formControlName="city">
         </mat-form-field>
       </div>
 
       <div class="col-md-4 mt-3">
         <mat-form-field>
-          <input matInput placeholder="Pin Code" [maxLength]="maxLengthPinCode"  [(ngModel)]="vendor.PinCode" formControlName="pinCode">
+          <input matInput placeholder="Pin Code" [maxLength]="maxLengthPinCode" [(ngModel)]="vendor.PinCode"
+            formControlName="pinCode">
 
         </mat-form-field>
       </div>
@@ -188,19 +186,20 @@
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="State"  [(ngModel)]="vendor.State"  formControlName="state">
+          <input matInput placeholder="State" [(ngModel)]="vendor.State" val formControlName="state">
         </mat-form-field>
       </div>
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Country" [(ngModel)]="vendor.Country"  formControlName="country">
+          <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country">
         </mat-form-field>
       </div>
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Phone" [(ngModel)]="vendor.Phone"  formControlName="phone">
+          <input matInput placeholder="Phone" [(ngModel)]="vendor.Phone" [maxLength]="maxLengthPhone"
+            formControlName="phone">
         </mat-form-field>
       </div>
     </div>
@@ -208,7 +207,7 @@
     <div class="row">
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Email" [(ngModel)]="vendor.Email"  formControlName="email">
+          <input matInput placeholder="Email" [(ngModel)]="vendor.Email" formControlName="email">
         </mat-form-field>
       </div>
     </div>
@@ -231,7 +230,7 @@
           <mat-label>Payment Term</mat-label>
           <mat-select [(ngModel)]="vendor.paymentTerm" formControlName="paymentTerm"
             (ngModelChange)="selectePaymentTerm()">
-            <mat-option *ngFor="let term of paymentTerm" [value]="term.title" required>
+            <mat-option *ngFor="let term of paymentTerm" [value]="term.title">
               {{ term.title }}
             </mat-option>
           </mat-select>
@@ -242,7 +241,7 @@
           <mat-label>Price Category</mat-label>
           <mat-select [(ngModel)]="vendor.priceCategory" formControlName="priceCategory"
             (ngModelChange)="selectePriceCategory()">
-            <mat-option *ngFor="let category of paymentCategory" [value]="category.title" required>
+            <mat-option *ngFor="let category of paymentCategory" [value]="category.title">
               {{ category.title }}
             </mat-option>
           </mat-select>
@@ -253,7 +252,7 @@
           <mat-label>Transporter</mat-label>
           <mat-select [(ngModel)]="vendor.transporter" formControlName="selectedTransporter"
             (ngModelChange)="selectedTransporterDetail()">
-            <mat-option *ngFor="let transporter of transporters" [value]="transporter.title" required>
+            <mat-option *ngFor="let transporter of transporters" [value]="transporter.title">
               {{ transporter.title }}
             </mat-option>
           </mat-select>
@@ -275,13 +274,10 @@
       </div>
 
       <div class="col-md-4">
-        <input type="file" class="mt-3" id="filee" [(ngModel)]="vendor.fileUpload" formControlName="fileUpload"
-          (change)="onFileSelect($event)">
+          <input type="file" name="filetype" id="filee" [(ngModel)]="fileName" formControlName="inputFiles" (change)="onFileSelect($event)" />
+      
       </div>
     </div>
-
-
-
 
   </div>
   <mat-divider></mat-divider>
@@ -323,7 +319,7 @@
 
 
   <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" [disabled]="!saveVendorForm.valid">Save</button>
+    <button mat-raised-button color="primary" [disabled]="!saveVendorForm.valid" (click)="saveVendor()">Save</button>
     <button mat-raised-button mat-dialog-close>Close</button>
   </div>
 

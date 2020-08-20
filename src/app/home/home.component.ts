@@ -13,8 +13,6 @@ export class HomeComponent implements OnInit {
   }
 
   joinWithUs() {
-    // this.router.navigateByUrl('/uploadDocuments');
     this.router.navigate(['/uploadDocuments'], { queryParams: { userId: 'managerId', role: 'vendor' } });
-    // this.router.navigate([URL],{ queryParams: { id: this.prj });
   }
 }

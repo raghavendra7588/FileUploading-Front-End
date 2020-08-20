@@ -9,14 +9,14 @@ export class Vendor {
     category?: string;
     printName?: string;
     subCategory?: string;
-    brand?: string;
+    brand?: any;
     gst?: string;
     gstCategory?: string;
     pan?: string;
     distance?: string;
     fileUpload?: any;
     cin?: number;
-    registrationDate?: Date;
+    registrationDate?: any;
     ifscCode?: number;
     accountNumber?: number;
     bankName?: string;
@@ -71,7 +71,16 @@ export class PurchaseOrder {
     orderDate?: Date;
     deliveryDate?: Date;
     referenceNo?: number;
-    referenceDate?: Date;
+    billingNameList?: number;
+    billingAddress?: string;
+    billingCity?: string;
+    billingPhone?: string;
+    billingEmail?: string;
+    shippingNameList?: number;
+    shippingAddress?: string;
+    shippingCity?: string;
+    shippingPhone?: string;
+    shippingEmail?: string;
     agent?: string;
     tax?: string;
     remarks?: string;
@@ -84,6 +93,24 @@ export class PurchaseOrder {
     docAmount?: number;
     paymentTerms: string;
 }
+
+
+export class CustomProductList {
+    priceListId?: number;
+    sellerId?: number;
+    productId?: number;
+    categoryId?: number;
+    subCategoryId?: number;
+    brandId?: number;
+    ProductPrice?: number;
+    FinalPrice?: number;
+    ReferenceId?: number;
+    Discount?: number;
+    AvailableQuantity?: number;
+    quantity?: number;
+    ProductVarientId?: number;
+}
+
 
 
 export class PriceList {
@@ -100,4 +127,58 @@ export class PriceList {
     availableQuantity?: number;
     quantity?: number;
     ProductVarientId?: number;
+}
+
+
+export class PurchaseOrderItem {
+    SellerId: number;
+    ProductId: number;
+    SubCategoryId: number;
+    BrandId: number;
+    BuyingPrice: number;
+    FinalPrice: number;
+    ReferenceId: number;
+    Discount: number;
+    PurchaseQuantity: number;
+    Quantity: string;
+    ProductVarientId: number;
+}
+
+export class PurchaseOrderData {
+    PurchaseOrderId?: number;
+    SellerId?: number;
+    VendorId?: string;
+    OrderNo?: string;
+    OrderDate?: string;
+    DeliveryDate?: string;
+    ReferenceNo?: string;
+    BillingId?: string;
+    ShippingId?: string;
+    Remarks?: string;
+    ItemValue?: string;
+    TaxAmount?: string;
+    Taxable?: string;
+    CESSAmount?: string;
+    DocAmount?: string;
+    AdvanceAmount?: string;
+    AdvanceLedger?: string;
+    items?: Array<customPriceList>;
+}
+
+export class customPriceList {
+    priceListId?: number;
+    sellerId?: number;
+    productId?: number;
+    categoryId?: number;
+    subCategoryId?: number;
+    brandId?: number;
+    buyingPrice?: number;
+    finalPrice?: number;
+    ReferenceId?: number;
+    discount?: number;
+    availableQuantity?: number;
+    quantity?: number;
+    ProductVarientId?: number;
+    BrandName?: string;
+    Name?: string;
 }

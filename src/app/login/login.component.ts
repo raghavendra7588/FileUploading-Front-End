@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service'
+import { PurchaseService } from '../purchase/purchase.service';
 
 
 @Component({
@@ -12,11 +13,12 @@ import { LoginService } from './login.service'
 export class LoginComponent implements OnInit {
 
   user: User = new User();
-  constructor(public router: Router, public loginService: LoginService) { }
+  constructor(public router: Router, public loginService: LoginService, public purchaseService: PurchaseService) { }
 
   ngOnInit(): void {
     this.user.username = '9821163016';
     this.user.password = '123456';
+    this.getMasterBrandData();
   }
 
 
@@ -36,4 +38,16 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     });
   }
+
+  
+  getMasterBrandData() {
+    this.purchaseService.getEveryBrand().subscribe(data => {
+    
+      this.purchaseService.masterBrandData = data;
+
+      console.log('EVERY BRAND DATA ', this.purchaseService.masterBrandData );
+    });
+  }
+
+
 }

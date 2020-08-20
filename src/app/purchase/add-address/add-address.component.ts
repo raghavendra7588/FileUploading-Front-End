@@ -50,7 +50,6 @@ export class AddAddressComponent implements OnInit {
     });
 
     this.addressData = data;
-    console.log('saved Address', this.addressData);
   }
 
   ngOnInit(): void {
@@ -58,7 +57,7 @@ export class AddAddressComponent implements OnInit {
       this.assignValues();
     }
     else {
-      // this.defaultAddressValues();
+      this.defaultAddressValues();
     }
 
     this.sellerId = parseInt(localStorage.getItem('sellerId'));
@@ -76,14 +75,6 @@ export class AddAddressComponent implements OnInit {
     this.address.billing_state = 'Maharashtra';
     this.address.billing_phone = 7272727272;
     this.address.billing_email = 'test@gmail.com';
-
-    // this.address.shipping_address = 'ABC';
-    // this.address.shipping_city = 'Aurangabad';
-    // this.address.shipping_pinCode = 431004;
-    // this.address.shipping_country = 'India';
-    // this.address.shipping_state = 'Maharashtra';
-    // this.address.shipping_phone = 7272727272;
-    // this.address.shipping_email = 'test@gmail.com';
   }
 
 
@@ -157,7 +148,6 @@ export class AddAddressComponent implements OnInit {
     }
 
     this.purchaseService.saveAddressMaster(this.address).subscribe(data => {
-      console.log(data);
       this.emitterService.isAddressCreated.emit(true);
       this.toastr.success('Record Submitted Successfully');
     });

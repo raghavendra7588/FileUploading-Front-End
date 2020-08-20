@@ -53,7 +53,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   fullDate: any;
 
   fileData: File = null;
-  
+
   fileName: any;
   isFileUploaded: boolean = false;
 
@@ -257,7 +257,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
           }
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-        this.subCategoryNamesArray = this.multipleBrandArray;
+          this.subCategoryNamesArray = this.multipleBrandArray;
         });
       }
     }
@@ -297,7 +297,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
       }
       if (!event.source.selected) {
- 
+
         var tempArr = this.finalBrandArray.filter(function (item) {
           return item.BrandName.trim() != product.BrandName;
         });
@@ -350,6 +350,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onFileSelect(e: any): void {
     this.fileData = <File>e.target.files[0];
     this.vendor.fileUpload = e.target.files[0].name;
+    console.log('fileData', this.fileData);
+    console.log('fileName', this.vendor.fileUpload);
     this.isImageUploaded = true;
   }
 
@@ -357,10 +359,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   saveVendor() {
     const formData = new FormData();
     if (this.isImageUploaded) {
-
       formData.append('File', this.fileData, this.vendor.fileUpload);
+      formData.append('FileName', this.vendor.fileUpload);
     }
-   
+
 
     if (this.vendorData) {
       formData.append('vendorId', this.vendorData.vendorId);
@@ -372,7 +374,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.name === null || this.vendor.name === undefined || this.vendor.name === '') {
-      formData.append('name', 'NULL');    
+      formData.append('name', 'NULL');
     }
     else {
       formData.append('name', this.vendor.name);
@@ -380,21 +382,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.code === null || this.vendor.code === undefined || this.vendor.code === '') {
-      formData.append('code', 'NULL');  
+      formData.append('code', 'NULL');
     }
     else {
       formData.append('code', this.vendor.code);
     }
 
     if (this.vendor.underLedger === null || this.vendor.underLedger === undefined || this.vendor.underLedger === '') {
-      formData.append('underLedger', 'NULL');    
+      formData.append('underLedger', 'NULL');
     }
     else {
       formData.append('underLedger', this.vendor.underLedger);
     }
 
     if (this.vendor.contactPerson === null || this.vendor.contactPerson === undefined || this.vendor.contactPerson === '') {
-      formData.append('contactPerson', 'NULL'); 
+      formData.append('contactPerson', 'NULL');
     }
     else {
       formData.append('contactPerson', this.vendor.contactPerson);
@@ -402,7 +404,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.printName === null || this.vendor.printName === undefined || this.vendor.printName === '') {
-      formData.append('printName', 'NULL');     
+      formData.append('printName', 'NULL');
     }
     else {
       formData.append('printName', this.vendor.printName);
@@ -418,21 +420,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     brandStr = this.brandArray.toString();
 
     if (this.vendor.category === null || this.vendor.category === undefined || this.vendor.category === '') {
-      formData.append('category', "NULL");   
+      formData.append('category', "NULL");
     }
     else {
 
       formData.append('category', categoryStr);
     }
     if (this.vendor.subCategory === null || this.vendor.subCategory === undefined || this.vendor.subCategory === '') {
-      formData.append('subCategory', "NULL");  
+      formData.append('subCategory', "NULL");
     }
     else {
 
       formData.append('subCategory', SubCategorystr);
     }
     if (this.vendor.brand === null || this.vendor.brand === undefined || this.vendor.brand === '') {
-      formData.append('brand', "NULL");   
+      formData.append('brand', "NULL");
     }
     else {
       formData.append('brand', brandStr);
@@ -446,7 +448,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
 
     if (this.vendor.gstCategory === null || this.vendor.gstCategory === undefined || this.vendor.gstCategory === '') {
-      formData.append('gstCategory', 'NULL');   
+      formData.append('gstCategory', 'NULL');
     }
     else {
       formData.append('gstCategory', this.vendor.gstCategory);
@@ -454,14 +456,14 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.pan === null || this.vendor.pan === undefined || this.vendor.pan === '') {
-      formData.append('pan', 'NULL');   
+      formData.append('pan', 'NULL');
     }
     else {
       formData.append('pan', this.vendor.pan);
     }
 
     if (this.vendor.registrationDate === null || this.vendor.registrationDate === undefined) {
-      formData.append('registrationDate', 'NULL');     
+      formData.append('registrationDate', 'NULL');
     }
     else {
       this.fullDate = this.valueChanged();
@@ -469,21 +471,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
 
     if (this.vendor.distance === null || this.vendor.distance === undefined || this.vendor.distance === '') {
-      formData.append('distance', 'NULL');  
+      formData.append('distance', 'NULL');
     }
     else {
       formData.append('distance', this.vendor.distance);
     }
 
     if (this.vendor.cin === null || this.vendor.cin === undefined) {
-      formData.append('cin', "0"); 
+      formData.append('cin', "0");
     }
     else {
       formData.append('cin', this.vendor.cin.toString());
     }
 
     if (this.vendor.paymentTerm === null || this.vendor.paymentTerm === undefined || this.vendor.paymentTerm === '') {
-      formData.append('paymentTeam', "0");      
+      formData.append('paymentTeam', "0");
     }
     else {
       formData.append('paymentTeam', this.vendor.paymentTerm);
@@ -491,7 +493,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.priceCategory === null || this.vendor.priceCategory === undefined || this.vendor.priceCategory === '') {
-      formData.append('priceCategory', 'NULL');    
+      formData.append('priceCategory', 'NULL');
     }
     else {
       formData.append('priceCategory', this.vendor.priceCategory);
@@ -499,7 +501,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.transporter === null || this.vendor.transporter === undefined || this.vendor.transporter === '') {
-      formData.append('transporter', 'NULL');     
+      formData.append('transporter', 'NULL');
     }
     else {
       formData.append('transporter', this.vendor.transporter);
@@ -507,7 +509,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.agentBroker === null || this.vendor.agentBroker === undefined || this.vendor.agentBroker === '') {
-      formData.append('agentBroker', 'NULL');  
+      formData.append('agentBroker', 'NULL');
     }
     else {
       formData.append('agentBroker', this.vendor.agentBroker);
@@ -515,7 +517,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.agentBroker === null || this.vendor.creditLimit === undefined) {
-      formData.append('creditLimit', "0");  
+      formData.append('creditLimit', "0");
     }
     else {
       formData.append('creditLimit', this.vendor.creditLimit.toString());
@@ -523,7 +525,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.ifscCode === null || this.vendor.ifscCode === undefined) {
-      formData.append('ifscCode', 'NULL');     
+      formData.append('ifscCode', 'NULL');
     }
     else {
       formData.append('ifscCode', this.vendor.ifscCode.toString());
@@ -531,7 +533,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.bankName === null || this.vendor.bankName === undefined || this.vendor.bankName === '') {
-      formData.append('bankName', 'NULL');     
+      formData.append('bankName', 'NULL');
     }
     else {
       formData.append('bankName', this.vendor.bankName);
@@ -539,7 +541,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.branch === null || this.vendor.branch === undefined || this.vendor.branch === '') {
-      formData.append('branch', 'NULL');   
+      formData.append('branch', 'NULL');
     }
     else {
       formData.append('branch', this.vendor.branch);
@@ -547,7 +549,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.accountNumber === null || this.vendor.accountNumber === undefined) {
-      formData.append('accountNumber', "0"); 
+      formData.append('accountNumber', "0");
     }
     else {
       formData.append('accountNumber', this.vendor.accountNumber.toString());
@@ -556,7 +558,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.Address === null || this.vendor.Address === undefined || this.vendor.Address === '') {
-      formData.append('address', 'NULL');   
+      formData.append('address', 'NULL');
     }
     else {
       formData.append('address', this.vendor.Address);
@@ -566,7 +568,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.City === null || this.vendor.City === undefined || this.vendor.City === '') {
 
-      formData.append('city', 'NULL');      
+      formData.append('city', 'NULL');
     }
     else {
       formData.append('city', this.vendor.City);
@@ -574,7 +576,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.State === null || this.vendor.State === undefined || this.vendor.State === '') {
 
-      formData.append('state', 'NULL');  
+      formData.append('state', 'NULL');
     }
     else {
       formData.append('state', this.vendor.State);
@@ -583,7 +585,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.PinCode === null || this.vendor.PinCode === undefined || this.vendor.PinCode === '') {
 
-      formData.append('pinCode', 'NULL');    
+      formData.append('pinCode', 'NULL');
     }
     else {
       formData.append('pinCode', this.vendor.PinCode);
@@ -591,21 +593,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.Country === null || this.vendor.Country === undefined || this.vendor.Country === '') {
 
-      formData.append('country', 'NULL');   
+      formData.append('country', 'NULL');
     }
     else {
       formData.append('country', this.vendor.Country);
     }
 
     if (this.vendor.Phone === null || this.vendor.Phone === undefined || this.vendor.Phone === '') {
-      formData.append('phone', 'NULL');    
+      formData.append('phone', 'NULL');
     }
     else {
       formData.append('phone', this.vendor.Phone);
     }
 
     if (this.vendor.Email === null || this.vendor.Email === undefined || this.vendor.Email === '') {
-      formData.append('email', 'NULL');   
+      formData.append('email', 'NULL');
     }
     else {
       formData.append('email', this.vendor.Email);

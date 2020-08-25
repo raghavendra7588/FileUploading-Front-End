@@ -30,6 +30,7 @@ import { JobWorkOutworkInvoiceComponent } from './inventory/job-work-outwork-inv
 import { LoginComponent } from './login/login.component';
 import { AddAddressComponent } from './purchase/add-address/add-address.component';
 import { AddressDetailsComponent } from './purchase/address-details/address-details.component';
+import { PurchaseReportsComponent } from './purchase/purchase-reports/purchase-reports.component';
 
 
 const routes: Routes = [
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'purchase/billPayment', component: BillPaymentComponent },
   { path: 'purchase/paymentDunes', component: PaymentDunesComponent },
   { path: 'purchase/onlinePayment', component: OnlinePaymentComponent },
+  { path: 'purchase/purchaseReports', component: PurchaseReportsComponent },
   { path: 'inventory/itemMaster', component: ItemMasterComponent },
   { path: 'inventory/stockAdjustment', component: StockAdjustmentComponent },
   { path: 'inventory/materialIssue', component: MaterialIssueComponent },

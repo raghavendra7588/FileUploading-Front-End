@@ -31,7 +31,6 @@ export class VendorComponent implements OnInit {
     // this.fullName = localStorage.getItem(this.constantService.FULLNAME);
 
     this.sellerId = localStorage.getItem('sellerId');
-    console.log('LOCALLLLLLLL', this.sellerId);
     this.getVendorData();
 
     this.newRecordSubscription = this.emitterService.isVendorMasterUpdated.subscribe(value => {
@@ -52,12 +51,10 @@ export class VendorComponent implements OnInit {
 
   getVendorData() {
     this.purchaseService.getAllVendorData().subscribe(data => {
-      console.log(data);
       this.dataSource = data;
     });
   }
   editEmployee(vendor) {
-    console.log(vendor);
     this.dialog.open(DialogContentVendorComponent, {
       height: '600px',
       width: '800px',

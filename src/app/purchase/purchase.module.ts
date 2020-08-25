@@ -45,13 +45,19 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { AddressDetailsComponent } from './address-details/address-details.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MyPipePipe } from './my-pipe.pipe';
+import { NgxPrintModule } from 'ngx-print';
+
 import { GetPriceListComponent } from './get-price-list/get-price-list.component';
+import { PurchaseReportsComponent } from './purchase-reports/purchase-reports.component';
+import { DialogPurchaseReportsComponent } from './dialog-purchase-reports/dialog-purchase-reports.component';
+import { DialogPurchaseOrderPrintComponent } from './dialog-purchase-order-print/dialog-purchase-order-print.component';
+import { DialogOrderComponent } from './dialog-order/dialog-order.component';
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
     PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent,
     OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent, AddAddressComponent, DashboardComponent,
-    AddressDetailsComponent, MyPipePipe, GetPriceListComponent],
+    AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, DialogPurchaseOrderPrintComponent, DialogOrderComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -74,6 +80,7 @@ import { GetPriceListComponent } from './get-price-list/get-price-list.component
     MatListModule,
     MatCheckboxModule,
     MatPaginatorModule,
+    NgxPrintModule,
     FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,

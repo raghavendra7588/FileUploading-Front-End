@@ -1,0 +1,18 @@
+mat-footer-row, mat-header-row, mat-row {
+    border-bottom-width: 10px;
+  }
+  .mat-cell {
+    font-size: 14px;
+    min-height: 48px;
+    text-align: center;
+    border: 1px solid gray;
+}
+.mat-footer-cell{
+    text-align: center;
+    font-size:18px;
+    color:blue;
+}
+
+.mat-header-cell{
+  text-align: center;
+}

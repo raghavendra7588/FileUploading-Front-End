@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   login() {
     this.loginService.loginUser(this.user).subscribe(data => {
       this.loginService.seller_object = data;
-      console.log(data);
       this.loginService.seller_token = data.token;
       this.loginService.seller_mapped_categories = data.categories;
       this.loginService.seller_id = data.id;
@@ -45,7 +44,6 @@ export class LoginComponent implements OnInit {
     
       this.purchaseService.masterBrandData = data;
 
-      console.log('EVERY BRAND DATA ', this.purchaseService.masterBrandData );
     });
   }
 

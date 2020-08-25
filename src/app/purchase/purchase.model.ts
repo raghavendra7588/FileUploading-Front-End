@@ -66,6 +66,7 @@ export class Address {
 export class PurchaseOrder {
     gstType?: string;
     vendor?: string;
+    vendorName?: string;
     email?: string;
     orderNo?: number;
     orderDate?: Date;
@@ -81,7 +82,7 @@ export class PurchaseOrder {
     shippingCity?: string;
     shippingPhone?: string;
     shippingEmail?: string;
-    agent?: string;
+    BatchNumber?: string;
     tax?: string;
     remarks?: string;
     advanceLedger?: string;
@@ -92,6 +93,7 @@ export class PurchaseOrder {
     cessAmount?: number;
     docAmount?: number;
     paymentTerms: string;
+    items?: Array<customPriceList>;
 }
 
 
@@ -162,6 +164,7 @@ export class PurchaseOrderData {
     DocAmount?: string;
     AdvanceAmount?: string;
     AdvanceLedger?: string;
+    BatchNumber?: string;
     items?: Array<customPriceList>;
 }
 
@@ -181,4 +184,20 @@ export class customPriceList {
     ProductVarientId?: number;
     BrandName?: string;
     Name?: string;
+}
+
+export class PurchaseReport {
+    vendorId?: string;
+    orderNo?: string;
+    startDate?: string;
+    endDate?: string;
+    sellerId?: string;
+}
+
+export class PurchaseReportData {
+    vendorId?: string;
+    orderNo?: string;
+    startDate?: string;
+    endDate?: string;
+    sellerId?: string;
 }

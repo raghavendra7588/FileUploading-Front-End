@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatSelect } from '@angular/material/select';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { EmitterService } from 'src/shared/emitter.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -82,6 +82,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   finalPurchaseOrderArray: any = [];
   uniquePurchaseOrderItemArray: any = [];
   isAllPurchaseOrder: any = [];
+  isProductSelected: boolean = false;
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -90,6 +91,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     public emitterService: EmitterService,
     private dialogRef: MatDialogRef<GetPriceListComponent>) {
     this.isDataLoaded = false;
+    this.isProductSelected = false;
   }
 
   ngOnInit(): void {
@@ -109,6 +111,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   isAllSelected() {
+
     const numSelected = this.selection.selected.length;
     this.updateAllRecordsCount = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -124,7 +127,16 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       this.dataSource.data.forEach((row) => {
         this.selection.select(row);
       });
+    }
+  }
 
+
+  onChange(event) {
+    if (event.checked === true) {
+      this.updateAllRecordsCount++;
+    }
+    else {
+      this.updateAllRecordsCount--;
     }
   }
 
@@ -137,14 +149,14 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
       this.checkFinalPrice = this.checkItemFinalPrice(element);
       if (!this.checkFinalPrice) {
-        this.toastr.error('Please Check Buying Price, Discount and Final Price');
+        this.toastr.error('Please Check Purchase Quantity');
       }
     });
     if (this.checkFinalPrice) {
       this.selection.selected.forEach((element) => {
         this.multipleEntriesArray.push(element);
         this.uniquePurchaseOrderItemArray = this.uniqueEntries(this.multipleEntriesArray, element);
-     
+
       });
       this.postMultipleInsertion(this.uniquePurchaseOrderItemArray);
     }
@@ -313,7 +325,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
       this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);
       this.multipleEntries.push(this.customPriceList);
-   
+
     });
     this.toastr.success('price list saved');
     this.updateAllRecordsCount = 0;
@@ -345,13 +357,17 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     let prevFinalPrice = 0;
     let isRecordValid: boolean = true;
     prevFinalPrice = element.FinalPrice;
+    let purchasedQuantity = element.AvailableQuantity;
 
-    if ((Number(element.ProductPrice) - Number(element.Discount) === Number(element.FinalPrice)) || (Number(element.ProductPrice) - Number(element.Discount) === (Number(element.FinalPrice)) / element.AvailableQuantity)) {
-      isRecordValid = true;
-    }
-    else {
-
+    if (purchasedQuantity < 1 || (Number(element.ProductPrice) < 1) || (Number(element.FinalPrice) < 1)) {
       isRecordValid = false;
+    } else {
+      if ((Number(element.ProductPrice) - Number(element.Discount) === Number(element.FinalPrice)) || (Number(element.ProductPrice) - Number(element.Discount) === (Number(element.FinalPrice)) / element.AvailableQuantity)) {
+        isRecordValid = true;
+      }
+      else {
+        isRecordValid = false;
+      }
     }
     return isRecordValid;
   }

@@ -350,8 +350,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onFileSelect(e: any): void {
     this.fileData = <File>e.target.files[0];
     this.vendor.fileUpload = e.target.files[0].name;
-    console.log('fileData', this.fileData);
-    console.log('fileName', this.vendor.fileUpload);
     this.isImageUploaded = true;
   }
 

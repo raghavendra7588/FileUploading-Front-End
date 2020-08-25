@@ -12,7 +12,6 @@ namespace inventory.Controllers
     {
         PurchaseOrderBL purchaseOrderBL = new PurchaseOrderBL();
 
-
         [HttpPost]
         public HttpResponseMessage Post(PurchaseOrder purchaseOrderData)
         {

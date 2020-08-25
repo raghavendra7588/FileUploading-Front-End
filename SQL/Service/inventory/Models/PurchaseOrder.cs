@@ -27,7 +27,8 @@ namespace inventory.Models
         public string CESSAmount { get; set; }
         public string DocAmount { get; set; }
         public string AdvanceAmount { get; set; }
-        public string AdvanceLedger { get; set; }
+        public string AdvanceLedger { get; set; }      
+        public string BatchNumber { get; set; }
         public List<PurchaseOrderItem> items { get; set; }
     }
 
@@ -61,6 +62,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@DocAmount", purchaseOrderData.DocAmount);
             cmd.Parameters.AddWithValue("@AdvanceAmount", purchaseOrderData.AdvanceAmount);
             cmd.Parameters.AddWithValue("@AdvanceLedger", purchaseOrderData.AdvanceLedger);
+            cmd.Parameters.AddWithValue("@BatchNumber", purchaseOrderData.BatchNumber);
             cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
             cmd.ExecuteNonQuery();

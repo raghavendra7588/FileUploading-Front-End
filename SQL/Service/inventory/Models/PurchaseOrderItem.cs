@@ -20,7 +20,7 @@ namespace inventory.Models
         public int FinalPrice { get; set; }
         public int ReferenceId { get; set; }
         public int Discount { get; set; }
-        public int PurchaseQuantity { get; set; }
+        public string availableQuantity { get; set; }
         public string Quantity { get; set; }
         public int ProductVarientId { get; set; }
     }
@@ -51,7 +51,7 @@ namespace inventory.Models
                 cmd.Parameters.AddWithValue("@ReferenceId", purchaseOrderItemData[i].ReferenceId);
                 cmd.Parameters.AddWithValue("@Discount", purchaseOrderItemData[i].Discount);
 
-                cmd.Parameters.AddWithValue("@PurchaseQuantity", purchaseOrderItemData[i].PurchaseQuantity);
+                cmd.Parameters.AddWithValue("@PurchaseQuantity", purchaseOrderItemData[i].availableQuantity);
                 cmd.Parameters.AddWithValue("@Quantity", purchaseOrderItemData[i].Quantity);
                 cmd.Parameters.AddWithValue("@ProductVarientId", purchaseOrderItemData[i].ProductVarientId);
 

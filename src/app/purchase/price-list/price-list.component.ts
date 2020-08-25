@@ -127,7 +127,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     this.selection.selected.forEach((element) => {
       this.updateAllArray.push(element);
       this.multipleEntriesArray.push(element);
-      console.log(element);
     });
     this.postMultipleInsertion(this.multipleEntriesArray);
 
@@ -183,7 +182,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-        console.log('subCategory ID', subCategory.id);
         this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length === 0) {
@@ -199,7 +197,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
           }
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-          console.log('ANY ARRAY', this.anyArray);
           this.multipleBrandArray = this.catchMappedData;
 
         });
@@ -226,7 +223,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     if (event.isUserInput) {
       if (event.source.selected) {
         this.brandArray.push(product.ProductID);
-        console.log('brand Array ', product);
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
             return item.BrandName.trim() === product.BrandName
@@ -382,14 +378,12 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
   createUniqueBrandName(array: any) {
     let sortedArray: Array<any> = [];
-    console.log('array length', array.length);
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
         var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID }
         sortedArray.push(item);
       }
     }
-    console.log('sorted array ', sortedArray);
     return sortedArray;
   }
   sortUniqueBrandName(array) {

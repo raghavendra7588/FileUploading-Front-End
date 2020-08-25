@@ -35,6 +35,7 @@ export class PurchaseService {
   private GET_ALL_PRICELIST_DATA = 'http://localhost:55547/api/PriceList';
   private SAVE_PURCHASE_ORDER_MASTER = 'http://localhost:55547/api/PurchaseOrder';
   private SAVE_PURCHASE_ORDER_ITEM_MASTER = 'http://localhost:55547/api/PurchaseOrderItem';
+  public GET_PURCHASE_ORDER_DATA = 'http://localhost:55547/api/PurchaseReport';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = localStorage.getItem('token');
@@ -106,6 +107,14 @@ export class PurchaseService {
 
   savePurchaseOrderItemMaster(purchaseOrderItem) {
     return this.http.post(this.SAVE_PURCHASE_ORDER_ITEM_MASTER, purchaseOrderItem);
+  }
+
+  getPurchaseReportData(purchaseReport) {
+    return this.http.post(this.GET_PURCHASE_ORDER_DATA, purchaseReport);
+  }
+
+  getPurchaseReportById(id) {
+    return this.http.get(this.GET_PURCHASE_ORDER_DATA + '/' + id);
   }
 
 }

@@ -8,6 +8,11 @@
   }
    */
 
-   mat-form-field {
-      min-width: 230px !important;
-   }
+mat-form-field {
+   min-width: 230px !important;
+}
+
+.mat-cell,.mat-header-cell { 
+   text-align: center;
+   border-right: 1px solid gray;
+}

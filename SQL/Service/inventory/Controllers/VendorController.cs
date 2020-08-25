@@ -50,7 +50,7 @@ namespace inventory.Controllers
             objVendor.category = HttpContext.Current.Request.Params.Get("category");
             objVendor.subCategory = HttpContext.Current.Request.Params.Get("subCategory");
             objVendor.brand = HttpContext.Current.Request.Params.Get("brand");
-            objVendor.fileUpload = HttpContext.Current.Request.Params.Get("File");
+            objVendor.fileUpload = HttpContext.Current.Request.Params.Get("FileName");
             objVendor.gst = HttpContext.Current.Request.Params.Get("gst");
             objVendor.gstCategory = HttpContext.Current.Request.Params.Get("gstCategory");
             objVendor.pan = HttpContext.Current.Request.Params.Get("pan");

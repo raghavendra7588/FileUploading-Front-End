@@ -24,7 +24,7 @@ export class DialogPurchaseReportsComponent implements OnInit {
   sellerName: any;
 
   constructor(public purchaseService: PurchaseService, @Inject(MAT_DIALOG_DATA) public data: any) {
-
+    console.log('NORAML DATA', this.data);
     this.sellerName = localStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;
@@ -39,21 +39,33 @@ export class DialogPurchaseReportsComponent implements OnInit {
     this.getVendorData();
   }
 
-
-  getTotalCost() {
-    return this.data.map(t => t.cost).reduce((acc, value) => acc + value, 0);
-  }
-
   getFinalPrice() {
-    return this.PurchaseReportDataArray.map(o=>o.FinalPrice).reduce((a,c)=>a+c);
+    let totalFinalPrice = 0;
+    this.PurchaseReportDataArray.forEach(item => {
+      totalFinalPrice += item.FinalPrice;
+    });
+    return totalFinalPrice;
+
+    // return this.PurchaseReportDataArray.map(o => o.FinalPrice).reduce((a, c) => a + c);
   }
 
   getTotalDiscount() {
-    return this.PurchaseReportDataArray.map(o=>o.Discount).reduce((a,c)=>a+c);
+
+    let totalDiscount = 0;
+    this.PurchaseReportDataArray.forEach(item => {
+      totalDiscount += item.Discount;
+    });
+    return totalDiscount;
+    // return this.PurchaseReportDataArray.map(o => o.Discount).reduce((a, c) => a + c);
   }
 
   getTotalQuantity() {
-    return this.PurchaseReportDataArray.map(o=>o.PurchaseQuantity).reduce((a,c)=>a+c);
+    let totalPurchaseQuantity = 0;
+    this.PurchaseReportDataArray.forEach(item => {
+      totalPurchaseQuantity += item.PurchaseQuantity;
+    });
+    return totalPurchaseQuantity;
+    // return this.PurchaseReportDataArray.map(o => o.PurchaseQuantity).reduce((a, c) => a + c);
   }
 
 

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold" style="color: blue;">VendorName</h3>
-                <h4 class="font-weight-bold">{{PurchaseReportDataArray.vendorName}}</h4>
+                <h4 class="font-weight-bold">{{vendorName}}</h4>
             </div>
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold" style="color: blue;">Seller</h3>
@@ -13,7 +13,7 @@
 
             <div class="col-md-4 text-center">
                 <h3 class="font-weight-bold" style="color: blue;">Order No</h3>
-                <h4 class="font-weight-bold"> {{PurchaseReportDataArray.orderNo}}</h4>
+                <h4 class="font-weight-bold"> {{orderNumber}}</h4>
             </div>
         </div>
 
@@ -43,28 +43,28 @@
                         <td mat-footer-cell *matFooterCellDef> Total</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="availableQuantity">
+                    <ng-container matColumnDef="PurchaseQuantity">
                         <th mat-header-cell *matHeaderCellDef> Quantity </th>
-                        <td mat-cell *matCellDef="let element"> {{element.availableQuantity| number : '1.2-2'}} </td>
-                        <td mat-footer-cell *matFooterCellDef></td>
+                        <td mat-cell *matCellDef="let element"> {{element.PurchaseQuantity| number : '1.2-2'}} </td>
+                        <td mat-footer-cell *matFooterCellDef>{{getTotalQuantity() }} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="buyingPrice">
+                    <ng-container matColumnDef="BuyingPrice">
                         <th mat-header-cell *matHeaderCellDef> MRP </th>
-                        <td mat-cell *matCellDef="let element"> {{element.buyingPrice | number : '1.2-2'}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.BuyingPrice | number : '1.2-2'}} </td>
                         <td mat-footer-cell *matFooterCellDef> </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="discount">
+                    <ng-container matColumnDef="Discount">
                         <th mat-header-cell *matHeaderCellDef> Discount </th>
-                        <td mat-cell *matCellDef="let element"> {{element.discount | number : '1.2-2' }} </td>
-                        <td mat-footer-cell *matFooterCellDef> {{  getTotalDiscount() | number : '1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element"> {{element.Discount | number : '1.2-2' }} </td>
+                        <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}}</td>
                     </ng-container>
 
-                    <ng-container matColumnDef="finalPrice">
-                        <th mat-header-cell *matHeaderCellDef> finalPrice </th>
-                        <td mat-cell *matCellDef="let element"> {{element.finalPrice | number : '1.2-2'}} </td>
-                        <td mat-footer-cell *matFooterCellDef> </td>
+                    <ng-container matColumnDef="FinalPrice">
+                        <th mat-header-cell *matHeaderCellDef> FinalPrice </th>
+                        <td mat-cell *matCellDef="let element"> {{element.FinalPrice | number : '1.2-2'}} </td>
+                        <td mat-footer-cell *matFooterCellDef> {{getFinalPrice() | number : '1.2-2'}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -80,6 +80,6 @@
     <!-- <button mat-raised-button color="primary" (click)="printData()" printSectionId="demo"  printTitle="GV-{{orderNo}}" [useExistingCss]="true" ngxPrint>Yes</button> -->
 
     <button mat-raised-button color="primary" [useExistingCss]="true"
-        printTitle="GV-{{PurchaseReportDataArray.orderNo}}" printSectionId="demo" ngxPrint>print</button>
+        printTitle="GV-{{orderNumber}}" printSectionId="demo" ngxPrint>print</button>
     <button mat-raised-button mat-dialog-close>Close</button>
 </div>

@@ -150,6 +150,7 @@ export class PurchaseOrderData {
     PurchaseOrderId?: number;
     SellerId?: number;
     VendorId?: string;
+    VendorName?: string;
     OrderNo?: string;
     OrderDate?: string;
     DeliveryDate?: string;

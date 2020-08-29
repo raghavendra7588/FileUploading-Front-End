@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.user.username = '9821163016';
-    this.user.password = '123456';
+    this.user.password = '100100';
     this.getMasterBrandData();
   }
 

@@ -45,7 +45,8 @@ export class PurchaseOrderComponent implements OnInit {
   billingId: any;
   shippingId: any;
   vendorId: any;
-  grandTotal: any;
+  grandTotal: any = 0;
+  purchaseOrderResponse: any;
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
     public toastr: ToastrService, public router: Router) {
@@ -54,7 +55,11 @@ export class PurchaseOrderComponent implements OnInit {
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value];
         this.purchaseOrder.itemValue = this.receivedPurchaseOrder.length;
         this.purchaseOrder.items = this.receivedPurchaseOrder;
-        this.grandTotal = this.receivedPurchaseOrder.map(o => o.finalPrice).reduce((a, c) => { return a + c });
+        // this.grandTotal = this.receivedPurchaseOrder.map(o => o.finalPrice).reduce((a, c) => { return a + c });
+        this.receivedPurchaseOrder.forEach(item => {
+          console.log(item);
+          this.grandTotal += item.finalPrice;
+        });
         this.dataSource = new MatTableDataSource(this.receivedPurchaseOrder);
         this.dataSource.paginator = this.paginator;
       }
@@ -69,30 +74,6 @@ export class PurchaseOrderComponent implements OnInit {
     this.priceListData = this.purchaseService.getAllPriceListData(this.sellerId);
     this.minDate = new Date();
     this.purchaseOrder.orderNo = Number(this.getRandomNumbers());
-
-    this.emitterService.notPrint.subscribe(value => {
-      if (value) {
-        this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
-          this.toastr.success('order is placed');
-          this.dataSource = [];
-          this.router.navigate(['/dashboard']);
-          this.clearValues();
-        });
-
-      }
-    });
-
-    this.emitterService.print.subscribe(value => {
-      if (value) {
-        this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
-          this.toastr.success('order is placed');
-          this.clearValues();
-          this.dataSource = [];
-          this.router.navigate(['/dashboard']);
-        });
-
-      }
-    });
   }
 
   getVendorData() {
@@ -109,7 +90,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getRandomNumbers() {
-    return (new Date()).getTime() + Math.trunc(365 * Math.random());
+    return Math.floor(100000 + Math.random() * 900000);
   }
 
 
@@ -172,9 +153,11 @@ export class PurchaseOrderComponent implements OnInit {
 
     if (this.vendorId === null || this.vendorId === undefined || this.vendorId === '') {
       this.purchaseOrderData.VendorId = 'NULL';
+      this.purchaseOrderData.VendorName = 'NULL';
     }
     else {
       this.purchaseOrderData.VendorId = this.vendorId;
+      this.purchaseOrderData.VendorName = this.purchaseOrder.vendorName;
     }
 
     if (this.purchaseOrder.orderNo === null || this.purchaseOrder.orderNo === undefined) {
@@ -308,9 +291,13 @@ export class PurchaseOrderComponent implements OnInit {
     // this.openPurchaseOrderPrintDialog();
     this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
       this.toastr.success('order is placed');
-      // this.openPurchaseOrderPrintDialog();
+
+      this.purchaseOrderResponse = data;
+      console.log('*************************', this.purchaseOrderResponse);
+      this.openPurchaseOrderPrintDialog();
       this.clearValues();
       this.dataSource = [];
+      this.receivedPurchaseOrder = [];
     });
   }
   savePurchaseOrderItem() {
@@ -385,8 +372,7 @@ export class PurchaseOrderComponent implements OnInit {
       disableClose: true,
       height: '150px',
       width: '400px',
-      data: this.purchaseOrder,
-
+      data: this.purchaseOrderResponse
     });
   }
 

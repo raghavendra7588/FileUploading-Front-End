@@ -10,6 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 //modules 
 import { PurchaseModule } from './purchase/purchase.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { BarecodeScannerLivestreamModule } from 'ngx-barcode-scanner';
+
+
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 import { HomeComponent } from './home/home.component';
@@ -68,6 +72,7 @@ import { PurchaseService } from './purchase/purchase.service';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    BarecodeScannerLivestreamModule,
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({
       radius: 100,

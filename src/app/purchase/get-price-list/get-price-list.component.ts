@@ -289,6 +289,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   mapObj(apiData, ownDbData) {
+    console.log('main array',apiData);
     for (let i = 0; i < apiData.length; i++) {
       apiData[i].ProductPrice = 0;
       apiData[i].Discount = 0;

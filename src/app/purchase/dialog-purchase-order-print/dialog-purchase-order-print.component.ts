@@ -20,34 +20,27 @@ export class DialogPurchaseOrderPrintComponent implements OnInit {
     public emitterService: EmitterService,
     public router: Router,
     public dialog: MatDialog) {
+    console.log('this is data',data);
     this.purchaseOrderData = data;
-    this.orderNo = data;
+    this.orderNo = data.OrderNo;
   }
 
   ngOnInit(): void {
-
   }
 
-  printData() {
-
-    this.dialogRef.close(true);
-    this.emitterService.print.emit(true);
-    // this.router.navigate(['/dashboard']);
-  }
   notPrint() {
-
     this.dialogRef.close(true);
-    this.emitterService.notPrint.emit(true);
-    // this.router.navigate(['/dashboard']);
   }
 
   agreeToPrint() {
+    this.dialogRef.close(true);
     this.dialog.open(DialogOrderComponent, {
       disableClose: true,
       height: '650px',
       width: '800px',
       data: this.purchaseOrderData
     });
+
   }
 
 }

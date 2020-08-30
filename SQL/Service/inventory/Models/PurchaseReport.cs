@@ -43,9 +43,6 @@ namespace inventory.Models
         }
 
 
-
-
-
         public DataTable postAllData(PurchaseReport purchaseReport)
         {
             SqlCommand command = new SqlCommand();

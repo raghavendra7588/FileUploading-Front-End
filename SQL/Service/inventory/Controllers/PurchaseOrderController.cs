@@ -13,22 +13,22 @@ namespace inventory.Controllers
         PurchaseOrderBL purchaseOrderBL = new PurchaseOrderBL();
 
         [HttpPost]
-        public HttpResponseMessage Post(PurchaseOrder purchaseOrderData)
+        public PurchaseOrder Post(PurchaseOrder purchaseOrderData)
         {
-            PurchaseOrder purchaseOrder = new PurchaseOrder();
-            int intId = purchaseOrder.PurchaseOrderId;
+            PurchaseOrder ObjPurchaseOrder = new PurchaseOrder();
+            int intId = ObjPurchaseOrder.PurchaseOrderId;
             try
             {
                 if (intId == 0)
                 {
-                    purchaseOrderBL.postPurchaseOrderToDb(purchaseOrderData);
+                    ObjPurchaseOrder= purchaseOrderBL.postPurchaseOrderToDb(purchaseOrderData);
                 }
 
-                return Request.CreateResponse(HttpStatusCode.Created);
+                return ObjPurchaseOrder;
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return null;
             }
         }
     }

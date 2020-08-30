@@ -14,6 +14,8 @@ namespace inventory.Models
         public int PurchaseOrderId { get; set; }
         public int SellerId { get; set; }
         public string VendorId { get; set; }
+
+        public string vendorName { get; set; }
         public string OrderNo { get; set; }
         public string OrderDate { get; set; }
         public string DeliveryDate { get; set; }
@@ -37,9 +39,11 @@ namespace inventory.Models
     {
         string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
 
-        PurchaseOrderItemBL ObjPurchaseOrderItemBL = new PurchaseOrderItemBL();
-        public string postPurchaseOrderToDb(PurchaseOrder purchaseOrderData)
+        
+        public PurchaseOrder postPurchaseOrderToDb(PurchaseOrder purchaseOrderData)
         {
+            PurchaseOrder objResultReturn = new PurchaseOrder();
+            PurchaseOrderItemBL ObjPurchaseOrderItemBL = new PurchaseOrderItemBL();
             SqlConnection conn = new SqlConnection(strConn);
             conn.Open();
             SqlCommand cmd = new SqlCommand("Mst_insertPurchaseOrder", conn);
@@ -68,9 +72,14 @@ namespace inventory.Models
             cmd.ExecuteNonQuery();
             conn.Close();
             int id = (int)cmd.Parameters["@id"].Value;
+            objResultReturn.PurchaseOrderId = id;
+            objResultReturn.OrderNo = purchaseOrderData.OrderNo;
+            objResultReturn.vendorName = purchaseOrderData.vendorName;
             ObjPurchaseOrderItemBL. postPurchaseOrderItemToDb(purchaseOrderData.items, id);
-            return "ok";
+            return objResultReturn;
         }
+
+
 
     }
 }

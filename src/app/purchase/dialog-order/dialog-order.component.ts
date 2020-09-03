@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { MatTableDataSource } from '@angular/material/table';
 import { EmitterService } from 'src/shared/emitter.service';
 import { PurchaseService } from '../purchase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-order',
@@ -22,7 +23,8 @@ export class DialogOrderComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogOrderComponent>,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    public purchaseService: PurchaseService) {
+    public purchaseService: PurchaseService,
+    public router: Router) {
     this.orderNumber = data.OrderNo;
     this.vendorName = data.vendorName
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
@@ -63,6 +65,11 @@ export class DialogOrderComponent implements OnInit {
       totalQuantity += item.PurchaseQuantity;
     });
     return totalQuantity;
+  }
+
+  notPrint() {
+    this.dialogRef.close();
+    this.router.navigate(['/dashboard']);
   }
 
 }

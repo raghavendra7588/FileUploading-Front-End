@@ -1,47 +1,36 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, ChangeDetectorRef, AfterViewChecked, Output, EventEmitter } from '@angular/core';
-import { PurchaseService } from '../purchase.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { PriceList, PurchaseOrderItem, customPriceList, CustomProductList } from '../purchase.model';
-import { LoginService } from 'src/app/login/login.service';
-import { ToastrService } from 'ngx-toastr';
-import { MatSelect } from '@angular/material/select';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { PurchaseOrderItem, PriceList } from 'src/app/purchase/purchase.model';
+import { PurchaseService } from 'src/app/purchase/purchase.service';
 import { MatSort } from '@angular/material/sort';
-import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSelect } from '@angular/material/select';
+import { LoginService } from 'src/app/login/login.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 import { EmitterService } from 'src/shared/emitter.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-get-price-list',
-  templateUrl: './get-price-list.component.html',
-  styleUrls: ['./get-price-list.component.css']
+  selector: 'app-sales-report',
+  templateUrl: './sales-report.component.html',
+  styleUrls: ['./sales-report.component.css']
 })
-export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestroy {
-  categoryId: any;
-  priceListData: any = [];
-  sellerId: any;
-  masterBrandData: any = [];
-  extractPriceListData: any = [];
-  finalPriceList: any = [];
-  categoryListData: any;
-  dataSource: any;
-  isDataLoaded: boolean = false;
-  purchaseOrderItem: PurchaseOrderItem = new PurchaseOrderItem();
-  priceList: PriceList = new PriceList();
-  customPriceList: customPriceList = new customPriceList();
-  customProductList: CustomProductList = new CustomProductList();
-  @ViewChild('select') select: MatSelect;
-  selection = new SelectionModel<PriceList[]>(true, []);
-  displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity'];
+export class SalesReportComponent implements OnInit {
+  displayedColumns: string[] = ['billingName', 'address', 'city', 'email', 'phone'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  dataSource: any;
   datePicker: any;
   objSeller: any;
   sellerName: string;
+  sellerId: any;
+
+
   subCategoriesArray: any = [];
   categoriesArray: any = [];
   brandArray: any = [];
+
   multipleCategoriesArray: any = [];
   categoriesArray1: any = [];
   categoriesArray2: any = [];
@@ -67,8 +56,9 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   multipleEntries = [];
   multipleEntriesArray: any = [];
   isPriceValid: any;
-  isMultipleAmount: boolean = true;
-  checkFinalPrice: boolean = true;
+  isMultipleAmount: boolean;
+  priceList: PriceList = new PriceList();
+  masterBrandData: any = [];
   selectedBrandId: number;
   anyArray: any = [];
   uniqueBrandNamesArray = [];
@@ -76,42 +66,38 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   allBrandSelected: boolean = false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('check') check: MatCheckbox;
+  @ViewChild('select') select: MatSelect;
   @ViewChild('BrandSelect') BrandSelect: MatSelect;
-  totalAmount: number = 0;
-  @Output() purchaseOrderListData = new EventEmitter<any[]>();
-  finalPurchaseOrderArray: any = [];
-  uniquePurchaseOrderItemArray: any = [];
-  isAllPurchaseOrder: any = [];
-  isProductSelected: boolean = false;
+  selection = new SelectionModel<PriceList[]>(true, []);
 
-  constructor(public purchaseService: PurchaseService,
+  constructor(public dialog: MatDialog,
     public loginService: LoginService,
-    public toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
+    public purchaseService: PurchaseService,
     public emitterService: EmitterService,
-    private dialogRef: MatDialogRef<GetPriceListComponent>) {
-    this.isDataLoaded = false;
-    this.isProductSelected = false;
+    public toastr: ToastrService,
+    private cdr: ChangeDetectorRef) {
   }
 
-  ngOnInit(): void {
-    this.dataSource = new MatTableDataSource();
-    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
-    this.sellerId = localStorage.getItem('sellerId');
+  ngOnInit() {
     this.objSeller = JSON.parse(localStorage.getItem('categories'));
     this.sellerName = localStorage.getItem('sellerName');
     this.sellerId = Number(localStorage.getItem('sellerId'));
     this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
     this.getPriceListData();
     this.getBrandsMasterData();
+
+    this.dataSource = [
+      { billingName: 'ABC', address: 'ABC', city: 'Aurangabad', email: 'abc@gmail.com', phone: 7588641864 },
+      { billingName: 'ABC', address: 'ABC', city: 'Aurangabad', email: 'abc@gmail.com', phone: 7588641864 }
+    ];
   }
+
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
   }
 
   isAllSelected() {
-
     const numSelected = this.selection.selected.length;
     this.updateAllRecordsCount = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -127,46 +113,23 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       this.dataSource.data.forEach((row) => {
         this.selection.select(row);
       });
+
     }
   }
 
-
-  onChange(event) {
-    if (event.checked === true) {
-      this.updateAllRecordsCount++;
-    }
-    else {
-      this.updateAllRecordsCount--;
-    }
-  }
-
-  updateAll() {
-    this.checkFinalPrice = true;
+  logSelection() {
+    this.isPriceValid = true;
     this.selection.selected.forEach((element) => {
-      if (this.checkFinalPrice === false) {
-        return;
-      }
-
-      this.checkFinalPrice = this.checkItemFinalPrice(element);
-      if (!this.checkFinalPrice) {
-        this.toastr.error('Please Check Purchase Quantity');
-      }
+      this.updateAllArray.push(element);
+      this.multipleEntriesArray.push(element);
     });
-    if (this.checkFinalPrice) {
-      this.selection.selected.forEach((element) => {
-        this.multipleEntriesArray.push(element);
-        this.uniquePurchaseOrderItemArray = this.uniqueEntries(this.multipleEntriesArray, element);
+    this.postMultipleInsertion(this.multipleEntriesArray);
 
-      });
-      this.postMultipleInsertion(this.uniquePurchaseOrderItemArray);
-    }
+    this.updateAllRecordsCount = this.updateAllArray.length;
+    this.multipleEntriesArray = [];
+    this.updateAllArray = [];
   }
-  uniqueEntries(arr, obj) {
-    let isExist = arr.some(o => o.ProductVarientId === obj.ProductVarientId && o.Id === obj.Id);
-    if (!isExist)
-      arr.push(obj);
-    return arr;
-  }
+
   getBrandsMasterData() {
     setTimeout(() => {
       this.purchaseService.getEveryBrand().subscribe(data => {
@@ -175,9 +138,12 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     }, 400);
   }
 
+
+
   onCategoriesChange(event, category: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           if (this.multipleCategoriesArray.length === 0) {
             this.multipleCategoriesArray = data;
@@ -193,21 +159,25 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
     if (!event.source.selected) {
       let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-        // return item.id != category.id;
-        return Number(item.parentid) !== Number(category.id);
+        return item.id != category.id;
       });
       this.multipleCategoriesArray = newCategoriesArr;
+      const index = this.categoriesArray.indexOf(category.id);
+      if (index > -1) {
+        this.categoriesArray.splice(index, 1);
+      }
     }
   }
-
 
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length === 0) {
             this.multipleBrandArray = data;
             this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+            // this.multipleBrandArray = this.catchMappedData;
           }
           else {
             this.array2 = data;
@@ -218,8 +188,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.multipleBrandArray = this.catchMappedData;
-          // this.multipleBrandArray = this.anyArray;
-          console.log('anyArray', this.anyArray);
+
         });
       }
     }
@@ -229,30 +198,26 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
         return item.SubCategoryID != subCategory.id;
       });
       this.anyArray = [];
-      // this.multipleBrandArray = newArr;
       this.anyArray = newArr;
       let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
         return item.SubCategoryID != subCategory.id
       });
-
       this.finalBrandArray = unSelectedSubCategoryArray;
-
       this.dataSource = new MatTableDataSource(unSelectedSubCategoryArray);
       this.dataSource.paginator = this.paginator;
     }
 
   }
 
-
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.brandArray.push(product.ProductID);
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
             return item.BrandName.trim() === product.BrandName
           });
           this.finalBrandArray = filteredBrandArray;
-          // this.multipleBrandArray = this.finalBrandArray;
           this.dataSource = new MatTableDataSource(this.finalBrandArray);
           this.dataSource.paginator = this.paginator;
         }
@@ -283,6 +248,54 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
+  editPriceList(element) {
+    if (element.priceListId) {
+      this.priceList.sellerId = element.SellerId;
+      this.priceList.productId = element.ProductID;
+      this.priceList.subCategoryId = element.SubCategoryID;
+      this.priceList.brandId = element.BrandID;
+      this.priceList.buyingPrice = element.ProductPrice;
+      this.priceList.finalPrice = element.FinalPrice;
+      this.priceList.ReferenceId = element.Id;
+      this.priceList.discount = element.Discount;
+      this.priceList.availableQuantity = element.AvailableQuantity;
+      this.priceList.quantity = element.Quantity;
+      this.priceList.ProductVarientId = element.ProductVarientId;
+      this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
+        this.toastr.success('price list updated');
+      });
+    }
+    else {
+      this.priceList.priceListId = element.priceListId;
+      this.priceList.sellerId = element.SellerId;
+      this.priceList.productId = element.ProductID;
+      this.priceList.subCategoryId = element.SubCategoryID;
+      this.priceList.brandId = element.BrandID;
+
+      this.priceList.buyingPrice = element.ProductPrice;
+      this.priceList.finalPrice = element.FinalPrice;
+
+      this.priceList.ReferenceId = element.Id;
+
+      this.priceList.discount = element.Discount;
+
+      this.priceList.availableQuantity = element.AvailableQuantity;
+      this.priceList.quantity = element.Quantity;
+      this.priceList.ProductVarientId = element.ProductVarientId;
+      let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
+      if (isPriceValid) {
+        this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
+          this.toastr.success('price list saved');
+          this.priceList.buyingPrice = 0;
+          this.priceList.discount = 0;
+          this.priceList.finalPrice = 0;
+        });
+      }
+      else {
+        this.toastr.error('Please Check Buying Price, Discount and Final Price');
+      }
+    }
+  }
 
   getPriceListData() {
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
@@ -308,35 +321,49 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
   postMultipleInsertion(elements) {
     elements.forEach(element => {
-      this.customPriceList = new customPriceList();
-      this.customPriceList.priceListId = element.priceListId;
-      this.customPriceList.sellerId = element.SellerId;
-      this.customPriceList.productId = element.ProductID;
-      this.customPriceList.subCategoryId = element.SubCategoryID;
-      this.customPriceList.brandId = element.BrandID;
-      this.customPriceList.buyingPrice = element.ProductPrice;
-      this.customPriceList.finalPrice = element.FinalPrice;
-      this.customPriceList.ReferenceId = element.Id;
-      this.customPriceList.discount = element.Discount;
-      this.customPriceList.availableQuantity = element.AvailableQuantity;
-      this.customPriceList.quantity = element.Quantity;
-      this.customPriceList.ProductVarientId = element.ProductVarientId;
-      this.customPriceList.BrandName = element.BrandName;
-      this.customPriceList.Name = element.Name;
-      this.customPriceList.categoryId = this.categoryListData;
-      this.isMultipleAmount = true;
+      this.priceList = new PriceList();
+      this.priceList.priceListId = element.priceListId;
+      this.priceList.sellerId = element.SellerId;
+      this.priceList.productId = element.ProductID;
+      this.priceList.subCategoryId = element.SubCategoryID;
+      this.priceList.brandId = element.BrandID;
 
-      this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);
-      this.multipleEntries.push(this.customPriceList);
+      this.priceList.buyingPrice = element.ProductPrice;
+      this.priceList.finalPrice = element.FinalPrice;
 
+      this.priceList.ReferenceId = element.Id;
+
+      this.priceList.discount = element.Discount;
+      this.priceList.availableQuantity = element.AvailableQuantity;
+      this.priceList.quantity = element.Quantity;
+      this.priceList.ProductVarientId = element.ProductVarientId;
+
+      this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
+      if (this.isPriceValid) {
+        this.multipleEntries.push(this.priceList);
+        this.isMultipleAmount = true;
+      }
+      else {
+        this.isMultipleAmount = false;
+      }
     });
-    this.toastr.success('price list saved');
-    this.updateAllRecordsCount = 0;
-    this.updateAllArray = [];
-
-    this.finalPurchaseOrderArray = this.multipleEntries;
-    this.multipleEntriesArray = [];
-    this.multipleEntries = [];
+    if (this.isMultipleAmount) {
+      this.purchaseService.saveMultiplePriceList(this.multipleEntries).subscribe(data => {
+        this.toastr.success('price list saved');
+        this.selection.clear();
+        this.updateAllRecordsCount = 0;
+        this.priceList = new PriceList();
+        this.priceList.buyingPrice = 0;
+        this.priceList.discount = 0;
+        this.priceList.finalPrice = 0;
+        this.updateAllArray = [];
+        this.multipleEntriesArray = [];
+      });
+    }
+    else {
+      this.toastr.error('Please Check Buying Price, Discount and Final Price');
+      this.multipleEntriesArray = [];
+    }
   }
 
   createUniqueBrandName(array: any) {
@@ -355,34 +382,4 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     });
     return array
   }
-
-  checkItemFinalPrice(element) {
-    let prevFinalPrice = 0;
-    let isRecordValid: boolean = true;
-    prevFinalPrice = element.FinalPrice;
-    let purchasedQuantity = element.AvailableQuantity;
-
-    if (purchasedQuantity < 1 || (Number(element.ProductPrice) < 1) || (Number(element.FinalPrice) < 1)) {
-      isRecordValid = false;
-    } else {
-      if ((Number(element.ProductPrice) - Number(element.Discount) === Number(element.FinalPrice)) || (Number(element.ProductPrice) - Number(element.Discount) === (Number(element.FinalPrice)) / element.AvailableQuantity)) {
-        isRecordValid = true;
-      }
-      else {
-        isRecordValid = false;
-      }
-    }
-    return isRecordValid;
-  }
-
-
-  sendPurchaseOrder() {
-    this.emitterService.sendPurchaseOrder.emit(this.finalPurchaseOrderArray);
-    this.dialogRef.close();
-  }
-
-  ngOnDestroy() {
-    this.isDataLoaded = false;
-  }
-
 }

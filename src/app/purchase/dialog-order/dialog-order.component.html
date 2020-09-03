@@ -81,5 +81,5 @@
 
     <button mat-raised-button color="primary" [useExistingCss]="true"
         printTitle="GV-{{orderNumber}}" printSectionId="demo" ngxPrint>print</button>
-    <button mat-raised-button mat-dialog-close>Close</button>
+    <button mat-raised-button (click)="notPrint()">Close</button>
 </div>

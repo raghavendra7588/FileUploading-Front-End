@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { PurchaseService } from '../purchase.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 export interface Transaction {
   item: string;
@@ -23,8 +24,12 @@ export class DialogPurchaseReportsComponent implements OnInit {
   orderNo: any;
   sellerName: any;
 
-  constructor(public purchaseService: PurchaseService, @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('NORAML DATA', this.data);
+  constructor(public purchaseService: PurchaseService,
+     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<DialogPurchaseReportsComponent>,
+    public router: Router) 
+    {
+ 
     this.sellerName = localStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;

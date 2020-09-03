@@ -10,7 +10,6 @@ import { PriceList } from './purchase.model';
   providedIn: 'root'
 })
 export class PurchaseService {
-  name = "raghu";
   price: any;
   token: string;
   sellerId: string;
@@ -56,6 +55,7 @@ export class PurchaseService {
 
 
   getAllBrand(parenetid: any, SubCategoryId: string) {
+    console.log('parent id', parenetid, 'suncategoryId', SubCategoryId);
     const data = { "SellerId": this.sellerId, "CategoryId": parenetid, "SubCategoryId": SubCategoryId }
     var reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',

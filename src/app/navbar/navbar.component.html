@@ -23,26 +23,26 @@
             </button>
             <button mat-menu-item routerLink='purchase/purchaseReports'>Purchase Reports
             </button>
-            <button mat-menu-item routerLink='purchase/goodsReceiptNote'>
+            <button mat-menu-item routerLink='purchase/goodsReceiptNote' disabled>
                 Goods Recipt Notes
             </button>
 
-            <button mat-menu-item routerLink='purchase/purchaseBill'>Purchase Bill
+            <button mat-menu-item routerLink='purchase/purchaseBill' disabled>Purchase Bill
             </button>
-            <button mat-menu-item routerLink='purchase/purchaseCreditNote'>Purchase Credit Note
+            <button mat-menu-item routerLink='purchase/purchaseCreditNote' disabled>Purchase Credit Note
             </button>
-            <button mat-menu-item routerLink='purchase/purchaseDeditNote'>Purchase Debit Note
+            <button mat-menu-item routerLink='purchase/purchaseDeditNote' disabled>Purchase Debit Note
             </button>
-            <button mat-menu-item routerLink='purchase/purchaseReturn'>
+            <button mat-menu-item routerLink='purchase/purchaseReturn' disabled>
                 Purchase Return
             </button>
-            <button mat-menu-item routerLink='purchase/billPayment'>
+            <button mat-menu-item routerLink='purchase/billPayment' disabled>
                 Bill Payment
             </button>
-            <button mat-menu-item routerLink='purchase/paymentDunes'>
+            <button mat-menu-item routerLink='purchase/paymentDunes' disabled>
                 Payment Dunes
             </button>
-            <button mat-menu-item routerLink='purchase/onlinePayment'>
+            <button mat-menu-item routerLink='purchase/onlinePayment' disabled>
                 Online Payment
             </button>
 
@@ -68,27 +68,32 @@
             <button mat-menu-item routerLink='inventory/materialReceipt'>
                 Material Receipt
             </button>
-
-            <button mat-menu-item routerLink='inventory/interBranchIssueRequest'>
+            <button mat-menu-item routerLink='inventory/purchaseReports'>
+               Purchase Report
+            </button>   
+            <button mat-menu-item routerLink='inventory/salesReports'>
+                Sales Report
+            </button>
+            <button mat-menu-item routerLink='inventory/interBranchIssueRequest' disabled>
                 Inter BranchIssueRequest
             </button>
-            <button mat-menu-item routerLink='inventory/interBranchIssue'>
+            <button mat-menu-item routerLink='inventory/interBranchIssue' disabled>
                 Inter Branch Issue
             </button>
-            <button mat-menu-item routerLink='inventory/interBranchReceipt'>
+            <button mat-menu-item routerLink='inventory/interBranchReceipt' disabled>
                 Intern Branch Recipt
             </button>
             <button mat-menu-item [matMenuTriggerFor]="jobWorkOutword" routerLink='inventory/jobWorkOutWord'
-                routerLink='inventory/jobWorkOutwardRate'>
+                 disabled>
                 Job Work Outword
             </button>
             <mat-menu #jobWorkOutword="matMenu">
-                <button mat-menu-item routerLink='inventory/jobWorkOutwardRate'>Job Work Outward Rate</button>
-                <button mat-menu-item routerLink='inventory/materialIssueedForJobWork'>Matrial Issued For Job
+                <button mat-menu-item routerLink='inventory/jobWorkOutwardRate' disabled>Job Work Outward Rate</button>
+                <button mat-menu-item routerLink='inventory/materialIssueedForJobWork' disabled>Matrial Issued For Job
                     Work</button>
-                <button mat-menu-item routerLink='inventory/materialReceivedAfterJobWork'>Material Received After Job
+                <button mat-menu-item routerLink='inventory/materialReceivedAfterJobWork' disabled>Material Received After Job
                     Work</button>
-                <button mat-menu-item routerLink='inventory/jobWorkOutwardInvoice'>Job Work Outward Invoice</button>
+                <button mat-menu-item routerLink='inventory/jobWorkOutwardInvoice' disabled>Job Work Outward Invoice</button>
             </mat-menu>
 
         </span>

@@ -1,0 +1,99 @@
+<h3 class="mt-3" style="text-align: center;color:blue;">Sales Reports Component</h3>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Category</mat-label>
+                <mat-select placeholder="Category" [(ngModel)]="categoryList" multiple>
+                    <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+                        *ngFor="let category of loginService.seller_object.categories" [value]="category.name">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Sub Category</mat-label>
+                <mat-select #select multiple>
+                    <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
+                        *ngFor="let category of multipleCategoriesArray" [value]="category.id">
+                        {{category.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Brand</mat-label>
+                <mat-select #BrandSelect multiple>
+                    <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
+                        [value]="brand.BrandName">
+                        {{brand.BrandName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+            <mat-form-field style="width: 100%;">
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="picker1" placeholder="From Date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="col-md-4">
+
+            <mat-form-field style="width: 100%;">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <button mat-raised-button color="primary" class="width-100 mt-2">Search Records</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="billingName">
+                    <mat-header-cell *matHeaderCellDef> Billing Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.billingName}} </mat-cell>
+                </ng-container>
+          
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="city">
+                    <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.city}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+</div>  

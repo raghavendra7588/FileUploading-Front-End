@@ -43,6 +43,8 @@ import { LoginService } from './login/login.service';
 import { ToastrModule } from 'ngx-toastr';
 import { PurchaseService } from './purchase/purchase.service';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +74,7 @@ import { PurchaseService } from './purchase/purchase.service';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    NgMultiSelectDropDownModule.forRoot(),
     BarecodeScannerLivestreamModule,
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({

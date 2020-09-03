@@ -10,7 +10,7 @@
         <div class="col-md-12">
         
             <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <!-- Position Column -->
+           
                 <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef> Id. </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
@@ -21,19 +21,16 @@
                     <mat-cell *matCellDef="let element"> {{element.billingName}} </mat-cell>
                 </ng-container>
 
-                <!-- Name Column -->
                 <ng-container matColumnDef="address">
                     <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.billing_address}} </mat-cell>
                 </ng-container>
 
-                <!-- Weight Column -->
                 <ng-container matColumnDef="city">
                     <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.billing_city}} </mat-cell>
                 </ng-container>
 
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="email">
                     <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.billing_email}} </mat-cell>
@@ -43,7 +40,6 @@
                     <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.billing_phone}} </mat-cell>
                 </ng-container>
-
 
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef> Edit </th>

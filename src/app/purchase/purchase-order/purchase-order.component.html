@@ -1,5 +1,4 @@
 <h3 class="mt-3" style="text-align: center;color:blue;">Purchase Order Component</h3>
-
 <div class="container mt-3 mb-2">
     <div class="row">
 
@@ -63,6 +62,25 @@
 
             <mat-form-field class="full-width-field">
                 <input matInput placeholder="Reference No" name="referenceNo" [(ngModel)]="purchaseOrder.referenceNo" />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <mat-form-field>
+                <mat-label>Payment Term</mat-label>
+                <mat-select [(ngModel)]="purchaseOrder.paymentTerms">
+                    <mat-option *ngFor="let term of paymentTerm" [value]="term.title">
+                        {{ term.title }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <!-- {{purchaseOrder.paymentTerms}} -->
+        <div class="col-md-3">
+            <mat-form-field>
+                <input matInput placeholder="Credit Limit/Per Order" name="creditLimitPerOrder" [(ngModel)]="CreditLimitPerOrder" disabled />
             </mat-form-field>
         </div>
     </div>
@@ -175,11 +193,23 @@
             </ng-container>
 
             <ng-container matColumnDef="Quantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
                 <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Buying Price">
+            <ng-container matColumnDef="AvailableQuantity">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Quantity</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-form-field floatLabel="never" class="customInput">
+                        <input matInput placeholder="Quantity" [(ngModel)]="element.availableQuantity"
+                            (focusout)="editQuantity(element)">
+                    </mat-form-field>
+
+                    <!-- {{element.availableQuantity  | number : '1.2-2'}} -->
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="BuyingPrice">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
                 <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
             </ng-container>
@@ -189,10 +219,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Available Quantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Available Quantity</th>
-                <td mat-cell *matCellDef="let element"> {{element.availableQuantity  | number : '1.2-2'}} </td>
-            </ng-container>
+
 
             <ng-container matColumnDef="Final Price">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Price </th>
@@ -220,7 +247,7 @@
         <div class="col-md-3">
             <mat-form-field>
                 <mat-label>Remarks</mat-label>
-                <textarea (keyup)="changeRemark()" id="remarks" matInput [(ngModel)]="purchaseOrder.remarks"></textarea>
+                <textarea id="remarks" matInput [(ngModel)]="purchaseOrder.remarks"></textarea>
             </mat-form-field>
         </div>
 
@@ -275,6 +302,9 @@
     <div class="row">
         <div class="col-md-1">
             <button mat-raised-button color="primary" (click)="savePurchaseOrder()">Save</button>
+        </div>
+        <div class="col-md-1">
+            <button mat-raised-button color="warn" (click)="clearValues()">Cancel</button>
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@
         <mat-label>Category</mat-label>
         <mat-select placeholder="Category" [(ngModel)]="categoryListData" multiple>
           <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
-            *ngFor="let category of loginService.seller_object.categories" [value]="category.name">
+            *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
             {{category.name }}
           </mat-option>
         </mat-select>

@@ -31,6 +31,8 @@ import { LoginComponent } from './login/login.component';
 import { AddAddressComponent } from './purchase/add-address/add-address.component';
 import { AddressDetailsComponent } from './purchase/address-details/address-details.component';
 import { PurchaseReportsComponent } from './purchase/purchase-reports/purchase-reports.component';
+import { PurchaseReportComponent } from './inventory/purchase-report/purchase-report.component';
+import { SalesReportComponent } from './inventory/sales-report/sales-report.component';
 
 
 const routes: Routes = [
@@ -56,6 +58,8 @@ const routes: Routes = [
   { path: 'purchase/purchaseReports', component: PurchaseReportsComponent },
   { path: 'inventory/itemMaster', component: ItemMasterComponent },
   { path: 'inventory/stockAdjustment', component: StockAdjustmentComponent },
+  { path: 'inventory/purchaseReports', component: PurchaseReportComponent },
+  { path: 'inventory/salesReports', component: SalesReportComponent },
   { path: 'inventory/materialIssue', component: MaterialIssueComponent },
   { path: 'inventory/materialReceipt', component: MaterialReceiptComponent },
   { path: 'inventory/interBranchIssueRequest', component: InterBranchIssueRequestComponent },

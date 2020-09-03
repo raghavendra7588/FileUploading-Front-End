@@ -18,10 +18,12 @@ import { CdkNoDataRow } from '@angular/cdk/table';
   styleUrls: ['./dialog-content-vendor.component.css'],
   providers: [
     {
-      provide: DateAdapter, useClass: AppDateAdapter
+      provide: DateAdapter,
+      useClass: AppDateAdapter
     },
     {
-      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
     }
   ]
 })
@@ -33,7 +35,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   selectedTerm: any;
   selectedCategory: any;
   selectedTransporter: any;
-
   vendor: Vendor = new Vendor();
   paymentTerm: any;
   paymentCategory: any;
@@ -43,25 +44,17 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   selectedSubCategoriesId: any = [];
   getEveryBrandItem: any = [];
   filteredBrandItem: any = [];
-
   public multipleBrandArray: any = [];
-
   array1: any = [];
   array2: any = [];
-
   array3: any = [];
   fullDate: any;
-
   fileData: File = null;
-
   fileName: any;
   isFileUploaded: boolean = false;
-
   subCategoriesArray: any = [];
   categoriesArray: any = [];
   brandArray: any = [];
-
-
   maxLengthGst = 15;
   maxLengthPan = 10;
   maxLengthAccountNumber = 18;
@@ -69,7 +62,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   maxLengthCin = 21;
   maxLengthPinCode = 6;
   maxLengthPhone = 10;
-
   datePicker: any;
   formattedDate: any;
   parentid = 3;
@@ -77,14 +69,11 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   vendorData: any;
   isImageUploaded: boolean;
   isDateSelected: boolean;
-
   getAddressData: Address;
-
   multipleCategoriesArray: any = [];
   categoriesArray1: any = [];
   categoriesArray2: any = [];
   categoriesArray3: any = [];
-
   currentBillingId: string;
   currentShippingId: string;
   sellerId: string;
@@ -95,23 +84,24 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   subCategoryNamesArray: any = [];
   masterBrandData: any = [];
   vendorDetails: any = [];
-
   selectedBrandArray: any = [];
   selectedSubCategoryArray: any = [];
   selectedCategoryArray: any = [];
-
   selectedBrandString: string;
   selectedSubCategoryString: string;
   selectedCategoryString: string;
-
   finalBrandArray: any = [];
   multipleBrands: any = [];
   brands1: any = [];
   brands2: any = [];
   brands3: any = [];
   subCategoryForm: FormControl;
-
   saveVendorForm: FormGroup;
+  AccountType: any;
+
+  selectedItems = [];
+  dropdownSettings = {};
+  dataList = [];
   constructor(public purchaseService: PurchaseService, public loginService: LoginService,
     public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any, public emitterService: EmitterService, public router: Router, public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
@@ -143,7 +133,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       datePicker: [''],
       distance: [''],
       cin: [''],
-      paymentTerm: [''],
+      creditLimitDays: [''],
       priceCategory: [''],
       selectedTransporter: [''],
       agentBroker: [''],
@@ -159,7 +149,9 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       pinCode: [''],
       country: [''],
       phone: [''],
-      email: ['']
+      email: [''],
+      accountName: [''],
+      accountType: ['']
     });
 
 
@@ -172,15 +164,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     this.getVendorData();
     this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
     // this.vendor.sellerId = this.loginService.seller_id;
+    this.dataList = this.loginService.seller_object.categories
     this.vendor.sellerId = localStorage.getItem('sellerId');
     this.sellerId = localStorage.getItem('sellerId');
     this.maxDate = new Date();
-
-    this.paymentTerm = [
-      { id: 0, title: 'Cash' },
-      { id: 1, title: 'Credit' },
-      { id: 2, title: 'Online' },
-    ];
 
     this.paymentCategory = [
       { id: 0, title: 'Scheme' },
@@ -191,11 +178,40 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       { id: 0, title: 'From Vendor' },
       { id: 1, title: 'Own' },
     ];
+
+    this.AccountType = [
+      { id: 0, title: 'Saving' },
+      { id: 1, title: 'Current' },
+      { id: 2, title: 'Other' },
+    ];
+
     this.isImageUploaded = false;
 
+    this.vendor.Country = 'India';
 
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Countries",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      classes: "myclass custom-class"
+    };
   }
-
+  onItemSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+  onDeSelectAll(items: any) {
+    console.log(items);
+  }
   selectedBillingAddress(event, adr) {
     this.currentBillingId = adr.id.toString();
   }
@@ -231,7 +247,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (!event.source.selected) {
 
       let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-        return item.id != category.id;
+        // return item.id != category.id;
+        return Number(item.parentid) !== Number(category.id);
       });
       this.multipleCategoriesArray = newCategoriesArr;
       const index = this.categoriesArray.indexOf(category.id);
@@ -482,11 +499,11 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       formData.append('cin', this.vendor.cin.toString());
     }
 
-    if (this.vendor.paymentTerm === null || this.vendor.paymentTerm === undefined || this.vendor.paymentTerm === '') {
-      formData.append('paymentTeam', "0");
+    if (this.vendor.creditLimitDays === null || this.vendor.creditLimitDays === undefined || this.vendor.creditLimitDays === '') {
+      formData.append('creditLimitDays', "0");
     }
     else {
-      formData.append('paymentTeam', this.vendor.paymentTerm);
+      formData.append('creditLimitDays', this.vendor.creditLimitDays);
     }
 
 
@@ -609,16 +626,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
     else {
       formData.append('email', this.vendor.Email);
-
     }
 
-    // formData.append('gst', this.vendor.gst);
-    // formData.append('gstCategory', this.vendor.gstCategory);
-    // formData.append('pan', this.vendor.pan);
-    // this.fullDate = this.valueChanged();
-    // formData.append('registrationDate', this.fullDate.toString());
-    // formData.append('distance', this.vendor.distance);
-    // formData.append('cin', this.vendor.cin.toString());
+    if (this.vendor.accountName === null || this.vendor.accountName === undefined || this.vendor.accountName === '') {
+      formData.append('accountName', 'NULL');
+    }
+    else {
+      formData.append('accountName', this.vendor.accountName);
+    }
+
+    if (this.vendor.accountType === null || this.vendor.accountType === undefined || this.vendor.accountType === '') {
+      formData.append('accountType', 'NULL');
+    }
+    else {
+      formData.append('accountType', this.vendor.accountType);
+    }
 
     formData.append('sellerId', this.vendor.sellerId);
     this.purchaseService.saveVendorMaster(formData).subscribe(data => {
@@ -642,16 +664,20 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.pan = this.vendorData.pan;
       this.vendor.distance = this.vendorData.distance;
       this.vendor.cin = this.vendorData.cin;
-      this.vendor.paymentTerm = this.vendorData.paymentTeam;
+      this.vendor.creditLimitDays = this.vendorData.creditLimitDays;
       this.vendor.priceCategory = this.vendorData.priceCategory;
       this.vendor.transporter = this.vendorData.transporter;
-      this.vendor.registrationDate = this.vendorData.registrationDate;
+      if (this.vendorData.registrationDate !== 'NULL' || this.vendorData.registrationDate === '') {
+        this.vendor.registrationDate = this.vendorData.registrationDate;
+        let dateString = this.vendorData.registrationDate;
+        let dateParts = dateString.split("/");
+        let dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        this.vendor.registrationDate = dateObject;
+      }
+      else {
+        this.vendorData.registrationDate = '';
+      }
 
-      let dateString = this.vendorData.registrationDate;
-
-      let dateParts = dateString.split("/");
-      let dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-      this.vendor.registrationDate = dateObject;
       this.vendor.agentBroker = this.vendorData.agentBroker;
       this.vendor.creditLimit = this.vendorData.creditLimit;
       this.vendor.ifscCode = this.vendorData.ifscCode;
@@ -665,25 +691,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.Country = this.vendorData.country;
       this.vendor.Phone = this.vendorData.phone;
       this.vendor.Email = this.vendorData.email;
-    }
-    else {
-
-      this.vendor.code = 'sample code';
-      this.vendor.underLedger = 'underLedger';
-      this.vendor.name = 'testUser';
-      this.vendor.contactPerson = 'xyz';
-      this.vendor.printName = 'testUser';
-      this.vendor.gst = '1111';
-      this.vendor.gstCategory = 'ABC';
-      this.vendor.pan = 'CJVP1111112L';
-      this.vendor.distance = '200';
-      this.vendor.cin = 11;
-      this.vendor.agentBroker = 'agent broker';
-      this.vendor.creditLimit = 100000;
-      this.vendor.ifscCode = 121212;
-      this.vendor.accountNumber = 78273839;
-      this.vendor.bankName = 'SBI';
-      this.vendor.branch = 'SamarthNagar';
     }
 
   }

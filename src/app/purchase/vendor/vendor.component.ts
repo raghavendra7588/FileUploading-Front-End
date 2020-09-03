@@ -16,7 +16,7 @@ import { LoginService } from 'src/app/login/login.service';
 })
 export class VendorComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'registrationDate', 'paymentTerm', 'bankName', 'creditLimit', 'transporter', 'action'];
+  displayedColumns: string[] = ['name', 'registrationDate','email', 'bankName', 'creditLimit', 'creditLimitDays','transporter', 'action'];
 
   dataSource: any;
   newRecordSubscription: Subscription;

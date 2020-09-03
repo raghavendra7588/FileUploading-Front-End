@@ -20,7 +20,7 @@ export class DialogPurchaseOrderPrintComponent implements OnInit {
     public emitterService: EmitterService,
     public router: Router,
     public dialog: MatDialog) {
-    console.log('this is data',data);
+    
     this.purchaseOrderData = data;
     this.orderNo = data.OrderNo;
   }
@@ -30,6 +30,7 @@ export class DialogPurchaseOrderPrintComponent implements OnInit {
 
   notPrint() {
     this.dialogRef.close(true);
+    this.router.navigate(['/dashboard']);
   }
 
   agreeToPrint() {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { VendorComponent } from './vendor/vendor.component';
@@ -17,6 +18,16 @@ import { PaymentDunesComponent } from './payment-dunes/payment-dunes.component';
 import { OnlinePaymentComponent } from './online-payment/online-payment.component';
 import { DialogContentVendorComponent } from './dialog-content-vendor/dialog-content-vendor.component';
 import { DialogContentPriceListComponent } from './dialog-content-price-list/dialog-content-price-list.component';
+import { AddAddressComponent } from './add-address/add-address.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AddressDetailsComponent } from './address-details/address-details.component';
+import { GetPriceListComponent } from './get-price-list/get-price-list.component';
+import { PurchaseReportsComponent } from './purchase-reports/purchase-reports.component';
+import { DialogPurchaseReportsComponent } from './dialog-purchase-reports/dialog-purchase-reports.component';
+import { DialogPurchaseOrderPrintComponent } from './dialog-purchase-order-print/dialog-purchase-order-print.component';
+import { DialogOrderComponent } from './dialog-order/dialog-order.component';
+import { MyPipePipe } from './my-pipe.pipe';
+
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,23 +46,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-
 import { ToastrModule } from 'ngx-toastr';
-import { AddAddressComponent } from './add-address/add-address.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NgCircleProgressModule } from 'ng-circle-progress';
-import { AddressDetailsComponent } from './address-details/address-details.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MyPipePipe } from './my-pipe.pipe';
 import { NgxPrintModule } from 'ngx-print';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
-import { GetPriceListComponent } from './get-price-list/get-price-list.component';
-import { PurchaseReportsComponent } from './purchase-reports/purchase-reports.component';
-import { DialogPurchaseReportsComponent } from './dialog-purchase-reports/dialog-purchase-reports.component';
-import { DialogPurchaseOrderPrintComponent } from './dialog-purchase-order-print/dialog-purchase-order-print.component';
-import { DialogOrderComponent } from './dialog-order/dialog-order.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
@@ -65,6 +67,7 @@ import { DialogOrderComponent } from './dialog-order/dialog-order.component';
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,
+    FormsModule,
     MatSelectModule,
     MatIconModule,
     MatInputModule,
@@ -81,9 +84,9 @@ import { DialogOrderComponent } from './dialog-order/dialog-order.component';
     MatCheckboxModule,
     MatPaginatorModule,
     NgxPrintModule,
-    FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({
       radius: 100,

@@ -1,5 +1,3 @@
-import { NumberValueAccessor } from '@angular/forms';
-
 export class Vendor {
     sellerId?: string;
     code?: string;
@@ -16,12 +14,13 @@ export class Vendor {
     distance?: string;
     fileUpload?: any;
     cin?: number;
+    accountName?: string;
     registrationDate?: any;
     ifscCode?: number;
     accountNumber?: number;
     bankName?: string;
     branch?: string;
-    paymentTerm?: string;
+    creditLimitDays?: string;
     priceCategory?: string;
     transporter?: string;
     creditLimit?: number;
@@ -33,6 +32,7 @@ export class Vendor {
     State?: string;
     Phone?: string;
     Email?: string;
+    accountType: string;
 }
 
 export class Test {
@@ -68,7 +68,7 @@ export class PurchaseOrder {
     vendor?: string;
     vendorName?: string;
     email?: string;
-    orderNo?: number;
+    orderNo?: string;
     orderDate?: Date;
     deliveryDate?: Date;
     referenceNo?: number;
@@ -92,7 +92,7 @@ export class PurchaseOrder {
     taxAmount?: number;
     cessAmount?: number;
     docAmount?: number;
-    paymentTerms: string;
+    paymentTerms?: string;
     items?: Array<customPriceList>;
 }
 
@@ -148,6 +148,7 @@ export class PurchaseOrderItem {
 
 export class PurchaseOrderData {
     PurchaseOrderId?: number;
+    categoryId: string;
     SellerId?: number;
     VendorId?: string;
     VendorName?: string;
@@ -166,6 +167,7 @@ export class PurchaseOrderData {
     AdvanceAmount?: string;
     AdvanceLedger?: string;
     BatchNumber?: string;
+    paymentTerms?: string;
     items?: Array<customPriceList>;
 }
 

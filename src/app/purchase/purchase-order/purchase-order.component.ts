@@ -11,16 +11,28 @@ import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DialogPurchaseOrderPrintComponent } from '../dialog-purchase-order-print/dialog-purchase-order-print.component';
 import { Router } from '@angular/router';
-
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material/core";
+import { AppDateAdapter, APP_DATE_FORMATS } from "./date.adapter";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-purchase-order',
   templateUrl: './purchase-order.component.html',
-  styleUrls: ['./purchase-order.component.css']
+  styleUrls: ['./purchase-order.component.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 export class PurchaseOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['Product Id', 'Brand Name', 'Product Name', 'Quantity', 'Buying Price', 'Discount', 'Available Quantity', 'Final Price'];
+  displayedColumns: string[] = ['Product Id', 'Brand Name', 'Product Name', 'Quantity', 'AvailableQuantity', 'BuyingPrice', 'Discount', 'Final Price'];
   dataSource: any;
 
   purchaseOrder: PurchaseOrder = new PurchaseOrder();
@@ -31,7 +43,7 @@ export class PurchaseOrderComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   vendorData: any = [];
   addressData: any = [];
-
+  CreditLimitPerOrder: any;
   priceListData: any = [];
   sellerId: any;
   masterBrandData: any = [];
@@ -47,19 +59,20 @@ export class PurchaseOrderComponent implements OnInit {
   vendorId: any;
   grandTotal: any = 0;
   purchaseOrderResponse: any;
+  paymentTerm: any = [];
+
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
     public toastr: ToastrService, public router: Router) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
-        this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value];
+        this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value].reverse();
         this.purchaseOrder.itemValue = this.receivedPurchaseOrder.length;
         this.purchaseOrder.items = this.receivedPurchaseOrder;
-        // this.grandTotal = this.receivedPurchaseOrder.map(o => o.finalPrice).reduce((a, c) => { return a + c });
-        this.receivedPurchaseOrder.forEach(item => {
-          console.log(item);
-          this.grandTotal += item.finalPrice;
-        });
+        let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ReferenceId');
+        this.receivedPurchaseOrder = uniqueReceivedPurchaseOrder;
+        this.calculateGrandTotal(this.receivedPurchaseOrder);
+        
         this.dataSource = new MatTableDataSource(this.receivedPurchaseOrder);
         this.dataSource.paginator = this.paginator;
       }
@@ -73,7 +86,12 @@ export class PurchaseOrderComponent implements OnInit {
     this.sellerId = Number(localStorage.getItem('sellerId'));
     this.priceListData = this.purchaseService.getAllPriceListData(this.sellerId);
     this.minDate = new Date();
-    this.purchaseOrder.orderNo = Number(this.getRandomNumbers());
+    this.purchaseOrder.orderNo = (this.getRandomNumbers()).toString();
+    this.paymentTerm = [
+      { id: 0, title: 'Cash / Cheque' },
+      { id: 1, title: 'Credit' },
+      { id: 2, title: 'Online' }
+    ];
   }
 
   getVendorData() {
@@ -90,7 +108,11 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getRandomNumbers() {
-    return Math.floor(100000 + Math.random() * 900000);
+    var minm = 100000;
+    var maxm = 999999;
+    return Math.floor(Math
+      .random() * (maxm - minm + 1)) + minm;
+    // return Math.floor(100000 + Math.random() * 900000);
   }
 
 
@@ -99,6 +121,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseOrder.email = item.email;
     this.purchaseOrder.gstType = item.gstCategory;
     this.purchaseOrder.vendorName = item.name;
+    this.CreditLimitPerOrder = item.creditLimit;
   }
 
   selectedBillingAddress(address) {
@@ -167,7 +190,7 @@ export class PurchaseOrderComponent implements OnInit {
       this.purchaseOrderData.OrderNo = this.purchaseOrder.orderNo.toString();
     }
 
-    // this.purchaseOrderData.VendorId = this.vendorId;
+    // this.purchaseOrderData.VendorId ss= this.vendorId;
     // this.purchaseOrderData.OrderNo = this.purchaseOrder.orderNo.toString();
 
 
@@ -275,30 +298,48 @@ export class PurchaseOrderComponent implements OnInit {
       this.purchaseOrderData.BatchNumber = this.purchaseOrder.BatchNumber.toString();
     }
 
+    if (this.purchaseOrder.paymentTerms === null || this.purchaseOrder.paymentTerms === undefined || this.purchaseOrder.paymentTerms.toString() === '') {
+      this.purchaseOrderData.paymentTerms = 'NULL';
+    }
+    else {
+      this.purchaseOrderData.paymentTerms = this.purchaseOrder.paymentTerms.toString();
+    }
 
-    // this.purchaseOrderData.ReferenceNo = this.purchaseOrder.referenceNo.toString();
-    // this.purchaseOrderData.BillingId = this.billingId;
-    // this.purchaseOrderData.ShippingId = this.shippingId;
-    // this.purchaseOrderData.Remarks = this.purchaseOrder.remarks;
-    // this.purchaseOrderData.ItemValue = this.purchaseOrder.itemValue.toString();
-    // this.purchaseOrderData.TaxAmount = this.purchaseOrder.taxAmount.toString();
-    // this.purchaseOrderData.Taxable = this.purchaseOrder.taxable.toString();
-    // this.purchaseOrderData.CESSAmount = this.purchaseOrder.cessAmount.toString();
-    // this.purchaseOrderData.DocAmount = this.purchaseOrder.docAmount.toString();
-    // this.purchaseOrderData.AdvanceAmount = this.purchaseOrder.advanceAmount.toString();
-    // this.purchaseOrderData.AdvanceLedger = this.purchaseOrder.advanceLedger.toString();
     this.purchaseOrderData.items = this.receivedPurchaseOrder;
-    // this.openPurchaseOrderPrintDialog();
-    this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
-      this.toastr.success('order is placed');
 
-      this.purchaseOrderResponse = data;
-      console.log('*************************', this.purchaseOrderResponse);
-      this.openPurchaseOrderPrintDialog();
-      this.clearValues();
-      this.dataSource = [];
-      this.receivedPurchaseOrder = [];
-    });
+    this.purchaseOrderData.categoryId = this.receivedPurchaseOrder.categoryId;
+
+
+    if (this.purchaseOrder.paymentTerms === 'Credit') {
+      if (this.grandTotal < this.CreditLimitPerOrder && this.purchaseOrder.paymentTerms === 'Credit') {
+        this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
+          this.toastr.success('order is placed');
+
+          this.purchaseOrderResponse = data;
+          this.openPurchaseOrderPrintDialog();
+          this.clearValues();
+          this.dataSource = [];
+          this.receivedPurchaseOrder = [];
+        });
+      }
+
+      else {
+        this.toastr.error('Kindly Check Credit Limit');
+      }
+    }
+    else {
+      this.purchaseService.savePurchaseOrderMaster(this.purchaseOrderData).subscribe(data => {
+        this.toastr.success('order is placed');
+
+        this.purchaseOrderResponse = data;
+        this.openPurchaseOrderPrintDialog();
+        this.clearValues();
+        this.dataSource = [];
+        this.receivedPurchaseOrder = [];
+      });
+
+    }
+
   }
   savePurchaseOrderItem() {
     for (let i = 0; i < this.receivedPurchaseOrder.length; i++) {
@@ -334,7 +375,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseOrder.gstType = '';
     this.purchaseOrder.email = '';
     this.purchaseOrder.BatchNumber = '';
-    this.purchaseOrder.orderNo = 0;
+    this.purchaseOrder.orderNo = (this.getRandomNumbers()).toString();
     this.purchaseOrder.deliveryDate = undefined;
     this.purchaseOrder.referenceNo = 0;
     this.purchaseOrder.billingNameList = undefined;
@@ -354,6 +395,9 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseOrder.advanceAmount = 0;
     this.purchaseOrder.advanceLedger = '';
     this.grandTotal = '';
+    this.purchaseOrder.paymentTerms = '';
+    this.receivedPurchaseOrder = [];
+    this.dataSource = [];
   }
 
 
@@ -368,6 +412,7 @@ export class PurchaseOrderComponent implements OnInit {
   // }
 
   openPurchaseOrderPrintDialog() {
+
     this.dialog.open(DialogPurchaseOrderPrintComponent, {
       disableClose: true,
       height: '150px',
@@ -376,7 +421,18 @@ export class PurchaseOrderComponent implements OnInit {
     });
   }
 
-  changeRemark() {
-    document.getElementById("remarks").innerHTML = this.purchaseOrder.remarks;
+  editQuantity(element) {
+    let totalPrice = 0;
+    totalPrice = ((element.buyingPrice - element.discount) * (Number(element.availableQuantity)));
+    element.finalPrice = totalPrice;
+    this.calculateGrandTotal(this.receivedPurchaseOrder);
   }
+  calculateGrandTotal(array) {
+    this.grandTotal = 0;
+    array.forEach(item => {
+      this.grandTotal += item.finalPrice;
+    });
+  }
+
+
 }

@@ -16,7 +16,8 @@ import { MatOption } from '@angular/material/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MyPipePipe } from '../my-pipe.pipe';
-
+import { EventManager } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-price-list',
@@ -35,7 +36,9 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   objSeller: any;
   sellerName: string;
   sellerId: any;
-
+  categorySettings = {};
+  subCategorySettings = {};
+  brandSettings = {};
 
   subCategoriesArray: any = [];
   categoriesArray: any = [];
@@ -72,6 +75,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   selectedBrandId: number;
   anyArray: any = [];
   uniqueBrandNamesArray = [];
+  selectedSubCategory: any = [];
   allSelected = false;
   allBrandSelected: boolean = false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -79,6 +83,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   @ViewChild('select') select: MatSelect;
   @ViewChild('BrandSelect') BrandSelect: MatSelect;
   selection = new SelectionModel<PriceList[]>(true, []);
+
+
 
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
@@ -93,10 +99,49 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     this.sellerName = localStorage.getItem('sellerName');
     this.sellerId = Number(localStorage.getItem('sellerId'));
     this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
+    let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
+    this.loginService.seller_object.categories = [];
+    this.loginService.seller_object.categories = data;
+
+    console.log('sorted data', this.loginService.seller_object.categories);
+
+
     this.getPriceListData();
     this.getBrandsMasterData();
-  }
 
+    this.categorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
+    this.subCategorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
+    this.brandSettings = {
+      singleSelection: false,
+      idField: 'BrandID',
+      textField: 'BrandName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      badgeShowLimit: 4,
+      lazyLoading: true
+    };
+
+
+  }
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -150,6 +195,86 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  onCategorySelect(event) {
+
+    this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
+      if (this.multipleCategoriesArray.length === 0) {
+        this.multipleCategoriesArray = data;
+        let sortedCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedCategory;
+
+      }
+      else {
+        this.categoriesArray2 = data;
+        this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+        this.multipleCategoriesArray = this.categoriesArray3;
+        let sortedCategories = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedCategories;
+
+      }
+    });
+  }
+
+  onCategoryDeSelect(event) {
+    let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
+      return Number(item.parentid) !== Number(event.id);
+    });
+    this.multipleCategoriesArray = [];
+    this.multipleCategoriesArray = remainingCategoriesArray;
+  }
+
+  onCategorySelectAll(event) {
+    console.log('select all', event);
+  }
+  onCategoryDeSelectAll(event) {
+    console.log('disselect all', event);
+  }
+
+
+
+
+  onSubCategorySelect(event, data) {
+    // this.subCategoriesArray.push(subCategory.id);
+    // console.log('sub categorys', event.id);
+
+    console.log('data', data[0].parentid);
+
+    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
+      if (this.multipleBrandArray.length === 0) {
+        this.multipleBrandArray = data;
+        this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+        // this.multipleBrandArray = this.catchMappedData;
+      }
+      else {
+        this.array2 = data;
+        this.array2 = this.mapObj(this.array2, this.dbData);
+        this.array3 = [...this.catchMappedData, ...this.array2];
+        this.catchMappedData = this.array3;
+      }
+      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+      this.multipleBrandArray = this.catchMappedData;
+      console.log('anyArray', this.anyArray);
+    });
+  }
+
+  onSubCategoryDeSelect(event) {
+    console.log('dis select ', event);
+
+
+  }
+
+
+  onBrandSelect(event) {
+    console.log('*****', event);
+  }
+
+  onBrandDeSelect(event) {
+    console.log('dis select ', event);
+  }
+
   onCategoriesChange(event, category: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
@@ -168,8 +293,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     }
 
     if (!event.source.selected) {
-      let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-        return item.id != category.id;
+      let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {  
+        return Number(item.parentid) !== Number(category.id);
       });
       this.multipleCategoriesArray = newCategoriesArr;
       const index = this.categoriesArray.indexOf(category.id);
@@ -380,7 +505,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID }
+        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
         sortedArray.push(item);
       }
     }
@@ -391,6 +516,13 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       return a.BrandName.localeCompare(b.BrandName);
     });
     return array
+  }
+
+  sortArrayInAscendingOrder(array) {
+    array.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    return array;
   }
 
 }

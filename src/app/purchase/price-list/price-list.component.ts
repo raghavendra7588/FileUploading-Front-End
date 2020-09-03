@@ -44,6 +44,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   categoriesArray: any = [];
   brandArray: any = [];
 
+  selectedCategory: any = [];
   multipleCategoriesArray: any = [];
   categoriesArray1: any = [];
   categoriesArray2: any = [];
@@ -102,8 +103,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
     this.loginService.seller_object.categories = [];
     this.loginService.seller_object.categories = data;
-
-    console.log('sorted data', this.loginService.seller_object.categories);
 
 
     this.getPriceListData();
@@ -196,7 +195,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   }
 
   onCategorySelect(event) {
-
+    console.log('category selection ', event);
     this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
       if (this.multipleCategoriesArray.length === 0) {
         this.multipleCategoriesArray = data;
@@ -215,14 +214,27 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
       }
     });
+    // this.purchaseService.getAllBrand(event.id, '0').subscribe(data => {
+    //   console.log('********', data);
+    //   this.selectedCategory = data;
+    //   this.dataSource = new MatTableDataSource(this.selectedCategory);
+    // });
+
   }
 
   onCategoryDeSelect(event) {
+    console.log('category unselection ', event);
     let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
       return Number(item.parentid) !== Number(event.id);
     });
     this.multipleCategoriesArray = [];
     this.multipleCategoriesArray = remainingCategoriesArray;
+
+    if (this.multipleCategoriesArray.length === 0) {
+      this.multipleCategoriesArray = [];
+      this.anyArray = [];
+      this.dataSource = [];
+    }
   }
 
   onCategorySelectAll(event) {
@@ -262,19 +274,58 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
   onSubCategoryDeSelect(event) {
     console.log('dis select ', event);
+    console.log('any array before', this.anyArray);
+    let newArr = [];
+    newArr = this.anyArray.filter(function (item) {
+      return Number(item.SubCategoryID) !== Number(event.id);
+    });
+    this.anyArray = [];
+    this.anyArray = newArr;
+    console.log('any array after', this.anyArray);
+    let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
+      return Number(item.SubCategoryID) !== Number(event.id);
+    });
+    this.finalBrandArray = unSelectedSubCategoryArray;
+    this.dataSource = new MatTableDataSource(unSelectedSubCategoryArray);
+    this.dataSource.paginator = this.paginator;
 
 
   }
 
 
   onBrandSelect(event) {
-    console.log('*****', event);
+
+    console.log('this is brand', event);
+    if (this.finalBrandArray.length === 0) {
+      let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName
+      });
+      this.finalBrandArray = filteredBrandArray;
+      this.dataSource = new MatTableDataSource(this.finalBrandArray);
+      this.dataSource.paginator = this.paginator;
+    }
+    else {
+      this.brands1 = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName
+      });
+      this.brands2 = this.brands1;
+      this.brands3 = [...this.finalBrandArray, ...this.brands2];
+      this.finalBrandArray = this.brands3;
+      this.dataSource = new MatTableDataSource(this.finalBrandArray);
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   onBrandDeSelect(event) {
     console.log('dis select ', event);
+    var tempArr = this.finalBrandArray.filter(function (item) {
+      return item.BrandName.trim() != event.BrandName.trim();
+    });
+    this.finalBrandArray = tempArr;
+    this.dataSource = new MatTableDataSource(this.finalBrandArray);
+    this.dataSource.paginator = this.paginator;
   }
-
+  
   onCategoriesChange(event, category: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
@@ -293,7 +344,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     }
 
     if (!event.source.selected) {
-      let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {  
+      let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
         return Number(item.parentid) !== Number(category.id);
       });
       this.multipleCategoriesArray = newCategoriesArr;
@@ -385,6 +436,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
   editPriceList(element) {
     if (element.priceListId) {
+      console.log('got priceList Id');
       this.priceList.sellerId = element.SellerId;
       this.priceList.productId = element.ProductID;
       this.priceList.subCategoryId = element.SubCategoryID;
@@ -401,6 +453,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       });
     }
     else {
+      console.log('not get priceList Id');
       this.priceList.priceListId = element.priceListId;
       this.priceList.sellerId = element.SellerId;
       this.priceList.productId = element.ProductID;
@@ -483,6 +536,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       }
     });
     if (this.isMultipleAmount) {
+      console.log('multiple amount');
       this.purchaseService.saveMultiplePriceList(this.multipleEntries).subscribe(data => {
         this.toastr.success('price list saved');
         this.selection.clear();

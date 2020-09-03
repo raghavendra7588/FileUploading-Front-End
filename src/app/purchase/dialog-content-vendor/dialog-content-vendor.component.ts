@@ -102,20 +102,42 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   selectedItems = [];
   dropdownSettings = {};
   dataList = [];
+
+
+  categorySettings = {};
+  subCategorySettings = {};
+  brandSettings = {};
+
+
   constructor(public purchaseService: PurchaseService, public loginService: LoginService,
     public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any, public emitterService: EmitterService, public router: Router, public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
     this.vendorData = data;
-
+    this.assignData();
+    this.getAddressDetails();
+    this.getMasterBrandData();
+    this.getVendorData();
     if (this.vendorData) {
       this.isImageUploaded = true;
-      this.selectedBrandString = this.vendorData.brand;
-      this.selectedSubCategoryString = this.vendorData.subCategory;
-      this.selectedCategoryString = this.vendorData.selectedCategoryString;
-      let string = this.selectedBrandString;
-      this.selectedBrandArray = string.split(",");
-      var preSelectedBrandArray = this.selectedBrandArray.map(Number);
-      this.selectedSubCategoryArray = this.selectedSubCategoryString.split(",");
+      // this.selectedBrandString = this.vendorData.brand;
+      // this.selectedSubCategoryString = this.vendorData.subCategory;
+      // this.selectedCategoryString = this.vendorData.category;
+      // console.log('category string', this.selectedCategoryString);
+      // let categoryString = this.selectedCategoryString;
+      // this.selectedCategoryArray = categoryString.split(",");
+      // let preSelectedCategoryArray = this.selectedCategoryArray.map(Number);
+      // console.log('preselected categry', preSelectedCategoryArray);
+      // let string = this.selectedBrandString;
+      // this.selectedBrandArray = string.split(",");
+      // var preSelectedBrandArray = this.selectedBrandArray.map(Number);
+      // console.log('brand array', preSelectedBrandArray);
+      // console.log('vendor data', this.vendorDetails);
+      // let filteredArray1 = this.vendorDetails.filter(el => {
+      //   return preSelectedBrandArray.indexOf(el.brand) !== -1;
+      // });
+      // console.log('after brand array', filteredArray1);
+
+      // this.selectedSubCategoryArray = this.selectedSubCategoryString.split(",");
     }
 
     this.saveVendorForm = this.formBuilder.group({
@@ -158,16 +180,23 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assignData();
-    this.getAddressDetails();
-    this.getMasterBrandData();
-    this.getVendorData();
-    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
-    // this.vendor.sellerId = this.loginService.seller_id;
-    this.dataList = this.loginService.seller_object.categories
+    // this.assignData();
+    // this.getAddressDetails();
+    // this.getMasterBrandData();
+    // this.getVendorData();
+    // this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
+    // this.dataList = this.loginService.seller_object.categories;
     this.vendor.sellerId = localStorage.getItem('sellerId');
     this.sellerId = localStorage.getItem('sellerId');
     this.maxDate = new Date();
+
+    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
+    let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
+    this.loginService.seller_object.categories = [];
+    this.loginService.seller_object.categories = data;
+
+    // console.log('sorted data', this.loginService.seller_object.categories);
+
 
     this.paymentCategory = [
       { id: 0, title: 'Scheme' },
@@ -189,22 +218,23 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     this.vendor.Country = 'India';
 
-    this.dropdownSettings = {
+    this.categorySettings = {
       singleSelection: false,
-      text: "Select Countries",
+      idField: 'id',
+      textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      enableSearchFilter: true,
-      classes: "myclass custom-class"
+      itemsShowLimit: 3,
+      allowSearchFilter: true
     };
   }
-  onItemSelect(item: any) {
+  onCategorySelect(item: any) {
     console.log(item);
-    console.log(this.selectedItems);
+
   }
-  OnItemDeSelect(item: any) {
+  onCategoryDeSelect(item: any) {
     console.log(item);
-    console.log(this.selectedItems);
+
   }
   onSelectAll(items: any) {
     console.log(items);
@@ -728,6 +758,13 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     this.purchaseService.getAllVendorData().subscribe(data => {
       this.vendorDetails = data;
     });
+  }
+
+  sortArrayInAscendingOrder(array) {
+    array.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    return array;
   }
 
   ngOnDestroy() {

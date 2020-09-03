@@ -14,7 +14,6 @@ namespace inventory.Models
         public int PurchaseOrderId { get; set; }
         public int SellerId { get; set; }
         public string VendorId { get; set; }
-
         public string vendorName { get; set; }
         public string OrderNo { get; set; }
         public string OrderDate { get; set; }
@@ -31,6 +30,7 @@ namespace inventory.Models
         public string AdvanceAmount { get; set; }
         public string AdvanceLedger { get; set; }      
         public string BatchNumber { get; set; }
+        public string paymentTerms { get; set; }
         public List<PurchaseOrderItem> items { get; set; }
     }
 
@@ -67,6 +67,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@AdvanceAmount", purchaseOrderData.AdvanceAmount);
             cmd.Parameters.AddWithValue("@AdvanceLedger", purchaseOrderData.AdvanceLedger);
             cmd.Parameters.AddWithValue("@BatchNumber", purchaseOrderData.BatchNumber);
+            cmd.Parameters.AddWithValue("@paymentTerms", purchaseOrderData.paymentTerms);
             cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
             cmd.ExecuteNonQuery();
@@ -78,8 +79,6 @@ namespace inventory.Models
             ObjPurchaseOrderItemBL. postPurchaseOrderItemToDb(purchaseOrderData.items, id);
             return objResultReturn;
         }
-
-
 
     }
 }

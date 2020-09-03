@@ -30,7 +30,7 @@ namespace inventory.Models
         public string registrationDate { get; set; }
         public string distance { get; set; }
         public string cin { get; set; }
-        public string paymentTeam { get; set; }
+       public string creditLimitDays { get; set; }
         public string priceCategory { get; set; }
         public string agentBroker { get; set; }
         public string transporter { get; set; }
@@ -46,6 +46,8 @@ namespace inventory.Models
         public string country { get; set; }
         public string phone { get; set; }
         public string email { get; set; } 
+        public string accountName { get; set; }
+        public string accountType { get; set; }
     }
 }
 
@@ -101,7 +103,7 @@ public class VenodrBL
         cmd.Parameters.AddWithValue("@registrationDate", objVendor.registrationDate);
         cmd.Parameters.AddWithValue("@distance", objVendor.distance);
         cmd.Parameters.AddWithValue("@cin", objVendor.cin);
-        cmd.Parameters.AddWithValue("@paymentTeam", objVendor.paymentTeam);
+        cmd.Parameters.AddWithValue("@creditLimitDays", objVendor.creditLimitDays);
         cmd.Parameters.AddWithValue("@priceCategory", objVendor.priceCategory);
         cmd.Parameters.AddWithValue("@agentBroker", objVendor.agentBroker);
         cmd.Parameters.AddWithValue("@transporter", objVendor.transporter);
@@ -119,12 +121,12 @@ public class VenodrBL
         cmd.Parameters.AddWithValue("@country", objVendor.country);
         cmd.Parameters.AddWithValue("@phone", objVendor.phone);
         cmd.Parameters.AddWithValue("@email", objVendor.email);
+        cmd.Parameters.AddWithValue("@accountName", objVendor.accountName);
+        cmd.Parameters.AddWithValue("@accountType", objVendor.accountType);
 
         cmd.ExecuteNonQuery();
         conn.Close();
     }
-
-
 
 
     public void updateVendorDataToDb(Vendor objVendor, int vendorId)
@@ -152,7 +154,7 @@ public class VenodrBL
         cmd.Parameters.AddWithValue("@registrationDate", objVendor.registrationDate);
         cmd.Parameters.AddWithValue("@distance", objVendor.distance);
         cmd.Parameters.AddWithValue("@cin", objVendor.cin);
-        cmd.Parameters.AddWithValue("@paymentTeam", objVendor.paymentTeam);
+        cmd.Parameters.AddWithValue("@creditLimitDays", objVendor.creditLimitDays);
         cmd.Parameters.AddWithValue("@priceCategory", objVendor.priceCategory);
         cmd.Parameters.AddWithValue("@agentBroker", objVendor.agentBroker);
         cmd.Parameters.AddWithValue("@transporter", objVendor.transporter);
@@ -170,6 +172,8 @@ public class VenodrBL
         cmd.Parameters.AddWithValue("@country", objVendor.country);
         cmd.Parameters.AddWithValue("@phone", objVendor.phone);
         cmd.Parameters.AddWithValue("@email", objVendor.email);
+        cmd.Parameters.AddWithValue("@accountName", objVendor.accountName);
+        cmd.Parameters.AddWithValue("@accountType", objVendor.accountType);
 
         cmd.ExecuteNonQuery();
         conn.Close();

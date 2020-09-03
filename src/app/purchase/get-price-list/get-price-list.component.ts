@@ -84,6 +84,10 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   isAllPurchaseOrder: any = [];
   isProductSelected: boolean = false;
 
+  categorySettings = {};
+  subCategorySettings = {};
+  brandSettings = {};
+
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
     public toastr: ToastrService,
@@ -104,6 +108,39 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
     this.getPriceListData();
     this.getBrandsMasterData();
+
+
+
+    
+    this.categorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
+    this.subCategorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
+    this.brandSettings = {
+      singleSelection: false,
+      idField: 'BrandID',
+      textField: 'BrandName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      badgeShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
   ngAfterViewChecked() {
@@ -140,6 +177,132 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     }
   }
 
+
+  onCategorySelect(event) {
+    this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
+      if (this.multipleCategoriesArray.length === 0) {
+        this.multipleCategoriesArray = data;
+        let sortedCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedCategory;
+
+      }
+      else {
+        this.categoriesArray2 = data;
+        this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+        this.multipleCategoriesArray = this.categoriesArray3;
+        let sortedCategories = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedCategories;
+
+      }
+    });
+    // this.purchaseService.getAllBrand(event.id, '0').subscribe(data => {
+    //   console.log('********', data);
+    //   this.selectedCategory = data;
+    //   this.dataSource = new MatTableDataSource(this.selectedCategory);
+    // });
+
+  }
+
+  onCategoryDeSelect(event) {
+    let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
+      return Number(item.parentid) !== Number(event.id);
+    });
+    this.multipleCategoriesArray = [];
+    this.multipleCategoriesArray = remainingCategoriesArray;
+
+    if (this.multipleCategoriesArray.length === 0) {
+      this.multipleCategoriesArray = [];
+      this.anyArray = [];
+      this.dataSource = [];
+    }
+  }
+
+  onCategorySelectAll(event) {
+    console.log('select all', event);
+  }
+  onCategoryDeSelectAll(event) {
+    console.log('disselect all', event);
+  }
+
+
+
+
+  onSubCategorySelect(event, data) {
+    // this.subCategoriesArray.push(subCategory.id);
+    // console.log('sub categorys', event.id);
+
+    console.log('data', data[0].parentid);
+
+    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
+      if (this.multipleBrandArray.length === 0) {
+        this.multipleBrandArray = data;
+        this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+        // this.multipleBrandArray = this.catchMappedData;
+      }
+      else {
+        this.array2 = data;
+        this.array2 = this.mapObj(this.array2, this.dbData);
+        this.array3 = [...this.catchMappedData, ...this.array2];
+        this.catchMappedData = this.array3;
+      }
+      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+      this.multipleBrandArray = this.catchMappedData;
+
+    });
+  }
+
+  onSubCategoryDeSelect(event) {
+    let newArr = [];
+    newArr = this.anyArray.filter(function (item) {
+      return Number(item.SubCategoryID) !== Number(event.id);
+    });
+    this.anyArray = [];
+    this.anyArray = newArr;
+
+    let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
+      return Number(item.SubCategoryID) !== Number(event.id);
+    });
+    this.finalBrandArray = unSelectedSubCategoryArray;
+    this.dataSource = new MatTableDataSource(unSelectedSubCategoryArray);
+    this.dataSource.paginator = this.paginator;
+
+
+  }
+
+
+  onBrandSelect(event) {
+
+    if (this.finalBrandArray.length === 0) {
+      let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName
+      });
+      this.finalBrandArray = filteredBrandArray;
+      this.dataSource = new MatTableDataSource(this.finalBrandArray);
+      this.dataSource.paginator = this.paginator;
+    }
+    else {
+      this.brands1 = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName
+      });
+      this.brands2 = this.brands1;
+      this.brands3 = [...this.finalBrandArray, ...this.brands2];
+      this.finalBrandArray = this.brands3;
+      this.dataSource = new MatTableDataSource(this.finalBrandArray);
+      this.dataSource.paginator = this.paginator;
+    }
+  }
+
+  onBrandDeSelect(event) {
+    var tempArr = this.finalBrandArray.filter(function (item) {
+      return item.BrandName.trim() != event.BrandName.trim();
+    });
+    this.finalBrandArray = tempArr;
+    this.dataSource = new MatTableDataSource(this.finalBrandArray);
+    this.dataSource.paginator = this.paginator;
+  }
   updateAll() {
     this.checkFinalPrice = true;
     this.selection.selected.forEach((element) => {
@@ -379,6 +542,13 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   sendPurchaseOrder() {
     this.emitterService.sendPurchaseOrder.emit(this.finalPurchaseOrderArray);
     this.dialogRef.close();
+  }
+
+  sortArrayInAscendingOrder(array) {
+    array.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    return array;
   }
 
   ngOnDestroy() {

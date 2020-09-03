@@ -58,7 +58,7 @@ namespace inventory.Controllers
             objVendor.distance = HttpContext.Current.Request.Params.Get("distance");
             objVendor.cin = HttpContext.Current.Request.Params.Get("cin");
 
-            objVendor.paymentTeam = HttpContext.Current.Request.Params.Get("paymentTeam");
+            objVendor.creditLimitDays = HttpContext.Current.Request.Params.Get("creditLimitDays");
             objVendor.priceCategory = HttpContext.Current.Request.Params.Get("priceCategory");
             objVendor.agentBroker = HttpContext.Current.Request.Params.Get("agentBroker");
             objVendor.transporter = HttpContext.Current.Request.Params.Get("transporter");
@@ -76,6 +76,8 @@ namespace inventory.Controllers
             objVendor.country = HttpContext.Current.Request.Params.Get("country");
             objVendor.phone = HttpContext.Current.Request.Params.Get("phone");
             objVendor.email = HttpContext.Current.Request.Params.Get("email");
+            objVendor.accountName = HttpContext.Current.Request.Params.Get("accountName");
+            objVendor.accountType = HttpContext.Current.Request.Params.Get("accountType");
 
             HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;

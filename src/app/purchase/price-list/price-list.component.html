@@ -10,8 +10,8 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-3">
-      <mat-form-field style="width: 100%;">
+    <div class="col-md-3 mt-2">
+      <!-- <mat-form-field style="width: 100%;">
         <mat-label>Category</mat-label>
         <mat-select placeholder="Category" [(ngModel)]="categoryList" multiple>
           <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
@@ -19,17 +19,17 @@
             {{category.name }}
           </mat-option>
         </mat-select>
-      </mat-form-field> 
-<!-- 
+      </mat-form-field>  -->
+
       <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
         [data]="loginService.seller_object.categories" (onSelect)="onCategorySelect($event)"
         (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)"
         (onDeSelectAll)="onCategoryDeSelectAll($event)" name='categorySelect'>
-      </ng-multiselect-dropdown> -->
+      </ng-multiselect-dropdown>
 
     </div>
-    <div class="col-md-4">
-
+    <div class="col-md-4 mt-2">
+      <!-- 
       <mat-form-field style="width: 100%;">
         <mat-label>Sub Category</mat-label>
         <mat-select #select multiple>
@@ -38,15 +38,15 @@
             {{category.name }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <!-- <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
-        [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)" (onDeSelect)="onSubCategoryDeSelect($event)"
-         name='subCategorySelect'>
-      </ng-multiselect-dropdown> -->
+      </mat-form-field> -->
+      <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
+        [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
+        (onDeSelect)="onSubCategoryDeSelect($event)" name='subCategorySelect'>
+      </ng-multiselect-dropdown>
     </div>
 
-    <div class="col-md-3">
-      <mat-form-field style="width: 100%;">
+    <div class="col-md-3 mt-2">
+      <!-- <mat-form-field style="width: 100%;">
         <mat-label>Brand</mat-label>
         <mat-select #BrandSelect multiple>
           <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
@@ -54,12 +54,10 @@
             {{brand.BrandName}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-
-      <!-- <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings"
-      [data]="anyArray" (onSelect)="onBrandSelect($event)" (onDeSelect)="onBrandDeSelect($event)"
-       name='brandSelect'>
-    </ng-multiselect-dropdown> -->
+      </mat-form-field> -->
+      <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
+        (onSelect)="onBrandSelect($event)" (onDeSelect)="onBrandDeSelect($event)" name='brandSelect'>
+      </ng-multiselect-dropdown>
     </div>
 
   </div>

@@ -57,7 +57,7 @@ export class AddAddressComponent implements OnInit {
       this.assignValues();
     }
     else {
-      this.defaultAddressValues();
+      // this.defaultAddressValues();
     }
 
     this.sellerId = parseInt(localStorage.getItem('sellerId'));

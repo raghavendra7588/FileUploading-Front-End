@@ -17,24 +17,38 @@ export class PurchaseService {
   storageSellerId: number;
 
   priceListData: any = [];
-  // sellerId: any;
   masterBrandData: any = [];
   extractPriceListData: any = [];
   finalPriceList: any = [];
 
-
-  private GET_ALL_ADDRESSS_DATA = 'http://localhost:55547/api/Address';
-  private SAVE_VENDOR_MASTER = 'http://localhost:55547/api/Vendor';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
+  private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = 'http://203.112.144.38/AdminApi/api/Category/getall';
   private GET_BRANDS = 'http://203.112.144.38/AdminApi/api//ProductSellerMapping/getalledit';
-  private GET_ALL_VENDOR_DATA = 'http://localhost:55547/api/Vendor';
-  private SAVE_ADDRESS_MASTER = 'http://localhost:55547/api/address';
-  private SAVE_PRICE_LIST = 'http://localhost:55547/api/PriceList';
-  private SAVE_MULTIPLE_PRICE_LIST = 'http://localhost:55547/api/PriceList/multiple';
-  private GET_ALL_PRICELIST_DATA = 'http://localhost:55547/api/PriceList';
-  private SAVE_PURCHASE_ORDER_MASTER = 'http://localhost:55547/api/PurchaseOrder';
-  private SAVE_PURCHASE_ORDER_ITEM_MASTER = 'http://localhost:55547/api/PurchaseOrderItem';
-  public GET_PURCHASE_ORDER_DATA = 'http://localhost:55547/api/PurchaseReport';
+  private GET_ALL_VENDOR_DATA = this.BASE_URL + 'api/Vendor';
+  private SAVE_ADDRESS_MASTER = this.BASE_URL + 'api/address';
+  private SAVE_PRICE_LIST = this.BASE_URL + 'api/PriceList';
+  private SAVE_MULTIPLE_PRICE_LIST = this.BASE_URL + 'api/PriceList/multiple';
+  private GET_ALL_PRICELIST_DATA = this.BASE_URL + 'api/PriceList';
+  private SAVE_PURCHASE_ORDER_MASTER = this.BASE_URL + 'api/PurchaseOrder';
+  private SAVE_PURCHASE_ORDER_ITEM_MASTER = this.BASE_URL + 'api/PurchaseOrderItem';
+  public GET_PURCHASE_ORDER_DATA = this.BASE_URL + 'api/PurchaseReport';
+
+
+
+  // private GET_ALL_ADDRESSS_DATA = 'http://localhost:55547/api/Address';
+  // private SAVE_VENDOR_MASTER = 'http://localhost:55547/api/Vendor';
+  // private GET_SUBCATEGORIES = 'http://203.112.144.38/AdminApi/api/Category/getall';
+  // private GET_BRANDS = 'http://203.112.144.38/AdminApi/api//ProductSellerMapping/getalledit';
+  // private GET_ALL_VENDOR_DATA = 'http://localhost:55547/api/Vendor';
+  // private SAVE_ADDRESS_MASTER = 'http://localhost:55547/api/address';
+  // private SAVE_PRICE_LIST = 'http://localhost:55547/api/PriceList';
+  // private SAVE_MULTIPLE_PRICE_LIST = 'http://localhost:55547/api/PriceList/multiple';
+  // private GET_ALL_PRICELIST_DATA = 'http://localhost:55547/api/PriceList';
+  // private SAVE_PURCHASE_ORDER_MASTER = 'http://localhost:55547/api/PurchaseOrder';
+  // private SAVE_PURCHASE_ORDER_ITEM_MASTER = 'http://localhost:55547/api/PurchaseOrderItem';
+  // public GET_PURCHASE_ORDER_DATA = 'http://localhost:55547/api/PurchaseReport';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = localStorage.getItem('token');

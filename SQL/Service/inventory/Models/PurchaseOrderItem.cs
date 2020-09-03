@@ -23,6 +23,7 @@ namespace inventory.Models
         public string availableQuantity { get; set; }
         public string Quantity { get; set; }
         public int ProductVarientId { get; set; }
+        public string[] categoryId { get; set; }
     }
 
     public class PurchaseOrderItemBL
@@ -36,12 +37,20 @@ namespace inventory.Models
             conn.Open();
             SqlCommand cmd = new SqlCommand("Mst_insertPurchaseOrderItem", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            
+            string strCategoryId = string.Empty;
+
+            for (int j = 0; j < purchaseOrderItemData[0].categoryId.Length; j++)
+            {
+                strCategoryId = purchaseOrderItemData[0].categoryId[j].ToString() + ",";
+            }
+            strCategoryId = strCategoryId.Remove(strCategoryId.Length - 1, 1);
+
             for (int i = 0; i < purchaseOrderItemData.Count; i++)
             {
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@PurchaseOrderId", purchaseOrderId);
                 cmd.Parameters.AddWithValue("@SellerId", purchaseOrderItemData[i].SellerId);
+                cmd.Parameters.AddWithValue("@CategoryId", strCategoryId);
 
                 cmd.Parameters.AddWithValue("@ProductId", purchaseOrderItemData[i].ProductId);
                 cmd.Parameters.AddWithValue("@SubCategoryId", purchaseOrderItemData[i].SubCategoryId);

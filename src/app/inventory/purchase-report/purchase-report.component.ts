@@ -74,7 +74,9 @@ export class PurchaseReportComponent implements OnInit {
   selectedBrandId: number;
   anyArray: any = [];
   uniqueBrandNamesArray = [];
+  finalProductArray = [];
   allSelected = false;
+  productArray: any = [];
   allBrandSelected: boolean = false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('check') check: MatCheckbox;
@@ -102,7 +104,7 @@ export class PurchaseReportComponent implements OnInit {
       { billingName: 'ABC', address: 'ABC', city: 'Aurangabad', email: 'abc@gmail.com', phone: 7588641864 }
     ];
 
-    console.log('name', this.inventoryService.name);
+
   }
 
 
@@ -200,7 +202,6 @@ export class PurchaseReportComponent implements OnInit {
           this.brands2 = this.brands1;
           this.brands3 = [...this.finalBrandArray, ...this.brands2];
           this.finalBrandArray = this.brands3;
-        console.log('FINAL BRAND ARRAY',this.finalBrandArray);
           // this.dataSource = new MatTableDataSource(this.finalBrandArray);
           // this.dataSource.paginator = this.paginator;
         }
@@ -213,6 +214,14 @@ export class PurchaseReportComponent implements OnInit {
         this.finalBrandArray = tempArr;
         // this.dataSource = new MatTableDataSource(this.finalBrandArray);
         // this.dataSource.paginator = this.paginator;
+      }
+    }
+  }
+
+  changeProduct(event, product: any) {
+    if (event.isUserInput) {
+      if (event.source.selected) {
+        console.log('product', product);
       }
     }
   }
@@ -340,7 +349,7 @@ export class PurchaseReportComponent implements OnInit {
   // }
 
   searchRecords() {
-    console.log('clicked');
+
     if (this.purchaseReport.categoryId === null || this.purchaseReport.categoryId === undefined) {
       this.purchaseReport.categoryId = ['ALL'].toString();
     }
@@ -373,21 +382,19 @@ export class PurchaseReportComponent implements OnInit {
     if (this.endDate === null || this.endDate === undefined) {
       this.purchaseReport.endDate = 'ALL';
     }
-
-
     else {
       let endingDate = this.convertDate(this.endDate);
       this.purchaseReport.endDate = endingDate;
     }
 
+    console.log('purchase Report', this.purchaseReport);
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
-        console.log('this is response',data);
+      console.log(data);
     });
-    // console.log(this.purchaseReport);
+
   }
 
   createUniqueBrandName(array: any) {
-    console.log('main array', array);
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
@@ -395,9 +402,9 @@ export class PurchaseReportComponent implements OnInit {
         sortedArray.push(item);
       }
     }
-    console.log('i returned this', sortedArray);
     return sortedArray;
   }
+
   sortUniqueBrandName(array) {
     array.sort((a, b) => {
       return a.BrandName.localeCompare(b.BrandName);

@@ -50,27 +50,22 @@ export class DialogPurchaseReportsComponent implements OnInit {
       totalFinalPrice += item.FinalPrice;
     });
     return totalFinalPrice;
-
-    // return this.PurchaseReportDataArray.map(o => o.FinalPrice).reduce((a, c) => a + c);
   }
 
   getTotalDiscount() {
-
     let totalDiscount = 0;
     this.PurchaseReportDataArray.forEach(item => {
       totalDiscount += item.Discount;
     });
     return totalDiscount;
-    // return this.PurchaseReportDataArray.map(o => o.Discount).reduce((a, c) => a + c);
   }
 
   getTotalQuantity() {
     let totalPurchaseQuantity = 0;
     this.PurchaseReportDataArray.forEach(item => {
-      totalPurchaseQuantity += item.PurchaseQuantity;
+      totalPurchaseQuantity += item.availableQuantity;
     });
     return totalPurchaseQuantity;
-    // return this.PurchaseReportDataArray.map(o => o.PurchaseQuantity).reduce((a, c) => a + c);
   }
 
 

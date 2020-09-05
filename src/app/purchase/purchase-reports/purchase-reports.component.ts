@@ -13,7 +13,7 @@ import { PurchaseReport, PurchaseReportData } from '../purchase.model';
   styleUrls: ['./purchase-reports.component.css']
 })
 export class PurchaseReportsComponent implements OnInit {
-  displayedColumns: string[] = ['vendorName', 'orderNo', 'orderDate', 'deliveryDate', 'batchNo', 'print'];
+  displayedColumns: string[] = ['vendorName', 'orderNo', 'orderDate', 'deliveryDate', 'batchNo', 'orderedTimeStamp', 'print'];
   dataSource: any;
   dummyData: any;
   vendorData: any;
@@ -50,12 +50,10 @@ export class PurchaseReportsComponent implements OnInit {
     // this.purchaseOrder.email = item.email;
     // this.purchaseOrder.gstType = item.gstCategory;
     this.vendorId = item.vendorId;
-    // console.log('this is item yoooooooooooo', this.vendorId);
   }
 
   getVendorData() {
     this.purchaseService.getAllVendorData().subscribe(data => {
-      // console.log(data);
       this.vendorData = data;
     });
   }
@@ -85,8 +83,6 @@ export class PurchaseReportsComponent implements OnInit {
     else {
       this.purchaseReportData.orderNo = this.purchaseReport.orderNo;
     }
-
-
 
     if (this.purchaseReport.startDate === null || this.purchaseReport.startDate === undefined) {
       this.purchaseReportData.startDate = 'ALL';
@@ -125,4 +121,6 @@ export class PurchaseReportsComponent implements OnInit {
     this.purchaseReport.startDate = '';
     this.purchaseReport.endDate = '';
   }
+
+  
 }

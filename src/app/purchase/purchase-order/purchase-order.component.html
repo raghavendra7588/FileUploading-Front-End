@@ -3,7 +3,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-select id="vendor_List" placeholder="Vendor List" [(ngModel)]="purchaseOrder.vendor">
                     <mat-option *ngFor="let item of vendorData;" [value]="item.vendorId"
                         (click)="selectedVendorFromList(item)">
@@ -14,32 +14,32 @@
         </div>
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput placeholder="GST Type" name="gstType" [(ngModel)]="purchaseOrder.gstType" />
             </mat-form-field>
         </div>
 
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput placeholder="Email" name="email" autocomplete="off" [(ngModel)]="purchaseOrder.email" />
             </mat-form-field>
         </div>
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput placeholder="Batch Number" name="batchNo" [(ngModel)]="purchaseOrder.BatchNumber" />
             </mat-form-field>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput placeholder="Order No" name="orderNo" [(ngModel)]="purchaseOrder.orderNo" disabled />
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Order Date</mat-label>
                 <input matInput [matDatepicker]="picker1" [(ngModel)]="purchaseOrder.orderDate" placeholder="From Date"
                     disabled>
@@ -49,7 +49,7 @@
 
         </div>
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Delivery Date</mat-label>
                 <input matInput [matDatepicker]="picker" [(ngModel)]="purchaseOrder.deliveryDate" [min]="minDate"
                     autocomplete="off">
@@ -60,7 +60,7 @@
 
         <div class="col-md-3">
 
-            <mat-form-field class="full-width-field">
+            <mat-form-field class="full-width-field" style="width: 230px !important;">
                 <input matInput placeholder="Reference No" name="referenceNo" [(ngModel)]="purchaseOrder.referenceNo" />
             </mat-form-field>
         </div>
@@ -68,7 +68,7 @@
 
     <div class="row">
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Payment Term</mat-label>
                 <mat-select [(ngModel)]="purchaseOrder.paymentTerms">
                     <mat-option *ngFor="let term of paymentTerm" [value]="term.title">
@@ -79,9 +79,10 @@
         </div>
         <!-- {{purchaseOrder.paymentTerms}} -->
         <div class="col-md-3">
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <input matInput placeholder="Credit Limit/Per Order" name="creditLimitPerOrder" [(ngModel)]="CreditLimitPerOrder" disabled />
-            </mat-form-field>
+            </mat-form-field> -->
+            <p class="font-weight-bold mt-4">Credit Limit/Per Order : {{CreditLimitPerOrder | number : '1.2-2'}}</p>
         </div>
     </div>
 
@@ -94,7 +95,7 @@
     <div class="row mt-1">
         <div class="col-md-3 mt-3">
 
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-select id="address_list" placeholder="Address List" [(ngModel)]="purchaseOrder.billingNameList">
                     <mat-option *ngFor="let address of addressData;" [value]="address.id"
                         (click)="selectedBillingAddress(address)">
@@ -104,18 +105,18 @@
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Address</mat-label>
                 <textarea id="billingAddress" matInput [(ngModel)]="purchaseOrder.billingAddress"></textarea>
             </mat-form-field>
         </div>
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.billingCity" placeholder="City" name="billingCity" />
             </mat-form-field>
         </div>
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.billingPhone" placeholder="Phone" name="billingPhone" />
             </mat-form-field>
         </div>
@@ -128,7 +129,7 @@
 
         <div class="col-md-3 mt-3">
 
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-select id="address_list" placeholder="Address List" [(ngModel)]="purchaseOrder.shippingNameList">
                     <mat-option *ngFor="let address of addressData;" [value]="address.id"
                         (click)="selectedShippingAddress(address)">
@@ -139,7 +140,7 @@
         </div>
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Address</mat-label>
                 <textarea id="shippingAddress" matInput [(ngModel)]="purchaseOrder.shippingAddress"></textarea>
             </mat-form-field>
@@ -147,14 +148,14 @@
         </div>
 
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.shippingCity" placeholder="Shipping City"
                     name="shippingCity" />
             </mat-form-field>
 
         </div>
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.shippingPhone" placeholder="Shipping Phone"
                     name="shippingPhone" />
             </mat-form-field>
@@ -175,59 +176,64 @@
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
 
-            <ng-container matColumnDef="Product Id">
+            <ng-container matColumnDef="ProductId">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id </th>
                 <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
 
-            <ng-container matColumnDef="Brand Name">
+            <ng-container matColumnDef="BrandName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
 
 
-            <ng-container matColumnDef="Product Name">
+            <ng-container matColumnDef="ProductName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
 
             <ng-container matColumnDef="Quantity">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
                 <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                <td mat-footer-cell *matFooterCellDef> Total</td>
             </ng-container>
 
             <ng-container matColumnDef="AvailableQuantity">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Quantity</th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-form-field floatLabel="never" class="customInput">
+                    <mat-form-field floatLabel="never" class="availabelQuantityInput">
                         <input matInput placeholder="Quantity" [(ngModel)]="element.availableQuantity"
                             (focusout)="editQuantity(element)">
                     </mat-form-field>
-
-                    <!-- {{element.availableQuantity  | number : '1.2-2'}} -->
                 </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity() }} </td>
             </ng-container>
 
             <ng-container matColumnDef="BuyingPrice">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
                 <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
             </ng-container>
 
             <ng-container matColumnDef="Discount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
                 <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}} </td>
             </ng-container>
 
-
-
-            <ng-container matColumnDef="Final Price">
+            <ng-container matColumnDef="FinalPrice">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Price </th>
                 <td mat-cell *matCellDef="let element"> {{element.finalPrice  | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef>{{getFinalPrice() | number : '1.2-2'}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
 
     </div>
@@ -245,26 +251,26 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <mat-label>Remarks</mat-label>
                 <textarea id="remarks" matInput [(ngModel)]="purchaseOrder.remarks"></textarea>
             </mat-form-field>
         </div>
 
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.itemValue" placeholder="total Item" name="itemValue"
                     disabled />
             </mat-form-field>
         </div>
 
         <div class="col-md-3 mt-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.taxAmount" placeholder="Tax amount" name="taxAmount" />
             </mat-form-field>
         </div>
-        <div class="col-md-3 mt-3 ">
-            <mat-form-field>
+        <div class="col-md-3 mt-3">
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.taxable" placeholder="Taxable" name="taxAble" />
             </mat-form-field>
         </div>
@@ -273,24 +279,24 @@
     <div class="row">
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.cessAmount" placeholder="CESS Amount" name="cessAmount" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.docAmount" placeholder="DOC Amount" name="docAmount" />
             </mat-form-field>
         </div>
 
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.advanceAmount" placeholder="Advance Amount"
                     name="advanceAmount" />
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <mat-form-field>
+            <mat-form-field style="width: 230px !important;">
                 <input matInput [(ngModel)]="purchaseOrder.advanceLedger" placeholder="Advance Ledger"
                     name="advanceLedger" />
             </mat-form-field>
@@ -300,11 +306,9 @@
 
 <div class="container my-3">
     <div class="row">
-        <div class="col-md-1">
-            <button mat-raised-button color="primary" (click)="savePurchaseOrder()">Save</button>
-        </div>
-        <div class="col-md-1">
-            <button mat-raised-button color="warn" (click)="clearValues()">Cancel</button>
+        <div class="col-md-4">
+            <button mat-raised-button color="primary" (click)="savePurchaseOrder()">Place Order</button>
+            <button mat-raised-button class="ml-4" color="warn" (click)="clearValues()">Cancel</button>
         </div>
     </div>
 </div>

@@ -10,6 +10,7 @@ export class EmitterService {
   public isAddressCreated: EventEmitter<boolean>;
   public isPriceListUpdated: EventEmitter<boolean>;
   public sendPurchaseOrder: EventEmitter<any>;
+  public isItemCreated: EventEmitter<boolean>;
 
   constructor() {
     this.isRecord = new EventEmitter();
@@ -17,5 +18,6 @@ export class EmitterService {
     this.isAddressCreated = new EventEmitter();
     this.isPriceListUpdated = new EventEmitter();
     this.sendPurchaseOrder = new EventEmitter();
+    this.isItemCreated = new EventEmitter();
   }
 }

@@ -28,7 +28,6 @@ export class DialogOrderComponent implements OnInit {
     this.orderNumber = data.OrderNo;
     this.vendorName = data.vendorName
     this.purchaseService.getPurchaseReportById(data.PurchaseOrderId).subscribe(data => {
-      console.log(data);
       this.PurchaseReportDataArray = data;
       this.totalRecords = data;
       this.dataSource = new MatTableDataSource(this.PurchaseReportDataArray);

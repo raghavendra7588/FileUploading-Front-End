@@ -109,8 +109,12 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   brandSettings = {};
 
 
-  constructor(public purchaseService: PurchaseService, public loginService: LoginService,
-    public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any, public emitterService: EmitterService, public router: Router, public formBuilder: FormBuilder,
+  constructor(public purchaseService: PurchaseService,
+    public loginService: LoginService,
+    public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any,
+    public emitterService: EmitterService,
+    public router: Router,
+    public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
     this.vendorData = data;
     this.assignData();
@@ -199,13 +203,15 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     this.paymentCategory = [
-      { id: 0, title: 'Scheme' },
-      { id: 1, title: 'Non Scheme' },
+      { id: 0, title: 'Not Applicable' },
+      { id: 1, title: 'Scheme' },
+      { id: 2, title: 'Non Scheme' },
     ];
 
     this.transporters = [
-      { id: 0, title: 'From Vendor' },
-      { id: 1, title: 'Own' },
+      { id: 0, title: 'Not Applicable' },
+      { id: 1, title: 'From Vendor' },
+      { id: 2, title: 'Own' },
     ];
 
     this.AccountType = [

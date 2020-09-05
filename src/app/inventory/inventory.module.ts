@@ -42,6 +42,9 @@ import { SalesReportComponent } from './sales-report/sales-report.component';
 import { DialogPrintPurchaseReportComponent } from './dialog-print-purchase-report/dialog-print-purchase-report.component';
 
 import { InventoryService } from './inventory.service';
+import { ToastrModule } from 'ngx-toastr';
+
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent, JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent, MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent, DialogPrintPurchaseReportComponent],
@@ -67,6 +70,8 @@ import { InventoryService } from './inventory.service';
     MatDatepickerModule,
     MatDividerModule,
     MatListModule,
+    ToastrModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     MatCheckboxModule
   ],
   providers: [InventoryService],

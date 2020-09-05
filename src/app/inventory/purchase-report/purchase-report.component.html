@@ -42,7 +42,7 @@
             <mat-form-field style="width: 100%;">
                 <mat-label>Product</mat-label>
                 <mat-select #BrandSelect multiple>
-                    <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of finalBrandArray"
+                    <mat-option (onSelectionChange)="changeProduct($event,brand)" *ngFor="let brand of finalBrandArray"
                         [value]="brand.BrandID">
                         {{brand.Name}}
                     </mat-option>
@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-4">
             <!-- <button mat-raised-button color="primary" class="width-100 mt-2" (click)="searchRecords()">Search Records</button> -->
-            <button mat-raised-button color="primary" class="width-100 mt-2" (click)="openDialog()">Search Records</button>
+            <button mat-raised-button color="primary" class="width-100 mt-2" (click)="searchRecords()">Search Records</button>
         </div>
     </div>
 </div>

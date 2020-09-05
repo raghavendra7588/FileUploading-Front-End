@@ -32,7 +32,7 @@ import * as _ from 'lodash';
 })
 export class PurchaseOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['Product Id', 'Brand Name', 'Product Name', 'Quantity', 'AvailableQuantity', 'BuyingPrice', 'Discount', 'Final Price'];
+  displayedColumns: string[] = ['ProductId', 'BrandName', 'ProductName', 'Quantity', 'AvailableQuantity', 'BuyingPrice', 'Discount', 'FinalPrice'];
   dataSource: any;
 
   purchaseOrder: PurchaseOrder = new PurchaseOrder();
@@ -72,7 +72,9 @@ export class PurchaseOrderComponent implements OnInit {
         let uniqueReceivedPurchaseOrder = _.uniqBy(this.receivedPurchaseOrder, 'ReferenceId');
         this.receivedPurchaseOrder = uniqueReceivedPurchaseOrder;
         this.calculateGrandTotal(this.receivedPurchaseOrder);
-        
+        let sortedRecivedPurchaseOrder = this.receivedPurchaseOrder.sort((a, b) => parseFloat(a.productId) - parseFloat(b.productId));
+        this.receivedPurchaseOrder = [];
+        this.receivedPurchaseOrder = sortedRecivedPurchaseOrder;
         this.dataSource = new MatTableDataSource(this.receivedPurchaseOrder);
         this.dataSource.paginator = this.paginator;
       }
@@ -110,8 +112,7 @@ export class PurchaseOrderComponent implements OnInit {
   getRandomNumbers() {
     var minm = 100000;
     var maxm = 999999;
-    return Math.floor(Math
-      .random() * (maxm - minm + 1)) + minm;
+    return Math.floor(Math.random() * (maxm - minm + 1)) + minm;
     // return Math.floor(100000 + Math.random() * 900000);
   }
 
@@ -304,10 +305,23 @@ export class PurchaseOrderComponent implements OnInit {
     else {
       this.purchaseOrderData.paymentTerms = this.purchaseOrder.paymentTerms.toString();
     }
+    let isQuantityValid = true;
+    this.receivedPurchaseOrder.forEach(item => {
+      if (Number(item.availableQuantity) == 0) {
+        this.toastr.error('Quantity Can not Be Zero');
+        isQuantityValid = false;
+        return ;
+      }
+    });
+
+    if (!isQuantityValid) {
+      return ;
+    }
 
     this.purchaseOrderData.items = this.receivedPurchaseOrder;
 
     this.purchaseOrderData.categoryId = this.receivedPurchaseOrder.categoryId;
+
 
 
     if (this.purchaseOrder.paymentTerms === 'Credit') {
@@ -400,17 +414,6 @@ export class PurchaseOrderComponent implements OnInit {
     this.dataSource = [];
   }
 
-
-  // openPurchaseOrderPrintDialog() {
-  //   this.dialog.open(DialogPurchaseOrderPrintComponent, {
-  //     disableClose: true,
-  //     height: '150px',
-  //     width: '400px',
-  //     data: this.purchaseOrderData.OrderNo,
-
-  //   });
-  // }
-
   openPurchaseOrderPrintDialog() {
 
     this.dialog.open(DialogPurchaseOrderPrintComponent, {
@@ -422,10 +425,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   editQuantity(element) {
-    let totalPrice = 0;
-    totalPrice = ((element.buyingPrice - element.discount) * (Number(element.availableQuantity)));
-    element.finalPrice = totalPrice;
-    this.calculateGrandTotal(this.receivedPurchaseOrder);
+      let totalPrice = 0;
+      totalPrice = ((element.buyingPrice - element.discount) * (Number(element.availableQuantity)));
+      element.finalPrice = totalPrice;
+      this.calculateGrandTotal(this.receivedPurchaseOrder);
   }
   calculateGrandTotal(array) {
     this.grandTotal = 0;
@@ -434,5 +437,28 @@ export class PurchaseOrderComponent implements OnInit {
     });
   }
 
+  getFinalPrice() {
+    let totalFinalPrice = 0;
+    this.receivedPurchaseOrder.forEach(item => {
+      totalFinalPrice +=Number(item.finalPrice);
+    });
+    return totalFinalPrice;
+  }
+
+  getTotalDiscount() {
+    let totalDiscount = 0;
+    this.receivedPurchaseOrder.forEach(item => {
+      totalDiscount += Number(item.discount);
+    });
+    return totalDiscount;
+  }
+
+  getTotalQuantity() {
+    let totalPurchaseQuantity = 0;
+    this.receivedPurchaseOrder.forEach(item => {
+      totalPurchaseQuantity += Number(item.availableQuantity);
+    });
+    return totalPurchaseQuantity;
+  }
 
 }

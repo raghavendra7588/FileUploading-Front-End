@@ -6,7 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InventoryService {
-  name = 'raghu';
   price: any;
   token: string;
   sellerId: string;
@@ -19,6 +18,9 @@ export class InventoryService {
 
 
   private GET_PURCHASE_ORDER_INVENTORY_DATA = 'http://localhost:55547/api/PurchaseReportInventory';
+  private SAVE_ITEM_MASTER = 'http://localhost:55547/api/ItemMaster';
+  private GET_ITEM_MASTER = 'http://localhost:55547/api/ItemMaster';
+  private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api//PriceDecisionFactor/getall';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = localStorage.getItem('token');
@@ -29,4 +31,22 @@ export class InventoryService {
   getPurchaseOrderInventoryData(purchaseOrderInventoryData) {
     return this.http.post(this.GET_PURCHASE_ORDER_INVENTORY_DATA, purchaseOrderInventoryData);
   }
+
+  saveItemMaster(itemMaster) {
+    return this.http.post(this.SAVE_ITEM_MASTER, itemMaster);
+  }
+
+  getItemMaster(sellerId: number) {
+    return this.http.get(this.GET_ITEM_MASTER + '/' + sellerId);
+  }
+
+  getMeasurementUnitData() {
+    const data = {};
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_MEASUREMENT_UNIT, data, { headers: reqHeader });
+  }
+  
 }

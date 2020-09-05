@@ -6,22 +6,22 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using inventory.Models;
-using Newtonsoft.Json;
 
 namespace inventory.Controllers
 {
-    public class AddressController : ApiController
+    public class ItemMasterController : ApiController
     {
 
-        AddressBL ObjAddressBL = new AddressBL();
+        ItemMasterBL objItemMasterBL = new ItemMasterBL();
+
 
         [HttpGet]
         public HttpResponseMessage getall(int id)
         {
             try
             {
-                Vendor ObjVendor = new Vendor();
-                DataTable dt = ObjAddressBL.getAllData(id);
+
+                DataTable dt = objItemMasterBL.getAllData(id);
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }
             catch (Exception ex)
@@ -32,21 +32,22 @@ namespace inventory.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Post(Address addressData)
+        public HttpResponseMessage Post(ItemMaster objItemMasterData)
         {
-            //Address address = new Address();
-            string strId = addressData.id;
+   
+            int intItemMasterId = objItemMasterData.itemMasterId;
             try
             {
-                if (Convert.ToInt32(strId) == 0)
+                
+                if (Convert.ToInt32(intItemMasterId) == 0)
                 {
-                    ObjAddressBL.postAddressToDb(addressData);
+                    objItemMasterBL.postItemMasterToDb(objItemMasterData);
                 }
                 else
                 {
-                    ObjAddressBL.updateAddressToDb(addressData,Convert.ToInt32(strId));
-                }           
-              
+                    objItemMasterBL.updateItemMasterToDb(objItemMasterData, Convert.ToInt32(intItemMasterId));
+                }
+
                 return Request.CreateResponse(HttpStatusCode.Created);
             }
             catch (Exception ex)
@@ -54,6 +55,5 @@ namespace inventory.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
     }
 }

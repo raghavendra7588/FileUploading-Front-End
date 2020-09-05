@@ -45,7 +45,7 @@ namespace inventory.Models
         {
             SqlCommand command = new SqlCommand();
             SqlConnection conn = new SqlConnection(strConn);
-            string sql = "select Mst_PurchaseOrderItem.PurchaseOrderId,Mst_PurchaseOrderItem.ProductId,Mst_PurchaseOrderItem.FinalPrice,Mst_PurchaseOrderItem.Discount, Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem,Mst_PurchaseOrder where Mst_PurchaseOrderItem.SellerId = 2 AND Mst_PurchaseOrderItem.SubCategoryId IN(73,79,85) AND Mst_PurchaseOrderItem.BrandId IN(126,157,155) AND Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId order by Mst_PurchaseOrderItem.ProductVarientId ASC";
+            string sql = "select Mst_PurchaseOrderItem.ProductVarientId,Mst_PurchaseOrderItem.ProductId,Mst_PurchaseOrderItem.FinalPrice,Mst_PurchaseOrderItem.Discount, Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem,Mst_PurchaseOrder where Mst_PurchaseOrderItem.SellerId = 2 AND Mst_PurchaseOrderItem.SubCategoryId IN(73,79,85) AND Mst_PurchaseOrderItem.BrandId IN(126,157,155) AND Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId order by Mst_PurchaseOrderItem.ProductVarientId ASC;";
                 //"select * from Mst_PurchaseOrderItem,Mst_PurchaseOrder where Mst_PurchaseOrderItem.SellerId = 2 AND Mst_PurchaseOrderItem.SubCategoryId IN(73,79,85)  AND Mst_PurchaseOrderItem.BrandId IN(126,157,155) AND Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId order by Mst_PurchaseOrderItem.ProductVarientId ASC";
                // BuildQuery(purchaseReportInventory.CategoryId, purchaseReportInventory.SubcategoryId, purchaseReportInventory.BrandId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
             command.Connection = conn;
@@ -70,31 +70,43 @@ namespace inventory.Models
             table.Columns.Add("ProductName", typeof(string));
             table.Columns.Add("Brand", typeof(string));
             table.Columns.Add("Varient", typeof(string));
-            table.Columns.Add("Quantity", typeof(int));
-            table.Columns.Add("FinalPrice", typeof(int));
+
+            table.Columns.Add("BuyingPrice", typeof(int));
+            table.Columns.Add("ProductDiscount", typeof(int));
+            table.Columns.Add("TotalQuantityOrder", typeof(int));
+
+            table.Columns.Add("TotalFinalPrice", typeof(int));
+            table.Columns.Add("TotalDiscountPrice", typeof(int));
+            table.Columns.Add("FinalPurchaseAmount", typeof(int));
 
 
             for (int i=0;i<dt.Rows.Count;i++)
             {
                 string strFinalPrice = dt.Rows[i]["FinalPrice"].ToString();
                 string strProductVarientId = dt.Rows[i]["ProductVarientId"].ToString();
+                //string strProductName = dt.Rows[i]["ProductName"].ToString();
+                //string strBrandName = dt.Rows[i]["strBrandName"].ToString();
+                //string strVarientName = dt.Rows[i]["strVarientName"].ToString();
 
-                int totalQuantity = 0;
+                int totalQuantityOrder = 0;
                 int totalFinalPrice = 0;
-         
+                int totalDiscountPrice = 0;
+                int finalPurchaseAmount = 0;
+
                 for (int j=0;j<dt.Rows.Count; j++)
                 {
                     if (strProductVarientId == dt.Rows[j]["ProductVarientId"].ToString())
                     {
-                        totalQuantity += Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
+                        totalQuantityOrder += Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
                         totalFinalPrice += Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString());
+                        totalDiscountPrice += Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
                     }
                 }
-                table.Rows.Add("dummmyProductName", "dummmyBrand", "dummmyVarientName", totalQuantity, totalFinalPrice);
+                table.Rows.Add(strProductVarientId, "dummmyBrandName", "dummmyVarientName", 0,0,totalQuantityOrder, totalFinalPrice, totalDiscountPrice, finalPurchaseAmount);
             }
           
 
-            return dt;
+            return table;
         }
   
     }

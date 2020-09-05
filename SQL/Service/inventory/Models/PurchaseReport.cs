@@ -71,7 +71,7 @@ namespace inventory.Models
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("select Mst_Vendor.name as vendor_name,Mst_PurchaseOrder.PurchaseOrderId,Mst_PurchaseOrder.OrderNo,Mst_PurchaseOrder.OrderDate,Mst_PurchaseOrder.DeliveryDate,Mst_PurchaseOrder.BatchNumber from Mst_Vendor,Mst_PurchaseOrder");
+                sb.Append("select Mst_Vendor.name as vendor_name,Mst_PurchaseOrder.PurchaseOrderId,FORMAT(Mst_PurchaseOrder.CreatedAt,'dd/MM/yyyy hh:mm:ss') as CreatedAt,Mst_PurchaseOrder.OrderNo,Mst_PurchaseOrder.OrderDate,Mst_PurchaseOrder.DeliveryDate,Mst_PurchaseOrder.BatchNumber from Mst_Vendor,Mst_PurchaseOrder");
 
                 List<string> Clauses = new List<string>();
 
@@ -119,7 +119,7 @@ namespace inventory.Models
             {
                 //ex.HandleException()
             }
-            return MethodResult;
+            return MethodResult + "  order by CreatedAt desc";
         }
 
 

@@ -23,9 +23,9 @@ export class InventoryService {
   private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api//PriceDecisionFactor/getall';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
-    this.token = localStorage.getItem('token');
-    this.sellerId = localStorage.getItem('sellerId');
-    this.storageSellerId = Number(localStorage.getItem('sellerId'));
+    this.token = sessionStorage.getItem('token');
+    this.sellerId = sessionStorage.getItem('sellerId');
+    this.storageSellerId = Number(sessionStorage.getItem('sellerId'));
   }
 
   getPurchaseOrderInventoryData(purchaseOrderInventoryData) {

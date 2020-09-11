@@ -28,7 +28,7 @@ export class AddressDetailsComponent implements OnInit {
         this.getAddressDetails();
       }
     });
-    this.sellerId = Number(localStorage.getItem('sellerId'));
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
   }
 
 

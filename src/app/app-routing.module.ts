@@ -36,7 +36,8 @@ import { SalesReportComponent } from './inventory/sales-report/sales-report.comp
 
 
 const routes: Routes = [
-
+  
+ 
   { path: 'http://203.112.144.38/Uat_Inventory', redirectTo: '/login', pathMatch: 'full' },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -72,6 +73,10 @@ const routes: Routes = [
   { path: 'inventory/materialIssueedForJobWork', component: MaterialIssuedForJobWorkComponent },
   { path: 'inventory/materialReceivedAfterJobWork', component: MaterialReceivedAfterJobWorkComponent },
   { path: 'inventory/jobWorkOutwardInvoice', component: JobWorkOutworkInvoiceComponent },
+  {
+    path: '**',
+    redirectTo: '/login'
+  }
 ];
 
 @NgModule({

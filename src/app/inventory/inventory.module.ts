@@ -46,8 +46,17 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+
+
+import { NgxPrintModule } from 'ngx-print';
+import { DialogPurchaseReportDataComponent } from './dialog-purchase-report-data/dialog-purchase-report-data.component';
 @NgModule({
-  declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent, JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent, MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent, DialogPrintPurchaseReportComponent],
+  declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent,
+     InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent, 
+     JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent, 
+     MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent,
+      DialogPrintPurchaseReportComponent,
+      DialogPurchaseReportDataComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -70,10 +79,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatDatepickerModule,
     MatDividerModule,
     MatListModule,
+    NgxPrintModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     MatCheckboxModule
   ],
+  entryComponents:[DialogPrintPurchaseReportComponent],
   providers: [InventoryService],
   exports: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent]
 })

@@ -3,6 +3,7 @@ import { User } from './user.model';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service'
 import { PurchaseService } from '../purchase/purchase.service';
+import { EmitterService } from 'src/shared/emitter.service';
 
 
 @Component({
@@ -13,7 +14,10 @@ import { PurchaseService } from '../purchase/purchase.service';
 export class LoginComponent implements OnInit {
 
   user: User = new User();
-  constructor(public router: Router, public loginService: LoginService, public purchaseService: PurchaseService) { }
+  constructor(public router: Router,
+    public loginService: LoginService,
+    public purchaseService: PurchaseService,
+    public emitterService: EmitterService) { }
 
   ngOnInit(): void {
     this.user.username = '9821163016';
@@ -29,19 +33,20 @@ export class LoginComponent implements OnInit {
       this.loginService.seller_mapped_categories = data.categories;
       this.loginService.seller_id = data.id;
       this.loginService.seller_name = data.name;
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('sellerName', data.name);
-      localStorage.setItem('sellerId', data.id.toString());
-      localStorage.setItem('categories', JSON.stringify(data.categories));
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('sellerName', data.name);
+      sessionStorage.setItem('sellerId', data.id.toString());
+      sessionStorage.setItem('categories', JSON.stringify(data.categories));
+      // this.emitterService.isLoginResponse.emit(data);
 
       this.router.navigate(['/dashboard']);
     });
   }
 
-  
+
   getMasterBrandData() {
     this.purchaseService.getEveryBrand().subscribe(data => {
-    
+
       this.purchaseService.masterBrandData = data;
 
     });

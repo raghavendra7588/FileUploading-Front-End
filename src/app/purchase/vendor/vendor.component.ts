@@ -16,7 +16,7 @@ import { LoginService } from 'src/app/login/login.service';
 })
 export class VendorComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'registrationDate','email', 'bankName', 'creditLimit', 'creditLimitDays','transporter', 'action'];
+  displayedColumns: string[] = ['name', 'registrationDate', 'email', 'bankName', 'creditLimit', 'creditLimitDays', 'transporter', 'action'];
 
   dataSource: any;
   newRecordSubscription: Subscription;
@@ -27,10 +27,10 @@ export class VendorComponent implements OnInit {
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService, public loginService: LoginService) { }
 
   ngOnInit() {
-    // this.manager = localStorage.getItem(this.constantService.RESOURCE_MANAGER);
-    // this.fullName = localStorage.getItem(this.constantService.FULLNAME);
+    // this.manager = sessionStorage.getItem(this.constantService.RESOURCE_MANAGER);
+    // this.fullName = sessionStorage.getItem(this.constantService.FULLNAME);
 
-    this.sellerId = localStorage.getItem('sellerId');
+    this.sellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
 
     this.newRecordSubscription = this.emitterService.isVendorMasterUpdated.subscribe(value => {
@@ -38,6 +38,7 @@ export class VendorComponent implements OnInit {
         this.getVendorData();
       }
     });
+    this.getEveryBrandData();
   }
 
 
@@ -59,6 +60,11 @@ export class VendorComponent implements OnInit {
       height: '600px',
       width: '800px',
       data: vendor
+    });
+  }
+  getEveryBrandData() {
+    this.purchaseService.getEveryBrand().subscribe(data => {
+      this.purchaseService.allBrandData = data;
     });
   }
 

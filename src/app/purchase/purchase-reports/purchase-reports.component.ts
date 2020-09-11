@@ -28,7 +28,7 @@ export class PurchaseReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendorData();
-    this.sellerId = localStorage.getItem('sellerId');
+    this.sellerId = sessionStorage.getItem('sellerId');
     this.purchaseReportData.sellerId = this.sellerId;
   }
 

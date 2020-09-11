@@ -20,6 +20,8 @@ export class PurchaseService {
   masterBrandData: any = [];
   extractPriceListData: any = [];
   finalPriceList: any = [];
+  allvendorData: any = [];
+  allBrandData: any = [];
 
   // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
   // private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
@@ -51,9 +53,9 @@ export class PurchaseService {
   public GET_PURCHASE_ORDER_DATA = 'http://localhost:55547/api/PurchaseReport';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
-    this.token = localStorage.getItem('token');
-    this.sellerId = localStorage.getItem('sellerId');
-    this.storageSellerId = Number(localStorage.getItem('sellerId'));
+    this.token = sessionStorage.getItem('token');
+    this.sellerId = sessionStorage.getItem('sellerId');
+    this.storageSellerId = Number(sessionStorage.getItem('sellerId'));
   }
 
 
@@ -79,6 +81,15 @@ export class PurchaseService {
 
   getEveryBrand() {
     const data = { "SellerId": this.sellerId, "CategoryId": "0", "SubCategoryId": "0" }
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    return this.http.post(this.GET_BRANDS, data, { headers: reqHeader });
+  }
+
+  getEachBrand(categoryId, subcategoryId) {
+    const data = { "SellerId": this.sellerId, "CategoryId": categoryId, "SubCategoryId": subcategoryId }
     var reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token

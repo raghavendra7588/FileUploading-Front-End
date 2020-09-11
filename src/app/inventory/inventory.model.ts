@@ -2,8 +2,10 @@ export class PurchaseReport {
     categoryId: string;
     subCategoryId: string;
     brandId: string;
+    productId: string;
     startDate: string;
     endDate: string;
+    sellerId: string;
 }
 
 export class SalesReport {
@@ -27,15 +29,15 @@ export class ItemMaster {
     purchaseDescription?: string;
     purchaseMeasureMentUnit?: string;
     purchaseVarient?: string;
-    purchasePrice?: number;
-    purchaseDiscount?: number;
-    finalPurchasePrice?: number;
+    purchasePrice?: string;
+    purchaseDiscount?: string;
+    finalPurchasePrice?: string;
     sellingDescription?: string;
     sellingMeasurementUnit?: string;
     sellingVarient?: string;
-    sellingPrice?: number;
-    sellingDiscount?: number;
-    finalSellingPrice?: number;
+    sellingPrice?: string;
+    sellingDiscount?: string;
+    finalSellingPrice?: string;
     itemType?: string;
     minimumLevel?: string;
     serialTracking?: string;

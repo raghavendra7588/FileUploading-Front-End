@@ -60,10 +60,12 @@ export class AddAddressComponent implements OnInit {
       // this.defaultAddressValues();
     }
 
-    this.sellerId = parseInt(localStorage.getItem('sellerId'));
+    this.sellerId = parseInt(sessionStorage.getItem('sellerId'));
     this.address.sellerId = Number(this.sellerId);
-    this.address.sellerName = localStorage.getItem('sellerName');
+    this.address.sellerName = sessionStorage.getItem('sellerName');
 
+    this.address.billing_country = 'India';
+    this.address.shipping_country = 'India';
   }
 
   defaultAddressValues() {

@@ -7,10 +7,9 @@ import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/mater
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, NumberValueAccessor } from '@angular/forms';
 import { EmitterService } from 'src/shared/emitter.service';
-import { CdkNoDataRow } from '@angular/cdk/table';
-
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-dialog-content-vendor',
@@ -30,6 +29,14 @@ import { CdkNoDataRow } from '@angular/cdk/table';
 export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
   panelOpenState = false;
+
+  categorySettings = {};
+  subCategorySettings = {};
+  brandSettings = {};
+
+
+
+
   documents: any;
   labelPosition: 'before' = 'before';
   selectedTerm: any;
@@ -76,7 +83,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   categoriesArray3: any = [];
   currentBillingId: string;
   currentShippingId: string;
-  sellerId: string;
   storageSellerId: number;
   maxDate: any;
   uniqueBrandNamesArray: any = [];
@@ -103,11 +109,14 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   dropdownSettings = {};
   dataList = [];
 
-
-  categorySettings = {};
-  subCategorySettings = {};
-  brandSettings = {};
-
+  selectedCategoryIdArray: any = [];
+  selectedSubCategoryIdArray: any = [];
+  selectedBrandIdArray: any = [];
+  sellerName: string;
+  sellerId: any;
+  categoryId: any;
+  AllCategoryArray: any = [];
+  AllSubCategoryArray: any = [];
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -116,8 +125,44 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     public router: Router,
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
+    this.sellerName = sessionStorage.getItem('sellerName');
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
+    // this.itemMaster.sellerId = sessionStorage.getItem('sellerId').toString();
+    this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+    let sortedData = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
+    this.loginService.seller_object.categories = [];
+    this.loginService.seller_object.categories = sortedData;
     this.vendorData = data;
-    this.assignData();
+    this.categorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: true
+    };
+
+    this.subCategorySettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: true
+    };
+
+    this.brandSettings = {
+      singleSelection: false,
+      idField: 'BrandID',
+      textField: 'BrandName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      badgeShowLimit: 1,
+      allowSearchFilter: true
+    };
     this.getAddressDetails();
     this.getMasterBrandData();
     this.getVendorData();
@@ -125,13 +170,39 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.isImageUploaded = true;
       // this.selectedBrandString = this.vendorData.brand;
       // this.selectedSubCategoryString = this.vendorData.subCategory;
-      // this.selectedCategoryString = this.vendorData.category;
-      // console.log('category string', this.selectedCategoryString);
-      // let categoryString = this.selectedCategoryString;
-      // this.selectedCategoryArray = categoryString.split(",");
-      // let preSelectedCategoryArray = this.selectedCategoryArray.map(Number);
+      this.selectedCategoryString = this.vendorData.category;
+
+      let categoryString = this.selectedCategoryString;
+      this.selectedCategoryArray = categoryString.split(",");
+      let preSelectedCategoryArray = this.selectedCategoryArray.map(Number);
+      // this.vendor.category = preSelectedCategoryArray;
+      // console.log('check', this.vendor.category);
+      let customCategoryList: any = [];
+      let itemData;
+      this.vendor.category = [{
+        descriptions: "Groceries",
+        id: "3",
+        imageurl: "20190811144816_grocery.jpeg",
+        isactive: "True",
+        isparent: "True",
+        name: "Grocery",
+        parentcategoryname: "",
+        parentid: "0",
+        userid: ""
+      }];
+  
+      // this.loginService.seller_object.categories.filter(item => {
+      //   if (preSelectedCategoryArray.includes(Number(item.id))) {
+      //     console.log('item', item);
+      //     itemData = item;
+      //     itemData = { item_id: item.id, item_text: item.name }
+      //     customCategoryList.push(itemData);
+      //     this.vendor.category = customCategoryList;
+      //     console.log('preselected ***', customCategoryList);
+      //   }
+      // });
       // console.log('preselected categry', preSelectedCategoryArray);
-      // let string = this.selectedBrandString;
+      // // let string = this.selectedBrandString;
       // this.selectedBrandArray = string.split(",");
       // var preSelectedBrandArray = this.selectedBrandArray.map(Number);
       // console.log('brand array', preSelectedBrandArray);
@@ -142,6 +213,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       // console.log('after brand array', filteredArray1);
 
       // this.selectedSubCategoryArray = this.selectedSubCategoryString.split(",");
+
     }
 
     this.saveVendorForm = this.formBuilder.group({
@@ -179,27 +251,24 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       accountName: [''],
       accountType: ['']
     });
-
+    this.assignData();
 
   }
 
   ngOnInit(): void {
-    // this.assignData();
-    // this.getAddressDetails();
-    // this.getMasterBrandData();
-    // this.getVendorData();
-    // this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
-    // this.dataList = this.loginService.seller_object.categories;
-    this.vendor.sellerId = localStorage.getItem('sellerId');
-    this.sellerId = localStorage.getItem('sellerId');
-    this.maxDate = new Date();
 
-    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
-    let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
-    this.loginService.seller_object.categories = [];
-    this.loginService.seller_object.categories = data;
+    this.vendor.sellerId = sessionStorage.getItem('sellerId');
+    // this.sellerId = sessionStorage.getItem('sellerId');
+    // this.maxDate = new Date();
 
-    // console.log('sorted data', this.loginService.seller_object.categories);
+    // this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+    // let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
+    // this.loginService.seller_object.categories = [];
+    // this.loginService.seller_object.categories = data;
+
+    /////
+
+    // this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
 
 
     this.paymentCategory = [
@@ -224,30 +293,9 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     this.vendor.Country = 'India';
 
-    this.categorySettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-  }
-  onCategorySelect(item: any) {
-    console.log(item);
 
   }
-  onCategoryDeSelect(item: any) {
-    console.log(item);
 
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  onDeSelectAll(items: any) {
-    console.log(items);
-  }
   selectedBillingAddress(event, adr) {
     this.currentBillingId = adr.id.toString();
   }
@@ -257,11 +305,256 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
 
-  compareObjects(o1: any, o2: any): boolean {
-    return o1 && o2 ? o1.id === o2 : o1 === o2;
+
+  onCategorySelectAll() {
+  
+
+    // this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
+    // this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+
+    this.purchaseService.getEveryBrand().subscribe(data => {
+     
+      this.AllCategoryArray = data;
+
+      let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+
+    });
+
   }
 
+  onCategorySelectAllList(event) {
+    console.log('select all', event);
+  }
+  onCategoryDeSelectAll(event) {
+    console.log('disselect all', event);
+  }
+
+  onSubCategorySelectAll() {
+
+  
+    this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
+      this.AllSubCategoryArray = data;
+      let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrands);
+    });
+  }
+
+  onBrandSelectAll() {
+    console.log();
+  }
+
+
+  onCategorySelect(event) {
+
+    this.selectedCategoryIdArray.push(event.id);
+    // console.log('selected CATE ID', this.selectedCa  tegoryIdArray);
+
+    // this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
+    //   if (this.multipleCategoriesArray.length === 0) {
+    //     this.multipleCategoriesArray = data;
+    //     let sortedCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+    //     this.multipleCategoriesArray = [];
+    //     this.multipleCategoriesArray = sortedCategory;
+
+    //   }
+    //   else {
+    //     this.categoriesArray2 = data;
+    //     this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+    //     this.multipleCategoriesArray = this.categoriesArray3;
+    //     let sortedCategories = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+    //     this.multipleCategoriesArray = [];
+    //     this.multipleCategoriesArray = sortedCategories;
+
+    //   }
+    // });
+
+
+
+    this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
+
+      if (this.multipleCategoriesArray.length === 0) {
+        this.multipleCategoriesArray = data;
+        let sortedSubCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedSubCategory;
+      }
+      else {
+        this.categoriesArray2 = data;
+        this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+        this.multipleCategoriesArray = this.categoriesArray3;
+        let sortedSubCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
+        this.multipleCategoriesArray = [];
+        this.multipleCategoriesArray = sortedSubCategory;
+      }
+    });
+
+
+
+  }
+
+  onCategoryDeSelect(event) {
+
+    let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
+      return Number(item.parentid) !== Number(event.id);
+    });
+    this.multipleCategoriesArray = [];
+    this.multipleCategoriesArray = remainingCategoriesArray;
+
+    if (this.multipleCategoriesArray.length === 0) {
+      this.multipleCategoriesArray = [];
+      this.anyArray = [];
+      this.selectedSubCategoryIdArray = [];
+      this.selectedBrandIdArray = [];
+      // this.dataSource = [];
+    }
+
+    const index = this.selectedCategoryIdArray.indexOf(event.id);
+    if (index > -1) {
+      this.selectedCategoryIdArray.splice(index, 1);
+    }
+ 
+  }
+
+
+
+
+  onSubCategorySelect(event, data) {
+
+    this.selectedSubCategoryIdArray.push(event.id);
+
+    // this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
+    //   if (this.multipleBrandArray.length === 0) {
+    //     this.multipleBrandArray = data;
+    //     // this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+    //     // // this.multipleBrandArray = this.catchMappedData;
+    //   }
+    //   else {
+    //     this.array2 = data;
+    //     this.array2 = this.mapObj(this.array2, this.dbData);
+    //     this.array3 = [...this.catchMappedData, ...this.array2];
+    //     this.catchMappedData = this.array3;
+    //   }
+    //   this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+    //   this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+    //   this.multipleBrandArray = this.catchMappedData;
+
+    // });
+
+    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
+      if (this.multipleBrandArray.length === 0) {
+        this.multipleBrandArray = data;
+      }
+      else {
+        this.array2 = data;
+        this.array3 = [...this.multipleBrandArray, ...this.array2];
+        this.multipleBrandArray = this.array3;
+      }
+      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
+      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+      this.subCategoryNamesArray = this.multipleBrandArray;
+    });
+  }
+
+  onSubCategoryDeSelect(event) {
+   
+    // let newArr = [];
+    // console.log(' before sub category un selected ', this.anyArray);
+    // newArr = this.anyArray.filter(function (item) {
+    //   return Number(item.SubCategoryID) !== Number(event.id);
+    // });
+    // this.anyArray = [];
+    // this.anyArray = newArr;
+    // console.log(' after sub category un selected ', this.anyArray);
+    // let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
+    //   return Number(item.SubCategoryID) !== Number(event.id);
+    // });
+    // this.finalBrandArray = unSelectedSubCategoryArray;
+
+
+   
+    let newArr = this.anyArray.filter(function (item) {
+      return Number(item.SubCategoryID) != Number(event.id);
+    });
+    this.anyArray = [];
+    this.anyArray = newArr;
+    const subCategoryIndex = this.selectedSubCategoryIdArray.indexOf(event.id);
+    if (subCategoryIndex > -1) {
+      this.selectedSubCategoryIdArray.splice(subCategoryIndex, 1);
+    }
+
+    if (this.multipleCategoriesArray.length === 0) {
+      this.anyArray = [];
+    }
+  
+  }
+
+
+  onBrandSelect(event) {
+
+    this.selectedBrandIdArray.push(event.BrandID);
+    
+    if (this.finalBrandArray.length === 0) {
+      let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName;
+      });
+      let sortedBrandArray = this.sortUniqueBrandName(filteredBrandArray);
+      this.finalBrandArray = sortedBrandArray;
+     
+    }
+    else {
+      this.brands1 = this.multipleBrandArray.filter(function (item) {
+        return item.BrandName.trim() === event.BrandName;
+      });
+      this.brands2 = this.brands1;
+      this.brands3 = [...this.finalBrandArray, ...this.brands2];
+      this.finalBrandArray = this.brands3;
+     
+    }
+  }
+
+  onBrandDeSelect(event) {
+
+    // var tempArr = this.finalBrandArray.filter(function (item) {
+    //   return item.BrandName.trim() != event.BrandName.trim();
+    // });
+    // this.finalBrandArray = tempArr;
+    // // this.dataSource = new MatTableDataSource(this.finalBrandArray);
+    // // this.dataSource.paginator = this.paginator;
+
+    // const brandIndex = this.selectedBrandIdArray.indexOf(event.BrandID);
+    // if (brandIndex > -1) {
+    //   this.selectedBrandIdArray.splice(brandIndex, 1);
+    // }
+
+
+    let tempArr = this.finalBrandArray.filter(function (item) {
+      return item.BrandName.trim() != event.BrandName;
+    });
+    this.finalBrandArray = tempArr;
+
+
+    const brandIndex = this.selectedBrandIdArray.indexOf(event.BrandID);
+    if (brandIndex > -1) {
+      this.selectedBrandIdArray.splice(brandIndex, 1);
+
+    }
+    // var tempArr = this.finalBrandArray.filter(function (item) {
+    //   return item.BrandName.trim() != product.BrandName;
+    // });
+    // this.finalBrandArray = tempArr;
+    // const index = this.brandArray.indexOf(product.ProductID);
+    // if (index > -1) {
+    //   this.brandArray.splice(index, 1);
+    // }
+  }
+
+
   onCategoriesChange(event, category: any) {
+    this.categoryId = category.id;
+    this.selectedCategoryIdArray = [];
+    this.selectedCategoryIdArray.push(category.id);
+
     if (event.isUserInput) {
       if (event.source.selected) {
         this.categoriesArray.push(category.id);
@@ -292,13 +585,17 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
         this.categoriesArray.splice(index, 1);
       }
 
+
+
     }
   }
 
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-        this.subCategoriesArray.push(subCategory.id);
+        this.selectedSubCategoryIdArray = [];
+        this.selectedSubCategoryIdArray.push(subCategory.id);
+      
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -331,6 +628,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.selectedBrandIdArray = [];
+        this.selectedBrandIdArray.push(product.BrandID);
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
             return item.BrandName.trim() === product.BrandName
@@ -461,35 +760,31 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       formData.append('printName', this.vendor.printName);
     }
 
-    let SubCategorystr = '';
-    SubCategorystr = this.subCategoriesArray.toString();
+    // let brandStr = '';
+    // brandStr = this.selectedBrandIdArray.toString();
 
-    let categoryStr = '';
-    categoryStr = this.categoriesArray.toString();
 
-    let brandStr = '';
-    brandStr = this.brandArray.toString();
 
-    if (this.vendor.category === null || this.vendor.category === undefined || this.vendor.category === '') {
-      formData.append('category', "NULL");
-    }
-    else {
+    // if (this.vendor.category === null || this.vendor.category === undefined || this.vendor.category === '') {
+    //   formData.append('category', "NULL");
+    // }
+    // else {
 
-      formData.append('category', categoryStr);
-    }
-    if (this.vendor.subCategory === null || this.vendor.subCategory === undefined || this.vendor.subCategory === '') {
-      formData.append('subCategory', "NULL");
-    }
-    else {
+    //   // formData.append('category', categoryStr);
+    // }
+    // if (this.vendor.subCategory === null || this.vendor.subCategory === undefined || this.vendor.subCategory === '') {
+    //   formData.append('subCategory', "NULL");
+    // }
+    // else {
 
-      formData.append('subCategory', SubCategorystr);
-    }
-    if (this.vendor.brand === null || this.vendor.brand === undefined || this.vendor.brand === '') {
-      formData.append('brand', "NULL");
-    }
-    else {
-      formData.append('brand', brandStr);
-    }
+    //   // formData.append('subCategory', SubCategorystr);
+    // }
+    // if (this.vendor.brand === null || this.vendor.brand === undefined || this.vendor.brand === '') {
+    //   formData.append('brand', "NULL");
+    // }
+    // else {
+    //   // formData.append('brand', brandStr);
+    // }
 
     if (this.vendor.gst === null || this.vendor.gst === undefined || this.vendor.gst === '') {
       formData.append('gst', 'NULL');
@@ -678,6 +973,43 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       formData.append('accountType', this.vendor.accountType);
     }
 
+
+
+    let categoriesValue = this.saveVendorForm.get('category').value;
+    let subCategoriesValue = this.saveVendorForm.get('subCategory').value;
+    let brandValue = this.saveVendorForm.get('brand').value;
+
+    if (categoriesValue === undefined) {
+      formData.append('category', "NULL");
+    } else {
+      let categoryStr = '';
+    
+      // let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
+      categoryStr = this.selectedCategoryIdArray.toString();
+      
+      formData.append('category', categoryStr.toString());
+    }
+
+    if (subCategoriesValue === undefined || subCategoriesValue === null || subCategoriesValue === '') {
+      formData.append('subCategory', "NULL");
+    } else {
+      let SubCategorystr = '';
+      let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
+      SubCategorystr = nonDuplicateSubCategory.toString();
+      formData.append('subCategory', SubCategorystr);
+
+    }
+
+
+    if (brandValue === undefined || brandValue === null || brandValue === '') {
+      formData.append('brand', "NULL");
+    } else {
+      let brandStr = '';
+      let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
+      brandStr = nonDuplicateBrand.toString();
+      formData.append('brand', brandStr);
+    }
+
     formData.append('sellerId', this.vendor.sellerId);
     this.purchaseService.saveVendorMaster(formData).subscribe(data => {
       this.toastr.success('Vendor added Successfully!');
@@ -689,13 +1021,23 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
   assignData() {
     if (this.vendorData) {
-
+     
       this.vendor.code = this.vendorData.code;
       this.vendor.underLedger = this.vendorData.underLedger;
       this.vendor.name = this.vendorData.name;
       this.vendor.contactPerson = this.vendorData.contactPerson;
       this.vendor.printName = this.vendorData.printName;
       this.vendor.gst = this.vendorData.gst;
+      this.vendor.category = this.vendorData.category;
+      this.vendor.subCategory = this.vendorData.subCategory;
+      this.purchaseService.allBrandData.filter(data => {
+        if (Number(data.BrandID) === Number(this.vendorData.brand) && Number(data.SubCategoryID) === Number(this.vendorData.subCategory)) {
+    
+          this.vendor.brand = data.BrandName;
+        }
+      });
+      
+      this.vendor.brand = this.vendorData.brand;
       this.vendor.gstCategory = this.vendorData.gstCategory;
       this.vendor.pan = this.vendorData.pan;
       this.vendor.distance = this.vendorData.distance;
@@ -727,6 +1069,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.Country = this.vendorData.country;
       this.vendor.Phone = this.vendorData.phone;
       this.vendor.Email = this.vendorData.email;
+      this.vendor.accountType = this.vendorData.accountType;
     }
 
   }
@@ -735,23 +1078,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     this.purchaseService.getAddressData().subscribe(data => {
       this.getAddressData = data;
     });
-  }
-
-  createUniqueBrandName(array: any) {
-    let sortedArray: Array<any> = [];
-    for (let i = 0; i < array.length; i++) {
-      if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
-        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID }
-        sortedArray.push(item);
-      }
-    }
-    return sortedArray;
-  }
-  sortUniqueBrandName(array) {
-    array.sort((a, b) => {
-      return a.BrandName.localeCompare(b.BrandName);
-    });
-    return array
   }
 
   getMasterBrandData() {
@@ -766,12 +1092,59 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     });
   }
 
+  createUniqueBrandName(array: any) {
+    let sortedArray: Array<any> = [];
+    for (let i = 0; i < array.length; i++) {
+      if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
+        var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+        sortedArray.push(item);
+      }
+    }
+    return sortedArray;
+  }
+  sortUniqueBrandName(array) {
+    array.sort((a, b) => {
+      return a.BrandName.localeCompare(b.BrandName);
+    });
+    return array
+  }
+
   sortArrayInAscendingOrder(array) {
     array.sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
     return array;
   }
+
+
+  // mapObj(apiData, ownDbData) {
+  //   for (let i = 0; i < apiData.length; i++) {
+  //     apiData[i].ProductPrice = 0;
+  //     apiData[i].Discount = 0;
+  //     apiData[i].FinalPrice = 0;
+  //     for (let j = 0; j < ownDbData.length; j++) {
+  //       if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+  //         apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+  //         apiData[i].Discount = ownDbData[j].Discount;
+  //         apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+  //       }
+  //     }
+  //   }
+  //   return apiData;
+  // }
+
+  // createUniqueBrandName(array: any) {
+  //   let sortedArray: Array<any> = [];
+  //   for (let i = 0; i < array.length; i++) {
+  //     if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {
+  //       var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID }
+  //       sortedArray.push(item);
+  //     }
+  //   }
+  //   return sortedArray;
+  // }
+
+
 
   ngOnDestroy() {
     this.isImageUploaded = false;

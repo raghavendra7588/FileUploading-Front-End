@@ -92,6 +92,11 @@ export class DialogContentItemMasterComponent implements OnInit {
   itemMasterData: any = [];
   measurementUnitArray: any = [];
 
+  purchaseMeasurementUnitArray = {};
+  salesMeasurementUnitArray = {};
+  selectedMeasurementUnitId: string;
+  selectedItems = [];
+
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
@@ -101,7 +106,7 @@ export class DialogContentItemMasterComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<DialogContentItemMasterComponent>,
     public inventoryService: InventoryService,
-    @Inject(MAT_DIALOG_DATA) public data: any,) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.saveItemMasterForm = this.formBuilder.group({
       productName: ['', [Validators.required]],
@@ -133,18 +138,17 @@ export class DialogContentItemMasterComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.objSeller = JSON.parse(localStorage.getItem('categories'));
-    this.sellerName = localStorage.getItem('sellerName');
-    this.sellerId = Number(localStorage.getItem('sellerId'));
-    this.itemMaster.sellerId = localStorage.getItem('sellerId').toString();
-    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
+    this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
+    this.sellerName = sessionStorage.getItem('sellerName');
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
+    this.itemMaster.sellerId = sessionStorage.getItem('sellerId').toString();
+    this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
     let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
     this.loginService.seller_object.categories = [];
     this.loginService.seller_object.categories = data;
 
 
-    let x = 6.25;
-    console.log('num', Number(x));
+
 
     if (this.itemMasterData) {
       this.assignValues();
@@ -185,18 +189,34 @@ export class DialogContentItemMasterComponent implements OnInit {
       allowSearchFilter: true
     };
 
-    0
-    this.measurementUnitData();
 
-    this.measurementUnit = [
-      { id: '0', title: 'KG' },
-      { id: '1', title: 'GM' }
-    ];
+    this.measurementUnitData();
 
     this.activeStaus = [
       { id: '0', title: 'Active' },
       { id: '1', title: 'InActive' }
     ];
+
+    this.purchaseMeasurementUnitArray = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+
+
+    this.salesMeasurementUnitArray = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
 
@@ -205,7 +225,9 @@ export class DialogContentItemMasterComponent implements OnInit {
   }
 
 
-
+  onSellingMeasurementSelect(data) {
+    console.log('data selected', data);
+  }
 
 
   getBrandsMasterData() {
@@ -467,63 +489,6 @@ export class DialogContentItemMasterComponent implements OnInit {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
-  // editPriceList(element) {
-  //   if (element.priceListId) {
-  //     console.log('got priceList Id');
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
-  //     this.priceList.ReferenceId = element.Id;
-  //     this.priceList.discount = element.Discount;
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-  //     this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-  //       this.toastr.success('price list updated');
-  //     });
-  //   }
-  //   else {
-  //     console.log('not get priceList Id');
-  //     this.priceList.priceListId = element.priceListId;
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
-
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
-
-  //     this.priceList.ReferenceId = element.Id;
-
-  //     this.priceList.discount = element.Discount;
-
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-  //     let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
-  //     if (isPriceValid) {
-  //       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-  //         this.toastr.success('price list saved');
-  //         this.priceList.buyingPrice = 0;
-  //         this.priceList.discount = 0;
-  //         this.priceList.finalPrice = 0;
-  //       });
-  //     }
-  //     else {
-  //       this.toastr.error('Please Check Buying Price, Discount and Final Price');
-  //     }
-  //   }
-  // }
-
-  // getPriceListData() {
-  //   this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
-  //     this.dbData = data;
-  //   });
-  // }
-
   mapObj(apiData, ownDbData) {
     for (let i = 0; i < apiData.length; i++) {
       apiData[i].ProductPrice = 0;
@@ -539,54 +504,6 @@ export class DialogContentItemMasterComponent implements OnInit {
     }
     return apiData;
   }
-
-  // postMultipleInsertion(elements) {
-  //   elements.forEach(element => {
-  //     this.priceList = new PriceList();
-  //     this.priceList.priceListId = element.priceListId;
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
-
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
-
-  //     this.priceList.ReferenceId = element.Id;
-
-  //     this.priceList.discount = element.Discount;
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-
-  //     this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
-  //     if (this.isPriceValid) {
-  //       this.multipleEntries.push(this.priceList);
-  //       this.isMultipleAmount = true;
-  //     }
-  //     else {
-  //       this.isMultipleAmount = false;
-  //     }
-  //   });
-  //   if (this.isMultipleAmount) {
-  //     console.log('multiple amount');
-  //     this.purchaseService.saveMultiplePriceList(this.multipleEntries).subscribe(data => {
-  //       this.toastr.success('price list saved');
-  //       this.selection.clear();
-  //       this.updateAllRecordsCount = 0;
-  //       this.priceList = new PriceList();
-  //       this.priceList.buyingPrice = 0;
-  //       this.priceList.discount = 0;
-  //       this.priceList.finalPrice = 0;
-  //       this.updateAllArray = [];
-  //       this.multipleEntriesArray = [];
-  //     });
-  //   }
-  //   else {
-  //     this.toastr.error('Please Check Buying Price, Discount and Final Price');
-  //     this.multipleEntriesArray = [];
-  //   }
-  // }
 
   createUniqueBrandName(array: any) {
     let sortedArray: Array<any> = [];
@@ -612,7 +529,29 @@ export class DialogContentItemMasterComponent implements OnInit {
     });
     return array;
   }
-  // this.empForm.get('profile')
+
+  onMeasurementSelect(measurement: any) {
+    this.selectedMeasurementUnitId = (measurement.id);
+  }
+  copyFromPurchase() {
+
+    this.measurementUnitArray.filter(project => {
+      if (project.id === this.selectedMeasurementUnitId) {
+        this.itemMaster.sellingMeasurementUnit = project.id;
+      }
+    });
+
+    this.itemMaster.sellingDescription = this.itemMaster.purchaseDescription;
+    this.itemMaster.sellingVarient = this.itemMaster.purchaseVarient;
+    this.itemMaster.sellingPrice = this.itemMaster.purchasePrice;
+    this.itemMaster.sellingDiscount = this.itemMaster.purchaseDiscount;
+    this.itemMaster.finalSellingPrice = this.itemMaster.finalPurchasePrice;
+  }
+
+  onSellingMeasurementChange() {
+    console.log('i am chnaged', this.itemMaster.sellingMeasurementUnit);
+
+  }
 
   saveItemMaster() {
 
@@ -657,15 +596,15 @@ export class DialogContentItemMasterComponent implements OnInit {
 
 
     if (this.itemMaster.purchasePrice === null || this.itemMaster.purchasePrice === undefined) {
-      this.itemMaster.purchasePrice = 0;
+      this.itemMaster.purchasePrice = '0';
     }
 
     if (this.itemMaster.purchaseDiscount === null || this.itemMaster.purchaseDiscount === undefined) {
-      this.itemMaster.purchaseDiscount = 0;
+      this.itemMaster.purchaseDiscount = '0';
     }
 
     if (this.itemMaster.finalPurchasePrice === null || this.itemMaster.finalPurchasePrice === undefined) {
-      this.itemMaster.finalPurchasePrice = 0;
+      this.itemMaster.finalPurchasePrice = '0';
     }
 
     if (this.itemMaster.sellingDescription === null || this.itemMaster.sellingDescription === undefined || this.itemMaster.sellingDescription === '') {
@@ -681,15 +620,15 @@ export class DialogContentItemMasterComponent implements OnInit {
     }
 
     if (this.itemMaster.sellingPrice === null || this.itemMaster.sellingPrice === undefined) {
-      this.itemMaster.sellingPrice = 0;
+      this.itemMaster.sellingPrice = '0';
     }
 
-    if (this.itemMaster.sellingDiscount === null || this.itemMaster.sellingDescription === undefined || this.itemMaster.sellingDescription === '') {
-      this.itemMaster.sellingDiscount = 0;
+    if (this.itemMaster.sellingDiscount === null || this.itemMaster.sellingDiscount === undefined) {
+      this.itemMaster.sellingDiscount = '0';
     }
 
     if (this.itemMaster.finalSellingPrice === null || this.itemMaster.finalSellingPrice === undefined) {
-      this.itemMaster.finalSellingPrice = 0;
+      this.itemMaster.finalSellingPrice = '0';
     }
 
     if (this.itemMaster.minimumLevel === null || this.itemMaster.minimumLevel === undefined || this.itemMaster.minimumLevel === '') {
@@ -705,9 +644,50 @@ export class DialogContentItemMasterComponent implements OnInit {
     }
 
 
+    if (!(this.itemMaster.purchasePrice === null) || !(this.itemMaster.purchasePrice === undefined) || !(this.itemMaster.purchaseDiscount === null) || !(this.itemMaster.purchaseDiscount === undefined)
+      || !(this.itemMaster.finalPurchasePrice === null) || !(this.itemMaster.finalPurchasePrice === undefined)) {
+
+
+      let purchasePrice = parseFloat(this.itemMaster.purchasePrice);
+      let purchaseDiscount = parseFloat(this.itemMaster.purchaseDiscount);
+      let finalPurchasePrice = parseFloat(this.itemMaster.finalPurchasePrice);
+
+      // let purchaseCalculation = Number(this.itemMaster.purchasePrice) - Number(this.itemMaster.purchaseDiscount) === Number(this.itemMaster.finalPurchasePrice);
+      let purchaseCalculation = (purchasePrice - purchaseDiscount) === finalPurchasePrice
+      if (!purchaseCalculation) {
+        this.toastr.error('Check Purchase Amount Calculation');
+        return;
+      }
+    }
+    else {
+      // let purchaseCalculation = Number(this.itemMaster.purchasePrice - this.itemMaster.purchaseDiscount) === Number(this.itemMaster.finalPurchasePrice);
+      // if (!purchaseCalculation) {
+      //   this.toastr.error('Check Purchase Amount Calculation');
+      //   return;
+      // }
+
+    }
+
+
+    if (!(this.itemMaster.sellingPrice === null) || !(this.itemMaster.sellingPrice === undefined) || !(this.itemMaster.sellingDiscount === null) || !(this.itemMaster.sellingDiscount === undefined) ||
+      !(this.itemMaster.finalSellingPrice === null) || !(this.itemMaster.finalSellingPrice === undefined)) {
+      // let sellingCalculation = Number(this.itemMaster.sellingPrice) - Number(this.itemMaster.sellingDiscount) === Number(this.itemMaster.finalSellingPrice);
+      let sellingCalculation = Number(this.itemMaster.sellingPrice) - Number(this.itemMaster.sellingDiscount) === Number(this.itemMaster.finalSellingPrice);
+      if (!sellingCalculation) {
+        this.toastr.error('Check Selling Amount Calculation');
+        return;
+      }
+    }
+    else {
+      // let sellingCalculation = Number(this.itemMaster.sellingPrice - this.itemMaster.sellingDiscount) === Number(this.itemMaster.finalSellingPrice);
+      // if (!sellingCalculation) {
+      //   this.toastr.error('Check Selling Amount Calculation');
+      //   return;
+      // }
+
+    }
+
     let categoriesValue = this.saveItemMasterForm.get('categories');
-
-
     let subCategoriesValue = this.saveItemMasterForm.get('subCategories');
     let brandValue = this.saveItemMasterForm.get('brand');
 
@@ -740,17 +720,7 @@ export class DialogContentItemMasterComponent implements OnInit {
       this.itemMaster.brandId = brandStr;
     }
 
-    let purchaseCalculation = Number(this.itemMaster.purchasePrice - this.itemMaster.purchaseDiscount) === Number(this.itemMaster.finalPurchasePrice);
-    let sellingCalculation = Number(this.itemMaster.sellingPrice - this.itemMaster.sellingDiscount) === Number(this.itemMaster.finalSellingPrice);
-    
-    if (!purchaseCalculation) {
-      this.toastr.error('Check Purchase Amount Calculation');
-      return;
-    }
-    if (!sellingCalculation) {
-      this.toastr.error('Check Selling Amount Calculation');
-      return;
-    }
+
 
     this.inventoryService.saveItemMaster(this.itemMaster).subscribe(data => {
 
@@ -768,14 +738,14 @@ export class DialogContentItemMasterComponent implements OnInit {
     this.itemMaster.gstClassification = 'gstClassification';
     this.itemMaster.purchaseDescription = 'purchaseDescription';
     this.itemMaster.purchaseVarient = 'purchaseVarient';
-    this.itemMaster.purchasePrice = 100;
-    this.itemMaster.purchaseDiscount = 2;
-    this.itemMaster.finalPurchasePrice = 98;
+    this.itemMaster.purchasePrice = '100';
+    this.itemMaster.purchaseDiscount = '2';
+    this.itemMaster.finalPurchasePrice = '98';
     this.itemMaster.sellingDescription = 'sellingDescription';
     this.itemMaster.sellingVarient = 'sellingVarient';
-    this.itemMaster.sellingPrice = 102;
-    this.itemMaster.sellingDiscount = 1;
-    this.itemMaster.finalSellingPrice = 101;
+    this.itemMaster.sellingPrice = '102';
+    this.itemMaster.sellingDiscount = '1';
+    this.itemMaster.finalSellingPrice = '101';
     this.itemMaster.itemType = 'itemType';
     this.itemMaster.minimumLevel = 'minimumLevel';
     this.itemMaster.serialTracking = 'serialTracking';

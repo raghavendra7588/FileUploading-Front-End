@@ -30,7 +30,7 @@ export class DialogPurchaseReportsComponent implements OnInit {
     public router: Router) 
     {
  
-    this.sellerName = localStorage.getItem('sellerName');
+    this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;
     // this.getPurchaseReportById(data.PurchaseOrderId);
@@ -55,7 +55,7 @@ export class DialogPurchaseReportsComponent implements OnInit {
   getTotalDiscount() {
     let totalDiscount = 0;
     this.PurchaseReportDataArray.forEach(item => {
-      totalDiscount += item.Discount;
+      totalDiscount += Number(item.Discount);
     });
     return totalDiscount;
   }
@@ -63,7 +63,8 @@ export class DialogPurchaseReportsComponent implements OnInit {
   getTotalQuantity() {
     let totalPurchaseQuantity = 0;
     this.PurchaseReportDataArray.forEach(item => {
-      totalPurchaseQuantity += item.availableQuantity;
+      // totalPurchaseQuantity += Number(item.availableQuantity);
+      totalPurchaseQuantity += Number(item.PurchaseQuantity);
     });
     return totalPurchaseQuantity;
   }

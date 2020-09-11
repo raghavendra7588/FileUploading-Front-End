@@ -4,7 +4,7 @@ export class Vendor {
     name?: string;
     underLedger?: string;
     contactPerson?: string;
-    category?: string;
+    category?: any;
     printName?: string;
     subCategory?: string;
     brand?: any;
@@ -148,7 +148,7 @@ export class PurchaseOrderItem {
 
 export class PurchaseOrderData {
     PurchaseOrderId?: number;
-    categoryId: string;
+    // categoryId: string;
     SellerId?: number;
     VendorId?: string;
     VendorName?: string;

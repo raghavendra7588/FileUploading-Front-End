@@ -40,8 +40,8 @@ C:\Users\AT SYSTEMS\source\repos\inventory\inventory\bin\System.Net.Http.Formatt
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\bin\System.Web.Http.xml
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\bin\System.Web.Http.WebHost.xml
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\AT SYSTEMS\source\repos\inventory\inventory\obj\Debug\inventory.csprojAssemblyReference.cache
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\obj\Debug\inventory.csproj.CoreCompileInputs.cache
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\obj\Debug\inventory.csproj.CopyComplete
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\obj\Debug\inventory.dll
 C:\Users\AT SYSTEMS\source\repos\inventory\inventory\obj\Debug\inventory.pdb
+C:\Users\AT SYSTEMS\source\repos\Inventory\inventory\obj\Debug\inventory.csprojAssemblyReference.cache

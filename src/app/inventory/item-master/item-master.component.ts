@@ -32,7 +32,7 @@ export class ItemMasterComponent implements OnInit {
 
   ngOnInit() {
     // this.dataSource.sort = this.sort;
-    this.sellerId = Number(localStorage.getItem('sellerId'));
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.getItemMasterData();
   }
 

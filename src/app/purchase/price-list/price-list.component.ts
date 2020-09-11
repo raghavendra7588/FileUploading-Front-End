@@ -18,6 +18,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MyPipePipe } from '../my-pipe.pipe';
 import { EventManager } from '@angular/platform-browser';
 import * as _ from 'lodash';
+import { MatCardTitleGroup } from '@angular/material/card';
 
 @Component({
   selector: 'app-price-list',
@@ -84,7 +85,9 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   @ViewChild('select') select: MatSelect;
   @ViewChild('BrandSelect') BrandSelect: MatSelect;
   selection = new SelectionModel<PriceList[]>(true, []);
-
+  categoryId: string;
+  subCategoryId: string;
+  AllSubCategoryArray: any = [];
 
 
   constructor(public dialog: MatDialog,
@@ -96,10 +99,10 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.objSeller = JSON.parse(localStorage.getItem('categories'));
-    this.sellerName = localStorage.getItem('sellerName');
-    this.sellerId = Number(localStorage.getItem('sellerId'));
-    this.loginService.seller_object.categories = JSON.parse(localStorage.getItem('categories'));
+    this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
+    this.sellerName = sessionStorage.getItem('sellerName');
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
+    this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
     let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
     this.loginService.seller_object.categories = [];
     this.loginService.seller_object.categories = data;
@@ -212,11 +215,19 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
       }
     });
-    // this.purchaseService.getAllBrand(event.id, '0').subscribe(data => {
-    //   console.log('********', data);
-    //   this.selectedCategory = data;
-    //   this.dataSource = new MatTableDataSource(this.selectedCategory);
-    // });
+    let eachBrandData: any = [];
+    let mappedData: any = [];
+    let uniqueBrandName: any = [];
+
+    this.purchaseService.getEachBrand(event.id, '0').subscribe(data => {
+      eachBrandData = data;
+      mappedData = this.mapObj(eachBrandData, this.dbData);
+
+      this.dataSource = new MatTableDataSource(mappedData);
+      this.dataSource.paginator = this.paginator;
+      // uniqueBrandName = this.createUniqueBrandName(mappedData);
+      // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+    });
 
   }
 
@@ -234,20 +245,11 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onCategorySelectAll(event) {
-    console.log('select all', event);
-  }
   onCategoryDeSelectAll(event) {
     console.log('disselect all', event);
   }
 
-
-
-
   onSubCategorySelect(event, data) {
-    // this.subCategoriesArray.push(subCategory.id);
-    // console.log('sub categorys', event.id);
-
 
     this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
       if (this.multipleBrandArray.length === 0) {
@@ -261,6 +263,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
         this.array3 = [...this.catchMappedData, ...this.array2];
         this.catchMappedData = this.array3;
       }
+      this.dataSource = new MatTableDataSource(this.catchMappedData);
+      this.dataSource.paginator = this.paginator;
       this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
       this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
       this.multipleBrandArray = this.catchMappedData;
@@ -315,10 +319,54 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     this.dataSource = new MatTableDataSource(this.finalBrandArray);
     this.dataSource.paginator = this.paginator;
   }
-  
+
+
+  onCategorySelectAll(event) {
+    let AllCategoryArray: any = [];
+
+    this.purchaseService.getEveryBrand().subscribe(data => {
+      AllCategoryArray = data;
+
+      let uniqueBrandName = this.createUniqueBrandName(AllCategoryArray);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+
+    });
+  }
+
+  onSubCategorySelectAll() {
+
+    this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
+      this.AllSubCategoryArray = data;
+
+      let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrands);
+    });
+  }
+
+  onBrandSelectAll() {
+    let mappedBrandData: any = [];
+    let brandData: any = [];
+    let uniqueBrandNameData: any = [];
+
+    this.purchaseService.getAllBrand(this.categoryId, this.subCategoryId).subscribe(data => {
+
+      brandData = data;
+
+      mappedBrandData = this.mapObj(brandData, this.dbData);
+      // this.multipleBrandArray = this.catchMappedData;
+      this.dataSource = new MatTableDataSource(mappedBrandData);
+      this.dataSource.paginator = this.paginator;
+      uniqueBrandNameData = this.createUniqueBrandName(mappedBrandData);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrandNameData);
+      // this.multipleBrandArray = this.catchMappedData;
+
+    });
+  }
+
   onCategoriesChange(event, category: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           if (this.multipleCategoriesArray.length === 0) {
@@ -330,6 +378,25 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
             this.multipleCategoriesArray = this.categoriesArray3;
           }
         });
+        let eachBrandData: any = [];
+        let mappedData: any = [];
+        let uniqueBrandName: any = [];
+
+        this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
+          eachBrandData = data;
+          // this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+          // this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+
+
+          mappedData = this.mapObj(eachBrandData, this.dbData);
+
+          this.dataSource = new MatTableDataSource(mappedData);
+          this.dataSource.paginator = this.paginator;
+          uniqueBrandName = this.createUniqueBrandName(mappedData);
+          this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+        });
+
+
       }
     }
 
@@ -348,6 +415,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length === 0) {
@@ -361,6 +429,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
             this.array3 = [...this.catchMappedData, ...this.array2];
             this.catchMappedData = this.array3;
           }
+          this.dataSource = new MatTableDataSource(this.catchMappedData);
+          this.dataSource.paginator = this.paginator;
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.multipleBrandArray = this.catchMappedData;
@@ -388,25 +458,29 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.dataSource = [];
         this.brandArray.push(product.ProductID);
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
+            return item.BrandName.trim() === product.BrandName;
           });
           this.finalBrandArray = filteredBrandArray;
-          this.dataSource = new MatTableDataSource(this.finalBrandArray);
-          this.dataSource.paginator = this.paginator;
+
+          // this.dataSource = new MatTableDataSource(this.finalBrandArray);
+          // this.dataSource.paginator = this.paginator;
         }
-        else {
-          this.brands1 = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
-          });
-          this.brands2 = this.brands1;
-          this.brands3 = [...this.finalBrandArray, ...this.brands2];
-          this.finalBrandArray = this.brands3;
-          this.dataSource = new MatTableDataSource(this.finalBrandArray);
-          this.dataSource.paginator = this.paginator;
-        }
+        // else {
+        //   this.brands1 = this.multipleBrandArray.filter(function (item) {
+        //     return item.BrandName.trim() === product.BrandName
+        //   });
+        //   this.brands2 = this.brands1;
+        //   this.brands3 = [...this.finalBrandArray, ...this.brands2];
+        //   this.finalBrandArray = this.brands3;
+
+        // }
+        this.dataSource = [];
+        this.dataSource = new MatTableDataSource(this.finalBrandArray);
+        this.dataSource.paginator = this.paginator;
 
       }
       if (!event.source.selected) {
@@ -481,21 +555,6 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      apiData[i].Discount = 0;
-      apiData[i].FinalPrice = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-        }
-      }
-    }
-    return apiData;
-  }
 
   postMultipleInsertion(elements) {
     elements.forEach(element => {
@@ -543,6 +602,23 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       this.multipleEntriesArray = [];
     }
   }
+
+  mapObj(apiData, ownDbData) {
+    for (let i = 0; i < apiData.length; i++) {
+      apiData[i].ProductPrice = 0;
+      apiData[i].Discount = 0;
+      apiData[i].FinalPrice = 0;
+      for (let j = 0; j < ownDbData.length; j++) {
+        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+          apiData[i].Discount = ownDbData[j].Discount;
+          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+        }
+      }
+    }
+    return apiData;
+  }
+
 
   createUniqueBrandName(array: any) {
     let sortedArray: Array<any> = [];

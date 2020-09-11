@@ -61,7 +61,6 @@ export class PurchaseOrderComponent implements OnInit {
   purchaseOrderResponse: any;
   paymentTerm: any = [];
 
-
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
     public toastr: ToastrService, public router: Router) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
@@ -85,7 +84,7 @@ export class PurchaseOrderComponent implements OnInit {
     this.purchaseOrder.orderDate = new Date();
     this.getVendorData();
     this.getAddressData();
-    this.sellerId = Number(localStorage.getItem('sellerId'));
+    this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.priceListData = this.purchaseService.getAllPriceListData(this.sellerId);
     this.minDate = new Date();
     this.purchaseOrder.orderNo = (this.getRandomNumbers()).toString();
@@ -99,13 +98,15 @@ export class PurchaseOrderComponent implements OnInit {
   getVendorData() {
     this.purchaseService.getAllVendorData().subscribe(data => {
       this.vendorData = data;
+      this.purchaseService.allvendorData = data;
     });
   }
 
   openDialog() {
     this.dialog.open(GetPriceListComponent, {
       height: '600px',
-      width: '1000px'
+      width: '1000px',
+      data: this.vendorId,
     });
   }
 
@@ -310,17 +311,17 @@ export class PurchaseOrderComponent implements OnInit {
       if (Number(item.availableQuantity) == 0) {
         this.toastr.error('Quantity Can not Be Zero');
         isQuantityValid = false;
-        return ;
+        return;
       }
     });
 
     if (!isQuantityValid) {
-      return ;
+      return;
     }
 
     this.purchaseOrderData.items = this.receivedPurchaseOrder;
 
-    this.purchaseOrderData.categoryId = this.receivedPurchaseOrder.categoryId;
+    // this.purchaseOrderData.categoryId = this.receivedPurchaseOrder.categoryId;
 
 
 
@@ -425,10 +426,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   editQuantity(element) {
-      let totalPrice = 0;
-      totalPrice = ((element.buyingPrice - element.discount) * (Number(element.availableQuantity)));
-      element.finalPrice = totalPrice;
-      this.calculateGrandTotal(this.receivedPurchaseOrder);
+    let totalPrice = 0;
+    totalPrice = ((element.buyingPrice - element.discount) * (Number(element.availableQuantity)));
+    element.finalPrice = totalPrice;
+    this.calculateGrandTotal(this.receivedPurchaseOrder);
   }
   calculateGrandTotal(array) {
     this.grandTotal = 0;
@@ -440,7 +441,7 @@ export class PurchaseOrderComponent implements OnInit {
   getFinalPrice() {
     let totalFinalPrice = 0;
     this.receivedPurchaseOrder.forEach(item => {
-      totalFinalPrice +=Number(item.finalPrice);
+      totalFinalPrice += Number(item.finalPrice);
     });
     return totalFinalPrice;
   }

@@ -20,7 +20,6 @@ export class DialogPurchaseOrderPrintComponent implements OnInit {
     public emitterService: EmitterService,
     public router: Router,
     public dialog: MatDialog) {
-    
     this.purchaseOrderData = data;
     this.orderNo = data.OrderNo;
   }

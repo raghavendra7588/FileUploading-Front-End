@@ -22,15 +22,15 @@ namespace inventory.Models
         public string purchaseDescription { get; set; }
         public string purchaseMeasurementUnit { get; set; }
         public string purchaseVarient { get; set; }
-        public int purchasePrice { get; set; }
-        public int purchaseDiscount { get; set; }   
-        public int finalPurchasePrice { get; set; }
+        public double purchasePrice { get; set; }
+        public double purchaseDiscount { get; set; }   
+        public double finalPurchasePrice { get; set; }
         public string sellingDescription { get; set; }
         public string sellingMeasurementUnit { get; set; }
         public string sellingVarient { get; set; }
-        public int sellingPrice { get; set; }
-        public int sellingDiscount { get; set; }
-        public int finalSellingPrice { get; set; }
+        public double sellingPrice { get; set; }
+        public double sellingDiscount { get; set; }
+        public double finalSellingPrice { get; set; }
         public string itemType { get; set; }
         public string minimumLevel { get; set; }
         public string serialTracking { get; set; }  
@@ -89,7 +89,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@SellingMeasurementUnit", objItemMaster.sellingMeasurementUnit);
 
             cmd.Parameters.AddWithValue("@SellingVarient", objItemMaster.sellingVarient);
-            cmd.Parameters.AddWithValue("@SellingPrice", objItemMaster.sellingPrice);
+            cmd.Parameters.AddWithValue("@SellingPrice", Convert.ToDouble(objItemMaster.sellingPrice));
             cmd.Parameters.AddWithValue("@SellingDiscount", objItemMaster.sellingDiscount);
             cmd.Parameters.AddWithValue("@FinalSellingPrice", objItemMaster.finalSellingPrice);
 

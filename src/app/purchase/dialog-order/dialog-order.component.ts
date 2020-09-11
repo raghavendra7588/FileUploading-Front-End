@@ -32,7 +32,7 @@ export class DialogOrderComponent implements OnInit {
       this.totalRecords = data;
       this.dataSource = new MatTableDataSource(this.PurchaseReportDataArray);
     });
-    this.sellerName = localStorage.getItem('sellerName');
+    this.sellerName = sessionStorage.getItem('sellerName');
 
   }
 

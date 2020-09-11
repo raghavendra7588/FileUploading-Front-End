@@ -2,3 +2,29 @@
     width: 100% !important;
     min-width: unset!important;
 }
+
+
+.mat-column-ProductMRP {
+    text-align: center;
+ } 
+
+ .mat-column-ProductDiscount {
+    text-align: center;
+ } 
+
+ .mat-column-totalQuantityOrder {
+    text-align: center;
+ } 
+
+ .mat-column-totalFinalPrice {
+    text-align: center;
+ } 
+
+ .mat-column-totalDiscountPrice {
+    text-align: center;
+ } 
+ 
+
+ .mat-column-FinalPurchaseAmount {
+    text-align: center;
+ } 

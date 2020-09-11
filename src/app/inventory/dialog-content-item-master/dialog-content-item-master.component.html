@@ -13,7 +13,7 @@
                             mandatory.</span>
                     </mat-error>
                 </mat-form-field>
-        
+
             </div>
             <div class="col-md-4">
                 <mat-form-field>
@@ -36,20 +36,21 @@
                 <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
                     [data]="loginService.seller_object.categories" (onSelect)="onCategorySelect($event)"
                     (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)"
-                    (onDeSelectAll)="onCategoryDeSelectAll($event)" [(ngModel)]="itemMaster.categoryId"  formControlName="categories" name='categorySelect'>
+                    (onDeSelectAll)="onCategoryDeSelectAll($event)" [(ngModel)]="itemMaster.categoryId"
+                    formControlName="categories" name='categorySelect'>
                 </ng-multiselect-dropdown>
             </div>
             <div class="col-md-4">
                 <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
                     [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
-                    (onDeSelect)="onSubCategoryDeSelect($event)" [(ngModel)]="itemMaster.subCategoryId"  formControlName="subCategories"
-                    name='subCategorySelect'>
+                    (onDeSelect)="onSubCategoryDeSelect($event)" [(ngModel)]="itemMaster.subCategoryId"
+                    formControlName="subCategories" name='subCategorySelect'>
                 </ng-multiselect-dropdown>
             </div>
             <div class="col-md-4">
                 <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
-                    (onSelect)="onBrandSelect($event)" [(ngModel)]="itemMaster.brandId"  (onDeSelect)="onBrandDeSelect($event)" formControlName="brand"
-                    name='brandSelect'>
+                    (onSelect)="onBrandSelect($event)" [(ngModel)]="itemMaster.brandId"
+                    (onDeSelect)="onBrandDeSelect($event)" formControlName="brand" name='brandSelect'>
                 </ng-multiselect-dropdown>
             </div>
 
@@ -57,13 +58,14 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="GST Classification (HSN/SAC)" [(ngModel)]="itemMaster.gstClassification"  formControlName="gstClassification" />
+                    <input matInput placeholder="GST Classification (HSN/SAC)"
+                        [(ngModel)]="itemMaster.gstClassification" formControlName="gstClassification" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
                 <mat-form-field>
                     <mat-label>Active Status</mat-label>
-                    <mat-select formControlName="activeStatus" [(ngModel)]="itemMaster.activeStatus" >
+                    <mat-select formControlName="activeStatus" [(ngModel)]="itemMaster.activeStatus">
                         <mat-option *ngFor="let status of activeStaus" [value]="status.title">
                             {{ status.title }}
                         </mat-option>
@@ -85,75 +87,83 @@
             <div class="col-md-4">
                 <mat-form-field>
                     <mat-label>Desciption</mat-label>
-                    <textarea matInput [(ngModel)]="itemMaster.purchaseDescription"  placeholder="Ex. It makes me feel..."
-                        formControlName="purchaseDescription"></textarea>
+                    <textarea matInput [(ngModel)]="itemMaster.purchaseDescription"
+                        placeholder="Ex. It makes me feel..." formControlName="purchaseDescription"></textarea>
                 </mat-form-field>
             </div>
             <div class="col-md-4 mt-3">
 
-
                 <mat-form-field>
                     <mat-label>Measurement Unit</mat-label>
-                    <mat-select formControlName="purchaseMeasurementUnit" [(ngModel)]="itemMaster.purchaseMeasureMentUnit" >
-                        <mat-option *ngFor="let measurement of measurementUnitArray" [value]="measurement.name">
+                    <mat-select formControlName="purchaseMeasurementUnit"
+                        [(ngModel)]="itemMaster.purchaseMeasureMentUnit">
+                        <mat-option *ngFor="let measurement of measurementUnitArray" [value]="measurement.id"
+                            (click)="onMeasurementSelect(measurement)">
                             {{ measurement.name }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
             </div>
             <div class="col-md-4 mt-3">
 
 
                 <mat-form-field>
-                    <input matInput [(ngModel)]="itemMaster.purchaseVarient"  placeholder="Varient" formControlName="purchaseVarient" />
+                    <input matInput [(ngModel)]="itemMaster.purchaseVarient" placeholder="Varient"
+                        formControlName="purchaseVarient" />
                 </mat-form-field>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                <!-- <mat-form-field>
-                <mat-label>Measurement Unit</mat-label>
-                <mat-select>
-                    <mat-option *ngFor="let measurement of measurementUnit" [value]="measurement.title">
-                        {{ measurement.title }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
+      
 
                 <mat-form-field>
-                    <input matInput [(ngModel)]="itemMaster.purchasePrice"  placeholder="Purchase Price" formControlName="purchasePrice" />
+                    <input matInput [(ngModel)]="itemMaster.purchasePrice" placeholder="Purchase Price"
+                        formControlName="purchasePrice" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput [(ngModel)]="itemMaster.purchaseDiscount"  placeholder="Purchase Discount" formControlName="purchaseDiscount" />
+                    <input matInput [(ngModel)]="itemMaster.purchaseDiscount" placeholder="Purchase Discount"
+                        formControlName="purchaseDiscount" />
                 </mat-form-field>
             </div>
 
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput  [(ngModel)]="itemMaster.finalPurchasePrice"  placeholder="Final Purchase Price" formControlName="finalPurchasePrice" />
+                    <input matInput [(ngModel)]="itemMaster.finalPurchasePrice" placeholder="Final Purchase Price"
+                        formControlName="finalPurchasePrice" />
                 </mat-form-field>
             </div>
         </div>
     </div>
     <mat-divider></mat-divider>
     <div class="container my-3">
-        <h3 class="font-weight-bold">Sales</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="font-weight-bold">Sales</h3>
+            </div>
+            <div class="col-md-8">
+                <button type="button" class="btn btn-light float-right" (click)="copyFromPurchase()">Copy from
+                    Purchase</button>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
                     <mat-label>Desciption</mat-label>
-                    <textarea matInput placeholder="Ex. It makes me feel..."
-                        formControlName="salesDescription" [(ngModel)]="itemMaster.sellingDescription" ></textarea>
+                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="salesDescription"
+                        [(ngModel)]="itemMaster.sellingDescription"></textarea>
                 </mat-form-field>
             </div>
             <div class="col-md-4 mt-3">
                 <mat-form-field>
                     <mat-label>Measurement Unit</mat-label>
-                    <mat-select formControlName="salesMeasurementUnit" [(ngModel)]="itemMaster.sellingMeasurementUnit" >
-                        <mat-option *ngFor="let measurement of measurementUnitArray" [value]="measurement.name">
+                    <mat-select formControlName="salesMeasurementUnit" [(ngModel)]="itemMaster.sellingMeasurementUnit" (ngModelChange)="onSellingMeasurementChange()">
+                        <mat-option *ngFor="let measurement of measurementUnitArray" [value]="measurement.id">
                             {{ measurement.name }}
                         </mat-option>
                     </mat-select>
@@ -162,25 +172,29 @@
 
             <div class="col-md-4 mt-3">
                 <mat-form-field>
-                    <input matInput placeholder="Varient" formControlName="salesVarient" [(ngModel)]="itemMaster.sellingVarient"  />
+                    <input matInput placeholder="Varient" formControlName="salesVarient"
+                        [(ngModel)]="itemMaster.sellingVarient" />
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Selling Price" formControlName="salesPrice" [(ngModel)]="itemMaster.sellingPrice"  />
+                    <input matInput placeholder="Selling Price" formControlName="salesPrice"
+                        [(ngModel)]="itemMaster.sellingPrice" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Selling Discount" formControlName="salesDiscount" [(ngModel)]="itemMaster.sellingDiscount"  />
+                    <input matInput placeholder="Selling Discount" formControlName="salesDiscount"
+                        [(ngModel)]="itemMaster.sellingDiscount" />
                 </mat-form-field>
             </div>
 
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Final Selling Price" formControlName="finalSellingPrice" [(ngModel)]="itemMaster.finalSellingPrice"  />
+                    <input matInput placeholder="Final Selling Price" formControlName="finalSellingPrice"
+                        [(ngModel)]="itemMaster.finalSellingPrice" />
                 </mat-form-field>
             </div>
         </div>
@@ -193,17 +207,20 @@
         <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Item Type" formControlName="itemType" [(ngModel)]="itemMaster.itemType"  />
+                    <input matInput placeholder="Item Type" formControlName="itemType"
+                        [(ngModel)]="itemMaster.itemType" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Minimum Level" formControlName="minimumLevel" [(ngModel)]="itemMaster.minimumLevel"  />
+                    <input matInput placeholder="Minimum Level" formControlName="minimumLevel"
+                        [(ngModel)]="itemMaster.minimumLevel" />
                 </mat-form-field>
             </div>
             <div class="col-md-4">
                 <mat-form-field>
-                    <input matInput placeholder="Serial Tracking" formControlName="serialTracking" [(ngModel)]="itemMaster.serialTracking"  />
+                    <input matInput placeholder="Serial Tracking" formControlName="serialTracking"
+                        [(ngModel)]="itemMaster.serialTracking" />
                 </mat-form-field>
             </div>
         </div>

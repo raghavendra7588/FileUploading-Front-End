@@ -16,11 +16,12 @@ export class InventoryService {
   extractPriceListData: any = [];
   finalPriceList: any = [];
 
-
-  private GET_PURCHASE_ORDER_INVENTORY_DATA = 'http://localhost:55547/api/PurchaseReportInventory';
-  private SAVE_ITEM_MASTER = 'http://localhost:55547/api/ItemMaster';
-  private GET_ITEM_MASTER = 'http://localhost:55547/api/ItemMaster';
-  private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api//PriceDecisionFactor/getall';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'http://localhost:55547/';
+  private GET_PURCHASE_ORDER_INVENTORY_DATA = this.BASE_URL + 'api/PurchaseReportInventory';
+  private SAVE_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
+  private GET_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
+  private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api/PriceDecisionFactor/getall';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');

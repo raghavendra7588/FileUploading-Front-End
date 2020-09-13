@@ -16,3 +16,8 @@ mat-footer-row, mat-header-row, mat-row {
 .mat-header-cell{
   text-align: center;
 }
+
+/* .mat-column-ProductName{
+ text-align: center;
+ margin-left: 20px;
+} */

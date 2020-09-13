@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('sellerId', data.id.toString());
       sessionStorage.setItem('categories', JSON.stringify(data.categories));
       // this.emitterService.isLoginResponse.emit(data);
-
+      this.purchaseService.storageSellerId = Number(data.id);
       this.router.navigate(['/dashboard']);
     });
   }

@@ -45,25 +45,25 @@
             </mat-option>
           </mat-select>
         </mat-form-field> -->
-<!-- 
-        <mat-form-field style="width: 100%;">
+
+        <!-- <mat-form-field style="width: 100%;">
           <mat-label>Category</mat-label>
-          <mat-select placeholder="Category" [(ngModel)]="vendor.category" formControlName="category">
+          <mat-select placeholder="Category" [(ngModel)]="vendor.category" formControlName="category" multiple>
             <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
             <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
               *ngFor="let category of loginService.seller_object.categories" [value]="category.id">
               {{category.name }}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-        {{vendor.category}} -->
+        </mat-form-field> 
+         {{vendor.category}}-->
         
         <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
           [data]="loginService.seller_object.categories" (onSelect)="onCategorySelect($event)"
           (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAllList($event)"
           (onDeSelectAll)="onCategoryDeSelectAll($event)" [(ngModel)]="vendor.category"
           formControlName="category" name='categorySelect'>
-        </ng-multiselect-dropdown>
+        </ng-multiselect-dropdown> 
 
 
       </div>

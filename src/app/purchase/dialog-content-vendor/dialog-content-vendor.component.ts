@@ -117,6 +117,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   categoryId: any;
   AllCategoryArray: any = [];
   AllSubCategoryArray: any = [];
+  strSellerId: string;
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -125,6 +126,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     public router: Router,
     public formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
+
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
     // this.itemMaster.sellerId = sessionStorage.getItem('sellerId').toString();
@@ -179,7 +182,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       // console.log('check', this.vendor.category);
       let customCategoryList: any = [];
       let itemData;
-      this.vendor.category = [{
+      this.vendor.category = {
         descriptions: "Groceries",
         id: "3",
         imageurl: "20190811144816_grocery.jpeg",
@@ -189,8 +192,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
         parentcategoryname: "",
         parentid: "0",
         userid: ""
-      }];
-  
+      };
+      // this.vendor.category = "3";
       // this.loginService.seller_object.categories.filter(item => {
       //   if (preSelectedCategoryArray.includes(Number(item.id))) {
       //     console.log('item', item);
@@ -256,7 +259,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     this.vendor.sellerId = sessionStorage.getItem('sellerId');
     // this.sellerId = sessionStorage.getItem('sellerId');
     // this.maxDate = new Date();
@@ -307,13 +309,13 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
   onCategorySelectAll() {
-  
+
 
     // this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
     // this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
 
     this.purchaseService.getEveryBrand().subscribe(data => {
-     
+
       this.AllCategoryArray = data;
 
       let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
@@ -332,7 +334,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
   onSubCategorySelectAll() {
 
-  
+
     this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
       this.AllSubCategoryArray = data;
       let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
@@ -413,7 +415,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (index > -1) {
       this.selectedCategoryIdArray.splice(index, 1);
     }
- 
+
   }
 
 
@@ -457,7 +459,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
   onSubCategoryDeSelect(event) {
-   
+
     // let newArr = [];
     // console.log(' before sub category un selected ', this.anyArray);
     // newArr = this.anyArray.filter(function (item) {
@@ -472,7 +474,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     // this.finalBrandArray = unSelectedSubCategoryArray;
 
 
-   
+
     let newArr = this.anyArray.filter(function (item) {
       return Number(item.SubCategoryID) != Number(event.id);
     });
@@ -486,21 +488,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (this.multipleCategoriesArray.length === 0) {
       this.anyArray = [];
     }
-  
+
   }
 
 
   onBrandSelect(event) {
 
     this.selectedBrandIdArray.push(event.BrandID);
-    
+
     if (this.finalBrandArray.length === 0) {
       let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
         return item.BrandName.trim() === event.BrandName;
       });
       let sortedBrandArray = this.sortUniqueBrandName(filteredBrandArray);
       this.finalBrandArray = sortedBrandArray;
-     
+
     }
     else {
       this.brands1 = this.multipleBrandArray.filter(function (item) {
@@ -509,7 +511,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.brands2 = this.brands1;
       this.brands3 = [...this.finalBrandArray, ...this.brands2];
       this.finalBrandArray = this.brands3;
-     
+
     }
   }
 
@@ -595,7 +597,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       if (event.source.selected) {
         this.selectedSubCategoryIdArray = [];
         this.selectedSubCategoryIdArray.push(subCategory.id);
-      
+
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -983,10 +985,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       formData.append('category', "NULL");
     } else {
       let categoryStr = '';
-    
+
       // let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
       categoryStr = this.selectedCategoryIdArray.toString();
-      
+
       formData.append('category', categoryStr.toString());
     }
 
@@ -1021,7 +1023,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
   assignData() {
     if (this.vendorData) {
-     
+
       this.vendor.code = this.vendorData.code;
       this.vendor.underLedger = this.vendorData.underLedger;
       this.vendor.name = this.vendorData.name;
@@ -1032,11 +1034,11 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.subCategory = this.vendorData.subCategory;
       this.purchaseService.allBrandData.filter(data => {
         if (Number(data.BrandID) === Number(this.vendorData.brand) && Number(data.SubCategoryID) === Number(this.vendorData.subCategory)) {
-    
+
           this.vendor.brand = data.BrandName;
         }
       });
-      
+
       this.vendor.brand = this.vendorData.brand;
       this.vendor.gstCategory = this.vendorData.gstCategory;
       this.vendor.pan = this.vendorData.pan;
@@ -1087,7 +1089,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   }
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorDetails = data;
     });
   }

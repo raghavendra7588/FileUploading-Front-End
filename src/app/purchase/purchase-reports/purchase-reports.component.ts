@@ -22,11 +22,13 @@ export class PurchaseReportsComponent implements OnInit {
   purchaseReport: PurchaseReport = new PurchaseReport();
   purchaseReportData: PurchaseReportData = new PurchaseReportData();
   purchaseReportArray: any = [];
+  strSellerId: string;
 
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService) { }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
     this.sellerId = sessionStorage.getItem('sellerId');
     this.purchaseReportData.sellerId = this.sellerId;
@@ -53,8 +55,9 @@ export class PurchaseReportsComponent implements OnInit {
   }
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
+      console.log('vendor data purchase reports ', this.vendorData);
     });
   }
 
@@ -122,5 +125,5 @@ export class PurchaseReportsComponent implements OnInit {
     this.purchaseReport.endDate = '';
   }
 
-  
+
 }

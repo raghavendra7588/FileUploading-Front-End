@@ -15,6 +15,7 @@ import { PurchaseReport } from '../inventory.model';
 import { DialogPrintPurchaseReportComponent } from '../dialog-print-purchase-report/dialog-print-purchase-report.component';
 import { InventoryService } from '../inventory.service';
 // import { DialogPurchaseReportInventoryComponent } from '../dialog-purchase-report-inventory/dialog-purchase-report-inventory.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-purchase-report',
@@ -163,7 +164,7 @@ export class PurchaseReportComponent implements OnInit {
 
   onCategorySelect(event) {
     this.categoriesArray.push(event.id);
-   
+
     this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
       if (this.multipleCategoriesArray.length === 0) {
         this.multipleCategoriesArray = data;
@@ -219,7 +220,7 @@ export class PurchaseReportComponent implements OnInit {
     if (index > -1) {
       this.categoriesArray.splice(index, 1);
     }
-  
+
   }
 
   onCategoryDeSelectAll(event) {
@@ -295,11 +296,11 @@ export class PurchaseReportComponent implements OnInit {
       // this.dataSource = new MatTableDataSource(this.finalBrandArray);
       // this.dataSource.paginator = this.paginator;
     }
-    
+
     productNameArray = this.createUniqueProductName(this.finalBrandArray);
     // this.finalProductNameArray = this.sortArrayInAscendingOrder(productNameArray);
     this.finalProductNameArray = productNameArray;
-  
+
 
   }
 
@@ -313,13 +314,13 @@ export class PurchaseReportComponent implements OnInit {
     if (index > -1) {
       this.brandArray.splice(index, 1);
     }
-   
+
     // this.dataSource = new MatTableDataSource(this.finalBrandArray);
     // this.dataSource.paginator = this.paginator;
   }
 
   productChange(event) {
-   
+
 
     this.productArray.push(event.ProductID);
     // if (this.finalBrandArray.length === 0) {
@@ -337,17 +338,17 @@ export class PurchaseReportComponent implements OnInit {
     //   this.finalBrandArray = this.brands3;
     // }
     // console.log('final brand ', this.finalBrandArray);
-   
+
 
 
   }
   onProductDeSelect(event) {
-   
+
     const index = this.productArray.indexOf(event.ProductID);
     if (index > -1) {
       this.productArray.splice(index, 1);
     }
-  
+
   }
 
 
@@ -355,7 +356,7 @@ export class PurchaseReportComponent implements OnInit {
     let AllCategoryArray: any = [];
 
     this.purchaseService.getEveryBrand().subscribe(data => {
-     
+
       AllCategoryArray = data;
 
       let uniqueBrandName = this.createUniqueBrandName(AllCategoryArray);
@@ -376,15 +377,15 @@ export class PurchaseReportComponent implements OnInit {
   }
 
   onBrandSelectAll() {
-   
+
     let mappedBrandData: any = [];
     let brandData: any = [];
     let uniqueBrandNameData: any = [];
-    
+
     this.purchaseService.getAllBrand(this.categoryId, this.subCategoryId).subscribe(data => {
 
       brandData = data;
-      
+
       mappedBrandData = this.mapObj(brandData, this.dbData);
       // this.multipleBrandArray = this.catchMappedData;
       this.dataSource = new MatTableDataSource(mappedBrandData);
@@ -488,7 +489,7 @@ export class PurchaseReportComponent implements OnInit {
           // this.dataSource = new MatTableDataSource(this.finalBrandArray);
           // this.dataSource.paginator = this.paginator;
         }
-       
+
       }
       if (!event.source.selected) {
         var tempArr = this.finalBrandArray.filter(function (item) {
@@ -504,7 +505,7 @@ export class PurchaseReportComponent implements OnInit {
   changeProduct(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-        
+
       }
     }
   }
@@ -691,6 +692,9 @@ export class PurchaseReportComponent implements OnInit {
 
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
       this.reportData = data;
+      let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
+      this.reportData = [];
+      this.reportData = uniquePurchaseOrder;
       this.dataSource = new MatTableDataSource(this.reportData);
     });
 

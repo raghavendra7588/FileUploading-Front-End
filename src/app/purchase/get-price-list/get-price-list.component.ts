@@ -94,6 +94,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   sortedCategory: any = [];
   numSubcategoryIdArray: any = [];
   numBrandIdArray: any = [];
+  strSellerId: string;
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
@@ -105,11 +106,14 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     this.isDataLoaded = false;
     this.isProductSelected = false;
     this.receivedVendorId = data;
+    console.log('received vendor id', this.receivedVendorId);
     // this.getVendorData();
+
   }
 
   ngOnInit(): void {
-
+    // this.strSellerId = sessionStorage.getItem('sellerId');
+    // this.getVendorData();
 
     this.dataSource = new MatTableDataSource();
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
@@ -170,29 +174,34 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     let numCategoryIdArray: any = [];
     let strBrandIdArray: any = [];
 
+    console.log('get all vendor data in get price list', this.purchaseService.allvendorData);
     this.purchaseService.allvendorData.filter(item => {
       if (Number(item.vendorId) === Number(this.receivedVendorId)) {
         this.particularVendor = item;
       }
     });
+    console.log('particular vendor', this.particularVendor);
     strcategoryIdArray = this.particularVendor.category;
     numCategoryIdArray = strcategoryIdArray.split(',').map(Number);
-
+    console.log('int category array', numCategoryIdArray);
     strsubCategoryIdArray = this.particularVendor.subCategory;
     this.numSubcategoryIdArray = strsubCategoryIdArray.split(',').map(Number);
-
+    console.log('int sub category array',this.numSubcategoryIdArray);
 
     strBrandIdArray = this.particularVendor.brand;
     this.numBrandIdArray = strBrandIdArray.split(',').map(Number);
 
+    console.log('int brand array', this.numBrandIdArray);
     this.loginService.seller_object.categories.filter(item => {
-
+      // console.log(item);
       if (numCategoryIdArray.includes(Number(item.id))) {
-       
+
         particularCategory = item;
         this.particularCategoryArray.push(particularCategory);
       }
     });
+
+    console.log('particular category array', this.particularCategoryArray);
   }
 
   filterSubCategoryList() {
@@ -209,8 +218,10 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
+      this.purchaseService.allvendorData = data;
+      // console.log('all vendor data from get price list', this.purchaseService.allvendorData);
     });
   }
 
@@ -306,13 +317,13 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
       let particularSubCategoryArray: any = [];
       this.sortedCategory.filter(item => {
-  
+
         if (this.numSubcategoryIdArray.includes(Number(item.id))) {
           particularSubCategoryArray.push(item);
         }
         this.multipleCategoriesArray = particularSubCategoryArray;
       });
-
+      console.log('particular sub category array', this.multipleCategoriesArray);
     });
 
   }
@@ -360,7 +371,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
 
       uniqueBrandName = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
- 
+
 
       uniqueBrandName.filter(item => {
         if (this.numBrandIdArray.includes(Number(item.BrandID))) {
@@ -368,6 +379,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
         }
       });
       this.anyArray = particularBrands;
+      console.log('particular brand array', this.anyArray);
       this.multipleBrandArray = this.catchMappedData;
 
     });

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from './login.service'
 import { PurchaseService } from '../purchase/purchase.service';
 import { EmitterService } from 'src/shared/emitter.service';
+import { InventoryService } from '../inventory/inventory.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
-    public emitterService: EmitterService) { }
+    public emitterService: EmitterService,
+    public inventoryService: InventoryService) { }
 
   ngOnInit(): void {
     this.user.username = '9821163016';
@@ -39,6 +41,8 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('categories', JSON.stringify(data.categories));
       // this.emitterService.isLoginResponse.emit(data);
       this.purchaseService.storageSellerId = Number(data.id);
+      this.purchaseService.sellerId = data.id;
+      this.inventoryService.sellerId = data.id;
       this.router.navigate(['/dashboard']);
     });
   }

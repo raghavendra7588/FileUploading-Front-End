@@ -23,13 +23,13 @@ export class DialogPurchaseReportsComponent implements OnInit {
   vendorName: any;
   orderNo: any;
   sellerName: any;
+  strSellerId: string;
 
   constructor(public purchaseService: PurchaseService,
-     @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogPurchaseReportsComponent>,
-    public router: Router) 
-    {
- 
+    public router: Router) {
+
     this.sellerName = sessionStorage.getItem('sellerName');
     this.vendorName = data.vendor_name;
     this.orderNo = data.OrderNo;
@@ -41,6 +41,7 @@ export class DialogPurchaseReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
   }
 
@@ -71,7 +72,7 @@ export class DialogPurchaseReportsComponent implements OnInit {
 
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
     });
   }

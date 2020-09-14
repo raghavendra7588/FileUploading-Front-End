@@ -60,6 +60,7 @@ export class PurchaseOrderComponent implements OnInit {
   grandTotal: any = 0;
   purchaseOrderResponse: any;
   paymentTerm: any = [];
+  strSellerId: string;
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
     public toastr: ToastrService, public router: Router) {
@@ -81,6 +82,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.purchaseOrder.orderDate = new Date();
     this.getVendorData();
     this.getAddressData();
@@ -96,9 +98,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
+      console.log('all vendor data from Purchase Order', this.purchaseService.allvendorData);
     });
   }
 

@@ -97,6 +97,10 @@ export class DialogContentItemMasterComponent implements OnInit {
   selectedMeasurementUnitId: string;
   selectedItems = [];
 
+  purchasePrice: any;
+  purchaseDiscount: any;
+  finalPurchasePrice: any;
+
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
@@ -648,12 +652,16 @@ export class DialogContentItemMasterComponent implements OnInit {
       || !(this.itemMaster.finalPurchasePrice === null) || !(this.itemMaster.finalPurchasePrice === undefined)) {
 
 
-      let purchasePrice = parseFloat(this.itemMaster.purchasePrice);
-      let purchaseDiscount = parseFloat(this.itemMaster.purchaseDiscount);
-      let finalPurchasePrice = parseFloat(this.itemMaster.finalPurchasePrice);
+      // let purchasePrice = parseFloat(this.itemMaster.purchasePrice);
+      // let purchaseDiscount = parseFloat(this.itemMaster.purchaseDiscount);
+      // let finalPurchasePrice = parseFloat(this.itemMaster.finalPurchasePrice);
+
+      this.purchasePrice = parseFloat(this.itemMaster.purchasePrice);
+      this.purchaseDiscount = parseFloat(this.itemMaster.purchaseDiscount);
+      this.finalPurchasePrice = parseFloat(this.itemMaster.finalPurchasePrice);
 
       // let purchaseCalculation = Number(this.itemMaster.purchasePrice) - Number(this.itemMaster.purchaseDiscount) === Number(this.itemMaster.finalPurchasePrice);
-      let purchaseCalculation = (purchasePrice - purchaseDiscount) === finalPurchasePrice
+      let purchaseCalculation = parseFloat(this.purchasePrice) - parseFloat(this.purchaseDiscount) === parseFloat(this.finalPurchasePrice);
       if (!purchaseCalculation) {
         this.toastr.error('Check Purchase Amount Calculation');
         return;

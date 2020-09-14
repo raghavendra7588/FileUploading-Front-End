@@ -21,6 +21,7 @@ export class VendorComponent implements OnInit {
   dataSource: any;
   newRecordSubscription: Subscription;
   sellerId: any;
+  strSellerId: string;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -29,7 +30,7 @@ export class VendorComponent implements OnInit {
   ngOnInit() {
     // this.manager = sessionStorage.getItem(this.constantService.RESOURCE_MANAGER);
     // this.fullName = sessionStorage.getItem(this.constantService.FULLNAME);
-
+    this.strSellerId = sessionStorage.getItem('sellerId');
     this.sellerId = sessionStorage.getItem('sellerId');
     this.getVendorData();
 
@@ -51,7 +52,7 @@ export class VendorComponent implements OnInit {
 
 
   getVendorData() {
-    this.purchaseService.getAllVendorData().subscribe(data => {
+    this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.dataSource = data;
     });
   }

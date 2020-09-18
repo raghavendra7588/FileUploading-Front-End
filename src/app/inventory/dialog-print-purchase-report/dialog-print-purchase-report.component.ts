@@ -15,16 +15,14 @@ export class DialogPrintPurchaseReportComponent implements OnInit {
   dataSource: any;
   purchaseData: any = [];
   response: any = [];
-  vendorName: string;
-  orderNo: string;
   sellerName: string;
+  productName: string;
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public inventoryService: InventoryService) {
     this.response = data;
-    this.vendorName = data.VendorName;
-    this.orderNo = data.OrderNo;
+    this.productName = data.ProductName;
     this.purchaseData.push(this.response);
     this.dataSource = new MatTableDataSource(this.purchaseData);
 

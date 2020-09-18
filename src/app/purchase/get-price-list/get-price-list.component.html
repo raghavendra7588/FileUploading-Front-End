@@ -20,12 +20,26 @@
           </mat-option>
         </mat-select>
       </mat-form-field> -->
-
+      <!-- 
       <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
       [data]="particularCategoryArray" (onSelect)="onCategorySelect($event)"
       (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAll($event)"
       (onDeSelectAll)="onCategoryDeSelectAll($event)" name='categorySelect'>
-    </ng-multiselect-dropdown>
+    </ng-multiselect-dropdown> -->
+
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Category</mat-label>
+        <mat-select placeholder="Category" [(ngModel)]="categoryList">
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+            (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
+          <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
+          <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
+            *ngFor="let category of particularCategoryArray" [value]="category.id">
+            {{category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
     </div>
@@ -39,7 +53,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field> -->
-<!-- 
+      <!-- 
       <mat-form-field style="width: 100%;">
         <mat-label>Sub Category</mat-label>
         <mat-select #select>
@@ -49,11 +63,25 @@
           </mat-option>
         </mat-select>
       </mat-form-field> -->
-      
+<!-- 
       <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
-      [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
-      (onDeSelect)="onSubCategoryDeSelect($event)" name='subCategorySelect'>
-    </ng-multiselect-dropdown>
+        [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
+        (onDeSelect)="onSubCategoryDeSelect($event)" name='subCategorySelect'>
+      </ng-multiselect-dropdown> -->
+
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Sub Category</mat-label>
+        <mat-select #select>
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
+            (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
+          <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
+          <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
+            *ngFor="let category of multipleCategoriesArray" [value]="category.id">
+            {{category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
     </div>
     <div class="col-md-4">
@@ -76,9 +104,23 @@
           </mat-option>
         </mat-select>
       </mat-form-field>  -->
-      <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
-      (onSelect)="onBrandSelect($event)" (onDeSelect)="onBrandDeSelect($event)" name='brandSelect'>
-    </ng-multiselect-dropdown>
+      <!-- <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
+        (onSelect)="onBrandSelect($event)" (onDeSelect)="onBrandDeSelect($event)" name='brandSelect'>
+      </ng-multiselect-dropdown> -->
+
+
+      <mat-form-field style="width: 100%;">
+        <mat-label>Brand</mat-label>
+        <mat-select #BrandSelect>
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="brandSearch"
+            (filteredReturn)="anyArray=$event"></mat-select-filter>
+          <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option>
+          <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
+            [value]="brand.BrandName">
+            {{brand.BrandName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
     </div>
   </div>
@@ -181,6 +223,6 @@
 <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
 
 <div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="sendPurchaseOrder()">Save</button>
+  <button mat-raised-button color="primary" (click)="sendPurchaseOrder()" [disabled]="isActive">Save</button>
   <button mat-raised-button mat-dialog-close>Close</button>
 </div>

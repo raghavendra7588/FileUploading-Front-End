@@ -7,6 +7,7 @@ import { DialogContentVendorComponent } from '../dialog-content-vendor/dialog-co
 import { Subscription } from 'rxjs';
 import { EmitterService } from 'src/shared/emitter.service';
 import { LoginService } from 'src/app/login/login.service';
+import { DialogViewVendorDataComponent } from '../dialog-view-vendor-data/dialog-view-vendor-data.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { LoginService } from 'src/app/login/login.service';
 })
 export class VendorComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'registrationDate', 'email', 'bankName', 'creditLimit', 'creditLimitDays', 'transporter', 'action'];
+  displayedColumns: string[] = ['name', 'registrationDate', 'email', 'bankName', 'creditLimit', 'creditLimitDays', 'transporter', 'action', 'view'];
 
   dataSource: any;
   newRecordSubscription: Subscription;
@@ -56,6 +57,8 @@ export class VendorComponent implements OnInit {
       this.dataSource = data;
     });
   }
+
+
   editEmployee(vendor) {
     this.dialog.open(DialogContentVendorComponent, {
       height: '600px',
@@ -63,10 +66,19 @@ export class VendorComponent implements OnInit {
       data: vendor
     });
   }
+
+
   getEveryBrandData() {
     this.purchaseService.getEveryBrand().subscribe(data => {
       this.purchaseService.allBrandData = data;
     });
   }
 
+  viewVendorDetails(element) {
+    this.dialog.open(DialogViewVendorDataComponent, {
+      height: '600px',
+      width: '1000px',
+      data: element
+    });
+  }
 }

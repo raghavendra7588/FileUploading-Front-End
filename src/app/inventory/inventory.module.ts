@@ -45,18 +45,20 @@ import { InventoryService } from './inventory.service';
 import { ToastrModule } from 'ngx-toastr';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
-
-
 import { NgxPrintModule } from 'ngx-print';
-import { DialogPurchaseReportDataComponent } from './dialog-purchase-report-data/dialog-purchase-report-data.component';
+
+import { MinimumPurchaseOrderComponent } from './minimum-purchase-order/minimum-purchase-order.component';
+import { DialogMinimumPurchaseOrderComponent } from './dialog-minimum-purchase-order/dialog-minimum-purchase-order.component';
+import { MatSelectFilterModule } from 'mat-select-filter';
+
 @NgModule({
   declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent,
      InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent, 
      JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent, 
      MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent,
       DialogPrintPurchaseReportComponent,
-      DialogPurchaseReportDataComponent],
+      MinimumPurchaseOrderComponent,
+      DialogMinimumPurchaseOrderComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -82,10 +84,12 @@ import { DialogPurchaseReportDataComponent } from './dialog-purchase-report-data
     NgxPrintModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectFilterModule
   ],
   entryComponents:[DialogPrintPurchaseReportComponent],
   providers: [InventoryService],
-  exports: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent]
+  exports: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, 
+    InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent]
 })
 export class InventoryModule { }

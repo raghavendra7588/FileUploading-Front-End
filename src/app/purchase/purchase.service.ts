@@ -23,8 +23,8 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  private BASE_URL = 'http://localhost:55547/';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'http://localhost:55547/';
   private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = 'http://203.112.144.38/AdminApi/api/Category/getall';
@@ -37,6 +37,9 @@ export class PurchaseService {
   private SAVE_PURCHASE_ORDER_MASTER = this.BASE_URL + 'api/PurchaseOrder';
   private SAVE_PURCHASE_ORDER_ITEM_MASTER = this.BASE_URL + 'api/PurchaseOrderItem';
   public GET_PURCHASE_ORDER_DATA = this.BASE_URL + 'api/PurchaseReport';
+
+  public PURCHASE_VENDOR_ORDER_WISE = this.BASE_URL + 'api/PurchaseReport/purchaseReportVendorOrderWise';
+  public GET_VENDOR_VIEW_DATA = this.BASE_URL + 'api/VendorView';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
@@ -120,11 +123,15 @@ export class PurchaseService {
   }
 
   getPurchaseReportData(purchaseReport) {
-    return this.http.post(this.GET_PURCHASE_ORDER_DATA, purchaseReport);
+    return this.http.post(this.PURCHASE_VENDOR_ORDER_WISE, purchaseReport);
   }
 
   getPurchaseReportById(id) {
     return this.http.get(this.GET_PURCHASE_ORDER_DATA + '/' + id);
+  }
+
+  getAllVendorViewData(vendorView) {
+    return this.http.post(this.GET_VENDOR_VIEW_DATA ,vendorView);
   }
 
 }

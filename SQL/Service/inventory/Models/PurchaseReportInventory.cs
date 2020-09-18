@@ -48,18 +48,21 @@ namespace inventory.Models
         {
             SqlCommand command = new SqlCommand();
             SqlConnection conn = new SqlConnection(strConn);
-            string sql = BuildQuery(purchaseReportInventory.sellerId, purchaseReportInventory.subcategoryId, purchaseReportInventory.brandId, purchaseReportInventory.productId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
-            // string sql = " select 'ProductNameDummy' as ProductName,'BrandNameDummy' as BrandName,'VarientNameDummy' as Varient,Mst_Vendor.name as VendorName,Mst_PurchaseOrder.OrderNo,Mst_PurchaseOrderItem.BuyingPrice,Mst_PurchaseOrderItem.ProductVarientId,Mst_PurchaseOrderItem.ProductId, Mst_PurchaseOrderItem.FinalPrice, Mst_PurchaseOrderItem.Discount, Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem,Mst_PurchaseOrder,Mst_Vendor where Mst_PurchaseOrderItem.SellerId = 2 AND Mst_PurchaseOrderItem.SubCategoryId IN(73,79,85) AND Mst_PurchaseOrderItem.BrandId IN(126,157,155) AND Mst_PurchaseOrderItem.ProductId IN(1806,1846) AND Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId AND Mst_PurchaseOrder.VendorId = Mst_Vendor.vendorId order by Mst_PurchaseOrderItem.ProductVarientId ASC; ";
-            //"select * from Mst_PurchaseOrderItem,Mst_PurchaseOrder where Mst_PurchaseOrderItem.SellerId = 2 AND Mst_PurchaseOrderItem.SubCategoryId IN(73,79,85)  AND Mst_PurchaseOrderItem.BrandId IN(126,157,155) AND Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId order by Mst_PurchaseOrderItem.ProductVarientId ASC";
-            // BuildQuery(purchaseReportInventory.CategoryId, purchaseReportInventory.SubcategoryId, purchaseReportInventory.BrandId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
+            // string sql = BuildQuery(purchaseReportInventory.sellerId, purchaseReportInventory.subcategoryId, purchaseReportInventory.brandId, purchaseReportInventory.productId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
+            conn.Open();
             command.Connection = conn;
-            command.CommandType = CommandType.Text;
-            command.CommandText = sql;
-
-
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "Mst_PurchaseReport_Product_Wise_DATA";
+            command.Parameters.AddWithValue("@SellerId", purchaseReportInventory.sellerId);
+            command.Parameters.AddWithValue("@SubCategoryId", purchaseReportInventory.subcategoryId);
+            command.Parameters.AddWithValue("@BrandId", purchaseReportInventory.brandId);
+            command.Parameters.AddWithValue("@ProductId", purchaseReportInventory.productId);
+           
+            command.Parameters.AddWithValue("@OrderDate", purchaseReportInventory.startDate);
+            command.Parameters.AddWithValue("@DeliveryDate", purchaseReportInventory.endDate);
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            conn.Open();
+           
 
             DataSet fileData = new DataSet();
             adapter.Fill(fileData, "fileData");
@@ -75,10 +78,8 @@ namespace inventory.Models
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(" select 'ProductNameDummy' as ProductName,'BrandNameDummy' as BrandName,'VarientNameDummy' as Varient,Mst_Vendor.name as VendorName,Mst_PurchaseOrder.OrderNo,Mst_PurchaseOrderItem.BuyingPrice, Mst_PurchaseOrderItem.ProductVarientId, Mst_PurchaseOrderItem.ProductId,Mst_PurchaseOrderItem.FinalPrice, Mst_PurchaseOrderItem.Discount,Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem, Mst_PurchaseOrder, Mst_Vendor");
+                sb.Append(" select 'ProductNameDummy' as ProductName,'BrandNameDummy' as BrandName,'VarientNameDummy' as Varient,Mst_PurchaseOrderItem.BuyingPrice, Mst_PurchaseOrderItem.ProductVarientId, Mst_PurchaseOrderItem.ProductId,Mst_PurchaseOrderItem.FinalPrice, Mst_PurchaseOrderItem.Discount,Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem, Mst_PurchaseOrder, Mst_Vendor");
                 List<string> Clauses = new List<string>();
-
-                Clauses.Add("Mst_PurchaseOrder.VendorId=Mst_Vendor.vendorId");
                 Clauses.Add("Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId");
                 Clauses.Add("Mst_PurchaseOrder.SellerId=" + Convert.ToInt32(SellerID));
 
@@ -137,15 +138,11 @@ namespace inventory.Models
             table.Columns.Add("ProductName", typeof(string));
             table.Columns.Add("Brand", typeof(string));
             table.Columns.Add("Varient", typeof(string));
-            table.Columns.Add("VendorName", typeof(string));
-
-            table.Columns.Add("OrderNo", typeof(string));
+         
             table.Columns.Add("BuyingPrice", typeof(string));
             table.Columns.Add("ProductVarientId", typeof(string));
 
             table.Columns.Add("ProductId", typeof(int));
-           // table.Columns.Add("FinalPrice", typeof(int));
-
             table.Columns.Add("Discount", typeof(int));
             table.Columns.Add("PurchaseQuantity", typeof(int));
 
@@ -162,15 +159,13 @@ namespace inventory.Models
                 string strProductName = dt.Rows[i]["ProductName"].ToString();
                 string strBrandName = dt.Rows[i]["BrandName"].ToString();
                 string strVarientName = dt.Rows[i]["Varient"].ToString();
-                string strVendorName= dt.Rows[i]["VendorName"].ToString();
-               
+              
                 string strBuyingPrice= dt.Rows[i]["BuyingPrice"].ToString();
                 string strDiscount = dt.Rows[i]["Discount"].ToString();
                 string strProductVarientId = dt.Rows[i]["ProductVarientId"].ToString();
 
                 string strProductId = dt.Rows[i]["ProductId"].ToString();
                 string strFinalPrice = dt.Rows[i]["FinalPrice"].ToString();
-                string strOrderNo = dt.Rows[i]["OrderNo"].ToString();
                 string strPurchaseQuantity= dt.Rows[i]["PurchaseQuantity"].ToString();
 
                 int totalQuantityOrder = 0;
@@ -188,13 +183,12 @@ namespace inventory.Models
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
                     }
                 }
-                table.Rows.Add(strProductName, strBrandName, strVarientName, strVendorName, strOrderNo, 
-                    strBuyingPrice, strProductVarientId,strProductId, strDiscount, strPurchaseQuantity, 
+                table.Rows.Add(strProductName, strBrandName, strVarientName,strBuyingPrice, strProductVarientId,strProductId, strDiscount, strPurchaseQuantity, 
                     totalQuantityOrder, totalFinalPrice, totalDiscountPrice, 
                     finalPurchaseAmount);
             }
-          
 
+            table = table.DefaultView.ToTable(true, "ProductVarientId", "ProductName", "Brand", "Varient", "BuyingPrice", "ProductId", "Discount", "PurchaseQuantity", "TotalQuantityOrder", "TotalFinalPrice", "TotalDiscountPrice", "FinalPurchaseAmount");
             return table;
         }
   

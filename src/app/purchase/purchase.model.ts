@@ -6,7 +6,7 @@ export class Vendor {
     contactPerson?: string;
     category?: any;
     printName?: string;
-    subCategory?: string;
+    subCategory?: any;
     brand?: any;
     gst?: string;
     gstCategory?: string;
@@ -203,4 +203,9 @@ export class PurchaseReportData {
     startDate?: string;
     endDate?: string;
     sellerId?: string;
+}
+
+export class VendorView {
+    sellerId: number;
+    vendorId: number;
 }

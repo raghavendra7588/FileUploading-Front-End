@@ -53,13 +53,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
+import { MatSelectFilterModule } from 'mat-select-filter';
+import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-view-vendor-data.component';
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
     PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent,
     OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent, AddAddressComponent, DashboardComponent,
-    AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, DialogPurchaseOrderPrintComponent, DialogOrderComponent],
+    AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, DialogPurchaseOrderPrintComponent, DialogOrderComponent, DialogViewVendorDataComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -86,6 +87,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     NgxPrintModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    MatSelectFilterModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({
@@ -98,7 +100,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     })
   ],
   entryComponents: [
-    DialogContentVendorComponent, AddAddressComponent
+    DialogContentVendorComponent, AddAddressComponent, DialogViewVendorDataComponent
   ],
   exports: [VendorComponent, MyPipePipe, PriceListComponent, GetPriceListComponent, PurchaseOrderComponent, AddressDetailsComponent, GoodsReceiptNotesComponent, DashboardComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent, AddAddressComponent]
 })

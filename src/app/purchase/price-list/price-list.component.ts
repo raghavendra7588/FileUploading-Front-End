@@ -88,7 +88,10 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   categoryId: string;
   subCategoryId: string;
   AllSubCategoryArray: any = [];
-
+  AllCategoryArray: any = [];
+  categorySearch: any = [];
+  subCategorySearch: any = [];
+  brandSearch: any = [];
 
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
@@ -103,10 +106,11 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+
     let data = this.sortArrayInAscendingOrder(this.loginService.seller_object.categories);
     this.loginService.seller_object.categories = [];
     this.loginService.seller_object.categories = data;
-
+    this.categorySearch = this.loginService.seller_object.categories;
 
     this.getPriceListData();
     this.getBrandsMasterData();
@@ -115,30 +119,32 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
+      selectAllText: 'All',
+      unSelectAllText: 'All',
+      itemsShowLimit: 1,
+      enableCheckAll: true,
+      allowSearchFilter: true,
+
     };
 
     this.subCategorySettings = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'id',
       textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
+      itemsShowLimit: 1,
       allowSearchFilter: true
     };
 
     this.brandSettings = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'BrandID',
       textField: 'BrandName',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true,
-      itemsShowLimit: 3
+      itemsShowLimit: 1
     };
 
 
@@ -196,151 +202,54 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  onCategorySelect(event) {
-    this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
-      if (this.multipleCategoriesArray.length === 0) {
-        this.multipleCategoriesArray = data;
-        let sortedCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
-        this.multipleCategoriesArray = [];
-        this.multipleCategoriesArray = sortedCategory;
-
-      }
-      else {
-        this.categoriesArray2 = data;
-        this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
-        this.multipleCategoriesArray = this.categoriesArray3;
-        let sortedCategories = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
-        this.multipleCategoriesArray = [];
-        this.multipleCategoriesArray = sortedCategories;
-
-      }
-    });
-    let eachBrandData: any = [];
-    let mappedData: any = [];
-    let uniqueBrandName: any = [];
-
-    this.purchaseService.getEachBrand(event.id, '0').subscribe(data => {
-      eachBrandData = data;
-      mappedData = this.mapObj(eachBrandData, this.dbData);
-
-      this.dataSource = new MatTableDataSource(mappedData);
-      this.dataSource.paginator = this.paginator;
-      // uniqueBrandName = this.createUniqueBrandName(mappedData);
-      // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
-    });
-
-  }
-
-  onCategoryDeSelect(event) {
-    let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
-      return Number(item.parentid) !== Number(event.id);
-    });
-    this.multipleCategoriesArray = [];
-    this.multipleCategoriesArray = remainingCategoriesArray;
-
-    if (this.multipleCategoriesArray.length === 0) {
-      this.multipleCategoriesArray = [];
-      this.anyArray = [];
-      this.dataSource = [];
-    }
-  }
-
-  onCategoryDeSelectAll(event) {
-    console.log('disselect all', event);
-  }
-
-  onSubCategorySelect(event, data) {
-
-    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
-      if (this.multipleBrandArray.length === 0) {
-        this.multipleBrandArray = data;
-        this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-        // this.multipleBrandArray = this.catchMappedData;
-      }
-      else {
-        this.array2 = data;
-        this.array2 = this.mapObj(this.array2, this.dbData);
-        this.array3 = [...this.catchMappedData, ...this.array2];
-        this.catchMappedData = this.array3;
-      }
-      this.dataSource = new MatTableDataSource(this.catchMappedData);
-      this.dataSource.paginator = this.paginator;
-      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
-      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-      this.multipleBrandArray = this.catchMappedData;
-
-    });
-  }
-
-  onSubCategoryDeSelect(event) {
-    let newArr = [];
-    newArr = this.anyArray.filter(function (item) {
-      return Number(item.SubCategoryID) !== Number(event.id);
-    });
-    this.anyArray = [];
-    this.anyArray = newArr;
-    let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
-      return Number(item.SubCategoryID) !== Number(event.id);
-    });
-    this.finalBrandArray = unSelectedSubCategoryArray;
-    this.dataSource = new MatTableDataSource(unSelectedSubCategoryArray);
-    this.dataSource.paginator = this.paginator;
 
 
-  }
-
-
-  onBrandSelect(event) {
-    if (this.finalBrandArray.length === 0) {
-      let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-        return item.BrandName.trim() === event.BrandName
-      });
-      this.finalBrandArray = filteredBrandArray;
-      this.dataSource = new MatTableDataSource(this.finalBrandArray);
-      this.dataSource.paginator = this.paginator;
-    }
-    else {
-      this.brands1 = this.multipleBrandArray.filter(function (item) {
-        return item.BrandName.trim() === event.BrandName
-      });
-      this.brands2 = this.brands1;
-      this.brands3 = [...this.finalBrandArray, ...this.brands2];
-      this.finalBrandArray = this.brands3;
-      this.dataSource = new MatTableDataSource(this.finalBrandArray);
-      this.dataSource.paginator = this.paginator;
-    }
-  }
-
-  onBrandDeSelect(event) {
-    var tempArr = this.finalBrandArray.filter(function (item) {
-      return item.BrandName.trim() != event.BrandName.trim();
-    });
-    this.finalBrandArray = tempArr;
-    this.dataSource = new MatTableDataSource(this.finalBrandArray);
-    this.dataSource.paginator = this.paginator;
-  }
-
-
-  onCategorySelectAll(event) {
-    let AllCategoryArray: any = [];
-
+  onCategorySelectAll() {
+    console.log('inside cat seelct all');
+    let catchMappedCategory: any = [];
     this.purchaseService.getEveryBrand().subscribe(data => {
-      AllCategoryArray = data;
 
-      let uniqueBrandName = this.createUniqueBrandName(AllCategoryArray);
+      this.AllCategoryArray = data;
+      this.multipleCategoriesArray = [];
+      catchMappedCategory = this.mapObj(this.AllCategoryArray, this.dbData);
+      this.dataSource = [];
+      this.dataSource = new MatTableDataSource(catchMappedCategory);
+      this.dataSource.paginator = this.paginator;
+
+      let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
-
+      console.log(this.anyArray);
+      this.brandSearch = this.anyArray;
+      console.log('any array in cat', this.anyArray);
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
     });
+
   }
+
 
   onSubCategorySelectAll() {
-
+    console.log('inside sub cat select all');
+    let catchMappedSubCategory: any = [];
+    console.log('cat id', this.categoryId.toString());
     this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
       this.AllSubCategoryArray = data;
+      catchMappedSubCategory = this.mapObj(this.AllSubCategoryArray, this.dbData);
+
+      this.dataSource = new MatTableDataSource(catchMappedSubCategory);
+      this.dataSource.paginator = this.paginator;
 
       let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
+      this.brandSearch = this.anyArray;
+     
+      console.log('any array', this.anyArray);
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
     });
+
   }
 
   onBrandSelectAll() {
@@ -359,7 +268,11 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       uniqueBrandNameData = this.createUniqueBrandName(mappedBrandData);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandNameData);
       // this.multipleBrandArray = this.catchMappedData;
-
+      this.brandSearch = this.anyArray;
+      console.log(this.anyArray);
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
     });
   }
 
@@ -369,19 +282,20 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
-          if (this.multipleCategoriesArray.length === 0) {
-            this.multipleCategoriesArray = data;
-          }
-          else {
-            this.categoriesArray2 = data;
-            this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
-            this.multipleCategoriesArray = this.categoriesArray3;
-          }
+          // if (this.multipleCategoriesArray.length === 0) {
+          this.multipleCategoriesArray = data;
+          this.subCategorySearch = this.multipleCategoriesArray;
+          // }
+          // else {
+          //   this.categoriesArray2 = data;
+          //   this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+          //   this.multipleCategoriesArray = this.categoriesArray3;
+          // }
         });
         let eachBrandData: any = [];
         let mappedData: any = [];
         let uniqueBrandName: any = [];
-
+        console.log('category select category id', category.id);
         this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
           eachBrandData = data;
           // this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
@@ -392,8 +306,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
           this.dataSource = new MatTableDataSource(mappedData);
           this.dataSource.paginator = this.paginator;
-          uniqueBrandName = this.createUniqueBrandName(mappedData);
-          this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+          // uniqueBrandName = this.createUniqueBrandName(mappedData);
+          // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
         });
 
 
@@ -418,24 +332,27 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-          if (this.multipleBrandArray.length === 0) {
-            this.multipleBrandArray = data;
-            this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-            // this.multipleBrandArray = this.catchMappedData;
-          }
-          else {
-            this.array2 = data;
-            this.array2 = this.mapObj(this.array2, this.dbData);
-            this.array3 = [...this.catchMappedData, ...this.array2];
-            this.catchMappedData = this.array3;
-          }
-          this.dataSource = new MatTableDataSource(this.catchMappedData);
-          this.dataSource.paginator = this.paginator;
+          // if (this.multipleBrandArray.length === 0) {
+          this.multipleBrandArray = data;
+          this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+          this.multipleBrandArray = this.catchMappedData;
+          // }
+          // else {
+          //   this.array2 = data;
+          //   this.array2 = this.mapObj(this.array2, this.dbData);
+          //   this.array3 = [...this.catchMappedData, ...this.array2];
+          //   this.catchMappedData = this.array3;
+          // }
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+          console.log(this.anyArray);
           this.multipleBrandArray = this.catchMappedData;
+          this.brandSearch = this.anyArray;
+          this.dataSource = new MatTableDataSource(this.catchMappedData);
+          this.dataSource.paginator = this.paginator;
 
         });
+        this.anyArray = this.brandSearch.slice();
       }
     }
     if (!event.source.selected) {
@@ -460,15 +377,15 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       if (event.source.selected) {
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
-        if (this.finalBrandArray.length === 0) {
-          let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName;
-          });
-          this.finalBrandArray = filteredBrandArray;
+        // if (this.finalBrandArray.length === 0) {
+        let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+          return item.BrandName.trim() === product.BrandName;
+        });
+        this.finalBrandArray = filteredBrandArray;
 
-          // this.dataSource = new MatTableDataSource(this.finalBrandArray);
-          // this.dataSource.paginator = this.paginator;
-        }
+        // this.dataSource = new MatTableDataSource(this.finalBrandArray);
+        // this.dataSource.paginator = this.paginator;
+        // }
         // else {
         //   this.brands1 = this.multipleBrandArray.filter(function (item) {
         //     return item.BrandName.trim() === product.BrandName

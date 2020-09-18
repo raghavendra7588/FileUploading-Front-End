@@ -1,6 +1,6 @@
 <div id="demo">
 <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" />
-<div class="container my-2">
+<!-- <div class="container my-2">
     <div class="row">
         <div class="col-md-4 text-center">
             <h3 class="font-weight-bold" style="color: blue;">VendorName</h3>
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-</div>
+</div> -->
 
 <div class="container">
     <div class="row">
@@ -88,7 +88,7 @@
 <div mat-dialog-actions class="ml-3 mt-3">
     <!-- <button mat-raised-button color="primary" (click)="printData()" printSectionId="demo"  printTitle="GV-{{orderNo}}" [useExistingCss]="true" ngxPrint>Yes</button> -->
 
-    <button mat-raised-button color="primary" [useExistingCss]="true" printTitle="GV-{{orderNo}}" printSectionId="demo"
+    <button mat-raised-button color="primary" [useExistingCss]="true" printTitle="GV-{{productName}}" printSectionId="demo"
         ngxPrint>print</button>
     <button mat-raised-button mat-dialog-close>Close</button>
 </div>

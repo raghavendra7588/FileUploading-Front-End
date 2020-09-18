@@ -30,7 +30,7 @@ namespace inventory.Models
         public string registrationDate { get; set; }
         public string distance { get; set; }
         public string cin { get; set; }
-       public string creditLimitDays { get; set; }
+        public string creditLimitDays { get; set; }
         public string priceCategory { get; set; }
         public string agentBroker { get; set; }
         public string transporter { get; set; }
@@ -48,6 +48,12 @@ namespace inventory.Models
         public string email { get; set; } 
         public string accountName { get; set; }
         public string accountType { get; set; }
+    }
+
+    public class VendorView
+    {
+        public string sellerId { get; set; }
+        public int vendorId { get; set; }
     }
 }
 
@@ -69,6 +75,50 @@ public class VenodrBL
         command.Parameters.AddWithValue("@SellerId", strId);
         SqlDataAdapter adapter = new SqlDataAdapter(command);
         conn.Open();
+
+        DataSet fileData = new DataSet();
+        adapter.Fill(fileData, "fileData");
+        conn.Close();
+        DataTable firstTable = fileData.Tables[0];
+        return firstTable;
+
+    }
+
+//    public DataTable getAllViewData(int vendorId,int sellerId)
+//    {
+//        SqlCommand command = new SqlCommand();
+//        SqlConnection conn = new SqlConnection(strConn);
+//        conn.Open();
+//        command.Connection = conn;
+//        command.CommandType = CommandType.StoredProcedure;
+//        command.CommandText = "Vendor_Mapped_Data";
+//        command.Parameters.AddWithValue("@vendorId", vendorId);
+//        command.Parameters.AddWithValue("@SellerId", sellerId.ToString());
+//        SqlDataAdapter adapter = new SqlDataAdapter(command);
+//;
+
+//        DataSet fileData = new DataSet();
+//        adapter.Fill(fileData, "fileData");
+//        conn.Close();
+//        DataTable firstTable = fileData.Tables[0];
+//        return firstTable;
+
+//    }
+
+
+
+    public DataTable getAllViewData(VendorView vendorData)
+    {
+        SqlCommand command = new SqlCommand();
+        SqlConnection conn = new SqlConnection(strConn);
+        conn.Open();
+        command.Connection = conn;
+        command.CommandType = CommandType.StoredProcedure;
+        command.CommandText = "Vendor_Mapped_Data";
+        command.Parameters.AddWithValue("@vendorId", vendorData.vendorId);
+        command.Parameters.AddWithValue("@SellerId", vendorData.sellerId.ToString());
+        SqlDataAdapter adapter = new SqlDataAdapter(command);
+        ;
 
         DataSet fileData = new DataSet();
         adapter.Fill(fileData, "fileData");
@@ -178,5 +228,6 @@ public class VenodrBL
         cmd.ExecuteNonQuery();
         conn.Close();
     }
+
 }
 

@@ -31,6 +31,7 @@ namespace inventory.Controllers
         }
 
         [HttpPost]
+        [Route("api/PurchaseReport/purchaseReportVendorOrderWise")]
         public HttpResponseMessage postall(PurchaseReport purchaseReport)
         {
             try

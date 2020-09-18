@@ -69,6 +69,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   maxLengthCin = 21;
   maxLengthPinCode = 6;
   maxLengthPhone = 10;
+  maxLengthCreditLimit = 3;
   datePicker: any;
   formattedDate: any;
   parentid = 3;
@@ -118,10 +119,12 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   AllCategoryArray: any = [];
   AllSubCategoryArray: any = [];
   strSellerId: string;
+  onlyNumeric = '/^[0-9\b]+$/';
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
-    public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any,
+    public toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
     public router: Router,
     public formBuilder: FormBuilder,
@@ -182,18 +185,19 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       // console.log('check', this.vendor.category);
       let customCategoryList: any = [];
       let itemData;
-      this.vendor.category = {
-        descriptions: "Groceries",
-        id: "3",
-        imageurl: "20190811144816_grocery.jpeg",
-        isactive: "True",
-        isparent: "True",
-        name: "Grocery",
-        parentcategoryname: "",
-        parentid: "0",
-        userid: ""
-      };
-      // this.vendor.category = "3";
+      // this.vendor.category = {
+      //   descriptions: "Groceries",
+      //   id: "3",
+      //   imageurl: "20190811144816_grocery.jpeg",
+      //   isactive: "True",
+      //   isparent: "True",
+      //   name: "Grocery",
+      //   parentcategoryname: "",
+      //   parentid: "0",
+      //   userid: ""
+      // };
+      // this.vendor.category = ["3"];
+      // this.vendor.subCategory = ["71","85"];
       // this.loginService.seller_object.categories.filter(item => {
       //   if (preSelectedCategoryArray.includes(Number(item.id))) {
       //     console.log('item', item);
@@ -238,7 +242,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       priceCategory: [''],
       selectedTransporter: [''],
       agentBroker: [''],
-      creditLimit: [''],
+      creditLimit: ['', Validators.pattern(this.onlyNumeric)],
       ifscCode: [''],
       accountNumber: [''],
       bankName: [''],
@@ -595,9 +599,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+
         this.selectedSubCategoryIdArray = [];
         this.selectedSubCategoryIdArray.push(subCategory.id);
-
+        console.log('cate called ', this.selectedSubCategoryIdArray);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -1030,7 +1035,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.contactPerson = this.vendorData.contactPerson;
       this.vendor.printName = this.vendorData.printName;
       this.vendor.gst = this.vendorData.gst;
-      this.vendor.category = this.vendorData.category;
+      // this.vendor.category = this.vendorData.category;
       this.vendor.subCategory = this.vendorData.subCategory;
       this.purchaseService.allBrandData.filter(data => {
         if (Number(data.BrandID) === Number(this.vendorData.brand) && Number(data.SubCategoryID) === Number(this.vendorData.subCategory)) {

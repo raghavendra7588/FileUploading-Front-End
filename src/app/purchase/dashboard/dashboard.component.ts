@@ -10,9 +10,17 @@ import { PurchaseService } from '../purchase.service';
 })
 export class DashboardComponent implements OnInit {
 
+  
+  noOfOrdersProgress = 0;
+  purchasePerDayProgress = 0;
+  // NoOfOrdersProgressBar = document.querySelector('.progress-bar');
+
+
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService) { }
 
   ngOnInit(): void {
+    this.noOfOrdersProgress = 90;
+    this.purchasePerDayProgress = 90;
   }
 
 

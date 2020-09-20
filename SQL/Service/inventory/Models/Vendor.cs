@@ -50,11 +50,7 @@ namespace inventory.Models
         public string accountType { get; set; }
     }
 
-    public class VendorView
-    {
-        public string sellerId { get; set; }
-        public int vendorId { get; set; }
-    }
+
 }
 
 
@@ -75,50 +71,6 @@ public class VenodrBL
         command.Parameters.AddWithValue("@SellerId", strId);
         SqlDataAdapter adapter = new SqlDataAdapter(command);
         conn.Open();
-
-        DataSet fileData = new DataSet();
-        adapter.Fill(fileData, "fileData");
-        conn.Close();
-        DataTable firstTable = fileData.Tables[0];
-        return firstTable;
-
-    }
-
-//    public DataTable getAllViewData(int vendorId,int sellerId)
-//    {
-//        SqlCommand command = new SqlCommand();
-//        SqlConnection conn = new SqlConnection(strConn);
-//        conn.Open();
-//        command.Connection = conn;
-//        command.CommandType = CommandType.StoredProcedure;
-//        command.CommandText = "Vendor_Mapped_Data";
-//        command.Parameters.AddWithValue("@vendorId", vendorId);
-//        command.Parameters.AddWithValue("@SellerId", sellerId.ToString());
-//        SqlDataAdapter adapter = new SqlDataAdapter(command);
-//;
-
-//        DataSet fileData = new DataSet();
-//        adapter.Fill(fileData, "fileData");
-//        conn.Close();
-//        DataTable firstTable = fileData.Tables[0];
-//        return firstTable;
-
-//    }
-
-
-
-    public DataTable getAllViewData(VendorView vendorData)
-    {
-        SqlCommand command = new SqlCommand();
-        SqlConnection conn = new SqlConnection(strConn);
-        conn.Open();
-        command.Connection = conn;
-        command.CommandType = CommandType.StoredProcedure;
-        command.CommandText = "Vendor_Mapped_Data";
-        command.Parameters.AddWithValue("@vendorId", vendorData.vendorId);
-        command.Parameters.AddWithValue("@SellerId", vendorData.sellerId.ToString());
-        SqlDataAdapter adapter = new SqlDataAdapter(command);
-        ;
 
         DataSet fileData = new DataSet();
         adapter.Fill(fileData, "fileData");

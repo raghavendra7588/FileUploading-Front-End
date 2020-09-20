@@ -209,3 +209,15 @@ export class VendorView {
     sellerId: number;
     vendorId: number;
 }
+
+export class GetPurchaseReport {
+    sellerId: string;
+    vendorId: number;
+}
+
+export class GetPurchaseItemData {
+    sellerId: string;
+    vendorId: number;
+    purchaseOrderId: number;
+    orderNo: string;
+}

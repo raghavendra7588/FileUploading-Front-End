@@ -17,9 +17,7 @@ namespace inventory.Controllers
         {
             try
             {  
-                DataTable dt = ObjVendor.postAllViewData(vendorViewData);
-
-                //return Request.CreateResponse(HttpStatusCode.OK, vendorId.ToString()+"sellerId" + sellerId.ToString());
+                DataTable dt = ObjVendor.postAllViewData(vendorViewData);              
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }
             catch (Exception ex)

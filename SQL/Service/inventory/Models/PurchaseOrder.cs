@@ -34,12 +34,68 @@ namespace inventory.Models
         public List<PurchaseOrderItem> items { get; set; }
     }
 
+    public class GetPurchaseOrder
+    {
+        public string sellerId { get; set; }
+        public int vendorId { get; set; }
+    }
+
+    public class GetPurchaseOrderItem
+    {
+        public string sellerId { get; set; }
+        public int vendorId { get; set; }
+        public int PurchaseOrderId { get; set; }
+        public string orderNo { get; set; }
+
+    }
+
 
     public class PurchaseOrderBL
     {
         string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
 
-        
+
+
+        public DataTable getData(GetPurchaseOrder objGetPurchaseOrder)
+        {
+            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(strConn);
+            command.Connection = conn;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "GetPurchaseOrderBySellerId";
+            command.Parameters.AddWithValue("@SellerId", objGetPurchaseOrder.sellerId);
+            command.Parameters.AddWithValue("@VendorId", objGetPurchaseOrder.vendorId);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            conn.Open();
+
+            DataSet fileData = new DataSet();
+            adapter.Fill(fileData, "fileData");
+            conn.Close();
+            DataTable firstTable = fileData.Tables[0];
+            return firstTable;
+        }
+
+        public DataTable geItemData(GetPurchaseOrderItem objGetPurchaseOrderItem)
+        {
+            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(strConn);
+            command.Connection = conn;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "GetAllPurchaseOrderItemData";
+            command.Parameters.AddWithValue("@PurchaseOrderId", objGetPurchaseOrderItem.PurchaseOrderId);
+            command.Parameters.AddWithValue("@VendorId", objGetPurchaseOrderItem.vendorId);
+            command.Parameters.AddWithValue("@SellerId", objGetPurchaseOrderItem.sellerId);
+            command.Parameters.AddWithValue("@OrderNo", objGetPurchaseOrderItem.orderNo);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            conn.Open();
+
+            DataSet fileData = new DataSet();
+            adapter.Fill(fileData, "fileData");
+            conn.Close();
+            DataTable firstTable = fileData.Tables[0];
+            return firstTable;
+        }
+
         public PurchaseOrder postPurchaseOrderToDb(PurchaseOrder purchaseOrderData)
         {
             PurchaseOrder objResultReturn = new PurchaseOrder();

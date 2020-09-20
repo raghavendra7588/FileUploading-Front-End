@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class ReportsService {
 
 
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  // private BASE_URL = 'http://localhost:55547/';
+  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  private BASE_URL = 'http://localhost:55547/';
 
   private GET_Minimum_PurchaseOrder_DATA = this.BASE_URL + 'api/MinimumPurchaseReportInventory';
 

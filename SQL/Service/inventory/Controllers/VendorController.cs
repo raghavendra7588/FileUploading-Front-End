@@ -33,44 +33,6 @@ namespace inventory.Controllers
             }
         }
 
-
-        //[HttpGet]
-        //public HttpResponseMessage getallView(int vendorId,int sellerId)
-        //{
- 
-        //    try
-        //    {
-        //        Vendor ObjVendor = new Vendor();
-        //        DataTable dt = ObjVendorBL.getAllViewData(vendorId, sellerId);
-
-        //        //return Request.CreateResponse(HttpStatusCode.OK, vendorId.ToString()+"sellerId" + sellerId.ToString());
-        //        return Request.CreateResponse(HttpStatusCode.OK, dt);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-        //    }
-        //}
-
-        [HttpPost]
-        public HttpResponseMessage getallView(VendorView vendorData)
-        {
-
-            try
-            {
-                Vendor ObjVendor = new Vendor();
-                DataTable dt = ObjVendorBL.getAllViewData(vendorData);
-
-                //return Request.CreateResponse(HttpStatusCode.OK, vendorId.ToString()+"sellerId" + sellerId.ToString());
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
-
         [HttpPost]
         public HttpResponseMessage Post()
         {

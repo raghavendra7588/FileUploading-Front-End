@@ -44,3 +44,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/SQL/Service/packages
+/SQL/Service/inventory/Properties/PublishProfiles
+/SQL/Service/.vs/inventory

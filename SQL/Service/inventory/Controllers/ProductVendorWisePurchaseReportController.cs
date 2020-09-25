@@ -12,21 +12,35 @@ namespace inventory.Controllers
     public class ProductVendorWisePurchaseReportController : ApiController
     {
 
-        //ProductVendorWisePurchaseReport objProductVendorWisePurchaseReport = new ProductVendorWisePurchaseReport();
-        //[HttpGet]
-        //public HttpResponseMessage getall(int id)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = objPurchaseOrderInventoryBL.getData(id);
-        //        return Request.CreateResponse(HttpStatusCode.OK, dt);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        ProductsVendorWisePurchaseReportBL objProductsVendorWisePurchaseReportBL = new ProductsVendorWisePurchaseReportBL();
+        [HttpGet]
+        public HttpResponseMessage getall(int id)
+        {
+            try
+            {
+                DataTable dt = objProductsVendorWisePurchaseReportBL.getData(id);
+                return Request.CreateResponse(HttpStatusCode.OK, dt);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
-        //    }
-        //}
+            }
+        }
 
+        [HttpPost]
+        public HttpResponseMessage postall(ProductsVendorWisePurchaseReport objProductsVendorWisePurchaseReportReport)
+        {
+            try
+            {
+                DataTable dt = objProductsVendorWisePurchaseReportBL.postAllData(objProductsVendorWisePurchaseReportReport);
+                DataTable reportData = objProductsVendorWisePurchaseReportBL.createReportData(dt);
+                return Request.CreateResponse(HttpStatusCode.OK, reportData);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

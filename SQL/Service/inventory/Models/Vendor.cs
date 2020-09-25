@@ -11,9 +11,7 @@ namespace inventory.Models
 {
     public class Vendor
     {
-
-        string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
-
+  
         public string SellerId { get; set; }
         public string code { get; set; }
         public string name { get; set; }

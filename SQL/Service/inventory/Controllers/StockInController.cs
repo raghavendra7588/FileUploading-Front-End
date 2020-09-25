@@ -9,15 +9,19 @@ using inventory.Models;
 
 namespace inventory.Controllers
 {
-    public class MinimumPurchaseReportInventoryController : ApiController
+   
+    public class StockInController : ApiController
     {
-        MinimumPurchaseReportInventoryBL objMinimumPurchaseReportInventoryBL = new MinimumPurchaseReportInventoryBL();
+        StockInBL ObjStockInBL = new StockInBL();
+
         [HttpGet]
         public HttpResponseMessage getall(int id)
+
         {
             try
             {
-                DataTable dt = objMinimumPurchaseReportInventoryBL.getData(id);
+                Vendor ObjVendor = new Vendor();
+                DataTable dt = ObjStockInBL.getAllData(id);
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }
             catch (Exception ex)
@@ -28,12 +32,13 @@ namespace inventory.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage postall(MinimumPurchaseReportInventory objMinimumPurchaseReport)
+        public HttpResponseMessage Post(List<StockIn> stockInData)
         {
+           
             try
-            {
-                DataTable dt = objMinimumPurchaseReportInventoryBL.postAllData(objMinimumPurchaseReport);              
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
+            {           
+                ObjStockInBL.postStockInItemsToDb(stockInData);         
+                return Request.CreateResponse(HttpStatusCode.Created);
             }
             catch (Exception ex)
             {

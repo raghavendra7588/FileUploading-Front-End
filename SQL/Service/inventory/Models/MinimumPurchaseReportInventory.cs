@@ -47,110 +47,116 @@ namespace inventory.Models
         {
             SqlCommand command = new SqlCommand();
             SqlConnection conn = new SqlConnection(strConn);
-            string sql = BuildQuery(purchaseReportInventory.sellerId, purchaseReportInventory.subcategoryId, purchaseReportInventory.brandId, purchaseReportInventory.productId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
-
+            //string sql = BuildQuery(purchaseReportInventory.sellerId, purchaseReportInventory.subcategoryId, purchaseReportInventory.brandId, purchaseReportInventory.productId, purchaseReportInventory.startDate, purchaseReportInventory.endDate);
+            conn.Open();
             command.Connection = conn;
-            command.CommandType = CommandType.Text;
-            command.CommandText = sql;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "Mst_Minimum_Purchase_Report";
+
+          
+            command.Parameters.AddWithValue("@SellerId", purchaseReportInventory.sellerId);
+            command.Parameters.AddWithValue("@SubCategoryId", purchaseReportInventory.subcategoryId);
+            command.Parameters.AddWithValue("@BrandId", purchaseReportInventory.brandId);
+            command.Parameters.AddWithValue("@ProductId", purchaseReportInventory.productId);
+            command.Parameters.AddWithValue("@OrderDate", purchaseReportInventory.startDate);
+            command.Parameters.AddWithValue("@DeliveryDate", purchaseReportInventory.endDate);
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            conn.Open();
 
             DataSet fileData = new DataSet();
             adapter.Fill(fileData, "fileData");
-            conn.Close();
-            DataTable firstTable = fileData.Tables[0];
-            return firstTable;
-        }
 
-        public static string BuildQuery(string SellerID, string subCategoryId, string brandId, string productId, string deliveryDate, string orderDate)
-        {
-            string MethodResult = "";
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append(" select 'ProductNameDummy' as ProductName,'BrandNameDummy' as BrandName,'VarientNameDummy' as Varient,Mst_Vendor.name as VendorName,Mst_PurchaseOrder.OrderNo,Mst_PurchaseOrderItem.BuyingPrice, Mst_PurchaseOrderItem.ProductVarientId, Mst_PurchaseOrderItem.ProductId,Mst_PurchaseOrderItem.FinalPrice, Mst_PurchaseOrderItem.Discount,Mst_PurchaseOrderItem.PurchaseQuantity from Mst_PurchaseOrderItem, Mst_PurchaseOrder, Mst_Vendor");
-                List<string> Clauses = new List<string>();
-
-                Clauses.Add("Mst_PurchaseOrder.VendorId=Mst_Vendor.vendorId");
-                Clauses.Add("Mst_PurchaseOrder.PurchaseOrderId = Mst_PurchaseOrderItem.PurchaseOrderId");
-                Clauses.Add("Mst_PurchaseOrder.SellerId=" + Convert.ToInt32(SellerID));
-
-                if (subCategoryId != "ALL")
-                {
-                    Clauses.Add("Mst_PurchaseOrderItem.SubCategoryId IN(" + subCategoryId + ")");
-                }
-                if (brandId != "ALL")
-                {
-                    Clauses.Add("Mst_PurchaseOrderItem.BrandId IN(" + brandId + ")");
-                }
-                if (productId != "ALL")
-                {
-                    Clauses.Add("Mst_PurchaseOrderItem.ProductId IN(" + productId + ")");
-                }
-                if (orderDate != "ALL")
-                {
-                    Clauses.Add("Mst_PurchaseOrder.OrderDate>='" + orderDate + "'");
-                }
-
-                if (deliveryDate != "ALL")
-                {
-                    Clauses.Add("Mst_PurchaseOrder.DeliveryDate<='" + deliveryDate + "'");
-                }
-
-                bool FirstPass = true;
-
-                if (Clauses != null && Clauses.Count > 0)
-                {
-                    foreach (string Clause in Clauses)
-                    {
-                        if (FirstPass)
-                        {
-                            sb.Append(" WHERE ");
-                            FirstPass = false;
-                        }
-                        else
-                        {
-                            sb.Append(" AND ");
-                        }
-                        sb.Append(Clause);
-                    }
-                }
-                MethodResult = sb.ToString();
-            }
-            catch (Exception ex)
-            {
-                //ex.HandleException()
-            }
-            return MethodResult + "  order by Mst_PurchaseOrderItem.ProductVarientId ASC";
-        }
-
-        public DataTable createReportData(DataTable dt)
-        {
             DataTable table = new DataTable();
-            table.Columns.Add("ProductName", typeof(string));
-            table.Columns.Add("Brand", typeof(string));
-            table.Columns.Add("Varient", typeof(string));
-            table.Columns.Add("VendorName", typeof(string));
+            DataTable itemsTable = fileData.Tables[0];
+            DataTable MinimumTable = fileData.Tables[1];
 
-            table.Columns.Add("OrderNo", typeof(string));
-            table.Columns.Add("TotalOrderNo", typeof(string));
+            conn.Close();
+            table.Columns.Add("ProductName", typeof(string));
+            table.Columns.Add("BrandName", typeof(string));
+            table.Columns.Add("VarientName", typeof(string));
+
 
             table.Columns.Add("BuyingPrice", typeof(string));
+            table.Columns.Add("Discount", typeof(int));
             table.Columns.Add("ProductVarientId", typeof(string));
             table.Columns.Add("ProductId", typeof(int));
-
-            table.Columns.Add("Discount", typeof(int));
-            table.Columns.Add("FinalPrice", typeof(int));
-            table.Columns.Add("PurchaseQuantity", typeof(int));
             table.Columns.Add("TotalQuantityOrder", typeof(int));
 
             table.Columns.Add("TotalFinalPrice", typeof(int));
             table.Columns.Add("TotalDiscountPrice", typeof(int));
             table.Columns.Add("FinalPurchaseAmount", typeof(int));
 
+            table.Columns.Add("VendorName", typeof(string));
+            table.Columns.Add("OrderNo", typeof(string));
 
+
+            for (int i = 0; i < itemsTable.Rows.Count; i++)
+            {
+
+                string ProductName = itemsTable.Rows[i]["ProductName"].ToString();
+                string BrandName = itemsTable.Rows[i]["BrandName"].ToString();
+                string VarientName = itemsTable.Rows[i]["Varient"].ToString();
+               
+                string BuyingPrice = itemsTable.Rows[i]["BuyingPrice"].ToString();
+                string Discount = itemsTable.Rows[i]["Discount"].ToString();
+                string ProductVarientId = itemsTable.Rows[i]["ProductVarientId"].ToString();
+
+                string ProductId = itemsTable.Rows[i]["ProductId"].ToString();               
+                string OrderNo = itemsTable.Rows[i]["OrderNo"].ToString();
+                string VendorName = itemsTable.Rows[i]["name"].ToString();
+
+                int totalQuantityOrder = 0;
+                int totalFinalPrice = 0;
+                int totalDiscountPrice = 0;
+                int finalPurchaseAmount = 0;
+               
+                for (int j = 0; j < MinimumTable.Rows.Count; j++)
+                {
+                    if (ProductVarientId == MinimumTable.Rows[j]["ProductVarientId"].ToString())
+                    {
+                                            
+                         BuyingPrice = MinimumTable.Rows[j]["MinBuying"].ToString();
+                         Discount = MinimumTable.Rows[j]["MinDiscount"].ToString();
+                                        
+                        totalQuantityOrder += Convert.ToInt32(itemsTable.Rows[i]["PurchaseQuantity"].ToString());
+                        totalFinalPrice += Convert.ToInt32(itemsTable.Rows[i]["FinalPrice"].ToString());
+                        totalDiscountPrice += Convert.ToInt32(itemsTable.Rows[i]["Discount"].ToString());
+                        finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
+                        
+                    }
+                }
+                table.Rows.Add(ProductName, BrandName, VarientName, BuyingPrice,
+                     Discount, ProductVarientId, ProductId,
+                    totalQuantityOrder, totalFinalPrice, totalDiscountPrice,
+                    finalPurchaseAmount, VendorName, OrderNo);
+            }
+            return table;
+        }
+
+
+
+        public DataTable createReportData(DataTable dt)
+        {
+            DataTable table = new DataTable();
+
+            table.Columns.Add("ProductName", typeof(string));
+            table.Columns.Add("Brand", typeof(string));
+            table.Columns.Add("Varient", typeof(string));
+
+
+            table.Columns.Add("BuyingPrice", typeof(string));
+            table.Columns.Add("Discount", typeof(int));
+            table.Columns.Add("ProductVarientId", typeof(string));
+            table.Columns.Add("ProductId", typeof(int));
+            table.Columns.Add("TotalQuantityOrder", typeof(int));
+
+            table.Columns.Add("TotalFinalPrice", typeof(int));
+            table.Columns.Add("TotalDiscountPrice", typeof(int));
+            table.Columns.Add("FinalPurchaseAmount", typeof(int));
+
+            table.Columns.Add("VendorName", typeof(string));
+            table.Columns.Add("OrderNo", typeof(string));
+         
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -158,7 +164,7 @@ namespace inventory.Models
                 string strProductName = dt.Rows[i]["ProductName"].ToString();
                 string strBrandName = dt.Rows[i]["BrandName"].ToString();
                 string strVarientName = dt.Rows[i]["Varient"].ToString();
-                string strVendorName = dt.Rows[i]["VendorName"].ToString();
+                string strVendorName = dt.Rows[i]["name"].ToString();
                 string strBuyingPrice = dt.Rows[i]["BuyingPrice"].ToString();
                 string strDiscount = dt.Rows[i]["Discount"].ToString();
                 string strProductVarientId = dt.Rows[i]["ProductVarientId"].ToString();
@@ -186,29 +192,29 @@ namespace inventory.Models
                         totalFinalPrice += Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString());
                         totalDiscountPrice += Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
-                        totalOrderNo++;
+                     
 
-                        intBuyingPrice = Convert.ToInt32(dt.Rows[j]["BuyingPrice"].ToString());
-                        intDiscount = Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
-                        //strFinalPrice = (dt.Rows[j]["FinalPrice"].ToString());
-                        minimumCalculation = intBuyingPrice - intDiscount;
-                        if (tempMinimumCalculation < minimumCalculation)
-                        {
-                            tempMinimumCalculation = minimumCalculation;
-                            strVendorName= dt.Rows[j]["VendorName"].ToString();
-                            strOrderNo= dt.Rows[j]["OrderNo"].ToString();
-                            strBuyingPrice = dt.Rows[j]["BuyingPrice"].ToString();
-                            strDiscount = dt.Rows[j]["Discount"].ToString();
-                            strFinalPrice = dt.Rows[i]["FinalPrice"].ToString();
-                        }
+                        //intBuyingPrice = Convert.ToInt32(dt.Rows[j]["BuyingPrice"].ToString());
+                        //intDiscount = Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
+                        
+                        //minimumCalculation = intBuyingPrice - intDiscount;
+                        //if (tempMinimumCalculation < minimumCalculation)
+                        //{
+                        //    tempMinimumCalculation = minimumCalculation;
+                        //    strVendorName= dt.Rows[j]["name"].ToString();
+                        //    strOrderNo= dt.Rows[j]["OrderNo"].ToString();
+                        //    strBuyingPrice = dt.Rows[j]["BuyingPrice"].ToString();
+                        //    strDiscount = dt.Rows[j]["Discount"].ToString();                            
+                        //}
                     }
                 }
-                table.Rows.Add(strProductName, strBrandName, strVarientName, strVendorName, strOrderNo, totalOrderNo, strBuyingPrice, strProductVarientId, strProductId, strDiscount, strFinalPrice,strPurchaseQuantity,
+                table.Rows.Add(strProductName, strBrandName, strVarientName, strBuyingPrice,
+                     strDiscount, strProductVarientId, strProductId,
                     totalQuantityOrder, totalFinalPrice, totalDiscountPrice,
-                    finalPurchaseAmount);
+                    finalPurchaseAmount, strVendorName, strOrderNo);
             }
 
-            table = table.DefaultView.ToTable(true, "ProductVarientId", "ProductName", "Brand", "Varient", "VendorName", "OrderNo", "TotalOrderNo", "BuyingPrice", "ProductId", "Discount", "FinalPrice", "PurchaseQuantity", "TotalQuantityOrder", "TotalFinalPrice", "TotalDiscountPrice", "FinalPurchaseAmount");
+           // table = table.DefaultView.ToTable(true, "ProductVarientId", "ProductName", "Brand", "Varient", "VendorName", "OrderNo", "TotalOrderNo", "BuyingPrice", "ProductId", "Discount", "FinalPrice", "PurchaseQuantity", "TotalQuantityOrder", "TotalFinalPrice", "TotalDiscountPrice", "FinalPurchaseAmount");
             return table;
         }
 

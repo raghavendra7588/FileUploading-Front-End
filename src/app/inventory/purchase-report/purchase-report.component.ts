@@ -641,21 +641,7 @@ export class PurchaseReportComponent implements OnInit {
     });
   }
 
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      apiData[i].Discount = 0;
-      apiData[i].FinalPrice = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-        }
-      }
-    }
-    return apiData;
-  }
+
 
 
 
@@ -718,6 +704,22 @@ export class PurchaseReportComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.reportData);
     });
 
+  }
+
+    mapObj(apiData, ownDbData) {
+    for (let i = 0; i < apiData.length; i++) {
+      apiData[i].ProductPrice = 0;
+      apiData[i].Discount = 0;
+      apiData[i].FinalPrice = 0;
+      for (let j = 0; j < ownDbData.length; j++) {
+        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+          apiData[i].Discount = ownDbData[j].Discount;
+          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+        }
+      }
+    }
+    return apiData;
   }
 
   createUniqueBrandName(array: any) {

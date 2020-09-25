@@ -38,7 +38,7 @@ import { ProductVendorWisePurchaseReportComponent } from './product-vendor-wise-
 import { DialogProductVendorWisePurchaseReportComponent } from './dialog-product-vendor-wise-purchase-report/dialog-product-vendor-wise-purchase-report.component';
 import { SalesReportComponent } from './sales-report/sales-report.component';
 import { DialogSalesReportComponent } from './dialog-sales-report/dialog-sales-report.component';
-
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 @NgModule({
   declarations: [MinimumRatePurchaseOrderComponent, DialogMinimumRatePurchaseOrderComponent, ProductVendorWisePurchaseReportComponent, DialogProductVendorWisePurchaseReportComponent, SalesReportComponent, DialogSalesReportComponent],
@@ -70,6 +70,7 @@ import { DialogSalesReportComponent } from './dialog-sales-report/dialog-sales-r
     NgxPrintModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    MatSelectFilterModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({

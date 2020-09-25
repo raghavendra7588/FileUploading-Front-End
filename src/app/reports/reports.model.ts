@@ -3,6 +3,7 @@ export class MinimumPurchaseReport {
     subCategoryId: string;
     brandId: string;
     productId: string;
+
     startDate: string;
     endDate: string;
     sellerId: string;
@@ -13,6 +14,7 @@ export class ProductVendorWisePurchaseReport {
     subCategoryId: string;
     brandId: string;
     productId: string;
+    
     startDate: string;
     endDate: string;
     sellerId: string;

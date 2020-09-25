@@ -40,7 +40,7 @@ export class DialogViewVendorDataComponent implements OnInit {
   vendorViewData: any = [];
   vendorName: string;
 
-  displayedColumns: string[] = ['productId', 'brandName', 'productName', 'varient'];
+  displayedColumns: string[] = ['productId','category','subCategory' ,'brandName', 'productName', 'varient'];
   // dataSource = ELEMENT_DATA;
   dataSource: any;
 

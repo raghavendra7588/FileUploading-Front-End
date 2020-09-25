@@ -15,7 +15,8 @@ import { InventoryService } from '../inventory/inventory.service';
 export class LoginComponent implements OnInit {
 
   user: User = new User();
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
     public emitterService: EmitterService,

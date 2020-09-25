@@ -22,6 +22,8 @@ export class InventoryService {
   private SAVE_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
   private GET_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
   private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api/PriceDecisionFactor/getall';
+  private SAVE_STOCK_IN_ITEMS = this.BASE_URL + 'api/StockIn';
+  private GET_STOCK_IN_ITEMS = this.BASE_URL + 'api/StockIn';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
@@ -41,6 +43,15 @@ export class InventoryService {
     return this.http.get(this.GET_ITEM_MASTER + '/' + sellerId);
   }
 
+  postStockInItem(stockIn) {
+    return this.http.post(this.SAVE_STOCK_IN_ITEMS, stockIn);
+  }
+
+  getStockInItem(sellerId: number) {
+    return this.http.get(this.GET_STOCK_IN_ITEMS + '/' + sellerId);
+  }
+
+
   getMeasurementUnitData() {
     const data = {};
     var reqHeader = new HttpHeaders({
@@ -49,5 +60,5 @@ export class InventoryService {
     });
     return this.http.post(this.GET_MEASUREMENT_UNIT, data, { headers: reqHeader });
   }
-  
+
 }

@@ -1,5 +1,5 @@
-<h3 class="mt-2" style="text-align: center;color:blue;">Welcome to Gramvyapar</h3>
-<div class="container my-3">
+<h3 class="mt-2" style="text-align: center;color:blue;">Welcome to Gramvyapar </h3>
+<!-- <div class="container my-3">
     <mat-card>
         <div class="row" style="text-align: center;">
 
@@ -33,12 +33,11 @@
                 <h3 style="color:#dc3545;font-size:15px;">No of Purchase Orders (max 100)</h3>
                 
             </div>
-            <!-- FF6666 -->
-            <!-- F08080 -->
+
         </div>
     </mat-card>
-</div>
-<div class="container my-3">
+</div> -->
+<!-- <div class="container my-3">
     <mat-card>
         <div class="row" style="text-align: center;">
 
@@ -67,8 +66,83 @@
 
         </div>
     </mat-card>
+</div> -->
+
+
+<div class="container my-5">
+    <mat-card>
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="card bg-primary text-center">
+                    <span>18065<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Purchase Per Month</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="card text-center" style="background-color:#ffc107">
+                    <span>12865<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Sales Per Month</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="card bg-success text-center">
+                    <span>8912<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Profit Per Month</h2>
+
+                </div>
+            </div>
+
+
+        </div>
+    </mat-card>
 </div>
 
+<div class="container my-5">
+    <mat-card>
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="card bg-primary text-center">
+                    <span>891<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Purchase per Day</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="card text-center" style="background-color:#ffc107">
+                    <span>1201<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Sale per Day</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="card bg-success text-center">
+                    <span>1403<i class="fa fa-inr fa-1x ml-2"></i></span>
+                    <h2>Profit per Day</h2>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <div class="card bg-danger text-center">
+                    <span>23 <i class="fa fa-users fa-1x ml-2"></i></span>
+                    <h2>No of Purchase Orders</h2>
+
+                </div>
+            </div>
+
+        </div>
+    </mat-card>
+</div>
+
+
+
+
+
+<!-- 
 <div class="container my-3">
     <mat-card>
         <div class="row">
@@ -105,22 +179,22 @@
 
         </div>
     </mat-card>
-</div>
+</div> -->
 
 <div class="container text-center my-4">
     <div class="row">
         <div class="col-md-3">
-            <button type="button" class="btn btn-primary">Create New Vendor</button>
+            <button type="button" class="btn btn-primary" (click)="addAddress()"> Add Shop Address</button>
 
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-info yellow-button" >Create New Order</button>
+            <button type="button" class="btn btn-info yellow-button" (click)="createVendor()">Create New Vendor</button>
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-success">View Monthly Reports</button>
+            <button type="button" class="btn btn-success" (click)="goToPriceList()">Add Price List Items</button>
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-danger" (click)="openDialog()">Add Shop Address</button>
+            <button type="button" class="btn btn-danger" (click)="createOrder()">Create New Order</button>
         </div>
     </div>
 </div>

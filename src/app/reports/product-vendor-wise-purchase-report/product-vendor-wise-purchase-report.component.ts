@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import { InventoryService } from 'src/app/inventory/inventory.service';
 import { PurchaseReport } from 'src/app/inventory/inventory.model';
 import { MinimumPurchaseReport, ProductVendorWisePurchaseReport } from 'src/app/reports/reports.model';
+import { ReportsService } from '../reports.service';
 
 @Component({
   selector: 'app-product-vendor-wise-purchase-report',
@@ -91,6 +92,12 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   strSellerId: string;
   vendorId: any;
   vendorData: any = [];
+  AllSubCategoryArray: any = [];
+  AllCategoryArray: any = [];
+  categorySearch: any = [];
+  subCategorySearch: any = [];
+  brandSearch: any = [];
+  productSearch: any = [];
 
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
@@ -98,17 +105,19 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
-    private inventoryService: InventoryService) {
+    private inventoryService: InventoryService,
+    private reportsService: ReportsService) {
   }
 
 
   ngOnInit() {
-    this.strSellerId = sessionStorage.getItem('sellerId');
     this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
-    this.purchaseReport.sellerId = sessionStorage.getItem('sellerId').toString();
+    this.strSellerId= sessionStorage.getItem('sellerId').toString();
+
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+    this.categorySearch = this.loginService.seller_object.categories;
     this.getPriceListData();
     this.getVendorData();
 
@@ -172,313 +181,140 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
 
 
 
-  onCategorySelect(event) {
-    this.categoriesArray.push(event.id);
-
-    this.purchaseService.getAllSubCategories(event.id).subscribe(data => {
-      if (this.multipleCategoriesArray.length === 0) {
-        this.multipleCategoriesArray = data;
-        let sortedCategory = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
-        this.multipleCategoriesArray = [];
-        this.multipleCategoriesArray = sortedCategory;
-
-      }
-      else {
-        this.categoriesArray2 = data;
-        this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
-        this.multipleCategoriesArray = this.categoriesArray3;
-        let sortedCategories = this.sortArrayInAscendingOrder(this.multipleCategoriesArray);
-        this.multipleCategoriesArray = [];
-        this.multipleCategoriesArray = sortedCategories;
-
-      }
-    });
-
-  }
-
-  onCategoryDeSelect(event) {
-    let remainingCategoriesArray = this.multipleCategoriesArray.filter(function (item) {
-      return Number(item.parentid) !== Number(event.id);
-    });
-    this.multipleCategoriesArray = [];
-    this.multipleCategoriesArray = remainingCategoriesArray;
-
-    if (this.multipleCategoriesArray.length === 0) {
-      this.multipleCategoriesArray = [];
-      this.anyArray = [];
-      this.dataSource = [];
-    }
-
-
-    const index = this.categoriesArray.indexOf(event.id);
-    if (index > -1) {
-      this.categoriesArray.splice(index, 1);
-    }
-
-  }
-
-  onCategoryDeSelectAll(event) {
-    console.log('disselect all', event);
-  }
-
-  onSubCategorySelect(event, data) {
-    this.subCategoriesArray.push(event.id);
-
-
-    this.purchaseService.getAllBrand(data[0].parentid, event.id).subscribe(data => {
-      if (this.multipleBrandArray.length === 0) {
-        this.multipleBrandArray = data;
-        this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-        // this.multipleBrandArray = this.catchMappedData;
-      }
-      else {
-        this.array2 = data;
-        this.array2 = this.mapObj(this.array2, this.dbData);
-        this.array3 = [...this.catchMappedData, ...this.array2];
-        this.catchMappedData = this.array3;
-      }
-
-      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
-      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
-      this.multipleBrandArray = this.catchMappedData;
-
-    });
-  }
-
-  onSubCategoryDeSelect(event) {
-    let newArr = [];
-    newArr = this.anyArray.filter(function (item) {
-      return Number(item.SubCategoryID) !== Number(event.id);
-    });
-    this.anyArray = [];
-    this.anyArray = newArr;
-    let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
-      return Number(item.SubCategoryID) !== Number(event.id);
-    });
-    this.finalBrandArray = unSelectedSubCategoryArray;
-
-
-    const index = this.subCategoriesArray.indexOf(event.id);
-    if (index > -1) {
-      this.subCategoriesArray.splice(index, 1);
-    }
-
-  }
-
-
-  onBrandSelect(event) {
-    this.brandArray.push(event.BrandID);
-    let productNameArray: any;
-    if (this.finalBrandArray.length === 0) {
-      let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-        return item.BrandName.trim() === event.BrandName
-      });
-      this.finalBrandArray = filteredBrandArray;
-
-    }
-    else {
-      this.brands1 = this.multipleBrandArray.filter(function (item) {
-        return item.BrandName.trim() === event.BrandName
-      });
-      this.brands2 = this.brands1;
-      this.brands3 = [...this.finalBrandArray, ...this.brands2];
-      this.finalBrandArray = this.brands3;
-    }
-
-    productNameArray = this.createUniqueProductName(this.finalBrandArray);
-    // this.finalProductNameArray = this.sortArrayInAscendingOrder(productNameArray);
-    this.finalProductNameArray = productNameArray;
-
-
-  }
-
-  onBrandDeSelect(event) {
-    var tempArr = this.finalBrandArray.filter(function (item) {
-      return item.BrandName.trim() != event.BrandName.trim();
-    });
-    this.finalBrandArray = tempArr;
-
-    const index = this.brandArray.indexOf(event.BrandID);
-    if (index > -1) {
-      this.brandArray.splice(index, 1);
-    }
-  }
-
-  productChange(event) {
-
-
-    this.productArray.push(event.ProductID);
-    // if (this.finalBrandArray.length === 0) {
-    //   let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-    //     return item.BrandName.trim() === event.BrandName;
-    //   });
-    //   this.finalBrandArray = filteredBrandArray;
-    // }
-    // else {
-    //   this.brands1 = this.multipleBrandArray.filter(function (item) {
-    //     return item.BrandName.trim() === event.BrandName
-    //   });
-    //   this.brands2 = this.brands1;
-    //   this.brands3 = [...this.finalBrandArray, ...this.brands2];
-    //   this.finalBrandArray = this.brands3;
-    // }
-    // console.log('final brand ', this.finalBrandArray);
-
-
-
-  }
-  onProductDeSelect(event) {
-
-    const index = this.productArray.indexOf(event.ProductID);
-    if (index > -1) {
-      this.productArray.splice(index, 1);
-    }
-
-  }
-
-
-  onCategorySelectAll(event) {
-    let AllCategoryArray: any = [];
-
-    this.purchaseService.getEveryBrand().subscribe(data => {
-
-      AllCategoryArray = data;
-
-      let uniqueBrandName = this.createUniqueBrandName(AllCategoryArray);
-      this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
-
-    });
-  }
-
   onSubCategorySelectAll() {
-    console.log('sub cat all');
-  }
+    console.log('inside sub cat select all');
+    let catchMappedSubCategory: any = [];
+    this.purchaseReport.subCategoryId = 'ALL'.toString();
+    console.log('ng model sub cat', this.purchaseReport.subCategoryId);
 
-  onBrandSelectAll() {
+    this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
+      this.AllSubCategoryArray = data;
+      catchMappedSubCategory = this.mapObj(this.AllSubCategoryArray, this.dbData);
+      this.multipleBrandArray = catchMappedSubCategory;
+      this.finalProductNameArray = [];
+      let uniqueBrands = this.createUniqueBrandName(catchMappedSubCategory);
 
-    let mappedBrandData: any = [];
-    let brandData: any = [];
-    let uniqueBrandNameData: any = [];
-
-    this.purchaseService.getAllBrand(this.categoryId, this.subCategoryId).subscribe(data => {
-
-      brandData = data;
-
-      mappedBrandData = this.mapObj(brandData, this.dbData);
-      // this.multipleBrandArray = this.catchMappedData;
-      this.dataSource = new MatTableDataSource(mappedBrandData);
-      this.dataSource.paginator = this.paginator;
-      uniqueBrandNameData = this.createUniqueBrandName(mappedBrandData);
-      this.anyArray = this.sortUniqueBrandName(uniqueBrandNameData);
-      // this.multipleBrandArray = this.catchMappedData;
-
+      this.anyArray = this.sortUniqueBrandName(uniqueBrands);
+      this.brandSearch = this.anyArray;
+      console.log('any array', this.anyArray);
     });
+    this.loginService.seller_object.categories = this.categorySearch.slice();
+    this.multipleCategoriesArray = this.subCategorySearch.slice();
+    this.anyArray = this.brandSearch.slice();
+    this.finalProductNameArray = this.productSearch.slice();
   }
 
 
   onCategoriesChange(event, category: any) {
+    let orderedSubCategoriesData: any = [];
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
-          if (this.multipleCategoriesArray.length === 0) {
-            this.multipleCategoriesArray = data;
-          }
-          else {
-            this.categoriesArray2 = data;
-            this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
-            this.multipleCategoriesArray = this.categoriesArray3;
-          }
+          orderedSubCategoriesData = this.sortArrayInAscendingOrder(data);
+
+          this.multipleCategoriesArray = orderedSubCategoriesData;
+          this.subCategorySearch = this.multipleCategoriesArray;
+
         });
+        let eachBrandData: any = [];
+        let mappedData: any = [];
+        let uniqueBrandName: any = [];
+        console.log('category select category id', category.id);
+        this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
+          eachBrandData = data;
+
+
+
+          mappedData = this.mapObj(eachBrandData, this.dbData);
+
+        });
+
+
       }
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
+      this.finalProductNameArray = this.productSearch.slice();
     }
 
-    if (!event.source.selected) {
-      let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-        return item.id != category.id;
-      });
-      this.multipleCategoriesArray = newCategoriesArr;
-      const index = this.categoriesArray.indexOf(category.id);
-      if (index > -1) {
-        this.categoriesArray.splice(index, 1);
-      }
-    }
   }
 
   onSubCategoriesChange(event, subCategory: any) {
+
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-          if (this.multipleBrandArray.length === 0) {
-            this.multipleBrandArray = data;
-            this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-            // this.multipleBrandArray = this.catchMappedData;
-          }
-          else {
-            this.array2 = data;
-            this.array2 = this.mapObj(this.array2, this.dbData);
-            this.array3 = [...this.catchMappedData, ...this.array2];
-            this.catchMappedData = this.array3;
-          }
+
+          this.multipleBrandArray = data;
+          this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+
+          this.multipleBrandArray = this.catchMappedData;
+
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+          this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
+
 
         });
       }
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
+      this.finalProductNameArray = this.productSearch.slice();
     }
-    if (!event.source.selected) {
-      let newArr = [];
-      newArr = this.anyArray.filter(function (item) {
-        return item.SubCategoryID != subCategory.id;
-      });
-      this.anyArray = [];
-      this.anyArray = newArr;
-      let unSelectedSubCategoryArray = this.finalBrandArray.filter(function (item) {
-        return item.SubCategoryID != subCategory.id
-      });
-      this.finalBrandArray = unSelectedSubCategoryArray;
-    }
+
 
   }
 
   onProductChange(event, product: any) {
+    console.log('required id', product.BrandID);
+    console.log('multiple brand array', this.multipleBrandArray);
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.purchaseReport.brandId = product.BrandID;
+        console.log('ng model', this.purchaseReport.brandId);
         this.brandArray.push(product.ProductID);
-        if (this.finalBrandArray.length === 0) {
-          let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
-          });
-          this.finalBrandArray = filteredBrandArray;
-
-        }
-        else {
-          this.brands1 = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
-          });
-          this.brands2 = this.brands1;
-          this.brands3 = [...this.finalBrandArray, ...this.brands2];
-          this.finalBrandArray = this.brands3;
-        }
-
-      }
-      if (!event.source.selected) {
-        var tempArr = this.finalBrandArray.filter(function (item) {
-          return item.BrandName.trim() != product.BrandName;
+        // if (this.finalBrandArray.length === 0) {
+        let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+          return item.BrandName.trim() === product.BrandName;
         });
-        this.finalBrandArray = tempArr;
+        this.finalBrandArray = filteredBrandArray;
+        console.log('final product array', this.finalBrandArray);
+
+
+        this.finalProductNameArray = this.finalBrandArray;
+        this.productSearch = this.finalProductNameArray;
+        // this.productSearch = this.finalProductNameArray;
+
+        this.loginService.seller_object.categories = this.categorySearch.slice();
+        this.multipleCategoriesArray = this.subCategorySearch.slice();
+        this.anyArray = this.brandSearch.slice();
+        this.finalProductNameArray = this.productSearch.slice();
       }
+
     }
   }
+
 
   changeProduct(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-
+        console.log(product);
+        this.purchaseReport.productId = product.ProductID;
+        console.log('ng model', this.purchaseReport.productId);
       }
     }
+  }
+
+  onProductSelectAll() {
+    this.purchaseReport.productId = 'ALL';
+
+    console.log('ng model product all', this.purchaseReport.productId);
   }
 
   applyFilter(filter: string) {
@@ -502,23 +338,6 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     });
   }
 
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      apiData[i].Discount = 0;
-      apiData[i].FinalPrice = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-        }
-      }
-    }
-    return apiData;
-  }
-
-
   searchRecords() {
 
     if (this.purchaseReport.vendorId === null || this.purchaseReport.vendorId === undefined || this.purchaseReport.vendorId === '') {
@@ -532,28 +351,28 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       this.purchaseReport.categoryId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.categoryId = this.categoriesArray.toString();
+      this.purchaseReport.categoryId =this.purchaseReport.categoryId.toString();
     }
 
     if (this.purchaseReport.subCategoryId === null || this.purchaseReport.subCategoryId === undefined || this.purchaseReport.subCategoryId === '') {
       this.purchaseReport.subCategoryId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.subCategoryId = this.subCategoriesArray.toString();
+      this.purchaseReport.subCategoryId = this.purchaseReport.subCategoryId.toString();
     }
 
     if (this.purchaseReport.brandId === null || this.purchaseReport.brandId === undefined || this.purchaseReport.brandId === '') {
       this.purchaseReport.brandId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.brandId = this.brandArray.toString();
+      this.purchaseReport.brandId = this.purchaseReport.brandId.toString();
     }
 
     if (this.purchaseReport.productId === null || this.purchaseReport.productId === undefined || this.purchaseReport.productId === '') {
       this.purchaseReport.productId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.productId = this.productArray.toString();
+      this.purchaseReport.productId = this.purchaseReport.productId.toString();
     }
     // this.productArray
     if (this.startDate === null || this.startDate === undefined) {
@@ -571,7 +390,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       let endingDate = this.convertDate(this.endDate);
       this.purchaseReport.endDate = endingDate;
     }
-
+    this.purchaseReport.sellerId = this.strSellerId;
     console.log(this.purchaseReport);
     // this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
     //   this.reportData = data;
@@ -581,6 +400,26 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     //   this.dataSource = new MatTableDataSource(this.reportData);
     // });
 
+    this.reportsService.getProductVendorWiseData(this.purchaseReport).subscribe(data=>{
+      console.log('got result',data);
+    });
+
+  }
+
+  mapObj(apiData, ownDbData) {
+    for (let i = 0; i < apiData.length; i++) {
+      apiData[i].ProductPrice = 0;
+      apiData[i].Discount = 0;
+      apiData[i].FinalPrice = 0;
+      for (let j = 0; j < ownDbData.length; j++) {
+        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+          apiData[i].Discount = ownDbData[j].Discount;
+          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+        }
+      }
+    }
+    return apiData;
   }
 
   createUniqueBrandName(array: any) {
@@ -597,9 +436,10 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   createUniqueProductName(array: any) {
     let uniqueProductNameArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
-      if ((uniqueProductNameArray.findIndex(p => p.Name.trim() == array[i].Name.trim())) == -1) {
+      // if ((uniqueProductNameArray.findIndex(p => p.Name.trim() == array[i].Name.trim())) == -1) {
+      if ((uniqueProductNameArray.findIndex(p => Number(p.BrandID) == Number(array[i].BrandID))) == -1) {
         // var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID, Id: array[i].Id }
-        let item = { Name: array[i].Name, ProductID: array[i].ProductID }
+        let item = { Name: array[i].Name, ProductID: array[i].ProductID, BrandID: array[i].BrandID }
         uniqueProductNameArray.push(item);
       }
     }

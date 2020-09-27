@@ -439,6 +439,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           filteredCategoryData.push(data);
         }
       });
+      console.log('filteredCategoryData', filteredCategoryData);
 
       this.subCategorySearch = filteredCategoryData;
 
@@ -448,7 +449,10 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           filteredBrandData.push(data);
         }
       });
-      this.dataSource = new MatTableDataSource(filteredCategoryData);
+
+
+      // this.dataSource = new MatTableDataSource(filteredCategoryData);
+      this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
       let uniqueBrandName = this.createUniqueBrandName(filteredBrandData);
@@ -481,14 +485,16 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
         }
       });
 
+      console.log('filteredSubCategoryData', filteredSubCategoryData);
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
           filteredBrandData.push(data);
         }
       });
+      console.log('filteredBrandData', filteredBrandData);
 
-
-      this.dataSource = new MatTableDataSource(filteredSubCategoryData);
+      // this.dataSource = new MatTableDataSource(filteredSubCategoryData);
+      this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
 
       let uniqueBrands = this.createUniqueBrandName(filteredBrandData);
@@ -609,6 +615,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   onSubCategoriesChange(event, subCategory: any) {
+    let filteredBrandDataArray: any = [];
     if (event.isUserInput) {
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
@@ -618,6 +625,16 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           this.multipleBrandArray = data;
           this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
           this.multipleBrandArray = this.catchMappedData;
+          console.log('sub this.catchMappedData', this.catchMappedData);
+
+
+          this.catchMappedData.filter(data => {
+
+            if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+              filteredBrandDataArray.push(data);
+            }
+          });
+
           // }
           // else {
           //   this.array2 = data;
@@ -625,12 +642,15 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           //   this.array3 = [...this.catchMappedData, ...this.array2];
           //   this.catchMappedData = this.array3;
           // }
-          this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+          this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
 
-          this.dataSource = new MatTableDataSource(this.catchMappedData);
+
+
+          // this.dataSource = new MatTableDataSource(this.catchMappedData);
+          this.dataSource = new MatTableDataSource(filteredBrandDataArray);
           this.dataSource.paginator = this.paginator;
 
           this.particularCategoryArray = this.categorySearch.slice();

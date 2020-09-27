@@ -40,7 +40,7 @@ export class DialogViewVendorDataComponent implements OnInit {
   vendorViewData: any = [];
   vendorName: string;
 
-  displayedColumns: string[] = ['productId','category','subCategory' ,'brandName', 'productName', 'varient'];
+  displayedColumns: string[] = ['productId', 'category', 'subCategory', 'brandName', 'productName', 'varient'];
   // dataSource = ELEMENT_DATA;
   dataSource: any;
 
@@ -51,6 +51,7 @@ export class DialogViewVendorDataComponent implements OnInit {
     this.vendorId = Number(this.particularVendor.vendorId);
     console.log('i received ', this.vendorId);
     this.vendorView.vendorId = Number(this.particularVendor.vendorId);
+    this.vendorName = this.particularVendor.name;
 
   }
 
@@ -76,7 +77,7 @@ export class DialogViewVendorDataComponent implements OnInit {
       let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ReferenceId');
       this.vendorViewData = [];
       this.vendorViewData = uniqueVendorViewData;
-      this.vendorName = this.vendorViewData[0].name;
+      // this.vendorName = this.vendorViewData[0].name;
       this.dataSource = new MatTableDataSource(this.vendorViewData);
     });
   }

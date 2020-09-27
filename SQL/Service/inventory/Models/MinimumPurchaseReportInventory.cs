@@ -24,25 +24,6 @@ namespace inventory.Models
     {
         string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
 
-        public DataTable getData(int id)
-        {
-            SqlCommand command = new SqlCommand();
-            SqlConnection conn = new SqlConnection(strConn);
-            command.Connection = conn;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "getPurchaseReportById";
-            command.Parameters.AddWithValue("@PurchaseOrderId", id);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            conn.Open();
-
-            DataSet fileData = new DataSet();
-            adapter.Fill(fileData, "fileData");
-            conn.Close();
-            DataTable firstTable = fileData.Tables[0];
-            return firstTable;
-        }
-
-
         public DataTable postAllData(MinimumPurchaseReportInventory purchaseReportInventory)
         {
             SqlCommand command = new SqlCommand();

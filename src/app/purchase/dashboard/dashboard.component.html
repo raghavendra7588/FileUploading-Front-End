@@ -1,185 +1,117 @@
-<h3 class="mt-2" style="text-align: center;color:blue;">Welcome to Gramvyapar </h3>
-<!-- <div class="container my-3">
-    <mat-card>
-        <div class="row" style="text-align: center;">
-
-            <div class="col-md-3">
-                <circle-progress [percent]="purchasePerDayProgress" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#0086ad'" [innerStrokeColor]="'#97ebdb'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-
-                <h3 style="color:#3366ff;font-size:15px;">Purchase per Day</h3>
-            </div>
-            <div class="col-md-3">
-                <circle-progress [percent]="62" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#f9d62e'" [innerStrokeColor]="'#eae374'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-                <h3 style="color:#ffcc00;font-size:15px;">Sale per Day</h3>
-            </div>
-            <div class="col-md-3">
-                <circle-progress [percent]="35" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-                <h3 style="color:#339900;font-size:15px;">Profit per Day</h3>
-            </div>
-            <div class="col-md-3">
-                <circle-progress [percent]="noOfOrdersProgress" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#dc3545'" [innerStrokeColor]="'#FA8072'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-                <h3 style="color:#dc3545;font-size:15px;">No of Purchase Orders (max 100)</h3>
-                
-            </div>
-
-        </div>
-    </mat-card>
-</div> -->
-<!-- <div class="container my-3">
-    <mat-card>
-        <div class="row" style="text-align: center;">
-
-            <div class="col-md-4">
-                <circle-progress [percent]="85" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#0086ad'" [innerStrokeColor]="'#97ebdb'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-
-                <h3 style="color:#3366ff;font-size:15px;">Purchase per Month</h3>
-            </div>
-            <div class="col-md-4">
-                <circle-progress [percent]="62" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#f9d62e'" [innerStrokeColor]="'#eae374'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-                <h3 style="color:#ffcc00;font-size:15px;">Sale per Month</h3>
-            </div>
-            <div class="col-md-4">
-                <circle-progress [percent]="35" [radius]="60" [outerStrokeWidth]="5" [innerStrokeWidth]="3"
-                    [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true"
-                    [animationDuration]="3000">
-                </circle-progress>
-                <h3 style="color:#339900;font-size:15px;">Profit per Month</h3>
-            </div>
-
-        </div>
-    </mat-card>
-</div> -->
-
-
 <div class="container my-5">
-    <mat-card>
-        <div class="row">
-            <div class="col-md-4">
-
-                <div class="card bg-primary text-center">
-                    <span>18065<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Purchase Per Month</h2>
+    <div class="row">
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-primary custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                             <h2 class="font-weight-bold text-primary" style="margin-top: 13px;"> {{purchasePerDayResult}}</h2> 
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-
-                <div class="card text-center" style="background-color:#ffc107">
-                    <span>12865<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Sales Per Month</h2>
-                </div>
-            </div>
-            <div class="col-md-4">
-
-                <div class="card bg-success text-center">
-                    <span>8912<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Profit Per Month</h2>
-
-                </div>
-            </div>
-
-
+                <h2 class="text-center mt-2 text-primary">Purchase Per Day</h2>
+            </mat-card>
         </div>
-    </mat-card>
-</div>
-
-<div class="container my-5">
-    <mat-card>
-        <div class="row">
-            <div class="col-md-3">
-
-                <div class="card bg-primary text-center">
-                    <span>891<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Purchase per Day</h2>
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-left  bg-warning  custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-warning" style="margin-top: 13px;"> 1614</h2> 
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card text-center" style="background-color:#ffc107">
-                    <span>1201<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Sale per Day</h2>
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card bg-success text-center">
-                    <span>1403<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Profit per Day</h2>
-
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card bg-danger text-center">
-                    <span>23 <i class="fa fa-users fa-1x ml-2"></i></span>
-                    <h2>No of Purchase Orders</h2>
-
-                </div>
-            </div>
-
+                <h2 class="text-center mt-2 text-warning">Sale Per Day</h2>
+            </mat-card>
         </div>
-    </mat-card>
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-success  custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x mt-3" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-success" style="margin-top: 13px;"> 432</h2> 
+                    </div>
+                </div>
+                <h2 class="text-center mt-2 text-success">Profit Per Day</h2>
+            </mat-card>
+        </div>
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-danger  custom-div">
+                        <span class="mt-5"><i class="fa fa-users fa-1x mt-3"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-danger" style="margin-top: 13px;"> {{purchaseOrderPerDayResult}}</h2> 
+                    </div>
+                </div>
+                <h2 class="text-center mt-2 text-danger">Orders Per Day</h2>
+            </mat-card>
+        </div>
+    </div>
 </div>
 
 
-
-
-
-<!-- 
-<div class="container my-3">
-    <mat-card>
-        <div class="row">
-            <div class="col-md-3">
-
-                <div class="card bg-primary text-center">
-                    <span>86<i class="fa fa-users fa-1x ml-2"></i></span>
-                    <h2>Total Customers</h2>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-primary custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                             <h2 class="font-weight-bold text-primary" style="margin-top: 13px;"> {{purchasePerMonthResult}}</h2> 
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card text-center" style="background-color:#ffc107">
-                    <span>1201<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Sales Today</h2>
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card bg-success text-center">
-                    <span>8912<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Sales In Last 7 Days</h2>
-
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="card bg-danger text-center">
-                    <span>28683<i class="fa fa-inr fa-1x ml-2"></i></span>
-                    <h2>Total Sale of Month</h2>
-
-                </div>
-            </div>
-
+                <h2 class="text-center mt-2 text-primary">Purchase Per Month</h2>
+            </mat-card>
         </div>
-    </mat-card>
-</div> -->
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-left  bg-warning  custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-warning" style="margin-top: 13px;"> 16890</h2> 
+                    </div>
+                </div>
+                <h2 class="text-center mt-2 text-warning">Sale Per Month</h2>
+            </mat-card>
+        </div>
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-success  custom-div">
+                        <span class="mt-5"><i class="fa fa-inr fa-1x mt-3" style="margin-top: 12px;"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-success" style="margin-top: 13px;"> 6784</h2> 
+                    </div>
+                </div>
+                <h2 class="text-center mt-2 text-success">Profit Per Month</h2>
+            </mat-card>
+        </div>
+        <div class="col-md-3 col-3 col-sm-3 col-div">
+            <mat-card style="height: 97%;width: 95%;">
+                <div class="row justify-content-center" style="margin-top: 25px;">
+                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-danger  custom-div">
+                        <span class="mt-5"><i class="fa fa-users fa-1x mt-3"></i></span>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-8 custom-div">
+                        <h2 class="font-weight-bold text-danger" style="margin-top: 13px;"> {{purchaseOrderPerMonthResult}}</h2> 
+                    </div>
+                </div>
+                <h2 class="text-center mt-2 text-danger">Orders Per Month</h2>
+            </mat-card>
+        </div>
+    </div>
+</div>
 
 <div class="container text-center my-4">
     <div class="row">

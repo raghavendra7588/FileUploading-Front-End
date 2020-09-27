@@ -184,7 +184,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.prevCategory = this.vendorData.category;
       console.log('prev sub cat', this.prevSubCategory);
       console.log('prev cat', this.prevCategory);
-      console.log('prev brand',this.prevBrand);
+      console.log('prev brand', this.prevBrand);
       // this.selectedBrandString = this.vendorData.brand;
       // this.selectedSubCategoryString = this.vendorData.subCategory;
       // this.selectedCategoryString = this.vendorData.category;
@@ -1008,11 +1008,13 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
         let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
         categoryStr = nonDuplicateCategory.toString();
 
-        
+
         let concatCategoryStr = categoryStr.concat(",").concat(this.prevCategory);
         let nonDuplicateCategoryStr = Array.from(new Set(concatCategoryStr.split(','))).toString();
+
         console.log('non duplicate cat', nonDuplicateCategoryStr);
-        formData.append('category', nonDuplicateCategoryStr.toString());
+        let formattedCategoryString = nonDuplicateCategoryStr.replace(',,', ',');
+        formData.append('category', formattedCategoryString.toString());
 
       }
       else {
@@ -1020,8 +1022,9 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
         let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
         categoryStr = nonDuplicateCategory.toString();
+        let formattedCategoryString = categoryStr.replace(',,', ',');
         console.log('non duplicate cat', categoryStr);
-        formData.append('category', categoryStr.toString());
+        formData.append('category', formattedCategoryString.toString());
       }
 
 
@@ -1040,15 +1043,18 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
         let concatSubCategoryStr = SubCategorystr.concat(",").concat(this.prevSubCategory);
         let nonDuplicateSubCategoryStr = Array.from(new Set(concatSubCategoryStr.split(','))).toString();
-        console.log('concat  cat str', nonDuplicateSubCategoryStr);
-        formData.append('subCategory', nonDuplicateSubCategoryStr.toString());
+
+        let formattedSubCategoryString = nonDuplicateSubCategoryStr.replace(',,', ',');
+        console.log('concat  cat str', formattedSubCategoryString);
+        formData.append('subCategory', formattedSubCategoryString.toString());
       }
       else {
         //normal mode
 
         let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
         SubCategorystr = nonDuplicateSubCategory.toString();
-        formData.append('subCategory', SubCategorystr);
+        let formattedSubCategoryString = SubCategorystr.replace(',,', ',');
+        formData.append('subCategory', formattedSubCategoryString);
       }
 
     }
@@ -1064,8 +1070,9 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
         brandStr = nonDuplicateBrand.toString();
         let concatBrandStr = brandStr.concat(",").concat(this.prevBrand);
         let nonDuplicateBrandStr = Array.from(new Set(concatBrandStr.split(','))).toString();
-        console.log('concat brand str', nonDuplicateBrandStr);
-        formData.append('brand', nonDuplicateBrandStr.toString());
+        let formattedBrandString = nonDuplicateBrandStr.replace(',,', ',');
+        console.log('concat brand str', formattedBrandString);
+        formData.append('brand', formattedBrandString.toString());
 
       }
       else {
@@ -1073,7 +1080,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
         let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
         brandStr = nonDuplicateBrand.toString();
-        formData.append('brand', brandStr);
+        let formattedBrandString = brandStr.replace(',,', ',');
+        formData.append('brand', formattedBrandString);
       }
 
     }

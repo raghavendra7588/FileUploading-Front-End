@@ -12,20 +12,7 @@ namespace inventory.Controllers
     public class MinimumPurchaseReportInventoryController : ApiController
     {
         MinimumPurchaseReportInventoryBL objMinimumPurchaseReportInventoryBL = new MinimumPurchaseReportInventoryBL();
-        [HttpGet]
-        public HttpResponseMessage getall(int id)
-        {
-            try
-            {
-                DataTable dt = objMinimumPurchaseReportInventoryBL.getData(id);
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
-            }
-        }
 
         [HttpPost]
         public HttpResponseMessage postall(MinimumPurchaseReportInventory objMinimumPurchaseReport)

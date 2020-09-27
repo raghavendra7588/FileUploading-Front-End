@@ -44,6 +44,11 @@ export class PurchaseService {
   public PURCHASE_VENDOR_ORDER_WISE = this.BASE_URL + 'api/PurchaseReport/purchaseReportVendorOrderWise';
   public GET_VENDOR_VIEW_DATA = this.BASE_URL + 'api/VendorView';
 
+  private GET_DASHBOARD_PURCHASE_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchasePerDay';
+  private GET_DASHBOARD_PURCHASE_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchasePerMonth';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
+
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
     this.sellerId = sessionStorage.getItem('sellerId');
@@ -143,5 +148,21 @@ export class PurchaseService {
 
   getAllPurchaseOrderItemData(data) {
     return this.http.post(this.GET_PURCHASE_ORDER_ITEM_DATA, data);
+  }
+
+  getDashBoardPurchasePerDayData(purchaseData) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_PER_DAY, purchaseData);
+  }
+
+  getDashBoardPurchasePerMonthData(purchaseData) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_PER_MONTH, purchaseData);
+  }
+
+  getDashBoardPurchaseOrderPerDayData(purchaseReport) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_ORDER_PER_DAY, purchaseReport);
+  }
+
+  getDashBoardPurchaseOrderPerMonth(purchaseReport) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH, purchaseReport);
   }
 }

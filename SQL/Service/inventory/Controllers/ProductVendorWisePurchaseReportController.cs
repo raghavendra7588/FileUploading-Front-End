@@ -13,20 +13,6 @@ namespace inventory.Controllers
     {
 
         ProductsVendorWisePurchaseReportBL objProductsVendorWisePurchaseReportBL = new ProductsVendorWisePurchaseReportBL();
-        [HttpGet]
-        public HttpResponseMessage getall(int id)
-        {
-            try
-            {
-                DataTable dt = objProductsVendorWisePurchaseReportBL.getData(id);
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-
-            }
-        }
 
         [HttpPost]
         public HttpResponseMessage postall(ProductsVendorWisePurchaseReport objProductsVendorWisePurchaseReportReport)

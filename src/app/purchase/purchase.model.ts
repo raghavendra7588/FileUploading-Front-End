@@ -221,3 +221,26 @@ export class GetPurchaseItemData {
     purchaseOrderId: number;
     orderNo: string;
 }
+
+export class DashBoardPurchasePerDay {
+    SellerId: string;
+    CurrentDate: string;
+}
+
+export class DashBoardPurchasePerMonth {
+    StartDate: string;
+    EndDate: string;
+    SellerId: string;
+}
+
+export class DashBoardPurchaseOrderPerDay{
+    SellerId: string;
+    CurrentDate: string;
+}
+
+
+export class DashBoardPurchaseOrderPerMonth {
+    StartDate: string;
+    EndDate: string;
+    SellerId: string;
+}

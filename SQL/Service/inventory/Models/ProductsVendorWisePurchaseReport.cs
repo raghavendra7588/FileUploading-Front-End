@@ -25,26 +25,6 @@ namespace inventory.Models
     {
         string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
 
-
-        public DataTable getData(int id)
-        {
-            SqlCommand command = new SqlCommand();
-            SqlConnection conn = new SqlConnection(strConn);
-            command.Connection = conn;
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "getPurchaseReportById";
-            command.Parameters.AddWithValue("@PurchaseOrderId", id);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            conn.Open();
-
-            DataSet fileData = new DataSet();
-            adapter.Fill(fileData, "fileData");
-            conn.Close();
-            DataTable firstTable = fileData.Tables[0];
-            return firstTable;
-        }
-
-
         public DataTable postAllData(ProductsVendorWisePurchaseReport objProductsVendorWisePurchaseReport)
         {
             SqlCommand command = new SqlCommand();
@@ -123,10 +103,7 @@ namespace inventory.Models
                 int totalDiscountPrice = 0;
                 int finalPurchaseAmount = 0;
                 int totalOrderNo = 0;
-                int intBuyingPrice = 0;
-                int intDiscount = 0;
-                int tempMinimumCalculation = 0;
-                int minimumCalculation = 0;
+
                 int brandWiseTotal = 0;
 
                 for (int j = 0; j < dt.Rows.Count; j++)
@@ -139,9 +116,9 @@ namespace inventory.Models
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
                       
 
-                        if (intBrandId == Convert.ToInt32(dt.Rows[j]["BrandName"].ToString()))
+                        if (intBrandId == Convert.ToInt32(dt.Rows[j]["BrandID"].ToString()))
                         {
-                            totalOrderNo++;
+                            totalOrderNo++; 
                             brandWiseTotal += ( (Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString())) ); 
 
                         }

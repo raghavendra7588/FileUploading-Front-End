@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\HelloController.cs" />
     <Compile Include="Controllers\ItemMasterController.cs" />
     <Compile Include="Controllers\MinimumPurchaseReportInventoryController.cs" />
@@ -107,6 +108,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ItemMaster.cs" />
     <Compile Include="Models\MinimumPurchaseReportInventory.cs" />
     <Compile Include="Models\PriceList.cs" />

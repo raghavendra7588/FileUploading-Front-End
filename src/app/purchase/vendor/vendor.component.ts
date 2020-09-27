@@ -75,6 +75,7 @@ export class VendorComponent implements OnInit {
   }
 
   viewVendorDetails(element) {
+    console.log('pass this',element);
     this.dialog.open(DialogViewVendorDataComponent, {
       height: '600px',
       width: '1000px',

@@ -16,6 +16,7 @@ import { InventoryService } from 'src/app/inventory/inventory.service';
 import { PurchaseReport } from 'src/app/inventory/inventory.model';
 import { MinimumPurchaseReport, ProductVendorWisePurchaseReport } from 'src/app/reports/reports.model';
 import { ReportsService } from '../reports.service';
+import { DialogProductVendorWisePurchaseReportComponent } from '../dialog-product-vendor-wise-purchase-report/dialog-product-vendor-wise-purchase-report.component';
 
 @Component({
   selector: 'app-product-vendor-wise-purchase-report',
@@ -74,7 +75,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
   uniqueBrandNamesArray = [];
   finalProductArray = [];
   allSelected = false;
-
+  purchaseReportResponse: any = [];
   allBrandSelected: boolean = false;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('check') check: MatCheckbox;
@@ -114,7 +115,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
     this.sellerName = sessionStorage.getItem('sellerName');
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
-    this.strSellerId= sessionStorage.getItem('sellerId').toString();
+    this.strSellerId = sessionStorage.getItem('sellerId').toString();
 
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
     this.categorySearch = this.loginService.seller_object.categories;
@@ -325,11 +326,11 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
 
   viewPurchaseReport(response) {
 
-    // this.dialog.open(DialogPrintPurchaseReportComponent, {
-    //   height: '600px',
-    //   width: '1000px',
-    //   data: response
-    // });
+    this.dialog.open(DialogProductVendorWisePurchaseReportComponent, {
+      height: '600px',
+      width: '1400px',
+      data: response
+    });
   }
 
   getPriceListData() {
@@ -351,7 +352,7 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       this.purchaseReport.categoryId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.categoryId =this.purchaseReport.categoryId.toString();
+      this.purchaseReport.categoryId = this.purchaseReport.categoryId.toString();
     }
 
     if (this.purchaseReport.subCategoryId === null || this.purchaseReport.subCategoryId === undefined || this.purchaseReport.subCategoryId === '') {
@@ -400,8 +401,10 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     //   this.dataSource = new MatTableDataSource(this.reportData);
     // });
 
-    this.reportsService.getProductVendorWiseData(this.purchaseReport).subscribe(data=>{
-      console.log('got result',data);
+    this.reportsService.getProductVendorWiseData(this.purchaseReport).subscribe(data => {
+      console.log('got result', data);
+      this.purchaseReportResponse = data;
+      this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
     });
 
   }

@@ -40,23 +40,26 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SalesReportComponent } from './sales-report/sales-report.component';
 import { DialogPrintPurchaseReportComponent } from './dialog-print-purchase-report/dialog-print-purchase-report.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { InventoryService } from './inventory.service';
 import { ToastrModule } from 'ngx-toastr';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
-
-
 import { NgxPrintModule } from 'ngx-print';
-import { DialogPurchaseReportDataComponent } from './dialog-purchase-report-data/dialog-purchase-report-data.component';
+
+import { MinimumPurchaseOrderComponent } from './minimum-purchase-order/minimum-purchase-order.component';
+import { DialogMinimumPurchaseOrderComponent } from './dialog-minimum-purchase-order/dialog-minimum-purchase-order.component';
+import { MatSelectFilterModule } from 'mat-select-filter';
+
 @NgModule({
   declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent,
-     InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent, 
-     JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent, 
-     MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent,
-      DialogPrintPurchaseReportComponent,
-      DialogPurchaseReportDataComponent],
+    InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent,
+    JobWorkInwardRateComponent, MaterialIssuedForJobWorkComponent, JobWorkOutworkInvoiceComponent, JobWorkOutwardRateComponent,
+    MaterialReceivedAfterJobWorkComponent, DialogContentItemMasterComponent, PurchaseReportComponent, SalesReportComponent,
+    DialogPrintPurchaseReportComponent,
+    MinimumPurchaseOrderComponent,
+    DialogMinimumPurchaseOrderComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -80,12 +83,15 @@ import { DialogPurchaseReportDataComponent } from './dialog-purchase-report-data
     MatDividerModule,
     MatListModule,
     NgxPrintModule,
+    MatPaginatorModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectFilterModule
   ],
-  entryComponents:[DialogPrintPurchaseReportComponent],
+  entryComponents: [DialogPrintPurchaseReportComponent],
   providers: [InventoryService],
-  exports: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent, InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent]
+  exports: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent,
+    InterBranchIssueComponent, InterBranchReceiptComponent, JobWorkOutwordComponent, JobWorkInwardComponent]
 })
 export class InventoryModule { }

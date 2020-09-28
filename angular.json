@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "fileUploading"
+  "defaultProject": "fileUploading",
+  "cli": {
+    "analytics": "5d5076dd-ff06-427d-a3cc-a55865aaba36"
+  }
 }

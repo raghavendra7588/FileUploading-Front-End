@@ -23,8 +23,8 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  private BASE_URL = 'http://localhost:55547/';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'http://localhost:55547/';
   private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = 'http://203.112.144.38/AdminApi/api/Category/getall';
@@ -36,7 +36,18 @@ export class PurchaseService {
   private GET_ALL_PRICELIST_DATA = this.BASE_URL + 'api/PriceList';
   private SAVE_PURCHASE_ORDER_MASTER = this.BASE_URL + 'api/PurchaseOrder';
   private SAVE_PURCHASE_ORDER_ITEM_MASTER = this.BASE_URL + 'api/PurchaseOrderItem';
-  public GET_PURCHASE_ORDER_DATA = this.BASE_URL + 'api/PurchaseReport';
+  private GET_PURCHASE_ORDER_DATA = this.BASE_URL + 'api/PurchaseReport';
+  private GET_PURCHASE_ORDER = this.BASE_URL + 'api/PurchaseOrder/getOrderIdByVendorId';
+
+  private GET_PURCHASE_ORDER_ITEM_DATA = this.BASE_URL + 'api/PurchaseOrder/getOrderItemData';
+
+  public PURCHASE_VENDOR_ORDER_WISE = this.BASE_URL + 'api/PurchaseReport/purchaseReportVendorOrderWise';
+  public GET_VENDOR_VIEW_DATA = this.BASE_URL + 'api/VendorView';
+
+  private GET_DASHBOARD_PURCHASE_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchasePerDay';
+  private GET_DASHBOARD_PURCHASE_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchasePerMonth';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
@@ -120,11 +131,38 @@ export class PurchaseService {
   }
 
   getPurchaseReportData(purchaseReport) {
-    return this.http.post(this.GET_PURCHASE_ORDER_DATA, purchaseReport);
+    return this.http.post(this.PURCHASE_VENDOR_ORDER_WISE, purchaseReport);
   }
 
   getPurchaseReportById(id) {
     return this.http.get(this.GET_PURCHASE_ORDER_DATA + '/' + id);
   }
 
+  getAllVendorViewData(vendorView) {
+    return this.http.post(this.GET_VENDOR_VIEW_DATA, vendorView);
+  }
+
+  getAllPurchaseOrderData(vendorData) {
+    return this.http.post(this.GET_PURCHASE_ORDER, vendorData);
+  }
+
+  getAllPurchaseOrderItemData(data) {
+    return this.http.post(this.GET_PURCHASE_ORDER_ITEM_DATA, data);
+  }
+
+  getDashBoardPurchasePerDayData(purchaseData) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_PER_DAY, purchaseData);
+  }
+
+  getDashBoardPurchasePerMonthData(purchaseData) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_PER_MONTH, purchaseData);
+  }
+
+  getDashBoardPurchaseOrderPerDayData(purchaseReport) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_ORDER_PER_DAY, purchaseReport);
+  }
+
+  getDashBoardPurchaseOrderPerMonth(purchaseReport) {
+    return this.http.post(this.GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH, purchaseReport);
+  }
 }

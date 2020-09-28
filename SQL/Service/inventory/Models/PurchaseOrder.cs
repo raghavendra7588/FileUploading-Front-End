@@ -34,12 +34,162 @@ namespace inventory.Models
         public List<PurchaseOrderItem> items { get; set; }
     }
 
+    public class GetPurchaseOrder
+    {
+        public string sellerId { get; set; }
+        public int vendorId { get; set; }
+    }
+
+    public class GetPurchaseOrderItem
+    {
+        public string sellerId { get; set; }
+        public int vendorId { get; set; }
+        public int PurchaseOrderId { get; set; }
+        public string orderNo { get; set; }
+
+    }
+
 
     public class PurchaseOrderBL
     {
         string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
 
+
+
+        public DataTable getData(GetPurchaseOrder objGetPurchaseOrder)
+        {
+            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(strConn);
+            command.Connection = conn;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "GetPurchaseOrderBySellerId";
+            command.Parameters.AddWithValue("@SellerId", objGetPurchaseOrder.sellerId);
+            command.Parameters.AddWithValue("@VendorId", objGetPurchaseOrder.vendorId);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            conn.Open();
+
+            DataSet fileData = new DataSet();
+            adapter.Fill(fileData, "fileData");
+            conn.Close();
+            DataTable firstTable = fileData.Tables[0];
+            return firstTable;
+        }
+
+        public DataTable geItemData(GetPurchaseOrderItem objGetPurchaseOrderItem)
+        {
+
+            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(strConn);
+            command.Connection = conn;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "GetAllPurchaseOrderItemData";
+            command.Parameters.AddWithValue("@PurchaseOrderId", objGetPurchaseOrderItem.PurchaseOrderId);
+            command.Parameters.AddWithValue("@VendorId", objGetPurchaseOrderItem.vendorId);
+            command.Parameters.AddWithValue("@SellerId", objGetPurchaseOrderItem.sellerId);
+            command.Parameters.AddWithValue("@OrderNo", objGetPurchaseOrderItem.orderNo);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            conn.Open();
+
+            DataSet fileData = new DataSet();
+            adapter.Fill(fileData, "fileData");
+       
+            DataTable finalTable = new DataTable();
+            DataTable stockInTable = fileData.Tables[0];
+            DataTable purchaseOrderItemTable = fileData.Tables[1];
+
+            conn.Close();
+            finalTable.Columns.Add("StockInItemId", typeof(int));
+            finalTable.Columns.Add("PurchaseOrderItemId", typeof(int));
+            finalTable.Columns.Add("PurchaseOrderId", typeof(int));
+
+            finalTable.Columns.Add("ProductVarientId", typeof(int));
+            finalTable.Columns.Add("ReferenceId", typeof(int));
+          
+            finalTable.Columns.Add("SubCategoryId", typeof(int));
+            finalTable.Columns.Add("BrandID", typeof(int));
+            finalTable.Columns.Add("ProductId", typeof(int));
+
+            finalTable.Columns.Add("Quantity", typeof(string));
+            finalTable.Columns.Add("PurchaseQuantity", typeof(int));
+            finalTable.Columns.Add("QuantityReceived", typeof(int));
+
+            finalTable.Columns.Add("Discount", typeof(string));
+            finalTable.Columns.Add("SellingPrice", typeof(int));
+            finalTable.Columns.Add("Barcode", typeof(string));
+
+
+            for (int i = 0; i < purchaseOrderItemTable.Rows.Count; i++)
+            {
+                int PurchaseOrderItemId= Convert.ToInt32(purchaseOrderItemTable.Rows[i]["PurchaseOrderItemId"].ToString());
+                bool flag = false;
+
+                int StockInItemId = 0;
+                int PurchaseOrderId= 0;
+                int ProductVarientId= 0; 
+                int ReferenceId = 0; 
+                int SubCategoryId = 0; 
+                int BrandID = 0; 
+                int ProductId= 0;
+                string Quantity = ""; 
+                int PurchaseQuantity = 0;
+                int QuantityReceived = 0;
+                int Discount = 0;
+                int SellingPrice = 0;
+                string BarCode="NULL";
+               
         
+
+                for (int j = 0; j < stockInTable.Rows.Count; j++)
+                {
+                    if (PurchaseOrderItemId == Convert.ToInt32(stockInTable.Rows[j]["PurchaseOrderItemId"].ToString()))
+                    {
+                        // edit 
+                        PurchaseOrderItemId = Convert.ToInt32(stockInTable.Rows[i]["PurchaseOrderItemId"].ToString());
+                        StockInItemId = Convert.ToInt32(stockInTable.Rows[j]["StockInItemId"].ToString());
+                        PurchaseOrderId= Convert.ToInt32(stockInTable.Rows[j]["PurchaseOrderId"].ToString());
+                        ProductVarientId = Convert.ToInt32(stockInTable.Rows[j]["ProductVarientId"].ToString());
+                        ReferenceId = Convert.ToInt32(stockInTable.Rows[j]["ReferenceId"].ToString());
+
+                        QuantityReceived = Convert.ToInt32(stockInTable.Rows[j]["QuantityReceived"].ToString());
+                        Discount = Convert.ToInt32(stockInTable.Rows[j]["Discount"].ToString());
+                        SellingPrice = Convert.ToInt32(stockInTable.Rows[j]["SellingPrice"].ToString());
+                        BarCode = (stockInTable.Rows[j]["BarCode"].ToString());
+                        flag = true;
+
+                    }
+            
+                }
+
+                if (flag==false)
+                {
+                    PurchaseOrderItemId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["PurchaseOrderItemId"].ToString());                   
+                    PurchaseOrderId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["PurchaseOrderId"].ToString());
+                    ProductVarientId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["ProductVarientId"].ToString());
+                    ReferenceId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["ReferenceId"].ToString());                    
+                    Discount = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["Discount"].ToString());
+                    StockInItemId = 0;
+                    SellingPrice = 0;
+                    QuantityReceived = 0;
+                    BarCode = "NULL";
+
+                }
+                SubCategoryId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["SubCategoryId"].ToString());
+                BrandID = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["BrandId"].ToString());
+                ProductId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["ProductId"].ToString());
+                Quantity = (purchaseOrderItemTable.Rows[i]["Quantity"].ToString());
+                PurchaseQuantity = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["PurchaseQuantity"].ToString());
+
+
+                if (PurchaseQuantity != QuantityReceived)
+                {
+                    finalTable.Rows.Add(StockInItemId, PurchaseOrderItemId, PurchaseOrderId, ProductVarientId, ReferenceId, SubCategoryId, BrandID, ProductId,
+                Quantity, PurchaseQuantity, QuantityReceived, Discount, SellingPrice, BarCode);
+                }
+           
+            }
+            return finalTable;
+        }
+
         public PurchaseOrder postPurchaseOrderToDb(PurchaseOrder purchaseOrderData)
         {
             PurchaseOrder objResultReturn = new PurchaseOrder();

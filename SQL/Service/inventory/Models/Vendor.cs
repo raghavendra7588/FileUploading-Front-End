@@ -11,9 +11,7 @@ namespace inventory.Models
 {
     public class Vendor
     {
-
-        string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
-
+  
         public string SellerId { get; set; }
         public string code { get; set; }
         public string name { get; set; }
@@ -30,7 +28,7 @@ namespace inventory.Models
         public string registrationDate { get; set; }
         public string distance { get; set; }
         public string cin { get; set; }
-       public string creditLimitDays { get; set; }
+        public string creditLimitDays { get; set; }
         public string priceCategory { get; set; }
         public string agentBroker { get; set; }
         public string transporter { get; set; }
@@ -49,6 +47,8 @@ namespace inventory.Models
         public string accountName { get; set; }
         public string accountType { get; set; }
     }
+
+
 }
 
 
@@ -178,5 +178,6 @@ public class VenodrBL
         cmd.ExecuteNonQuery();
         conn.Close();
     }
+
 }
 

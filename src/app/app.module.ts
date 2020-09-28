@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PurchaseModule } from './purchase/purchase.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { BarecodeScannerLivestreamModule } from 'ngx-barcode-scanner';
-
+import { ReportsModule } from './reports/reports.module';
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -62,6 +62,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     HttpClientModule,
     PurchaseModule,
     InventoryModule,
+    ReportsModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,

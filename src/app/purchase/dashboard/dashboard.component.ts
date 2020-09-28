@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AddAddressComponent } from '../add-address/add-address.component';
+import { DashBoardPurchaseOrderPerDay, DashBoardPurchaseOrderPerMonth, DashBoardPurchasePerDay, DashBoardPurchasePerMonth } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 
 @Component({
@@ -10,17 +12,183 @@ import { PurchaseService } from '../purchase.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, public purchaseService: PurchaseService) { }
+  dashBoardPurchasePerDay: DashBoardPurchasePerDay = new DashBoardPurchasePerDay();
+  dashBoardPurchasePerMonth: DashBoardPurchasePerMonth = new DashBoardPurchasePerMonth();
+  dashBoardPurchaseOrderPerDay: DashBoardPurchaseOrderPerDay = new DashBoardPurchaseOrderPerDay();
+  dashBoardPurchaseOrderPerMonth: DashBoardPurchaseOrderPerMonth = new DashBoardPurchaseOrderPerMonth();
+
+  noOfOrdersProgress = 0;
+  purchasePerDayProgress = 0;
+  purchasePerMonth = 0;
+  currentDate: any;
+  firstDayOfMonth: any;
+  lastDayOfMonth: any;
+  purchasePerDayArray: any = [];
+  purchasePerMonthArray: any = [];
+  purchaseOrderPerDayArray: any = [];
+  purchaseOrderPerMonthArray: any = [];
+  purchasePerDayResult = 0;
+  purchasePerMonthResult = 0;
+  purchaseOrderPerDayResult = 0;
+  purchaseOrderPerMonthResult = 0;
+  // NoOfOrdersProgressBar = document.querySelector('.progress-bar');
+
+
+  constructor(
+    public dialog: MatDialog,
+    public router: Router,
+    public purchaseService: PurchaseService,
+  ) { }
 
   ngOnInit(): void {
+    this.dashBoardPurchasePerDay.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.dashBoardPurchasePerMonth.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.dashBoardPurchaseOrderPerDay.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.dashBoardPurchaseOrderPerMonth.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.currentDate = new Date();
+
+    this.dashBoardPurchasePerDay.CurrentDate = this.convertDate(this.currentDate);
+    this.dashBoardPurchaseOrderPerDay.CurrentDate = this.convertDate(this.currentDate);
+
+    this.getAllPurchasePerDayData(this.dashBoardPurchasePerDay);
+
+    this.noOfOrdersProgress = 90;
+    this.purchasePerDayProgress = 90;
+    this.purchasePerMonth = 18070;
+
+    // var month = 'MAY'
+    // var a = '1-' + month + '-2015';
+    let date = new Date();
+    this.firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    this.dashBoardPurchasePerMonth.StartDate = this.convertDate(this.firstDayOfMonth);
+    this.dashBoardPurchasePerMonth.EndDate = this.convertDate(this.lastDayOfMonth);
+
+    this.dashBoardPurchaseOrderPerMonth.StartDate = this.convertDate(this.firstDayOfMonth);
+    this.dashBoardPurchaseOrderPerMonth.EndDate = this.convertDate(this.lastDayOfMonth);
+
+    console.log(this.dashBoardPurchaseOrderPerMonth.StartDate);
+    console.log(this.dashBoardPurchaseOrderPerMonth.EndDate);
+
+    this.getAllPurchasePerMonthData(this.dashBoardPurchasePerMonth);
+    console.log('per day', this.dashBoardPurchaseOrderPerDay);
+    this.getPurchaseOrderPerDayData(this.dashBoardPurchaseOrderPerDay);
+    this.getPurchaseOrderPerMonthData(this.dashBoardPurchaseOrderPerMonth);
   }
 
 
-  openDialog() {
-    this.dialog.open(AddAddressComponent, {
-      height: '600px',
-      width: '800px',
+  convertDate(receivedDate) {
+    let date = new Date(receivedDate);
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    const stringDate = [day, month, year].join("/");
+    let fullDate = stringDate;
+    return fullDate
+  }
+
+
+  getAllPurchasePerDayData(dashBoardPurchasePerDay) {
+    this.purchaseService.getDashBoardPurchasePerDayData(dashBoardPurchasePerDay).subscribe(data => {
+      this.purchasePerDayArray = data;
+      console.log('PurchasePerDay', data);
+      this.purchasePerDayResult = this.getPurchasePerDayComputation();
+
+    });
+  }
+  getAllPurchasePerMonthData(dashBoardPurchasePerMonth) {
+    this.purchaseService.getDashBoardPurchasePerMonthData(dashBoardPurchasePerMonth).subscribe(data => {
+
+      this.purchasePerMonthArray = data;
+      console.log('PurchasePerMonth', data);
+      this.purchasePerMonthResult = this.getPurchasePerMonthComputation();
+
     });
   }
 
+  getPurchaseOrderPerDayData(dashBoardPurchasePerDay) {
+    this.purchaseService.getDashBoardPurchaseOrderPerDayData(dashBoardPurchasePerDay).subscribe(data => {
+      console.log(data);
+      console.log('PurchaseOrderPerDay', data);
+      this.purchaseOrderPerDayArray = data;
+      this.purchaseOrderPerDayResult = this.getPurchasePerOrderDayComputation();
+
+    });
+  }
+
+  getPurchaseOrderPerMonthData(dashBoardPurchasePerMonth) {
+    this.purchaseService.getDashBoardPurchaseOrderPerMonth(dashBoardPurchasePerMonth).subscribe(
+      data => {
+        console.log('PurchaseOrderPerMonth', data);
+        this.purchaseOrderPerMonthArray = data;
+        this.purchaseOrderPerMonthResult = this.getPurchasePerOrderMonthComputation();
+        console.log('PurchaseORDER PER MONTH', this.purchaseOrderPerMonthResult);
+      }
+    );
+  }
+
+  getPurchasePerDayComputation() {
+    let totalPurchaseBuyingPrice = 0;
+    let totalPurchaseDiscount = 0;
+    let totalPurchasePerDayCalculation;
+    this.purchasePerDayArray.forEach(item => {
+      totalPurchaseBuyingPrice += Number(item.BuyingPrice);
+      totalPurchaseDiscount += Number(item.Discount);
+    });
+    totalPurchasePerDayCalculation = totalPurchaseBuyingPrice - totalPurchaseDiscount;
+    return totalPurchasePerDayCalculation;
+  }
+
+  getPurchasePerMonthComputation() {
+    let totalPurchaseBuyingPrice = 0;
+    let totalPurchaseDiscount = 0;
+    let totalPurchasePerMonthCalculation = 0;
+    this.purchasePerMonthArray.forEach(item => {
+      totalPurchaseBuyingPrice += Number(item.BuyingPrice);
+      totalPurchaseDiscount += Number(item.Discount);
+    });
+    totalPurchasePerMonthCalculation = totalPurchaseBuyingPrice - totalPurchaseDiscount;
+    console.log('totalPurchasePerMonthCalculation',totalPurchasePerMonthCalculation);
+    return totalPurchasePerMonthCalculation;
+  }
+
+  getPurchasePerOrderDayComputation() {
+    let totalPurchaseOrderPerDay = 0;
+    this.purchaseOrderPerDayArray.forEach(item => {
+      totalPurchaseOrderPerDay++;
+    });
+    return totalPurchaseOrderPerDay;
+  }
+
+  getPurchasePerOrderMonthComputation() {
+    let totalPurchaseOrderPerMonth = 0;
+    this.purchaseOrderPerMonthArray.forEach(item => {
+      totalPurchaseOrderPerMonth++;
+    });
+    return totalPurchaseOrderPerMonth;
+  }
+
+
+
+  addAddress() {
+    // this.dialog.open(AddAddressComponent, {
+    //   height: '600px',
+    //   width: '800px',
+    // });
+
+    this.router.navigate(['purchase/address']);
+  }
+
+  createVendor() {
+    this.router.navigate(['purchase/vendor']);
+  }
+
+  createOrder() {
+    this.router.navigate(['purchase/purchaseOrder']);
+  }
+
+  goToPriceList() {
+    this.router.navigate(['purchase/priceList']);
+  }
 }

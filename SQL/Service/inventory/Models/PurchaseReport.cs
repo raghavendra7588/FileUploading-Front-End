@@ -47,15 +47,24 @@ namespace inventory.Models
         {
             SqlCommand command = new SqlCommand();
             SqlConnection conn = new SqlConnection(strConn);
-            string sql = BuildQuery(purchaseReport.sellerId, purchaseReport.vendorId, purchaseReport.orderNo, purchaseReport.startDate, purchaseReport.endDate);
+            //string sql = BuildQuery(purchaseReport.sellerId, purchaseReport.vendorId, purchaseReport.orderNo, purchaseReport.startDate, purchaseReport.endDate);
+            conn.Open();
+
             command.Connection = conn;
-            command.CommandType = CommandType.Text;
-            command.CommandText = sql;
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "Mst_PurchaseReport_Vendor_Order_Wise_DATA";
+
+            command.Parameters.AddWithValue("@vendorId", purchaseReport.vendorId);
+            command.Parameters.AddWithValue("@SellerId", purchaseReport.sellerId);
+            command.Parameters.AddWithValue("@orderNO", purchaseReport.orderNo);
+            command.Parameters.AddWithValue("@OrderDate", purchaseReport.startDate);
+            command.Parameters.AddWithValue("@DeliveryDate", purchaseReport.endDate);
+ 
 
 
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
-            conn.Open();
 
             DataSet fileData = new DataSet();
             adapter.Fill(fileData, "fileData");

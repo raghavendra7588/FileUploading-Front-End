@@ -1,0 +1,15 @@
+.mat-column-ProductName{
+    flex: none;
+    width: 120px;
+    text-align: center;
+  }
+  .mat-column-BrandName{
+    flex: none;
+    width: 150px;
+    text-align: center;
+  }
+  .mat-column-Varient{
+    flex: none;
+    width: 150px;
+    text-align: center;
+  }

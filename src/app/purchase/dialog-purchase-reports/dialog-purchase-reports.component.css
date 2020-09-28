@@ -4,13 +4,53 @@ mat-footer-row, mat-header-row, mat-row {
   .mat-cell {
     font-size: 14px;
     min-height: 48px;
-    text-align: center;
     border: 1px solid gray;
 }
 .mat-footer-cell{
-    text-align: center;
-    font-size:18px;
+    text-align: right;
     color:blue;
+}
+
+.mat-column-ProductName{
+  flex: none;
+  width: 240px;
+  text-align: center;
+}
+
+.mat-column-BrandName{
+  flex: none;
+  width: 240px;
+  text-align: center;
+}
+.mat-column-Name
+{
+  flex: none;
+  width: 240px;
+  text-align: center;
+}
+
+.mat-column-PurchaseQuantity
+{
+  flex: none;
+  text-align: center;
+}
+
+.mat-column-BuyingPrice
+{
+  flex: none;
+  text-align: center;
+}
+
+.mat-column-Discount
+{
+  flex: none;
+  text-align: center;
+}
+
+.mat-column-FinalPrice
+{
+  flex: none;
+  text-align: center;
 }
 
 .mat-header-cell{

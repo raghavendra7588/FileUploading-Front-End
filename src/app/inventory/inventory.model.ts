@@ -43,3 +43,17 @@ export class ItemMaster {
     serialTracking?: string;
     sellerId?: string;
 }
+
+export class StockIn {
+    PurchaseOrderId: number;
+    PurchaseOrderItemId: number;
+    ProductVarientId: number;
+    ReferenceId: number;
+    QuantityReceived: number;
+    QuantityOrdered: number;
+    Discount: number;
+    SellingPrice: number;
+    BarCode: string;
+    sellerId: number;
+    stockInItemId: number;
+}

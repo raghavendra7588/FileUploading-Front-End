@@ -18,7 +18,6 @@ namespace inventory.Controllers
         {
             try
             {
-                Vendor ObjVendor = new Vendor();
                 DataTable dt = objPurchaseOrderInventoryBL.getData(id);
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }

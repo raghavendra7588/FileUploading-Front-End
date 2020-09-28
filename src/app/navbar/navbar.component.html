@@ -1,11 +1,10 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
-   
+  
          <span>
             <mat-icon>eco</mat-icon>Gramvyapar
         </span>
     <div class="spacer"></div>
     <a mat-button routerLink='dashboard'>Dashboard</a>
-    <!-- <a mat-button routerLink='home'>Home</a> -->
     <button mat-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
         Purchase
     </button>
@@ -58,7 +57,7 @@
                 Item Master
             </button>
             <button mat-menu-item routerLink='inventory/stockAdjustment'>
-                Stock Adjustment
+                Stock In Adjustment
             </button>
             <button mat-menu-item routerLink='inventory/materialIssue'>
                 Material Issue
@@ -69,9 +68,6 @@
             <button mat-menu-item routerLink='inventory/purchaseReports'>
                Purchase Report
             </button>   
-            <button mat-menu-item routerLink='inventory/salesReports'>
-                Sales Report
-            </button>
             <button mat-menu-item routerLink='inventory/interBranchIssueRequest' disabled>
                 Inter BranchIssueRequest
             </button>
@@ -97,6 +93,18 @@
         </span>
     </mat-menu>
 
-
+    <button mat-button [matMenuTriggerFor]="reports" #reportsTrigger="matMenuTrigger" (click)="reportsTrigger.openMenu()">
+        Reports
+    </button>
+    <mat-menu #reports="matMenu" [overlapTrigger]="false">
+        <span (mouseleave)="reportsTrigger.closeMenu()">
+            <button mat-menu-item routerLink='reports/minimumPurchaseReport'>Minimum Purchase Report
+            </button>
+            <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase Report
+            </button>
+            <button mat-menu-item routerLink='reports/salesReport'>Sales Report
+            </button>
+        </span>
+    </mat-menu>
     <a mat-button routerLink='uploadDocuments'>Join with us</a>
 </mat-toolbar>  

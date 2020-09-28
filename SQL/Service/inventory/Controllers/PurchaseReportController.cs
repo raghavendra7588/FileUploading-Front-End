@@ -18,8 +18,7 @@ namespace inventory.Controllers
         public HttpResponseMessage getall(int id)
         {
             try
-            {
-                Vendor ObjVendor = new Vendor();
+            {            
                 DataTable dt = objPurchaseReport.getData(id);
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }
@@ -30,7 +29,9 @@ namespace inventory.Controllers
             }
         }
 
+
         [HttpPost]
+        [Route("api/PurchaseReport/purchaseReportVendorOrderWise")]
         public HttpResponseMessage postall(PurchaseReport purchaseReport)
         {
             try

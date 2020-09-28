@@ -37,7 +37,7 @@ export class PurchaseReportsComponent implements OnInit {
   viewPurchaseOrder(data) {
     this.dialog.open(DialogPurchaseReportsComponent, {
       height: '600px',
-      width: '800px',
+      width: '1200px',
       data: data
     });
   }

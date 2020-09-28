@@ -33,8 +33,6 @@ namespace inventory.Controllers
             }
         }
 
-
-
         [HttpPost]
         public HttpResponseMessage Post()
         {

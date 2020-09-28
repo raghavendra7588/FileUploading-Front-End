@@ -95,6 +95,16 @@ export class PurchaseReportComponent implements OnInit {
   finalProductNameArray: any = [];
   reportData: any = [];
 
+
+  // categoryId: string;
+  // subCategoryId: string;
+  AllSubCategoryArray: any = [];
+  AllCategoryArray: any = [];
+  categorySearch: any = [];
+  subCategorySearch: any = [];
+  brandSearch: any = [];
+  productSearch: any = [];
+
   constructor(public dialog: MatDialog,
     public loginService: LoginService,
     public purchaseService: PurchaseService,
@@ -110,11 +120,9 @@ export class PurchaseReportComponent implements OnInit {
     this.sellerId = Number(sessionStorage.getItem('sellerId'));
     this.purchaseReport.sellerId = sessionStorage.getItem('sellerId').toString();
     this.loginService.seller_object.categories = JSON.parse(sessionStorage.getItem('categories'));
+    this.categorySearch = this.loginService.seller_object.categories;
     this.getPriceListData();
-    // this.dataSource = [
-    //   { billingName: 'ABC', address: 'ABC', city: 'Aurangabad', email: 'abc@gmail.com', phone: 7588641864 },
-    //   { billingName: 'ABC', address: 'ABC', city: 'Aurangabad', email: 'abc@gmail.com', phone: 7588641864 }
-    // ];
+
     this.categorySettings = {
       singleSelection: false,
       idField: 'id',
@@ -160,6 +168,88 @@ export class PurchaseReportComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
+  }
+
+
+  onCategorySelectAll() {
+    console.log('inside cat seelct all');
+    this.purchaseReport.categoryId = 'ALL';
+    let catchMappedCategory: any = [];
+    let productNamesArray: any = [];
+    this.purchaseService.getEveryBrand().subscribe(data => {
+
+      this.AllCategoryArray = data;
+      this.multipleCategoriesArray = [];
+      catchMappedCategory = this.mapObj(this.AllCategoryArray, this.dbData);
+      this.dataSource = [];
+      // this.dataSource = new MatTableDataSource(catchMappedCategory);
+      // this.dataSource.paginator = this.paginator;
+
+      let uniqueBrandName = this.createUniqueBrandName(this.AllCategoryArray);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+      this.BrandSelect = this.anyArray;
+      console.log('any array in cat', this.anyArray);
+      productNamesArray = this.createUniqueProductName(this.anyArray);
+      // this.finalProductNameArray = this.sortArrayInAscendingOrder(productNameArray);
+      this.finalProductNameArray = productNamesArray;
+      this.productSearch = this.finalProductNameArray;
+      // this.productSearch = this.finalProductNameArray;
+      console.log('product array', this.finalProductNameArray);
+    });
+    this.loginService.seller_object.categories = this.categorySearch.slice();
+    this.multipleCategoriesArray = this.subCategorySearch.slice();
+    this.anyArray = this.brandSearch.slice();
+    this.finalProductNameArray = this.productSearch.slice();
+  }
+
+
+  onSubCategorySelectAll() {
+    console.log('inside sub cat select all');
+    let catchMappedSubCategory: any = [];
+    // this.purchaseReport.subCategoryId
+    console.log('cat id', this.categoryId.toString());
+    this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
+      this.AllSubCategoryArray = data;
+      catchMappedSubCategory = this.mapObj(this.AllSubCategoryArray, this.dbData);
+
+      // this.dataSource = new MatTableDataSource(catchMappedSubCategory);
+      // this.dataSource.paginator = this.paginator;
+      this.finalProductNameArray = [];
+      let uniqueBrands = this.createUniqueBrandName(catchMappedSubCategory);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrands);
+      this.brandSearch = this.anyArray;
+      console.log('any array', this.anyArray);
+    });
+    this.loginService.seller_object.categories = this.categorySearch.slice();
+    this.multipleCategoriesArray = this.subCategorySearch.slice();
+    this.anyArray = this.brandSearch.slice();
+    this.finalProductNameArray = this.productSearch.slice();
+  }
+
+  onBrandSelectAll() {
+    let mappedBrandData: any = [];
+    let brandData: any = [];
+    let uniqueBrandNameData: any = [];
+
+    this.purchaseService.getAllBrand(this.categoryId, this.subCategoryId).subscribe(data => {
+
+      brandData = data;
+
+      mappedBrandData = this.mapObj(brandData, this.dbData);
+      // this.multipleBrandArray = this.catchMappedData;
+      // this.dataSource = new MatTableDataSource(mappedBrandData);
+      // this.dataSource.paginator = this.paginator;
+      uniqueBrandNameData = this.createUniqueBrandName(mappedBrandData);
+      this.anyArray = this.sortUniqueBrandName(uniqueBrandNameData);
+      this.brandSearch = this.anyArray;
+      // this.multipleBrandArray = this.catchMappedData;
+
+    });
+
+    this.loginService.seller_object.categories = this.categorySearch.slice();
+    this.multipleCategoriesArray = this.subCategorySearch.slice();
+    this.anyArray = this.brandSearch.slice();
+    this.finalProductNameArray = this.productSearch.slice();
   }
 
   onCategorySelect(event) {
@@ -247,6 +337,7 @@ export class PurchaseReportComponent implements OnInit {
       // this.dataSource.paginator = this.paginator;
       this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
       this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+      this.brandSearch = this.anyArray;
       this.multipleBrandArray = this.catchMappedData;
 
     });
@@ -300,8 +391,10 @@ export class PurchaseReportComponent implements OnInit {
     productNameArray = this.createUniqueProductName(this.finalBrandArray);
     // this.finalProductNameArray = this.sortArrayInAscendingOrder(productNameArray);
     this.finalProductNameArray = productNameArray;
+    this.productSearch = this.finalProductNameArray;
+    // this.productSearch = this.finalProductNameArray; 
 
-
+    this.finalProductNameArray = this.productSearch.slice();
   }
 
   onBrandDeSelect(event) {
@@ -352,72 +445,55 @@ export class PurchaseReportComponent implements OnInit {
   }
 
 
-  onCategorySelectAll(event) {
-    let AllCategoryArray: any = [];
-
-    this.purchaseService.getEveryBrand().subscribe(data => {
-
-      AllCategoryArray = data;
-
-      let uniqueBrandName = this.createUniqueBrandName(AllCategoryArray);
-      this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
-
-    });
-  }
-
-  onSubCategorySelectAll() {
-    console.log('sub cat all');
-    // this.purchaseService.getEachBrand(this.categoryId.toString(), '0').subscribe(data => {
-    //   this.AllSubCategoryArray = data;
-    //   console.log('on sub cat select all', this.AllSubCategoryArray);
-
-    //   let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
-    //   this.anyArray = this.sortUniqueBrandName(uniqueBrands);
-    // });
-  }
-
-  onBrandSelectAll() {
-
-    let mappedBrandData: any = [];
-    let brandData: any = [];
-    let uniqueBrandNameData: any = [];
-
-    this.purchaseService.getAllBrand(this.categoryId, this.subCategoryId).subscribe(data => {
-
-      brandData = data;
-
-      mappedBrandData = this.mapObj(brandData, this.dbData);
-      // this.multipleBrandArray = this.catchMappedData;
-      this.dataSource = new MatTableDataSource(mappedBrandData);
-      this.dataSource.paginator = this.paginator;
-      uniqueBrandNameData = this.createUniqueBrandName(mappedBrandData);
-      this.anyArray = this.sortUniqueBrandName(uniqueBrandNameData);
-      // this.multipleBrandArray = this.catchMappedData;
-
-    });
-  }
 
 
   onCategoriesChange(event, category: any) {
+    let orderedSubCategoriesData: any = [];
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
-          if (this.multipleCategoriesArray.length === 0) {
-            this.multipleCategoriesArray = data;
-          }
-          else {
-            this.categoriesArray2 = data;
-            this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
-            this.multipleCategoriesArray = this.categoriesArray3;
-          }
+          orderedSubCategoriesData = this.sortArrayInAscendingOrder(data);
+          // if (this.multipleCategoriesArray.length === 0) {
+          this.multipleCategoriesArray = orderedSubCategoriesData;
+          this.subCategorySearch = this.multipleCategoriesArray;
+          // }
+          // else {
+          //   this.categoriesArray2 = data;
+          //   this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
+          //   this.multipleCategoriesArray = this.categoriesArray3;
+          // }
         });
+        let eachBrandData: any = [];
+        let mappedData: any = [];
+        let uniqueBrandName: any = [];
+        console.log('category select category id', category.id);
+        this.purchaseService.getEachBrand(category.id, '0').subscribe(data => {
+          eachBrandData = data;
+          // this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
+          // this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+
+
+          mappedData = this.mapObj(eachBrandData, this.dbData);
+
+          // this.dataSource = new MatTableDataSource(mappedData);
+          // this.dataSource.paginator = this.paginator;
+          // uniqueBrandName = this.createUniqueBrandName(mappedData);
+          // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+        });
+
+
       }
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
+      this.finalProductNameArray = this.productSearch.slice();
     }
 
     if (!event.source.selected) {
       let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
-        return item.id != category.id;
+        return Number(item.parentid) !== Number(category.id);
       });
       this.multipleCategoriesArray = newCategoriesArr;
       const index = this.categoriesArray.indexOf(category.id);
@@ -428,27 +504,38 @@ export class PurchaseReportComponent implements OnInit {
   }
 
   onSubCategoriesChange(event, subCategory: any) {
+
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
-          if (this.multipleBrandArray.length === 0) {
-            this.multipleBrandArray = data;
-            this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
-            // this.multipleBrandArray = this.catchMappedData;
-          }
-          else {
-            this.array2 = data;
-            this.array2 = this.mapObj(this.array2, this.dbData);
-            this.array3 = [...this.catchMappedData, ...this.array2];
-            this.catchMappedData = this.array3;
-          }
+          // if (this.multipleBrandArray.length === 0) {
+          this.multipleBrandArray = data;
+          this.catchMappedData = this.mapObj(this.multipleBrandArray, this.dbData);
+
+          this.multipleBrandArray = this.catchMappedData;
+          // }
+          // else {
+          //   this.array2 = data;
+          //   this.array2 = this.mapObj(this.array2, this.dbData);
+          //   this.array3 = [...this.catchMappedData, ...this.array2];
+          //   this.catchMappedData = this.array3;
+          // }
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.catchMappedData);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
+          this.brandSearch = this.anyArray;
           this.multipleBrandArray = this.catchMappedData;
+
+          // this.dataSource = new MatTableDataSource(this.catchMappedData);
+          // this.dataSource.paginator = this.paginator;
 
         });
       }
+      this.loginService.seller_object.categories = this.categorySearch.slice();
+      this.multipleCategoriesArray = this.subCategorySearch.slice();
+      this.anyArray = this.brandSearch.slice();
+      this.finalProductNameArray = this.productSearch.slice();
     }
     if (!event.source.selected) {
       let newArr = [];
@@ -468,28 +555,47 @@ export class PurchaseReportComponent implements OnInit {
   }
 
   onProductChange(event, product: any) {
+    console.log(product);
+    console.log('multiple brand array', this.multipleBrandArray);
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.dataSource = [];
         this.brandArray.push(product.ProductID);
-        if (this.finalBrandArray.length === 0) {
-          let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
-          });
-          this.finalBrandArray = filteredBrandArray;
-          // this.dataSource = new MatTableDataSource(this.finalBrandArray);
-          // this.dataSource.paginator = this.paginator;
-        }
-        else {
-          this.brands1 = this.multipleBrandArray.filter(function (item) {
-            return item.BrandName.trim() === product.BrandName
-          });
-          this.brands2 = this.brands1;
-          this.brands3 = [...this.finalBrandArray, ...this.brands2];
-          this.finalBrandArray = this.brands3;
-          // this.dataSource = new MatTableDataSource(this.finalBrandArray);
-          // this.dataSource.paginator = this.paginator;
-        }
+        // if (this.finalBrandArray.length === 0) {
+        let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
+          return item.BrandName.trim() === product.BrandName;
+        });
+        this.finalBrandArray = filteredBrandArray;
+        console.log('final product array', this.finalBrandArray);
 
+        // this.dataSource = new MatTableDataSource(this.finalBrandArray);
+        // this.dataSource.paginator = this.paginator;
+        // }
+        // else {
+        //   this.brands1 = this.multipleBrandArray.filter(function (item) {
+        //     return item.BrandName.trim() === product.BrandName
+        //   });
+        //   this.brands2 = this.brands1;
+        //   this.brands3 = [...this.finalBrandArray, ...this.brands2];
+        //   this.finalBrandArray = this.brands3;
+
+        // }
+        // this.dataSource = [];
+        // this.dataSource = new MatTableDataSource(this.finalBrandArray);
+        // this.dataSource.paginator = this.paginator;
+
+        // productNameArray = this.createUniqueProductName(this.finalBrandArray);
+
+        // this.finalProductNameArray = this.sortArrayInAscendingOrder(productNameArray);
+        // this.finalProductNameArray = productNameArray;
+        this.finalProductNameArray = this.finalBrandArray;
+        this.productSearch = this.finalProductNameArray;
+        // this.productSearch = this.finalProductNameArray;
+
+        this.loginService.seller_object.categories = this.categorySearch.slice();
+        this.multipleCategoriesArray = this.subCategorySearch.slice();
+        this.anyArray = this.brandSearch.slice();
+        this.finalProductNameArray = this.productSearch.slice();
       }
       if (!event.source.selected) {
         var tempArr = this.finalBrandArray.filter(function (item) {
@@ -502,73 +608,29 @@ export class PurchaseReportComponent implements OnInit {
     }
   }
 
+
   changeProduct(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-
+        console.log(product);
       }
     }
+  }
+
+  onProductSelectAll() {
+    this.purchaseReport.productId = 'ALL';
   }
 
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
   }
 
-  // editPriceList(element) {
-  //   if (element.priceListId) {
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
-  //     this.priceList.ReferenceId = element.Id;
-  //     this.priceList.discount = element.Discount;
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-  //     this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-  //       this.toastr.success('price list updated');
-  //     });
-  //   }
-  //   else {
-  //     this.priceList.priceListId = element.priceListId;
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
-
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
-
-  //     this.priceList.ReferenceId = element.Id;
-
-  //     this.priceList.discount = element.Discount;
-
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-  //     let isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
-  //     if (isPriceValid) {
-  //       this.purchaseService.savePriceListMaster(this.priceList).subscribe(data => {
-  //         this.toastr.success('price list saved');
-  //         this.priceList.buyingPrice = 0;
-  //         this.priceList.discount = 0;
-  //         this.priceList.finalPrice = 0;
-  //       });
-  //     }
-  //     else {
-  //       this.toastr.error('Please Check Buying Price, Discount and Final Price');
-  //     }
-  //   }
-  // }
-
 
   viewPurchaseReport(response) {
 
     this.dialog.open(DialogPrintPurchaseReportComponent, {
       height: '600px',
-      width: '1000px',
+      width: '1200px',
       data: response
     });
   }
@@ -579,98 +641,42 @@ export class PurchaseReportComponent implements OnInit {
     });
   }
 
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      apiData[i].Discount = 0;
-      apiData[i].FinalPrice = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-        }
-      }
-    }
-    return apiData;
-  }
 
 
-  // postMultipleInsertion(elements) {
-  //   elements.forEach(element => {
-  //     this.priceList = new PriceList();
-  //     this.priceList.priceListId = element.priceListId;
-  //     this.priceList.sellerId = element.SellerId;
-  //     this.priceList.productId = element.ProductID;
-  //     this.priceList.subCategoryId = element.SubCategoryID;
-  //     this.priceList.brandId = element.BrandID;
 
-  //     this.priceList.buyingPrice = element.ProductPrice;
-  //     this.priceList.finalPrice = element.FinalPrice;
 
-  //     this.priceList.ReferenceId = element.Id;
-
-  //     this.priceList.discount = element.Discount;
-  //     this.priceList.availableQuantity = element.AvailableQuantity;
-  //     this.priceList.quantity = element.Quantity;
-  //     this.priceList.ProductVarientId = element.ProductVarientId;
-
-  //     this.isPriceValid = (Number(this.priceList.buyingPrice) - Number(this.priceList.discount)) === Number(this.priceList.finalPrice);
-  //     if (this.isPriceValid) {
-  //       this.multipleEntries.push(this.priceList);
-  //       this.isMultipleAmount = true;
-  //     }
-  //     else {
-  //       this.isMultipleAmount = false;
-  //     }
-  //   });
-  //   if (this.isMultipleAmount) {
-  //     this.purchaseService.saveMultiplePriceList(this.multipleEntries).subscribe(data => {
-  //       this.toastr.success('price list saved');
-  //       this.selection.clear();
-  //       this.updateAllRecordsCount = 0;
-  //       this.priceList = new PriceList();
-  //       this.priceList.buyingPrice = 0;
-  //       this.priceList.discount = 0;
-  //       this.priceList.finalPrice = 0;
-  //       this.updateAllArray = [];
-  //       this.multipleEntriesArray = [];
-  //     });
-  //   }
-  //   else {
-  //     this.toastr.error('Please Check Buying Price, Discount and Final Price');
-  //     this.multipleEntriesArray = [];
-  //   }
-  // }
 
   searchRecords() {
 
-    if (this.purchaseReport.categoryId === null || this.purchaseReport.categoryId === undefined) {
+    if (this.purchaseReport.categoryId === null || this.purchaseReport.categoryId === undefined || this.purchaseReport.categoryId === '') {
       this.purchaseReport.categoryId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.categoryId = this.categoriesArray.toString();
+      // this.purchaseReport.categoryId = this.categoriesArray.toString();
+      this.purchaseReport.categoryId;
     }
 
-    if (this.purchaseReport.subCategoryId === null || this.purchaseReport.subCategoryId === undefined) {
+    if (this.purchaseReport.subCategoryId === null || this.purchaseReport.subCategoryId === undefined || this.purchaseReport.subCategoryId === '') {
       this.purchaseReport.subCategoryId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.subCategoryId = this.subCategoriesArray.toString();
+      // this.purchaseReport.subCategoryId = this.subCategoriesArray.toString();
+      this.purchaseReport.subCategoryId;
     }
 
-    if (this.purchaseReport.brandId === null || this.purchaseReport.brandId === undefined) {
+    if (this.purchaseReport.brandId === null || this.purchaseReport.brandId === undefined || this.purchaseReport.brandId === '') {
       this.purchaseReport.brandId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.brandId = this.brandArray.toString();
+      // this.purchaseReport.brandId = this.brandArray.toString();
     }
 
-    if (this.purchaseReport.productId === null || this.purchaseReport.productId === undefined) {
+    if (this.purchaseReport.productId === null || this.purchaseReport.productId === undefined || this.purchaseReport.productId === '') {
       this.purchaseReport.productId = ['ALL'].toString();
     }
     else {
-      this.purchaseReport.productId = this.productArray.toString();
+      // this.purchaseReport.productId = this.productArray.toString();
+      this.purchaseReport.productId;
     }
     // this.productArray
     if (this.startDate === null || this.startDate === undefined) {
@@ -689,7 +695,7 @@ export class PurchaseReportComponent implements OnInit {
       this.purchaseReport.endDate = endingDate;
     }
 
-
+    console.log(this.purchaseReport);
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
       this.reportData = data;
       let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
@@ -698,6 +704,22 @@ export class PurchaseReportComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.reportData);
     });
 
+  }
+
+    mapObj(apiData, ownDbData) {
+    for (let i = 0; i < apiData.length; i++) {
+      apiData[i].ProductPrice = 0;
+      apiData[i].Discount = 0;
+      apiData[i].FinalPrice = 0;
+      for (let j = 0; j < ownDbData.length; j++) {
+        if (apiData[i].ProductID === ownDbData[j].ProductId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+          apiData[i].Discount = ownDbData[j].Discount;
+          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+        }
+      }
+    }
+    return apiData;
   }
 
   createUniqueBrandName(array: any) {
@@ -714,9 +736,10 @@ export class PurchaseReportComponent implements OnInit {
   createUniqueProductName(array: any) {
     let uniqueProductNameArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
-      if ((uniqueProductNameArray.findIndex(p => p.Name.trim() == array[i].Name.trim())) == -1) {
+      // if ((uniqueProductNameArray.findIndex(p => p.Name.trim() == array[i].Name.trim())) == -1) {
+      if ((uniqueProductNameArray.findIndex(p => Number(p.BrandID) == Number(array[i].BrandID))) == -1) {
         // var item = { BrandName: array[i].BrandName.trim(), SubCategoryID: array[i].SubCategoryID, BrandID: array[i].BrandID, Id: array[i].Id }
-        let item = { Name: array[i].Name, ProductID: array[i].ProductID }
+        let item = { Name: array[i].Name, ProductID: array[i].ProductID, BrandID: array[i].BrandID }
         uniqueProductNameArray.push(item);
       }
     }

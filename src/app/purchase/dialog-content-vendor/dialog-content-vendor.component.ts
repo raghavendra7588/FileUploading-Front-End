@@ -69,6 +69,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   maxLengthCin = 21;
   maxLengthPinCode = 6;
   maxLengthPhone = 10;
+  maxLengthCreditLimit = 3;
   datePicker: any;
   formattedDate: any;
   parentid = 3;
@@ -118,10 +119,15 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   AllCategoryArray: any = [];
   AllSubCategoryArray: any = [];
   strSellerId: string;
+  onlyNumeric = '/^[0-9\b]+$/';
+  prevBrand: string;
+  prevSubCategory: string;
+  prevCategory: string;
 
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
-    public toastr: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any,
+    public toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public emitterService: EmitterService,
     public router: Router,
     public formBuilder: FormBuilder,
@@ -163,37 +169,46 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       enableSearchFilter: true,
-      badgeShowLimit: 1,
+      itemsShowLimit: 1,
       allowSearchFilter: true
     };
     this.getAddressDetails();
     this.getMasterBrandData();
     this.getVendorData();
     if (this.vendorData) {
+
+      console.log('inside edit mode ', this.vendorData);
       this.isImageUploaded = true;
+      this.prevBrand = this.vendorData.brand;
+      this.prevSubCategory = this.vendorData.subCategory
+      this.prevCategory = this.vendorData.category;
+      console.log('prev sub cat', this.prevSubCategory);
+      console.log('prev cat', this.prevCategory);
+      console.log('prev brand', this.prevBrand);
       // this.selectedBrandString = this.vendorData.brand;
       // this.selectedSubCategoryString = this.vendorData.subCategory;
-      this.selectedCategoryString = this.vendorData.category;
+      // this.selectedCategoryString = this.vendorData.category;
 
-      let categoryString = this.selectedCategoryString;
-      this.selectedCategoryArray = categoryString.split(",");
-      let preSelectedCategoryArray = this.selectedCategoryArray.map(Number);
+      // let categoryString = this.selectedCategoryString;
+      // this.selectedCategoryArray = categoryString.split(",");
+      // let preSelectedCategoryArray = this.selectedCategoryArray.map(Number);
       // this.vendor.category = preSelectedCategoryArray;
       // console.log('check', this.vendor.category);
-      let customCategoryList: any = [];
-      let itemData;
-      this.vendor.category = {
-        descriptions: "Groceries",
-        id: "3",
-        imageurl: "20190811144816_grocery.jpeg",
-        isactive: "True",
-        isparent: "True",
-        name: "Grocery",
-        parentcategoryname: "",
-        parentid: "0",
-        userid: ""
-      };
-      // this.vendor.category = "3";
+      // let customCategoryList: any = [];
+      // let itemData;
+      // this.vendor.category = {
+      //   descriptions: "Groceries",
+      //   id: "3",
+      //   imageurl: "20190811144816_grocery.jpeg",
+      //   isactive: "True",
+      //   isparent: "True",
+      //   name: "Grocery",
+      //   parentcategoryname: "",
+      //   parentid: "0",
+      //   userid: ""
+      // };
+      // this.vendor.category = ["3"];
+      // this.vendor.subCategory = ["71","85"];
       // this.loginService.seller_object.categories.filter(item => {
       //   if (preSelectedCategoryArray.includes(Number(item.id))) {
       //     console.log('item', item);
@@ -595,9 +610,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onSubCategoriesChange(event, subCategory: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+
         this.selectedSubCategoryIdArray = [];
         this.selectedSubCategoryIdArray.push(subCategory.id);
-
+        console.log('cate called ', this.selectedSubCategoryIdArray);
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -986,30 +1002,88 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     } else {
       let categoryStr = '';
 
-      // let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
-      categoryStr = this.selectedCategoryIdArray.toString();
+      if (this.vendorData) {
+        //edit mode
 
-      formData.append('category', categoryStr.toString());
+        let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
+        categoryStr = nonDuplicateCategory.toString();
+
+
+        let concatCategoryStr = categoryStr.concat(",").concat(this.prevCategory);
+        let nonDuplicateCategoryStr = Array.from(new Set(concatCategoryStr.split(','))).toString();
+
+        console.log('non duplicate cat', nonDuplicateCategoryStr);
+        let formattedCategoryString = nonDuplicateCategoryStr.replace(',,', ',');
+        formData.append('category', formattedCategoryString.toString());
+
+      }
+      else {
+        //normal mode
+
+        let nonDuplicateCategory = [... new Set(this.selectedCategoryIdArray)];
+        categoryStr = nonDuplicateCategory.toString();
+        let formattedCategoryString = categoryStr.replace(',,', ',');
+        console.log('non duplicate cat', categoryStr);
+        formData.append('category', formattedCategoryString.toString());
+      }
+
+
     }
 
     if (subCategoriesValue === undefined || subCategoriesValue === null || subCategoriesValue === '') {
       formData.append('subCategory', "NULL");
     } else {
       let SubCategorystr = '';
-      let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
-      SubCategorystr = nonDuplicateSubCategory.toString();
-      formData.append('subCategory', SubCategorystr);
+
+
+      if (this.vendorData) {
+        //edit mode
+        let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
+        SubCategorystr = nonDuplicateSubCategory.toString();
+
+        let concatSubCategoryStr = SubCategorystr.concat(",").concat(this.prevSubCategory);
+        let nonDuplicateSubCategoryStr = Array.from(new Set(concatSubCategoryStr.split(','))).toString();
+
+        let formattedSubCategoryString = nonDuplicateSubCategoryStr.replace(',,', ',');
+        console.log('concat  cat str', formattedSubCategoryString);
+        formData.append('subCategory', formattedSubCategoryString.toString());
+      }
+      else {
+        //normal mode
+
+        let nonDuplicateSubCategory = [... new Set(this.selectedSubCategoryIdArray)];
+        SubCategorystr = nonDuplicateSubCategory.toString();
+        let formattedSubCategoryString = SubCategorystr.replace(',,', ',');
+        formData.append('subCategory', formattedSubCategoryString);
+      }
 
     }
-
 
     if (brandValue === undefined || brandValue === null || brandValue === '') {
       formData.append('brand', "NULL");
     } else {
       let brandStr = '';
-      let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
-      brandStr = nonDuplicateBrand.toString();
-      formData.append('brand', brandStr);
+
+      if (this.vendorData) {
+        //edit mode
+        let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
+        brandStr = nonDuplicateBrand.toString();
+        let concatBrandStr = brandStr.concat(",").concat(this.prevBrand);
+        let nonDuplicateBrandStr = Array.from(new Set(concatBrandStr.split(','))).toString();
+        let formattedBrandString = nonDuplicateBrandStr.replace(',,', ',');
+        console.log('concat brand str', formattedBrandString);
+        formData.append('brand', formattedBrandString.toString());
+
+      }
+      else {
+        //normal mode
+
+        let nonDuplicateBrand = [... new Set(this.selectedBrandIdArray)];
+        brandStr = nonDuplicateBrand.toString();
+        let formattedBrandString = brandStr.replace(',,', ',');
+        formData.append('brand', formattedBrandString);
+      }
+
     }
 
     formData.append('sellerId', this.vendor.sellerId);
@@ -1030,7 +1104,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       this.vendor.contactPerson = this.vendorData.contactPerson;
       this.vendor.printName = this.vendorData.printName;
       this.vendor.gst = this.vendorData.gst;
-      this.vendor.category = this.vendorData.category;
+      // this.vendor.category = this.vendorData.category;
       this.vendor.subCategory = this.vendorData.subCategory;
       this.purchaseService.allBrandData.filter(data => {
         if (Number(data.BrandID) === Number(this.vendorData.brand) && Number(data.SubCategoryID) === Number(this.vendorData.subCategory)) {

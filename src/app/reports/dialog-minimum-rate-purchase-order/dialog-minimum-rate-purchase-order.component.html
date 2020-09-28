@@ -1,0 +1,95 @@
+<div id="demo">
+    <img src="/assets/images/gv.PNG" class="mx-auto d-block" height="80px" width="130px" />
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h3 class="font-weight-bold" style="color: blue;">Min VendorName</h3>
+                <h4 class="font-weight-bold">{{vendorName}}</h4>
+            </div>
+            <div class="col-md-4 text-center">
+                <h3 class="font-weight-bold" style="color: blue;">Seller</h3>
+                <h4 class="font-weight-bold">{{sellerName}}</h4>
+            </div>
+
+            <div class="col-md-4 text-center">
+                <h3 class="font-weight-bold" style="color: blue;">Min Order No</h3>
+                <h4 class="font-weight-bold"> {{orderNo}}</h4>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-4">
+
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+                    <ng-container matColumnDef="ProductName">
+                        <th mat-header-cell *matHeaderCellDef> ProductName </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ProductName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BrandName">
+                        <th mat-header-cell *matHeaderCellDef> Brand </th>
+                        <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="Varient">
+                        <th mat-header-cell *matHeaderCellDef> Varient </th>
+                        <td mat-cell *matCellDef="let element"> {{element.VarientName}} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="ProductMRP">
+                        <th mat-header-cell *matHeaderCellDef> Min Buying Price </th>
+                        <td mat-cell *matCellDef="let element"> {{element.BuyingPrice}} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="ProductDiscount">
+                        <th mat-header-cell *matHeaderCellDef>Min Product Discount </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Discount}}</td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalQuantityOrder">
+                        <th mat-header-cell *matHeaderCellDef> Total Quantity Order </th>
+                        <td mat-cell *matCellDef="let element"> {{element.TotalQuantityOrder }} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalFinalPrice">
+                        <th mat-header-cell *matHeaderCellDef> Total Final Price </th>
+                        <td mat-cell *matCellDef="let element"> {{element.TotalFinalPrice}} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalDiscountPrice">
+                        <th mat-header-cell *matHeaderCellDef> total Discount Price </th>
+                        <td mat-cell *matCellDef="let element"> {{element.TotalDiscountPrice}} </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="FinalPurchaseAmount">
+                        <th mat-header-cell *matHeaderCellDef> Final Purchase Amount </th>
+                        <td mat-cell *matCellDef="let element"> {{element.FinalPurchaseAmount }} </td>
+
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="ml-3 mt-3">
+    <!-- <button mat-raised-button color="primary" (click)="printData()" printSectionId="demo"  printTitle="GV-{{orderNo}}" [useExistingCss]="true" ngxPrint>Yes</button> -->
+
+    <button mat-raised-button color="primary" [useExistingCss]="true" printTitle="GV-{{orderNo}}" printSectionId="demo"
+        ngxPrint>print</button>
+    <button mat-raised-button mat-dialog-close>Close</button>
+</div>

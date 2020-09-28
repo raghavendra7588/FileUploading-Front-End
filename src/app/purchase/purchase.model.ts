@@ -6,7 +6,7 @@ export class Vendor {
     contactPerson?: string;
     category?: any;
     printName?: string;
-    subCategory?: string;
+    subCategory?: any;
     brand?: any;
     gst?: string;
     gstCategory?: string;
@@ -203,4 +203,44 @@ export class PurchaseReportData {
     startDate?: string;
     endDate?: string;
     sellerId?: string;
+}
+
+export class VendorView {
+    sellerId: number;
+    vendorId: number;
+}
+
+export class GetPurchaseReport {
+    sellerId: string;
+    vendorId: number;
+}
+
+export class GetPurchaseItemData {
+    sellerId: string;
+    vendorId: number;
+    purchaseOrderId: number;
+    orderNo: string;
+}
+
+export class DashBoardPurchasePerDay {
+    SellerId: string;
+    CurrentDate: string;
+}
+
+export class DashBoardPurchasePerMonth {
+    StartDate: string;
+    EndDate: string;
+    SellerId: string;
+}
+
+export class DashBoardPurchaseOrderPerDay{
+    SellerId: string;
+    CurrentDate: string;
+}
+
+
+export class DashBoardPurchaseOrderPerMonth {
+    StartDate: string;
+    EndDate: string;
+    SellerId: string;
 }

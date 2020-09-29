@@ -44,6 +44,7 @@ export class StockAdjustmentComponent implements OnInit {
   uniqueArray: any = [];
   multipleItemsArray: any = [];
 
+
   constructor(public dialog: MatDialog,
     public router: Router,
     public purchaseService: PurchaseService,

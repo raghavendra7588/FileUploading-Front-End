@@ -124,7 +124,7 @@ export class PurchaseOrderComponent implements OnInit {
   selectedVendorFromList(item) {
     this.vendorId = item.vendorId;
     this.purchaseOrder.email = item.email;
-    this.purchaseOrder.gstType = item.gstCategory;
+    this.purchaseOrder.gstNumber = item.gst;
     this.purchaseOrder.vendorName = item.name;
     this.CreditLimitPerOrder = item.creditLimit;
   }
@@ -390,7 +390,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   clearValues() {
     this.purchaseOrder.vendor = '';
-    this.purchaseOrder.gstType = '';
+    this.purchaseOrder.gstNumber = '';
     this.purchaseOrder.email = '';
     this.purchaseOrder.BatchNumber = '';
     this.purchaseOrder.orderNo = (this.getRandomNumbers()).toString();

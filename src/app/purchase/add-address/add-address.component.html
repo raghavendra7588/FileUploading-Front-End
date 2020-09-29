@@ -1,4 +1,4 @@
-<h2 mat-dialog-title style="text-align: center;">Add Retailer Address Details</h2>
+<h4 mat-dialog-title style="text-align: center;">Add Retailer Address Details</h4>
 
 <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
 
@@ -12,13 +12,13 @@
 
                         <mat-form-field>
                             <mat-label>Billing Name</mat-label>
-                            <input matInput placeholder="Billing Name" formControlName="billing_name"
-                                [(ngModel)]="address.billingName">
-                                <mat-error
+                            <input matInput placeholder="Billing Name" name="billingName" formControlName="billing_name"
+                                [(ngModel)]="address.billingName" disabled/>
+                                <!-- <mat-error
                                 *ngIf="addressForm.controls.billing_name.touched && addressForm.controls.billing_name.invalid">
                                 <span *ngIf="addressForm.controls.billing_name.errors.required">This field is
                                     mandatory.</span>
-                            </mat-error>
+                            </mat-error> -->
                         </mat-form-field>
 
                     </div>
@@ -105,9 +105,11 @@
 
                         <mat-form-field>
                             <mat-label>Shipping Name</mat-label>
-                            <input matInput placeholder="Shipping Name" formControlName="shipping_name"
-                                [(ngModel)]="address.shippingName">
-                        </mat-form-field>
+                            <input matInput name="shippingName" placeholder="Shipping Name" formControlName="shipping_name"
+                                [(ngModel)]="address.shippingName" disabled />
+                                
+                        </mat-form-field> 
+                        <!-- <p class="font-weight-bold mt-4">{{address.shippingName}}</p> -->
 
                     </div>
                     <div class="col-md-4">

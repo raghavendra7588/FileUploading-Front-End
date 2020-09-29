@@ -15,14 +15,16 @@
 
         <div class="col-md-3">
             <mat-form-field style="width: 230px !important;">
-                <input matInput placeholder="GST Type" name="gstType" [(ngModel)]="purchaseOrder.gstType" />
+                <input matInput placeholder="GST Number" name="gstType" [(ngModel)]="purchaseOrder.gstNumber"
+                    disabled />
             </mat-form-field>
         </div>
 
 
         <div class="col-md-3">
             <mat-form-field style="width: 230px !important;">
-                <input matInput placeholder="Email" name="email" autocomplete="off" [(ngModel)]="purchaseOrder.email" />
+                <input matInput placeholder="Email" name="email" autocomplete="off" [(ngModel)]="purchaseOrder.email"
+                    disabled />
             </mat-form-field>
         </div>
 
@@ -172,70 +174,73 @@
 
 <div class="container my-3">
     <div class="row">
-
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-
-            <ng-container matColumnDef="ProductId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id </th>
-                <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-            </ng-container>
+        <div class="col-md-12">
 
 
-            <ng-container matColumnDef="BrandName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
-                <td mat-footer-cell *matFooterCellDef> </td>
-            </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
 
-            <ng-container matColumnDef="ProductName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
-                <td mat-footer-cell *matFooterCellDef> </td>
-            </ng-container>
+                <ng-container matColumnDef="ProductId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
 
-            <ng-container matColumnDef="Quantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
-                <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-                <td mat-footer-cell *matFooterCellDef> Total</td>
-            </ng-container>
 
-            <ng-container matColumnDef="AvailableQuantity">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Quantity</th>
-                <td mat-cell *matCellDef="let element">
-                    <mat-form-field floatLabel="never" class="availabelQuantityInput">
-                        <input matInput placeholder="Quantity" [(ngModel)]="element.availableQuantity"
-                            (focusout)="editQuantity(element)">
-                    </mat-form-field>
-                </td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity() }} </td>
-            </ng-container>
+                <ng-container matColumnDef="BrandName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
 
-            <ng-container matColumnDef="BuyingPrice">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
-                <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
-                <td mat-footer-cell *matFooterCellDef> </td>
-            </ng-container>
 
-            <ng-container matColumnDef="Discount">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
-                <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
-                <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}} </td>
-            </ng-container>
+                <ng-container matColumnDef="ProductName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
 
-            <ng-container matColumnDef="FinalPrice">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Price </th>
-                <td mat-cell *matCellDef="let element"> {{element.finalPrice  | number : '1.2-2'}} </td>
-                <td mat-footer-cell *matFooterCellDef>{{getFinalPrice() | number : '1.2-2'}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
+                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                    <td mat-footer-cell *matFooterCellDef> Total</td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-        </table>
+                <ng-container matColumnDef="AvailableQuantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Quantity</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-form-field floatLabel="never" class="availabelQuantityInput">
+                            <input matInput placeholder="Quantity" [(ngModel)]="element.availableQuantity"
+                                (focusout)="editQuantity(element)">
+                        </mat-form-field>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity() }} </td>
+                </ng-container>
 
+                <ng-container matColumnDef="BuyingPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Discount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="FinalPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Final Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.finalPrice  | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef>{{getFinalPrice() | number : '1.2-2'}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[7,20,100]" showFirstLastButtons></mat-paginator>
+        </div>
     </div>
 
 </div>

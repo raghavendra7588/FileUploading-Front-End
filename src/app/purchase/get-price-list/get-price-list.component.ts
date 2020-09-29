@@ -55,7 +55,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   brands1: any = [];
   brands2: any = [];
   brands3: any = [];
-  categoryList: string;
+  categoryList: any;
   subCategoriesList: string;
   brandList: string;
   buyingPrice: any;
@@ -212,6 +212,10 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
     });
 
     console.log('particular category array', this.particularCategoryArray);
+    if (this.particularCategoryArray.length === 1 || this.particularCategoryArray.length === 0) {
+      console.log('less than one', this.particularCategoryArray[0].id);
+      this.categoryList = this.particularCategoryArray[0].id;
+    }
     this.categorySearch = this.particularCategoryArray;
   }
 
@@ -518,6 +522,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       brandData = data;
 
       mappedBrandData = this.mapObj(brandData, this.dbData);
+
       // this.multipleBrandArray = this.catchMappedData;
       this.dataSource = new MatTableDataSource(mappedBrandData);
       this.dataSource.paginator = this.paginator;

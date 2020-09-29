@@ -15,7 +15,7 @@ import { LoginService } from 'src/app/login/login.service';
 export class AddressDetailsComponent implements OnInit {
 
   getAddress: any = [];
-  displayedColumns: string[] = ['id', 'billingName', 'address', 'city', 'email', 'phone', 'action'];
+  displayedColumns: string[] = ['billingName', 'address', 'city', 'email', 'phone', 'action'];
   dataSource: any;
   sellerId: number;
   constructor(public purchaseService: PurchaseService, public dialog: MatDialog, public emitterService: EmitterService,

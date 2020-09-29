@@ -16,6 +16,8 @@
             </button>
             <button mat-menu-item routerLink='purchase/priceList'>Price List
             </button>
+            <button mat-menu-item routerLink='purchase/specificPriceList'>Specific Price List
+            </button>
             <button mat-menu-item routerLink='purchase/purchaseOrder'>Purchase Order
             </button>
             <button mat-menu-item routerLink='purchase/purchaseReports'>Purchase Reports
@@ -98,8 +100,8 @@
     </button>
     <mat-menu #reports="matMenu" [overlapTrigger]="false">
         <span (mouseleave)="reportsTrigger.closeMenu()">
-            <button mat-menu-item routerLink='reports/minimumPurchaseReport'>Minimum Purchase Report
-            </button>
+            <!-- <button mat-menu-item routerLink='reports/minimumPurchaseReport'>Minimum Purchase Report
+            </button> -->
             <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase Report
             </button>
             <button mat-menu-item routerLink='reports/salesReport'>Sales Report

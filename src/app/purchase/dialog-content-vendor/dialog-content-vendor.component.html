@@ -8,7 +8,7 @@
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Name" type="text" formControlName="Name" [(ngModel)]="vendor.name">
+          <input matInput placeholder="Name" type="text" formControlName="Name" [(ngModel)]="vendor.name" (focusout)="copyVendorName(vendor.name)">
           <mat-error *ngIf="saveVendorForm.controls.Name.touched && saveVendorForm.controls.Name.invalid">
             <span *ngIf="saveVendorForm.controls.Name.errors.required">This field is mandatory.</span>
           </mat-error>
@@ -27,6 +27,9 @@
         <mat-form-field>
           <input matInput placeholder="Print Name" type="text" formControlName="PrintName"
             [(ngModel)]="vendor.printName">
+            <mat-error *ngIf="saveVendorForm.controls.PrintName.touched && saveVendorForm.controls.PrintName.invalid">
+              <span *ngIf="saveVendorForm.controls.PrintName.errors.required">This field is mandatory.</span>
+            </mat-error>
         </mat-form-field>
       </div>
 
@@ -256,7 +259,7 @@
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country">
+          <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country" />
         </mat-form-field>
       </div>
 
@@ -389,7 +392,7 @@
 
 
   <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="saveVendor()">Save</button>
+    <button mat-raised-button color="primary" (click)="saveVendor()"[disabled]="!saveVendorForm.valid">Save</button>
     <button mat-raised-button mat-dialog-close>Close</button>
   </div>
 

@@ -55,12 +55,14 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-view-vendor-data.component';
+import { SpecificPriceListComponent } from './specific-price-list/specific-price-list.component';
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
     PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent,
     OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent, AddAddressComponent, DashboardComponent,
-    AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, DialogPurchaseOrderPrintComponent, DialogOrderComponent, DialogViewVendorDataComponent],
+    AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, 
+    DialogPurchaseOrderPrintComponent, DialogOrderComponent, DialogViewVendorDataComponent, SpecificPriceListComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -102,6 +104,8 @@ import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-
   entryComponents: [
     DialogContentVendorComponent, AddAddressComponent, DialogViewVendorDataComponent
   ],
-  exports: [VendorComponent, MyPipePipe, PriceListComponent, GetPriceListComponent, PurchaseOrderComponent, AddressDetailsComponent, GoodsReceiptNotesComponent, DashboardComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent, AddAddressComponent]
+  exports: [VendorComponent, MyPipePipe, PriceListComponent, GetPriceListComponent, PurchaseOrderComponent, AddressDetailsComponent,
+    GoodsReceiptNotesComponent, DashboardComponent, PurchaseBillComponent, PurchaseCreditNoteComponent, PurchaseDebitNoteComponent,
+    PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent, OnlinePaymentComponent, AddAddressComponent, SpecificPriceListComponent]
 })
 export class PurchaseModule { }

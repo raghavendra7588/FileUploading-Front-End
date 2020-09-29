@@ -64,7 +64,7 @@ export class Address {
 }
 
 export class PurchaseOrder {
-    gstType?: string;
+    gstNumber?: string;
     vendor?: string;
     vendorName?: string;
     email?: string;

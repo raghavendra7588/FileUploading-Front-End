@@ -40,6 +40,7 @@ import { PurchaseReportComponent } from './inventory/purchase-report/purchase-re
 import { MinimumRatePurchaseOrderComponent } from './reports/minimum-rate-purchase-order/minimum-rate-purchase-order.component';
 import { ProductVendorWisePurchaseReportComponent } from './reports/product-vendor-wise-purchase-report/product-vendor-wise-purchase-report.component';
 import { SalesReportComponent } from './reports/sales-report/sales-report.component';
+import { SpecificPriceListComponent } from './purchase/specific-price-list/specific-price-list.component';
 
 
 
@@ -57,6 +58,7 @@ const routes: Routes = [
   { path: 'purchase/address', component: AddressDetailsComponent },
   { path: 'purchase/vendor', component: VendorComponent },
   { path: 'purchase/priceList', component: PriceListComponent },
+  { path: 'purchase/specificPriceList', component: SpecificPriceListComponent },
   { path: 'purchase/purchaseOrder', component: PurchaseOrderComponent },
   { path: 'purchase/goodsReceiptNote', component: GoodsReceiptNotesComponent },
   { path: 'purchase/purchaseBill', component: PurchaseBillComponent },

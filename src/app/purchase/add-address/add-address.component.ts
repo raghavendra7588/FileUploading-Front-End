@@ -30,7 +30,8 @@ export class AddAddressComponent implements OnInit {
     public emitterService: EmitterService, public toastr: ToastrService) {
 
     this.addressForm = this.formBuilder.group({
-      billing_name: ['', [Validators.required]],
+      // billing_name: ['', [Validators.required]],
+      billing_name: [''],
       shipping_name: [''],
       billing_address: [''],
       billing_city: [''],
@@ -63,6 +64,11 @@ export class AddAddressComponent implements OnInit {
     this.sellerId = parseInt(sessionStorage.getItem('sellerId'));
     this.address.sellerId = Number(this.sellerId);
     this.address.sellerName = sessionStorage.getItem('sellerName');
+    this.address.billingName = sessionStorage.getItem('sellerName');
+    this.address.shippingName = sessionStorage.getItem('sellerName');
+
+    this.addressForm.get('billing_name').disable();
+    this.addressForm.get('shipping_name').disable();
 
     this.address.billing_country = 'India';
     this.address.shipping_country = 'India';

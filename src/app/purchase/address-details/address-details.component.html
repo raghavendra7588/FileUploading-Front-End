@@ -1,4 +1,4 @@
-<div class="mat-display-1 mt-3" style="text-align: center;color:blue;"> Retailer Address Component</div>
+<h4 class="mt-3" style="text-align: center;color:blue;">Retailer Address Component</h4>
 
 <div class="container">
     <div class="row">
@@ -11,10 +11,6 @@
         
             <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
            
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef> Id. </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-                </ng-container>
 
                 <ng-container matColumnDef="billingName">
                     <mat-header-cell *matHeaderCellDef> Billing Name</mat-header-cell>

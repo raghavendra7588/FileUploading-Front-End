@@ -47,4 +47,7 @@ Thumbs.db
 /SQL/Service/packages
 /SQL/Service/inventory/Properties/PublishProfiles
 /SQL/Service/.vs/inventory
-/SQL/Service/inventory/bin/app.publish
+/SQL/Service/inventory/bin
+SQL/Service/inventory/obj
+
+SQL/Service/inventory/inventory.csproj.user

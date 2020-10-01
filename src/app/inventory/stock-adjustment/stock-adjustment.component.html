@@ -53,87 +53,87 @@
 
         <div class="col-md-12">
 
+            <div *ngIf="purchaseOrderItemData.length">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef style="width: 50px;">
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? [selection.toggle(row),onChange($event)] : null"
+                                [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
 
-            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef style="width: 50px;">
-                        <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? [selection.toggle(row),onChange($event)] : null"
-                            [checked]="selection.isSelected(row)">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="subCategory">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Category</th>
-                    <td mat-cell *matCellDef="let element"> {{element.SubCategoryId}} </td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="brand">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
-                    <td mat-cell *matCellDef="let element"> {{element.BrandID}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="product">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.ProductId}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="varient">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Quantity}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="quantityOrdered">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity Ordered </th>
-                    <td mat-cell *matCellDef="let element"> {{element.PurchaseQuantity}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="quantityReceived">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity Received </th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-form-field floatLabel="never" style="width: 80px !important;">
-                            <input matInput placeholder="Quantity" [(ngModel)]="element.QuantityReceived">
-                        </mat-form-field>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="Discount">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
-                    <td mat-cell *matCellDef="let element">
-
-                        <mat-form-field floatLabel="never" style="width: 50px !important;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.Discount">
-                        </mat-form-field>
-
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="sellingPrice">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Selling Price </th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-form-field floatLabel="never" style="width: 70px !important;">
-                            <input matInput placeholder="amount" [(ngModel)]="element.SellingPrice">
-                        </mat-form-field>
-
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="barCode">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bar Code </th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-form-field floatLabel="never" style="width: 50px !important;">
-                            <input matInput placeholder="barcode" [(ngModel)]="element.Barcode">
-                        </mat-form-field>
+                    <ng-container matColumnDef="subCategory">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Category</th>
+                        <td mat-cell *matCellDef="let element"> {{element.SubCategoryId}} </td>
+                    </ng-container>
 
 
-                    </td>
-                </ng-container>
-                <!-- <ng-container matColumnDef="action">
+                    <ng-container matColumnDef="brand">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
+                        <td mat-cell *matCellDef="let element"> {{element.BrandID}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="product">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ProductId}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="varient">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Quantity}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantityOrdered">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity Ordered </th>
+                        <td mat-cell *matCellDef="let element"> {{element.PurchaseQuantity}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantityReceived">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity Received </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never" style="width: 80px !important;">
+                                <input matInput placeholder="Quantity" [(ngModel)]="element.QuantityReceived">
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Discount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+                        <td mat-cell *matCellDef="let element">
+
+                            <mat-form-field floatLabel="never" style="width: 50px !important;">
+                                <input matInput placeholder="amount" [(ngModel)]="element.Discount">
+                            </mat-form-field>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sellingPrice">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Selling Price </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never" style="width: 70px !important;">
+                                <input matInput placeholder="amount" [(ngModel)]="element.SellingPrice">
+                            </mat-form-field>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="barCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Bar Code </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-form-field floatLabel="never" style="width: 50px !important;">
+                                <input matInput placeholder="barcode" [(ngModel)]="element.Barcode">
+                            </mat-form-field>
+
+
+                        </td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-icon-button (click)="editItem(element)">
@@ -147,13 +147,16 @@
 
 
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row [ngClass]="{'make-gold': row.ProductPrice > 0}"
-                    *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <mat-paginator [pageSizeOptions]="[20,50,100]" showFirstLastButtons></mat-paginator>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row [ngClass]="{'make-gold': row.ProductPrice > 0}"
+                        *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[20,50,100]" showFirstLastButtons></mat-paginator>
 
-
+            </div>
+            <div *ngIf="purchaseOrderItemData.length===0" class="text-center font-weight-bold"> 
+                No Record found
+            </div>
 
 
 

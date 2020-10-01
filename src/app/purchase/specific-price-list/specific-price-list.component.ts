@@ -8,17 +8,14 @@ import { PurchaseService } from '../purchase.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { PriceList } from '../purchase.model';
 import { EmitterService } from 'src/shared/emitter.service';
-// import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { NgModel } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MyPipePipe } from '../my-pipe.pipe';
-import { EventManager } from '@angular/platform-browser';
+
 import * as _ from 'lodash';
-import { MatCardTitleGroup } from '@angular/material/card';
 
 @Component({
   selector: 'app-specific-price-list',
@@ -202,7 +199,7 @@ export class SpecificPriceListComponent implements OnInit {
     this.categorySearch = [];
     this.categoryArrayData = [];
     this.vendorId = item.vendorId;
-    console.log('selected vendor ', this.vendorId);
+    // console.log('selected vendor ', this.vendorId);
 
     this.multipleCategoriesArray = [];
     this.anyArray = [];
@@ -212,7 +209,7 @@ export class SpecificPriceListComponent implements OnInit {
       }
     });
     console.log('particular vendor', this.particularVendor);
-
+    this.dataSource = [];
     this.strcategoryIdArray = this.particularVendor.category;
     this.numCategoryIdArray = this.strcategoryIdArray.split(',').map(Number);
     console.log('int category array', this.numCategoryIdArray);
@@ -230,19 +227,14 @@ export class SpecificPriceListComponent implements OnInit {
     this.loginService.seller_object.categories.filter(item => {
       if (this.numCategoryIdArray.includes(Number(item.id))) {
         particularCategory = item;
+        this.particularCategoryArray.push(particularCategory);
       }
     });
-    this.particularCategoryArray.push(particularCategory);
-    console.log('particularCategory', particularCategory);
+
+    // console.log('particularCategory', particularCategory);
     console.log('particularCategoryArray', this.particularCategoryArray);
     this.categorySearch = this.particularCategoryArray;
-    // this.categoryArrayData = this.particularCategoryArray;
-    // particularCategory = []; 
 
-    // if (this.particularCategoryArray.length === 1 || this.particularCategoryArray.length === 0) {
-    //   console.log('less than one', this.particularCategoryArray[0].id);
-    //   this.categoryList = this.particularCategoryArray[0].id;
-    // }
     this.particularCategoryArray = this.categorySearch.slice();
   }
 
@@ -316,20 +308,23 @@ export class SpecificPriceListComponent implements OnInit {
         }
       });
       console.log('filteredCategoryData', filteredCategoryData);
-
+      this.finalBrandArray = filteredCategoryData;
+      console.log('finalBrandArray', this.finalBrandArray);
+      
       this.subCategorySearch = filteredCategoryData;
 
       catchMappedCategory.filter(data => {
-
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+          console.log('inside cat select all');
           filteredBrandData.push(data);
         }
       });
-
+      console.log('filteredBrandData', filteredBrandData);
 
       // this.dataSource = new MatTableDataSource(filteredCategoryData);
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
+      console.log('cat select all data source', this.dataSource);
 
       let uniqueBrandName = this.createUniqueBrandName(filteredBrandData);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
@@ -362,7 +357,8 @@ export class SpecificPriceListComponent implements OnInit {
       });
 
       // this.subCategorySearch = filteredSubCategoryData;
-
+      this.finalBrandArray = catchMappedSubCategory;
+      console.log('finalBrandArray', this.finalBrandArray);
 
       console.log('filteredSubCategoryData', filteredSubCategoryData);
       catchMappedSubCategory.filter(data => {
@@ -543,7 +539,7 @@ export class SpecificPriceListComponent implements OnInit {
           return item.BrandName.trim() === product.BrandName;
         });
         this.finalBrandArray = filteredBrandArray;
-
+        console.log('finalBrandArray', this.finalBrandArray);
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);

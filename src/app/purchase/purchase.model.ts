@@ -233,7 +233,7 @@ export class DashBoardPurchasePerMonth {
     SellerId: string;
 }
 
-export class DashBoardPurchaseOrderPerDay{
+export class DashBoardPurchaseOrderPerDay {
     SellerId: string;
     CurrentDate: string;
 }
@@ -243,4 +243,10 @@ export class DashBoardPurchaseOrderPerMonth {
     StartDate: string;
     EndDate: string;
     SellerId: string;
+}
+
+export class FastestGrowingProducts {
+    SellerId: string;
+    StartDate: string;
+    EndDate: string;
 }

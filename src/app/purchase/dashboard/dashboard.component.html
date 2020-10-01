@@ -1,132 +1,175 @@
-<div class="container my-5">
-    <div class="row">
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-primary custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                             <h2 class="font-weight-bold text-primary" style="margin-top: 13px;"> {{purchasePerDayResult}}</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-primary">Purchase Per Day</h2>
-            </mat-card>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-3 col-md-3 col-sm-3">
+      <div class="card bg-orange">
+        <div class="card-body text-center">
+          <span>{{saleForTheDay}} <i class="fa fa-inr fa-1x"></i></span>
+          <mat-divider></mat-divider>
+          <div class="custom-div">Sale For The Day</div>
         </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-left  bg-warning  custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-warning" style="margin-top: 13px;"> 1614</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-warning">Sale Per Day</h2>
-            </mat-card>
-        </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-success  custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x mt-3" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-success" style="margin-top: 13px;"> 432</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-success">Profit Per Day</h2>
-            </mat-card>
-        </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-danger  custom-div">
-                        <span class="mt-5"><i class="fa fa-users fa-1x mt-3"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-danger" style="margin-top: 13px;"> {{purchaseOrderPerDayResult}}</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-danger">Orders Per Day</h2>
-            </mat-card>
-        </div>
+      </div>
     </div>
+    <div class="col-3 col-md-3 col-sm-3">
+      <div class="card bg-green">
+        <div class="card-body text-center">
+          <span>{{purchaseOrderPerDayResult}} <i class="fa fa-user-o fa-1x"></i></span>
+          <mat-divider></mat-divider>
+          <div class="custom-div">Orders For The Day</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-3 col-md-3 col-sm-3">
+      <div class="card bg-red">
+        <div class="card-body text-center">
+          <span>{{purchasePerMonthResult}} <i class="fa fa-inr fa-1x"></i></span>
+          <mat-divider></mat-divider>
+          <div class="custom-div">Purchase For the Month</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3 col-md-3 col-sm-3">
+      <div class="card bg-blue">
+        <div class="card-body text-center">
+          <span>{{saleForTheDay}} <i class="fa fa-inr fa-1x"></i></span>
+          <mat-divider></mat-divider>
+          <div class="custom-div">Sale For the Month</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
 </div>
 
-
-<div class="container my-5">
-    <div class="row">
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-primary custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                             <h2 class="font-weight-bold text-primary" style="margin-top: 13px;"> {{purchasePerMonthResult}}</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-primary">Purchase Per Month</h2>
-            </mat-card>
-        </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-left  bg-warning  custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-warning" style="margin-top: 13px;"> 16890</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-warning">Sale Per Month</h2>
-            </mat-card>
-        </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-success  custom-div">
-                        <span class="mt-5"><i class="fa fa-inr fa-1x mt-3" style="margin-top: 12px;"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-success" style="margin-top: 13px;"> 6784</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-success">Profit Per Month</h2>
-            </mat-card>
-        </div>
-        <div class="col-md-3 col-3 col-sm-3 col-div">
-            <mat-card style="height: 97%;width: 95%;">
-                <div class="row justify-content-center" style="margin-top: 25px;">
-                    <div class="col-md-3 col-sm-4 col-4 text-center  bg-danger  custom-div">
-                        <span class="mt-5"><i class="fa fa-users fa-1x mt-3"></i></span>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-8 custom-div">
-                        <h2 class="font-weight-bold text-danger" style="margin-top: 13px;"> {{purchaseOrderPerMonthResult}}</h2> 
-                    </div>
-                </div>
-                <h2 class="text-center mt-2 text-danger">Orders Per Month</h2>
-            </mat-card>
-        </div>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-6 col-6 col-sm-6 col-lg-6">
+      <h3 class="text-center font-weight-bold" style="color: #5cb85c;">Top Selling Products</h3>
+      <!-- <table class="table table-hover">
+        <thead class="yellow-button">
+          <tr>
+            <th>Sub Category</th>
+            <th>Brand</th>
+            <th>Product</th>
+            <th>Varient</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+            <td>6</td>
+          </tr>
+        </tbody>
+      </table> -->
+    
+      <table class="table table-hover">
+        <thead class="yellow-button">
+          <tr>
+            <th>Sub Category</th>
+            <th>Brand</th>
+            <th>Product</th>
+            <th>Varient</th>
+            <th>Ordered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let index of topPurchaseOrderData">
+            <td>{{index.SubCategoryId}}</td>
+            <td>{{index.BrandId}}</td>
+            <td>{{index.ProductId}}</td>
+            <td>{{index.Quantity}}</td>
+            <td>{{index.PurchaseQuantity}}</td>
+          </tr>
+          <tr>
+            <!-- <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                    <td>8</td>
+                    <td>8</td>
+                  </tr>
+                  <tr>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                    <td>8</td>
+                    <td>8</td>
+                  </tr> -->
+        </tbody>
+      </table>
     </div>
+    <div class="col-md-6 col-6 col-sm-6 col-lg-6">
+      <h3 class="text-center font-weight-bold" style="color: #337ab7;">Fastest Moving Products</h3>
+      <table class="table table-hover">
+        <thead class="red-button">
+          <tr>
+            <th>Sub Category</th>
+            <th>Brand</th>
+            <th>Product</th>
+            <th>Varient</th>
+            <th>Ordered</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let index of topPurchaseOrderData">
+            <td>{{index.SubCategoryId}}</td>
+            <td>{{index.BrandId}}</td>
+            <td>{{index.ProductId}}</td>
+            <td>{{index.Quantity}}</td>
+            <td>{{index.PurchaseQuantity}}</td>
+          </tr>
+          <tr>
+            <!-- <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                    <td>8</td>
+                    <td>8</td>
+                  </tr>
+                  <tr>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                    <td>8</td>
+                    <td>8</td>
+                  </tr> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+<div class="container-fluid text-center my-4">
+  <div class="row">
+    <div class="col-md-3">
+      <button type="button" class="btn btn-primary yellow-button" (click)="addAddress()"> Add Shop
+        Address</button>
 
-<div class="container text-center my-4">
-    <div class="row">
-        <div class="col-md-3">
-            <button type="button" class="btn btn-primary" (click)="addAddress()"> Add Shop Address</button>
-
-        </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-info yellow-button" (click)="createVendor()">Create New Vendor</button>
-        </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-success" (click)="goToPriceList()">Add Price List Items</button>
-        </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-danger" (click)="createOrder()">Create New Order</button>
-        </div>
     </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-info green-button" (click)="createVendor()">Create New Vendor</button>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-info red-button" (click)="goToPriceList()">Add Price List
+        Items</button>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-info blue-button" (click)="createOrder()">Create New Order</button>
+    </div>
+  </div>
 </div>

@@ -4,11 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <!-- <mat-form-field style="width: 100%;">
-        <mat-label>Seller</mat-label>
-        <input matInput [(ngModel)]="sellerName" disabled>
-      </mat-form-field> -->
-
+<!-- 
             <mat-form-field style="width: 100% !important;">
                 <mat-select id="vendor_List" placeholder="Vendor List" [(ngModel)]="vendorDetails">
                     <mat-option *ngFor="let item of vendorData;" [value]="item.vendorId"
@@ -16,9 +12,18 @@
                         {{item.name}}
                     </mat-option>
                 </mat-select>
+            </mat-form-field> -->
+            <mat-form-field style="width: 100% !important;">
+                <mat-select id="vendor_List" placeholder="Vendor List" [(ngModel)]="vendorDetails">
+                    <mat-option *ngFor="let item of vendorData;" [value]="item.vendorId"
+                        (click)="selectedVendorFromList(item)">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
-            <!-- <p class="font-weight-bold mt-2">{{sellerName}}</p> -->
+
+
         </div>
 
         <div class="col-md-3 ">

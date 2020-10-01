@@ -16,10 +16,10 @@ mat-form-field-infix {
 .select-all{
     margin: 5px 17px;
   }
-  .make-gold {
-    /* background-color: #F3FFFF; */
-    background-color: red;
-}
 
+  .make-gold {
+    background-color:#add8e6;
+    /* background-color: red; */
+}
 
 

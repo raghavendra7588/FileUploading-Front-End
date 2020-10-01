@@ -23,9 +23,9 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  // private BASE_URL = 'http://localhost:55547/';
-  
+  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  private BASE_URL = 'http://localhost:55547/';
+
   private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = 'http://203.112.144.38/AdminApi/api/Category/getall';
@@ -49,6 +49,7 @@ export class PurchaseService {
   private GET_DASHBOARD_PURCHASE_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchasePerMonth';
   private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
   private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
+  private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = this.BASE_URL + 'api/DashBoard';
 
   constructor(public http: HttpClient, public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
@@ -165,5 +166,9 @@ export class PurchaseService {
 
   getDashBoardPurchaseOrderPerMonth(purchaseReport) {
     return this.http.post(this.GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH, purchaseReport);
+  }
+
+  getFastestMovingDataPerMonth(sellerId: string) {
+    return this.http.get(this.GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH + '/' + sellerId);
   }
 }

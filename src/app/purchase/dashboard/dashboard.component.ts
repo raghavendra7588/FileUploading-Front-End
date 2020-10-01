@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AddAddressComponent } from '../add-address/add-address.component';
-import { DashBoardPurchaseOrderPerDay, DashBoardPurchaseOrderPerMonth, DashBoardPurchasePerDay, DashBoardPurchasePerMonth } from '../purchase.model';
+import { DashBoardPurchaseOrderPerDay, DashBoardPurchaseOrderPerMonth, DashBoardPurchasePerDay, DashBoardPurchasePerMonth, FastestGrowingProducts } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   dashBoardPurchasePerMonth: DashBoardPurchasePerMonth = new DashBoardPurchasePerMonth();
   dashBoardPurchaseOrderPerDay: DashBoardPurchaseOrderPerDay = new DashBoardPurchaseOrderPerDay();
   dashBoardPurchaseOrderPerMonth: DashBoardPurchaseOrderPerMonth = new DashBoardPurchaseOrderPerMonth();
+  fastestGrowingProducts: FastestGrowingProducts = new FastestGrowingProducts();
 
   noOfOrdersProgress = 0;
   purchasePerDayProgress = 0;
@@ -31,6 +32,11 @@ export class DashboardComponent implements OnInit {
   purchasePerMonthResult = 0;
   purchaseOrderPerDayResult = 0;
   purchaseOrderPerMonthResult = 0;
+  saleForTheDay = 845;
+  lastDays: any;
+  dummyData: any = [];
+  strSellerId: string;
+  topPurchaseOrderData: any = [];
   // NoOfOrdersProgressBar = document.querySelector('.progress-bar');
 
 
@@ -45,12 +51,20 @@ export class DashboardComponent implements OnInit {
     this.dashBoardPurchasePerMonth.SellerId = sessionStorage.getItem('sellerId').toString();
     this.dashBoardPurchaseOrderPerDay.SellerId = sessionStorage.getItem('sellerId').toString();
     this.dashBoardPurchaseOrderPerMonth.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.fastestGrowingProducts.SellerId = sessionStorage.getItem('sellerId').toString();
+    this.strSellerId = sessionStorage.getItem('sellerId').toString();
     this.currentDate = new Date();
+    this.lastDays = this.lastThirtyDaysData(30);
+    this.fastestGrowingProducts.StartDate = this.convertDate(this.currentDate);
+    this.fastestGrowingProducts.EndDate = this.convertDate(this.lastDays);
+
+    console.log('fastestGrowingProducts.StartDate', this.fastestGrowingProducts.StartDate);
+    console.log('fastestGrowingProducts.EndDate', this.fastestGrowingProducts.EndDate);
 
     this.dashBoardPurchasePerDay.CurrentDate = this.convertDate(this.currentDate);
     this.dashBoardPurchaseOrderPerDay.CurrentDate = this.convertDate(this.currentDate);
 
-    this.getAllPurchasePerDayData(this.dashBoardPurchasePerDay);
+    // this.getAllPurchasePerDayData(this.dashBoardPurchasePerDay);
 
     this.noOfOrdersProgress = 90;
     this.purchasePerDayProgress = 90;
@@ -68,16 +82,26 @@ export class DashboardComponent implements OnInit {
     this.dashBoardPurchaseOrderPerMonth.StartDate = this.convertDate(this.firstDayOfMonth);
     this.dashBoardPurchaseOrderPerMonth.EndDate = this.convertDate(this.lastDayOfMonth);
 
-    console.log(this.dashBoardPurchaseOrderPerMonth.StartDate);
-    console.log(this.dashBoardPurchaseOrderPerMonth.EndDate);
+    // console.log(this.dashBoardPurchaseOrderPerMonth.StartDate);
+    // console.log(this.dashBoardPurchaseOrderPerMonth.EndDate);
 
     this.getAllPurchasePerMonthData(this.dashBoardPurchasePerMonth);
-    console.log('per day', this.dashBoardPurchaseOrderPerDay);
+    // console.log('per day', this.dashBoardPurchaseOrderPerDay);
     this.getPurchaseOrderPerDayData(this.dashBoardPurchaseOrderPerDay);
-    this.getPurchaseOrderPerMonthData(this.dashBoardPurchaseOrderPerMonth);
+    // this.getPurchaseOrderPerMonthData(this.dashBoardPurchaseOrderPerMonth);
+    this.getFastestMovingDataPerMonth();
+    this.dummyData = [
+      { subCategory: '85', brandID: '126', productID: '2751', varient: '200 GM', Purchased: '12' },
+      { subCategory: '85', brandID: '246', productID: '2750', varient: '1 KG', Purchased: '08' },
+      { subCategory: '85', brandID: '237', productID: '1607', varient: '500 GM', Purchased: '09' },
+    ];
   }
 
-
+  lastThirtyDaysData(days) {
+    var today = new Date();
+    var dateLimit = new Date(new Date().setDate(today.getDate() - 30));
+    return dateLimit;
+  }
   convertDate(receivedDate) {
     let date = new Date(receivedDate);
     const year = date.getFullYear();
@@ -92,7 +116,7 @@ export class DashboardComponent implements OnInit {
   getAllPurchasePerDayData(dashBoardPurchasePerDay) {
     this.purchaseService.getDashBoardPurchasePerDayData(dashBoardPurchasePerDay).subscribe(data => {
       this.purchasePerDayArray = data;
-      console.log('PurchasePerDay', data);
+      // console.log('PurchasePerDay', data);
       this.purchasePerDayResult = this.getPurchasePerDayComputation();
 
     });
@@ -101,7 +125,7 @@ export class DashboardComponent implements OnInit {
     this.purchaseService.getDashBoardPurchasePerMonthData(dashBoardPurchasePerMonth).subscribe(data => {
 
       this.purchasePerMonthArray = data;
-      console.log('PurchasePerMonth', data);
+      // console.log('PurchasePerMonth', data);
       this.purchasePerMonthResult = this.getPurchasePerMonthComputation();
 
     });
@@ -110,22 +134,29 @@ export class DashboardComponent implements OnInit {
   getPurchaseOrderPerDayData(dashBoardPurchasePerDay) {
     this.purchaseService.getDashBoardPurchaseOrderPerDayData(dashBoardPurchasePerDay).subscribe(data => {
       console.log(data);
-      console.log('PurchaseOrderPerDay', data);
+      // console.log('PurchaseOrderPerDay', data);
       this.purchaseOrderPerDayArray = data;
       this.purchaseOrderPerDayResult = this.getPurchasePerOrderDayComputation();
 
     });
   }
 
-  getPurchaseOrderPerMonthData(dashBoardPurchasePerMonth) {
-    this.purchaseService.getDashBoardPurchaseOrderPerMonth(dashBoardPurchasePerMonth).subscribe(
-      data => {
-        console.log('PurchaseOrderPerMonth', data);
-        this.purchaseOrderPerMonthArray = data;
-        this.purchaseOrderPerMonthResult = this.getPurchasePerOrderMonthComputation();
-        console.log('PurchaseORDER PER MONTH', this.purchaseOrderPerMonthResult);
-      }
-    );
+  // getPurchaseOrderPerMonthData(dashBoardPurchasePerMonth) {
+  //   this.purchaseService.getDashBoardPurchaseOrderPerMonth(dashBoardPurchasePerMonth).subscribe(
+  //     data => {
+  //       console.log('PurchaseOrderPerMonth', data);
+  //       this.purchaseOrderPerMonthArray = data;
+  //       this.purchaseOrderPerMonthResult = this.getPurchasePerOrderMonthComputation();
+  //       console.log('PurchaseORDER PER MONTH', this.purchaseOrderPerMonthResult);
+  //     }
+  //   );
+  // }
+
+  getFastestMovingDataPerMonth() {
+    this.purchaseService.getFastestMovingDataPerMonth(this.strSellerId).subscribe(data => {
+      console.log('fastest growing data', data);
+      this.topPurchaseOrderData = data;
+    });
   }
 
   getPurchasePerDayComputation() {
@@ -149,7 +180,7 @@ export class DashboardComponent implements OnInit {
       totalPurchaseDiscount += Number(item.Discount);
     });
     totalPurchasePerMonthCalculation = totalPurchaseBuyingPrice - totalPurchaseDiscount;
-    console.log('totalPurchasePerMonthCalculation',totalPurchasePerMonthCalculation);
+    // console.log('totalPurchasePerMonthCalculation', totalPurchasePerMonthCalculation);
     return totalPurchasePerMonthCalculation;
   }
 

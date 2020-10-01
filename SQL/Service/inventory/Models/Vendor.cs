@@ -93,9 +93,38 @@ public class VenodrBL
         cmd.Parameters.AddWithValue("@underLedger", objVendor.underLedger);
         cmd.Parameters.AddWithValue("@contactPerson", objVendor.contactPerson);
         cmd.Parameters.AddWithValue("@printName", objVendor.printName);
-        cmd.Parameters.AddWithValue("@category", objVendor.category);
-        cmd.Parameters.AddWithValue("@subCategory", objVendor.subCategory);
-        cmd.Parameters.AddWithValue("@brand", objVendor.brand);
+   
+
+        if (objVendor.category == "NULL")
+        {
+            objVendor.category = "";
+            cmd.Parameters.AddWithValue("@category", objVendor.category);
+        }
+        else
+        {
+            cmd.Parameters.AddWithValue("@category", objVendor.category);
+        }
+
+        if (objVendor.subCategory == "NULL")
+        {
+            objVendor.subCategory = "";
+            cmd.Parameters.AddWithValue("@subCategory", objVendor.subCategory);
+        }
+        else
+        {
+            cmd.Parameters.AddWithValue("@subCategory", objVendor.subCategory);
+        }
+
+        if (objVendor.brand == "NULL")
+        {
+            objVendor.brand = "";
+            cmd.Parameters.AddWithValue("@brand", objVendor.brand);
+        }
+        else
+        {
+            cmd.Parameters.AddWithValue("@brand", objVendor.brand);
+        }
+    
         cmd.Parameters.AddWithValue("@fileUpload", objVendor.fileUpload);
         cmd.Parameters.AddWithValue("@gst", objVendor.gst);
         cmd.Parameters.AddWithValue("@gstCategory", objVendor.gstCategory);

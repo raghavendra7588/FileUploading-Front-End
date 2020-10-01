@@ -11,26 +11,27 @@ namespace inventory.Controllers
 {
     public class DashBoardController : ApiController
     {
-        DashBoardPurchasePerDayBL objDashBoardPurchasePerDayBL = new DashBoardPurchasePerDayBL();
+        //DashBoardPurchasePerDayBL objDashBoardPurchasePerDayBL = new DashBoardPurchasePerDayBL();
         DashBoardPurchasePerMonthBL objDashBoardPurchasePerMonthBL = new DashBoardPurchasePerMonthBL();
         DashBoardPurchaseOrderPerDayBL objDashBoardPurchaseOrderPerDayBL = new DashBoardPurchaseOrderPerDayBL();
-        DashBoardPurchaseOrderPerMonthBL objDashBoardPurchaseOrderPerMonthBL = new DashBoardPurchaseOrderPerMonthBL();
+        //DashBoardPurchaseOrderPerMonthBL objDashBoardPurchaseOrderPerMonthBL = new DashBoardPurchaseOrderPerMonthBL();
+        FastestMovingProductsPerMonthBL objFastestMovingProductsPerMonthBL = new FastestMovingProductsPerMonthBL();
 
-        [HttpPost]
-        [Route("api/DashBoard/postPurchasePerDay")]
-        public HttpResponseMessage postPurchasePerDay(DashBoardPurchasePerDay objDashBoardPurchasePerDay)
-        {
-            try
-            {
-                DataTable dt = objDashBoardPurchasePerDayBL.postPurchasePerDayToDb(objDashBoardPurchasePerDay);
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //[HttpPost]
+        //[Route("api/DashBoard/postPurchasePerDay")]
+        //public HttpResponseMessage postPurchasePerDay(DashBoardPurchasePerDay objDashBoardPurchasePerDay)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = objDashBoardPurchasePerDayBL.postPurchasePerDayToDb(objDashBoardPurchasePerDay);
+        //        return Request.CreateResponse(HttpStatusCode.OK, dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
-            }
-        }
+        //    }
+        //}
 
 
         [HttpPost]
@@ -65,13 +66,45 @@ namespace inventory.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/DashBoard/postPurchaseOrderPerMonth")]
-        public HttpResponseMessage postPurchaseOrderPerMonth(DashBoardPurchaseOrderPerMonth objDashBoardPurchaseOrderPerMonth)
+        //[HttpPost]
+        //[Route("api/DashBoard/postPurchaseOrderPerMonth")]
+        //public HttpResponseMessage postPurchaseOrderPerMonth(DashBoardPurchaseOrderPerMonth objDashBoardPurchaseOrderPerMonth)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = objDashBoardPurchaseOrderPerMonthBL.postPurchaseOrderPerMonthToDb(objDashBoardPurchaseOrderPerMonth);
+        //        return Request.CreateResponse(HttpStatusCode.OK, dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+        //    }
+        //}
+
+        //[HttpPost]
+        //[Route("api/DashBoard/postFastestMovingProductsPerMonth")]
+        //public HttpResponseMessage postFastestMovingProductsPerMonth(DashBoardFastestMovingProductsPerMonth objDashBoardFastestMovingProductsPerMonth)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = objFastestMovingProductsPerMonthBL.postFastestMovingProductsToDb(objDashBoardFastestMovingProductsPerMonth);
+        //        return Request.CreateResponse(HttpStatusCode.OK, dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+        //    }
+        //}
+
+        [HttpGet]
+        //[Route("api/DashBoard/postFastestMovingProductsPerMonth")]
+        public HttpResponseMessage postFastestMovingProductsPerMonth(int id)
         {
             try
             {
-                DataTable dt = objDashBoardPurchaseOrderPerMonthBL.postPurchaseOrderPerMonthToDb(objDashBoardPurchaseOrderPerMonth);
+                DataTable dt = objFastestMovingProductsPerMonthBL.postFastestMovingProductsToDb(id.ToString());
                 return Request.CreateResponse(HttpStatusCode.OK, dt);
             }
             catch (Exception ex)

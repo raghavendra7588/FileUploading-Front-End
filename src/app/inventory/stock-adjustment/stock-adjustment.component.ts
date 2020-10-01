@@ -157,10 +157,10 @@ export class StockAdjustmentComponent implements OnInit {
         console.log('got stockINNNN IDDD', element.StockInItemId);
         this.stockIn.stockInItemId = element.StockInItemId;
       }
-      else{
+      else {
         this.stockIn.stockInItemId = element.StockInItemId;
       }
-    
+
       this.stockIn.PurchaseOrderId = element.PurchaseOrderId;
       this.stockIn.PurchaseOrderItemId = element.PurchaseOrderItemId;
       this.stockIn.ProductVarientId = element.ProductVarientId;
@@ -211,6 +211,8 @@ export class StockAdjustmentComponent implements OnInit {
     this.getPurchaseReport.vendorId = Number(item.vendorId);
     this.getPurchaseItemData.vendorId = Number(item.vendorId);
     this.purchaseReportData = [];
+    this.dataSource = [];
+    this.purchaseOrderItemData = [];
     this.purchaseService.getAllPurchaseOrderData(this.getPurchaseReport).subscribe(data => {
       this.purchaseReportData = data;
       // console.log(data);

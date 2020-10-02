@@ -9,8 +9,8 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DialogProductVendorWisePurchaseReportComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductName', 'BrandName', 'Varient', 'ProductMRP', 'ProductDiscount', 'BrandWiseTotal','totalOrders','totalQuantityOrder', 'totalFinalPrice',
-    'totalDiscountPrice', 'FinalPurchaseAmount'];
+  displayedColumns: string[] = ['ProductName', 'BrandName', 'Varient', 'ProductMRP', 'ProductDiscount', 'BrandWiseTotal','totalOrders',
+  'totalQuantityOrder', 'totalFinalPrice','totalDiscountPrice', 'FinalPurchaseAmount'];
   dataSource: any;
   response: any = [];
   purchaseReportArray: any = [];

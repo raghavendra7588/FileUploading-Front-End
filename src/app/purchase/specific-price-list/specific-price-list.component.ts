@@ -27,7 +27,7 @@ export class SpecificPriceListComponent implements OnInit {
   displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity', 'save'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  dataSource: any;
+  dataSource: any = [];
   datePicker: any;
   objSeller: any;
   sellerName: string;
@@ -290,6 +290,57 @@ export class SpecificPriceListComponent implements OnInit {
 
   onCategorySelectAll() {
 
+    // let catchMappedCategory: any = [];
+    // let filteredCategoryData: any = [];
+    // let filteredBrandData: any = [];
+    // this.purchaseService.getEveryBrand().subscribe(data => {
+
+    //   this.AllCategoryArray = data;
+    //   this.multipleCategoriesArray = [];
+
+    //   catchMappedCategory = this.mapObj(this.AllCategoryArray, this.dbData);
+
+    //   this.dataSource = [];
+
+    //   catchMappedCategory.filter(data => {
+    //     if (this.numSubcategoryIdArray.includes(Number(data.SubCategoryID))) {
+    //       filteredCategoryData.push(data);
+    //     }
+    //   });
+    //   console.log('filteredCategoryData', filteredCategoryData);
+    //   // this.finalBrandArray = filteredCategoryData;
+    //   // console.log('finalBrandArray', this.finalBrandArray);
+
+    //   this.subCategorySearch = filteredCategoryData;
+
+    //   catchMappedCategory.filter(data => {
+    //     if (this.numBrandIdArray.includes(Number(data.BrandID))) {
+    //       console.log('inside cat select all');
+    //       filteredBrandData.push(data);
+    //     }
+    //   });
+    //   console.log('filteredBrandData', filteredBrandData);
+
+    //   // this.dataSource = new MatTableDataSource(filteredCategoryData);
+    //   // this.dataSource = new MatTableDataSource(filteredBrandData);
+    //   // this.dataSource = [...filteredBrandData];
+    //   this.dataSource.data = filteredBrandData;
+    //   // this.dataSource = filteredBrandData;
+    //   this.dataSource.paginator = this.paginator;
+    //   console.log('cat select all data source', this.dataSource);
+
+    //   let uniqueBrandName = this.createUniqueBrandName(filteredBrandData);
+    //   this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+
+    //   this.brandSearch = this.anyArray;
+
+    //   console.log('any array in cat', this.anyArray);
+    // });
+    // // this.particularCategoryArray = this.categorySearch.slice();
+    // this.multipleCategoriesArray = this.subCategorySearch.slice();
+    // this.anyArray = this.brandSearch.slice();
+
+
     let catchMappedCategory: any = [];
     let filteredCategoryData: any = [];
     let filteredBrandData: any = [];
@@ -308,23 +359,20 @@ export class SpecificPriceListComponent implements OnInit {
         }
       });
       console.log('filteredCategoryData', filteredCategoryData);
-      this.finalBrandArray = filteredCategoryData;
-      console.log('finalBrandArray', this.finalBrandArray);
-      
+
       this.subCategorySearch = filteredCategoryData;
 
       catchMappedCategory.filter(data => {
+
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
-          console.log('inside cat select all');
           filteredBrandData.push(data);
         }
       });
-      console.log('filteredBrandData', filteredBrandData);
+
 
       // this.dataSource = new MatTableDataSource(filteredCategoryData);
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
-      console.log('cat select all data source', this.dataSource);
 
       let uniqueBrandName = this.createUniqueBrandName(filteredBrandData);
       this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
@@ -333,7 +381,7 @@ export class SpecificPriceListComponent implements OnInit {
 
       console.log('any array in cat', this.anyArray);
     });
-    // this.particularCategoryArray = this.categorySearch.slice();
+    this.particularCategoryArray = this.categorySearch.slice();
     this.multipleCategoriesArray = this.subCategorySearch.slice();
     this.anyArray = this.brandSearch.slice();
   }
@@ -357,9 +405,9 @@ export class SpecificPriceListComponent implements OnInit {
       });
 
       // this.subCategorySearch = filteredSubCategoryData;
-      this.finalBrandArray = catchMappedSubCategory;
-      console.log('finalBrandArray', this.finalBrandArray);
-
+      // this.finalBrandArray = catchMappedSubCategory;
+      // console.log('finalBrandArray', this.finalBrandArray);
+      console.log('this.numBrandIdArray', this.numBrandIdArray);
       console.log('filteredSubCategoryData', filteredSubCategoryData);
       catchMappedSubCategory.filter(data => {
         if (this.numBrandIdArray.includes(Number(data.BrandID))) {
@@ -367,7 +415,7 @@ export class SpecificPriceListComponent implements OnInit {
         }
       });
       console.log('filteredBrandData', filteredBrandData);
-
+      // this.dataSource = filteredBrandData;
       // this.dataSource = new MatTableDataSource(filteredSubCategoryData);
       this.dataSource = new MatTableDataSource(filteredBrandData);
       this.dataSource.paginator = this.paginator;
@@ -381,6 +429,8 @@ export class SpecificPriceListComponent implements OnInit {
     // this.particularCategoryArray = this.categorySearch.slice();
     // this.multipleCategoriesArray = this.subCategorySearch.slice();
     this.anyArray = this.brandSearch.slice();
+
+
   }
 
   onBrandSelectAll() {
@@ -420,6 +470,7 @@ export class SpecificPriceListComponent implements OnInit {
 
   onCategoriesChange(event, category: any) {
     let multipleCategoryData: any = [];
+    this.anyArray = [];
     if (event.isUserInput) {
       if (event.source.selected) {
         this.categoryId = category.id.toString();
@@ -539,7 +590,6 @@ export class SpecificPriceListComponent implements OnInit {
           return item.BrandName.trim() === product.BrandName;
         });
         this.finalBrandArray = filteredBrandArray;
-        console.log('finalBrandArray', this.finalBrandArray);
 
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);

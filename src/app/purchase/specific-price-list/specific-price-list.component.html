@@ -42,7 +42,7 @@
                 <mat-select placeholder="Category" [(ngModel)]="categoryList">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
                         (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
                         *ngFor="let category of particularCategoryArray" [value]="category.id">
                         {{category.name }}
@@ -77,7 +77,7 @@
                 <mat-select #select [(ngModel)]="subCategoriesList">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
                         (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
                         *ngFor="let category of multipleCategoriesArray" [value]="category.id">
                         {{category.name }}
@@ -109,7 +109,7 @@
                 <mat-select #BrandSelect [(ngModel)]="brandList">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'BrandName'" [array]="brandSearch"
                         (filteredReturn)="anyArray=$event"></mat-select-filter>
-                    <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option>
+                    <!-- <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option> -->
                     <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
                         [value]="brand.BrandName">
                         {{brand.BrandName}}

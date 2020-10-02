@@ -104,7 +104,7 @@ export class StockAdjustmentComponent implements OnInit {
       }
 
       this.checkFinalPrice = this.checkItemFinalPrice(element);
-      // console.log('true or fasle', this.checkFinalPrice);
+      console.log('true or fasle', this.checkFinalPrice);
       if (!this.checkFinalPrice) {
         this.toastr.error('Please Check Quantity');
       }
@@ -132,9 +132,10 @@ export class StockAdjustmentComponent implements OnInit {
     // let prevFinalPrice = 0;
     let isRecordValid: boolean = true;
     let QuantityOrdered = Number(element.PurchaseQuantity);
-    let QuantityReceived = Number(element.FinalPrice);
+    // let QuantityReceived = Number(element.FinalPrice);
+    let QuantityReceived = Number(element.QuantityReceived)
 
-    // console.log('ordered', QuantityOrdered, 'received', QuantityReceived);
+    console.log('ordered', QuantityOrdered, 'received', QuantityReceived);
     if (QuantityReceived > QuantityOrdered) {
       isRecordValid = false;
     } else {

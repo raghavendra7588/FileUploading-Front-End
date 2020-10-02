@@ -61,6 +61,8 @@ export class PurchaseOrderComponent implements OnInit {
   purchaseOrderResponse: any;
   paymentTerm: any = [];
   strSellerId: string;
+  calculatedDiscount: number;
+  calculatedFinalPrice: number;
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
     public toastr: ToastrService, public router: Router) {
@@ -452,7 +454,7 @@ export class PurchaseOrderComponent implements OnInit {
   getTotalDiscount() {
     let totalDiscount = 0;
     this.receivedPurchaseOrder.forEach(item => {
-      totalDiscount += Number(item.discount);
+      totalDiscount = totalDiscount + Number(item.discount) * Number(item.availableQuantity);
     });
     return totalDiscount;
   }
@@ -464,5 +466,7 @@ export class PurchaseOrderComponent implements OnInit {
     });
     return totalPurchaseQuantity;
   }
+
+
 
 }

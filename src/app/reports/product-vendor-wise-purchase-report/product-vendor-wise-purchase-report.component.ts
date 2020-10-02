@@ -16,6 +16,7 @@ import { InventoryService } from 'src/app/inventory/inventory.service';
 import { PurchaseReport } from 'src/app/inventory/inventory.model';
 import { MinimumPurchaseReport, ProductVendorWisePurchaseReport } from 'src/app/reports/reports.model';
 import { ReportsService } from '../reports.service';
+import { ExportToCsv } from 'export-to-csv';
 import { DialogProductVendorWisePurchaseReportComponent } from '../dialog-product-vendor-wise-purchase-report/dialog-product-vendor-wise-purchase-report.component';
 
 @Component({
@@ -25,7 +26,8 @@ import { DialogProductVendorWisePurchaseReportComponent } from '../dialog-produc
 })
 export class ProductVendorWisePurchaseReportComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductName', 'BrandName', 'Varient', 'ProductMRP', 'ProductDiscount', 'totalQuantityOrder', 'totalFinalPrice', 'totalDiscountPrice', 'FinalPurchaseAmount', 'print'];
+  displayedColumns: string[] = ['ProductName', 'BrandName', 'Varient', 'ProductMRP', 'ProductDiscount', 'BrandWiseTotal', 'totalOrders',
+    'totalQuantityOrder', 'totalFinalPrice', 'totalDiscountPrice', 'FinalPurchaseAmount', 'print'];
 
   purchaseReport: ProductVendorWisePurchaseReport = new ProductVendorWisePurchaseReport();
 
@@ -162,6 +164,19 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       itemsShowLimit: 1
     }
 
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'My Awesome CSV',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+    const csvExporter = new ExportToCsv(options);
   }
 
 
@@ -338,7 +353,41 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
       this.dbData = data;
     });
   }
+  downloadCSV() {
+    let requiredResponse: any = [];
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'My Awesome CSV',
+      useTextFile: false,
+      useBom: true,
+      // useKeysAsHeaders: true,
+      headers: ['ProductName', 'Brand', 'Varient', 'BuyingPrice', 'Discount', 'BrandWiseTotal', 'TotalOrder',
+        'TotalQuantityOrder', 'TotalFinalPrice', 'TotalDiscountPrice', 'FinalPurchaseAmount']
+    };
 
+    const csvExporter = new ExportToCsv(options);
+    requiredResponse = this.formatResponse(this.purchaseReportResponse);
+    csvExporter.generateCsv(requiredResponse);
+
+  }
+
+  formatResponse(array) {
+    let formattedResponse: any = [];
+    for (let i = 0; i < array.length; i++) {
+      let item = {
+        ProductName: array[i].ProductName, Brand: array[i].Brand, Varient: array[i].Varient,
+        BuyingPrice: array[i].BuyingPrice, Discount: array[i].Discount, BrandTotal: array[i].BrandTotal,
+        TotalOrder: array[i].TotalOrder, TotalQuantityOrder: array[i].TotalQuantityOrder, TotalFinalPrice: array[i].TotalFinalPrice,
+        TotalDiscountPrice: array[i].TotalDiscountPrice, FinalPurchaseAmount: array[i].FinalPurchaseAmount
+      }
+      formattedResponse.push(item);
+    }
+    return formattedResponse;
+  }
   searchRecords() {
 
     if (this.purchaseReport.vendorId === null || this.purchaseReport.vendorId === undefined || this.purchaseReport.vendorId === '') {

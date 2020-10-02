@@ -55,21 +55,22 @@
     </button>
     <mat-menu #inventory="matMenu" [overlapTrigger]="false">
         <span (click)="inventoryTrigger.closeMenu()">
-            <button mat-menu-item routerLink='inventory/itemMaster'>
+            <!-- <button mat-menu-item routerLink='inventory/itemMaster'>
                 Item Master
-            </button>
+            </button> -->
             <button mat-menu-item routerLink='inventory/stockAdjustment'>
-                Stock In Adjustment
-            </button>
-            <button mat-menu-item routerLink='inventory/materialIssue'>
-                Material Issue
-            </button>
-            <button mat-menu-item routerLink='inventory/materialReceipt'>
-                Material Receipt
+                Stock In Entry
             </button>
             <button mat-menu-item routerLink='inventory/purchaseReports'>
-               Purchase Report
-            </button>   
+                Purchase Report
+             </button> 
+            <button mat-menu-item routerLink='inventory/materialIssue' disabled>
+                Material Issue
+            </button>
+            <button mat-menu-item routerLink='inventory/materialReceipt' disabled>
+                Material Receipt
+            </button>
+       
             <button mat-menu-item routerLink='inventory/interBranchIssueRequest' disabled>
                 Inter BranchIssueRequest
             </button>
@@ -104,7 +105,7 @@
             </button> -->
             <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase Report
             </button>
-            <button mat-menu-item routerLink='reports/salesReport'>Sales Report
+            <button mat-menu-item routerLink='reports/salesReport' disabled>Sales Report
             </button>
         </span>
     </mat-menu>

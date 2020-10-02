@@ -1,3 +1,7 @@
 *:focus {
     outline: none;
 }
+
+.dropdown-list[_ngcontent-wop-c104] ul[_ngcontent-wop-c104]{
+    padding:5px;
+}

@@ -32,7 +32,8 @@ import * as _ from 'lodash';
 })
 export class PurchaseOrderComponent implements OnInit {
 
-  displayedColumns: string[] = ['ProductId', 'BrandName', 'ProductName', 'Quantity', 'AvailableQuantity', 'BuyingPrice', 'Discount', 'FinalPrice'];
+  displayedColumns: string[] = ['ProductId', 'BrandName', 'ProductName', 'Quantity', 'BuyingPrice',
+    'Discount','AvailableQuantity', 'TotalDiscount', 'FinalPrice'];
   dataSource: any;
 
   purchaseOrder: PurchaseOrder = new PurchaseOrder();
@@ -158,23 +159,23 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
 
-  mapObj(apiData, ownDbData) {
-    for (let i = 0; i < apiData.length; i++) {
-      apiData[i].ProductPrice = 0;
-      apiData[i].Discount = 0;
-      apiData[i].FinalPrice = 0;
-      apiData[i].AvailableQuantity = 0;
-      for (let j = 0; j < ownDbData.length; j++) {
-        if (apiData[i].ProductID === ownDbData[j].productId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
-          apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
-          apiData[i].Discount = ownDbData[j].Discount;
-          apiData[i].FinalPrice = ownDbData[j].FinalPrice;
-          apiData[i].AvailableQuantity = ownDbData[j].availableQuantity;
-        }
-      }
-    }
-    return apiData;
-  }
+  // mapObj(apiData, ownDbData) {
+  //   for (let i = 0; i < apiData.length; i++) {
+  //     apiData[i].ProductPrice = 0;
+  //     apiData[i].Discount = 0;
+  //     apiData[i].FinalPrice = 0;
+  //     apiData[i].AvailableQuantity = 0;
+  //     for (let j = 0; j < ownDbData.length; j++) {
+  //       if (apiData[i].ProductID === ownDbData[j].productId && apiData[i].ProductVarientId === ownDbData[j].ProductVarientId) {
+  //         apiData[i].ProductPrice = ownDbData[j].BuyingPrice;
+  //         apiData[i].Discount = ownDbData[j].Discount;
+  //         apiData[i].FinalPrice = ownDbData[j].FinalPrice;
+  //         apiData[i].AvailableQuantity = ownDbData[j].availableQuantity;
+  //       }
+  //     }
+  //   }
+  //   return apiData;
+  // }
 
 
   savePurchaseOrder() {
@@ -361,24 +362,24 @@ export class PurchaseOrderComponent implements OnInit {
     }
 
   }
-  savePurchaseOrderItem() {
-    for (let i = 0; i < this.receivedPurchaseOrder.length; i++) {
-      this.purchaseOrderItem = new PurchaseOrderItem();
-      this.purchaseOrderItem.SellerId = this.sellerId;
-      this.purchaseOrderItem.ProductId = this.receivedPurchaseOrder[i].productId;
-      this.purchaseOrderItem.SubCategoryId = this.receivedPurchaseOrder[i].subCategoryId;
-      this.purchaseOrderItem.BrandId = this.receivedPurchaseOrder[i].brandId;
-      this.purchaseOrderItem.BuyingPrice = this.receivedPurchaseOrder[i].buyingPrice;
-      this.purchaseOrderItem.FinalPrice = this.receivedPurchaseOrder[i].finalPrice;
-      this.purchaseOrderItem.ReferenceId = this.receivedPurchaseOrder[i].ReferenceId;
-      this.purchaseOrderItem.Discount = this.receivedPurchaseOrder[i].discount;
-      this.purchaseOrderItem.PurchaseQuantity = this.receivedPurchaseOrder[i].availableQuantity;
-      this.purchaseOrderItem.Quantity = this.receivedPurchaseOrder[i].quantity;
-      this.purchaseOrderItem.ProductVarientId = this.receivedPurchaseOrder[i].ProductVarientId;
+  // savePurchaseOrderItem() {
+  //   for (let i = 0; i < this.receivedPurchaseOrder.length; i++) {
+  //     this.purchaseOrderItem = new PurchaseOrderItem();
+  //     this.purchaseOrderItem.SellerId = this.sellerId;
+  //     this.purchaseOrderItem.ProductId = this.receivedPurchaseOrder[i].productId;
+  //     this.purchaseOrderItem.SubCategoryId = this.receivedPurchaseOrder[i].subCategoryId;
+  //     this.purchaseOrderItem.BrandId = this.receivedPurchaseOrder[i].brandId;
+  //     this.purchaseOrderItem.BuyingPrice = this.receivedPurchaseOrder[i].buyingPrice;
+  //     this.purchaseOrderItem.FinalPrice = this.receivedPurchaseOrder[i].finalPrice;
+  //     this.purchaseOrderItem.ReferenceId = this.receivedPurchaseOrder[i].ReferenceId;
+  //     this.purchaseOrderItem.Discount = this.receivedPurchaseOrder[i].discount;
+  //     this.purchaseOrderItem.PurchaseQuantity = this.receivedPurchaseOrder[i].availableQuantity;
+  //     this.purchaseOrderItem.Quantity = this.receivedPurchaseOrder[i].quantity;
+  //     this.purchaseOrderItem.ProductVarientId = this.receivedPurchaseOrder[i].ProductVarientId;
 
-      this.multiplePurchaseOrderData.push(this.purchaseOrderItem);
-    }
-  }
+  //     this.multiplePurchaseOrderData.push(this.purchaseOrderItem);
+  //   }
+  // }
 
   convertDate(receivedDate) {
     let date = new Date(receivedDate);

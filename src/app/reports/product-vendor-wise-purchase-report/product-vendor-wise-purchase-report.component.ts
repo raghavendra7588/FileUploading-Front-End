@@ -521,4 +521,5 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     return fullDate
   }
 
+
 }

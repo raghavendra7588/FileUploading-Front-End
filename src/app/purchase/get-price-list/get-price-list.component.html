@@ -27,12 +27,11 @@
       (onDeSelectAll)="onCategoryDeSelectAll($event)" name='categorySelect'>
     </ng-multiselect-dropdown> -->
 
-
       <mat-form-field style="width: 100%;">
         <mat-label>Category</mat-label>
         <mat-select placeholder="Category" [(ngModel)]="categoryList">
-          <!-- <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
-            (filteredReturn)="particularCategoryArray=$event"></mat-select-filter> -->
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+            (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
           <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option>
           <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
             *ngFor="let category of particularCategoryArray" [value]="category.id">
@@ -40,6 +39,20 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <!-- 
+      <mat-form-field style="width: 100% !important;">
+        <mat-label>Category</mat-label>
+        <mat-select placeholder="Category" [(ngModel)]="categoryList">
+           <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
+            (filteredReturn)="particularCategoryArray=$event"></mat-select-filter>
+          <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option> 
+      <mat-option (click)="onCategoriesChange($event,category)" *ngFor="let category of particularCategoryArray"
+        [value]="category.id">
+        {{category.name }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field> -->
 
 
     </div>
@@ -63,7 +76,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field> -->
-<!-- 
+      <!-- 
       <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
         [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
         (onDeSelect)="onSubCategoryDeSelect($event)" name='subCategorySelect'>

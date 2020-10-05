@@ -8,7 +8,8 @@
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Name" type="text" formControlName="Name" [(ngModel)]="vendor.name" (focusout)="copyVendorName(vendor.name)">
+          <input matInput placeholder="Name" type="text" formControlName="Name" [(ngModel)]="vendor.name"
+            (focusout)="copyVendorName(vendor.name)">
           <mat-error *ngIf="saveVendorForm.controls.Name.touched && saveVendorForm.controls.Name.invalid">
             <span *ngIf="saveVendorForm.controls.Name.errors.required">This field is mandatory.</span>
           </mat-error>
@@ -27,9 +28,9 @@
         <mat-form-field>
           <input matInput placeholder="Print Name" type="text" formControlName="PrintName"
             [(ngModel)]="vendor.printName">
-            <mat-error *ngIf="saveVendorForm.controls.PrintName.touched && saveVendorForm.controls.PrintName.invalid">
-              <span *ngIf="saveVendorForm.controls.PrintName.errors.required">This field is mandatory.</span>
-            </mat-error>
+          <mat-error *ngIf="saveVendorForm.controls.PrintName.touched && saveVendorForm.controls.PrintName.invalid">
+            <span *ngIf="saveVendorForm.controls.PrintName.errors.required">This field is mandatory.</span>
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -92,7 +93,7 @@
           </mat-select>
 
         </mat-form-field> -->
-<!-- 
+        <!-- 
         <mat-form-field style="width: 100%;">
           <mat-label>Sub Category</mat-label>
           <mat-select #select formControlName="subCategory" [ngModel]="vendor.subCategory" multiple>
@@ -138,7 +139,7 @@
         {{vendor.brand}} -->
 
 
-        <ng-multiselect-dropdown [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
+        <ng-multiselect-dropdown class="customDropdown"  [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
           (onSelect)="onBrandSelect($event)" [(ngModel)]="vendor.brand" (onDeSelect)="onBrandDeSelect($event)"
           formControlName="brand" name='brandSelect'>
         </ng-multiselect-dropdown>
@@ -323,14 +324,14 @@
     <div class="row">
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Credit Limit Days" [maxLength]="maxLengthCreditLimit" formControlName="creditLimitDays"
-            [(ngModel)]="vendor.creditLimitDays">
+          <input matInput placeholder="Credit Limit Days" [maxLength]="maxLengthCreditLimit"
+            formControlName="creditLimitDays" [(ngModel)]="vendor.creditLimitDays">
         </mat-form-field>
       </div>
 
       <div class="col-md-4">
         <mat-form-field>
-          <input matInput placeholder="Credit Limit/Per Order"  formControlName="creditLimit"
+          <input matInput placeholder="Credit Limit/Per Order" formControlName="creditLimit"
             [(ngModel)]="vendor.creditLimit">
         </mat-form-field>
       </div>
@@ -392,7 +393,7 @@
 
 
   <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="saveVendor()"[disabled]="!saveVendorForm.valid">Save</button>
+    <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid">Save</button>
     <button mat-raised-button mat-dialog-close>Close</button>
   </div>
 

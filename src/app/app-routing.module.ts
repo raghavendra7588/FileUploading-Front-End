@@ -41,6 +41,7 @@ import { MinimumRatePurchaseOrderComponent } from './reports/minimum-rate-purcha
 import { ProductVendorWisePurchaseReportComponent } from './reports/product-vendor-wise-purchase-report/product-vendor-wise-purchase-report.component';
 import { SalesReportComponent } from './reports/sales-report/sales-report.component';
 import { SpecificPriceListComponent } from './purchase/specific-price-list/specific-price-list.component';
+import { SubCategoriesComponent } from './buy-products/sub-categories/sub-categories.component';
 
 
 
@@ -86,6 +87,7 @@ const routes: Routes = [
   { path: 'reports/minimumPurchaseReport', component: MinimumRatePurchaseOrderComponent },
   { path: 'reports/productVendorWisePurchaseReport', component: ProductVendorWisePurchaseReportComponent },
   { path: 'reports/salesReport', component: SalesReportComponent },
+  { path: 'buyProducts/SubCategories', component: SubCategoriesComponent },
   {
     path: '**',
     redirectTo: '/login'

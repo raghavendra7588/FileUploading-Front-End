@@ -106,7 +106,17 @@
             <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase Report
             </button>
             <button mat-menu-item routerLink='reports/salesReport' disabled>Sales Report
-            </button>
+            </button>        
+        </span>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="buyProducts" #buyProductsTrigger="matMenuTrigger" (click)="buyProductsTrigger.openMenu()">
+        Buy Products
+    </button>
+    <mat-menu #buyProducts="matMenu" [overlapTrigger]="false">
+        <span (mouseleave)="buyProductsTrigger.closeMenu()">            
+            <button mat-menu-item routerLink='buyProducts/SubCategories'>SubCategories
+            </button>        
         </span>
     </mat-menu>
  

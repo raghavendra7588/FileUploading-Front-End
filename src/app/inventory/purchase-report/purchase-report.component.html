@@ -1,5 +1,5 @@
 <h3 class="mt-3" style="text-align: center;color:blue;">Product Wise Purchase Report</h3>
-<div class="container my-5">
+<div class="container">
     <div class="row">
         <div class="col-md-3">
             <!-- <mat-form-field style="width: 100%;">
@@ -14,7 +14,7 @@
 
             <mat-form-field style="width: 100%;">
                 <mat-label>Category</mat-label>
-                <mat-select placeholder="Category"  [(ngModel)]="purchaseReport.categoryId">
+                <mat-select placeholder="Category" [(ngModel)]="purchaseReport.categoryId">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="categorySearch"
                         (filteredReturn)="loginService.seller_object.categories=$event"></mat-select-filter>
                     <!-- <mat-option value="all" (click)="onCategorySelectAll()">All</mat-option> -->
@@ -50,7 +50,7 @@
 
             <mat-form-field style="width: 100%;">
                 <mat-label>Sub Category</mat-label>
-                <mat-select #select  [(ngModel)]="purchaseReport.subCategoryId">
+                <mat-select #select [(ngModel)]="purchaseReport.subCategoryId">
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'name'" [array]="subCategorySearch"
                         (filteredReturn)="multipleCategoriesArray=$event"></mat-select-filter>
                     <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
@@ -124,13 +124,13 @@
                     <mat-select-filter [placeholder]="'Filter'" [displayMember]="'Name'" [array]="productSearch"
                         (filteredReturn)="finalProductNameArray=$event"></mat-select-filter>
                     <mat-option value="all" (click)="onProductSelectAll()">All</mat-option>
-                    <mat-option (onSelectionChange)="changeProduct($event,brand)" *ngFor="let brand of finalProductNameArray"
-                        [value]="brand.ProductID">
+                    <mat-option (onSelectionChange)="changeProduct($event,brand)"
+                        *ngFor="let brand of finalProductNameArray" [value]="brand.ProductID">
                         {{brand.Name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-<!-- 
+            <!-- 
             <ng-multiselect-dropdown [placeholder]="'Product'" [settings]="productSettings"
                 [data]="finalProductNameArray" (onSelect)="productChange($event)"
                 (onDeSelect)="onProductDeSelect($event)" [(ngModel)]="purchaseReport.productId" name='productSelect'>
@@ -139,7 +139,7 @@
 
         </div>
     </div>
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-md-4">
 
             <mat-form-field style="width: 100%;">
@@ -165,6 +165,18 @@
         </div>
     </div>
 </div>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
 
 <div class="container mb-5">
     <div class="row">
@@ -198,12 +210,16 @@
                     <td mat-cell *matCellDef="let element"> {{element.Discount}} </td>
                 </ng-container>
 
+                <!-- 
+                <ng-container matColumnDef="totalQuantityOrder">
+                    <th mat-header-cell *matHeaderCellDef>Total Quantity Order </th>
+                    <td mat-cell *matCellDef="let element"> {{element.TotalQuantityOrder}} </td>
+                </ng-container> -->
 
                 <ng-container matColumnDef="totalQuantityOrder">
                     <th mat-header-cell *matHeaderCellDef>Total Quantity Order </th>
                     <td mat-cell *matCellDef="let element"> {{element.TotalQuantityOrder}} </td>
                 </ng-container>
-
 
                 <ng-container matColumnDef="totalFinalPrice">
                     <th mat-header-cell *matHeaderCellDef> Total Final Price </th>
@@ -234,4 +250,4 @@
             </table>
         </div>
     </div>
-</div>
+</div> 

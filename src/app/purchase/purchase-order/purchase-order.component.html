@@ -179,20 +179,17 @@
 
             <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-
                 <ng-container matColumnDef="ProductId">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id </th>
                     <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
                     <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
-
                 <ng-container matColumnDef="BrandName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand Name </th>
                     <td mat-cell *matCellDef="let element"> {{element.BrandName}} </td>
                     <td mat-footer-cell *matFooterCellDef> </td>
                 </ng-container>
-
 
                 <ng-container matColumnDef="ProductName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
@@ -204,6 +201,18 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Varient </th>
                     <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
                     <td mat-footer-cell *matFooterCellDef> Total</td>
+                </ng-container>    
+
+                <ng-container matColumnDef="BuyingPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Discount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
                 <ng-container matColumnDef="AvailableQuantity">
@@ -217,16 +226,10 @@
                     <td mat-footer-cell *matFooterCellDef> {{getTotalQuantity() }} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="BuyingPrice">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Buying Price </th>
-                    <td mat-cell *matCellDef="let element"> {{element.buyingPrice  | number : '1.2-2'}} </td>
-                    <td mat-footer-cell *matFooterCellDef> </td>
-                </ng-container>
-
-                <ng-container matColumnDef="Discount">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
-                    <td mat-cell *matCellDef="let element"> {{element.discount  | number : '1.2-2'}} </td>
-                    <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}} </td>
+                <ng-container matColumnDef="TotalDiscount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Discount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.discount * element.availableQuantity | number : '1.2-2'}} </td>
+                    <td mat-footer-cell *matFooterCellDef>{{getTotalDiscount() | number : '1.2-2'}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="FinalPrice">
@@ -252,7 +255,7 @@
         <div class="col-md-7"></div>
         <div class="col-md-5">
             <p class="font-weight-bold text-center" style="font-size: 19px;">Total Payable Amount :
-                {{grandTotal | number : '1.2-2'}}            
+                {{grandTotal | number : '1.2-2'}}
             </p>
         </div>
     </div>

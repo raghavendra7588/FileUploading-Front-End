@@ -12,6 +12,7 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { BarecodeScannerLivestreamModule } from 'ngx-barcode-scanner';
 import { ReportsModule } from './reports/reports.module';
+import { BuyProductsModule } from './buy-products/buy-products.module';
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -63,6 +64,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     PurchaseModule,
     InventoryModule,
     ReportsModule,
+    BuyProductsModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,

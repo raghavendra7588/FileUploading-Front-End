@@ -697,16 +697,18 @@ export class PurchaseReportComponent implements OnInit {
 
     console.log(this.purchaseReport);
     this.inventoryService.getPurchaseOrderInventoryData(this.purchaseReport).subscribe(data => {
+      console.log(data);
       this.reportData = data;
       let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
       this.reportData = [];
       this.reportData = uniquePurchaseOrder;
+
       this.dataSource = new MatTableDataSource(this.reportData);
     });
 
   }
 
-    mapObj(apiData, ownDbData) {
+  mapObj(apiData, ownDbData) {
     for (let i = 0; i < apiData.length; i++) {
       apiData[i].ProductPrice = 0;
       apiData[i].Discount = 0;

@@ -571,7 +571,10 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
 
 
   onCategoriesChange(event, category: any) {
-
+    // console.log('category', category);
+    // this.categoryList = '';
+ 
+    console.log('current category id is', this.categoryList);
     if (event.isUserInput) {
       let catchMappedCategoryData: any = [];
       if (event.source.selected) {
@@ -769,7 +772,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       this.customPriceList.ProductVarientId = element.ProductVarientId;
       this.customPriceList.BrandName = element.BrandName;
       this.customPriceList.Name = element.Name;
-      // this.customPriceList.categoryId = this.categoryListData;
+      //this.customPriceList.categoryId = this.categoryListData;
       this.isMultipleAmount = true;
 
       this.customPriceList.finalPrice = Number(element.FinalPrice) * Number(element.AvailableQuantity);

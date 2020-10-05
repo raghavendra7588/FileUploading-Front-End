@@ -169,7 +169,7 @@ namespace inventory.Models
                 {
                     if (strProductVarientId == dt.Rows[j]["ProductVarientId"].ToString())
                     {
-                        totalQuantityOrder += Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
+                        totalQuantityOrder += (Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString())/2);
                         totalFinalPrice += Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString());
                         totalDiscountPrice += Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;

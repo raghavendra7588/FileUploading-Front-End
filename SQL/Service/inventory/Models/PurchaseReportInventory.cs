@@ -176,16 +176,17 @@ namespace inventory.Models
                 for (int j=0;j<dt.Rows.Count; j++)
                 {
                     if (strProductVarientId == dt.Rows[j]["ProductVarientId"].ToString())
-                    {
+                    {                   
                         totalQuantityOrder += Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
                         totalFinalPrice += Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString());
-                        totalDiscountPrice += Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
+                        totalDiscountPrice = totalDiscountPrice + Convert.ToInt32(dt.Rows[j]["Discount"].ToString()) * Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
                     }
+          
                 }
-                table.Rows.Add(strProductName, strBrandName, strVarientName,strBuyingPrice, strProductVarientId,strProductId, strDiscount, strPurchaseQuantity, 
-                    totalQuantityOrder, totalFinalPrice, totalDiscountPrice, 
-                    finalPurchaseAmount);
+                table.Rows.Add(strProductName, strBrandName, strVarientName, strBuyingPrice, strProductVarientId, strProductId, strDiscount, strPurchaseQuantity,
+                totalQuantityOrder, totalFinalPrice, totalDiscountPrice,
+                finalPurchaseAmount);
             }
 
             table = table.DefaultView.ToTable(true, "ProductVarientId", "ProductName", "Brand", "Varient", "BuyingPrice", "ProductId", "Discount", "PurchaseQuantity", "TotalQuantityOrder", "TotalFinalPrice", "TotalDiscountPrice", "FinalPurchaseAmount");

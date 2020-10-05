@@ -23,7 +23,7 @@ namespace inventory.Models
         public string availableQuantity { get; set; }
         public string Quantity { get; set; }
         public int ProductVarientId { get; set; }
-        //public string[] categoryId { get; set; }
+        //  public string[] categoryId { get; set; }
     }
 
     public class PurchaseOrderItemBL

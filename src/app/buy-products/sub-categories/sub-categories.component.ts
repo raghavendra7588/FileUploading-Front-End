@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { EmitterService } from 'src/shared/emitter.service';
+import { BuyProductsService } from '../buy-products.service';
 
 @Component({
   selector: 'app-sub-categories',
@@ -7,68 +10,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubCategoriesComponent implements OnInit {
   products: any = [];
+  subCategoryListData: any = [];
+  parentId: string;
+  vendorId: string;
+  id: any;
 
-  constructor() { }
+  constructor(
+    public buyProductsService: BuyProductsService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public emitterService: EmitterService
+  ) {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.id = params['id'];
+      }
+    );
+
+    this.parentId = this.id;
+    this.vendorId = sessionStorage.getItem('vendorId');
+    // console.log('vendor id', this.parentId.toString());
+    // console.log('parent  id', this.vendorId);
+
+    // this.emitterService.isBrandPreviousClicked.subscribe(value => {
+    //   if (value) {
+        
+    //     this.parentId = sessionStorage.getItem('categoryId');
+    //     console.log('parent emitter id', this.parentId );
+    //   }
+    // });
+    
+  }
 
   ngOnInit(): void {
-    this.products = [
-      {
-        "id": 1, "name": "Milk", "description": "Incidunt et magni", "price": "170.00", "quantity": 56840,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 2, "name": "Wheat", "description": "Sint libero mollitia", "price": "302.00", "quantity": 9358,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 3, "name": "Dal and pulses", "description": "In consequuntur cupiditat", "price": "279.00", "quantity": 90316,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 4, "name": "Tooth Paste", "description": "Saepe nemo praesentium", "price": "760.00", "quantity": 5899,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 5, "name": "Milk", "description": "Incidunt et magni", "price": "170.00", "quantity": 56840,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 6, "name": "Wheat", "description": "Sint libero mollitia", "price": "302.00", "quantity": 9358,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 7, "name": "Dal and pulses", "description": "In consequuntur cupiditat", "price": "279.00", "quantity": 90316,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 8, "name": "Tooth Paste", "description": "Saepe nemo praesentium", "price": "760.00", "quantity": 5899,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 9, "name": "Tooth Paste", "description": "Saepe nemo praesentium", "price": "760.00", "quantity": 5899,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 10, "name": "Milk", "description": "Incidunt et magni", "price": "170.00", "quantity": 56840,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 11, "name": "Wheat", "description": "Sint libero mollitia", "price": "302.00", "quantity": 9358,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 12, "name": "Dal and pulses", "description": "In consequuntur cupiditat", "price": "279.00", "quantity": 90316,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      },
-      {
-        "id": 13, "name": "Tooth Paste", "description": "Saepe nemo praesentium", "price": "760.00", "quantity": 5899,
-        "representation": 'https://placeimg.com/500/300/tech/4'
-      }
-    ];
-
+    this.getSubCategoryListData();
   }
 
   onCardClick(response) {
-    console.log('i m clicked', response);
+    this.router.navigate(['buyProducts/brand/' + response.id]);
+  }
+
+
+  getSubCategoryListData() {
+    console.log('parent id', this.parentId);
+    console.log('vendor id', this.vendorId);
+    this.buyProductsService.getAllSubCategory(this.parentId, this.vendorId).subscribe(data => {
+      this.subCategoryListData = data;
+    });
+  }
+
+  goToCategoriesPage() {
+    this.router.navigate(['buyProducts/categories']);
   }
 }

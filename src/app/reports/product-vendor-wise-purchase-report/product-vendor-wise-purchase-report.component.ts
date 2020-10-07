@@ -453,6 +453,9 @@ export class ProductVendorWisePurchaseReportComponent implements OnInit {
     this.reportsService.getProductVendorWiseData(this.purchaseReport).subscribe(data => {
       console.log('got result', data);
       this.purchaseReportResponse = data;
+      let uniquePurchaseOrder = _.uniqBy(this.purchaseReportResponse, 'ProductVarientId');
+      this.reportData = [];
+      this.purchaseReportResponse = uniquePurchaseOrder;
       this.dataSource = new MatTableDataSource(this.purchaseReportResponse);
     });
 

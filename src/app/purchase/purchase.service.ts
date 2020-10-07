@@ -51,7 +51,9 @@ export class PurchaseService {
   private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
   private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = this.BASE_URL + 'api/DashBoard';
 
-  constructor(public http: HttpClient, public loginService: LoginService) {
+  constructor(
+    public http: HttpClient, 
+    public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
     this.sellerId = sessionStorage.getItem('sellerId');
     this.storageSellerId = Number(sessionStorage.getItem('sellerId'));

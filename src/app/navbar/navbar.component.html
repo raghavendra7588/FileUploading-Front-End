@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
-  
-         <span>
-            <mat-icon>eco</mat-icon>Gramvyapar
-        </span>
+
+    <span>
+        <mat-icon>eco</mat-icon>Gramvyapar
+    </span>
     <div class="spacer"></div>
     <a mat-button routerLink='dashboard'>Dashboard</a>
     <button mat-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
@@ -63,14 +63,14 @@
             </button>
             <button mat-menu-item routerLink='inventory/purchaseReports'>
                 Purchase Report
-             </button> 
+            </button>
             <button mat-menu-item routerLink='inventory/materialIssue' disabled>
                 Material Issue
             </button>
             <button mat-menu-item routerLink='inventory/materialReceipt' disabled>
                 Material Receipt
             </button>
-       
+
             <button mat-menu-item routerLink='inventory/interBranchIssueRequest' disabled>
                 Inter BranchIssueRequest
             </button>
@@ -80,46 +80,50 @@
             <button mat-menu-item routerLink='inventory/interBranchReceipt' disabled>
                 Intern Branch Recipt
             </button>
-            <button mat-menu-item [matMenuTriggerFor]="jobWorkOutword" routerLink='inventory/jobWorkOutWord'
-                 disabled>
+            <button mat-menu-item [matMenuTriggerFor]="jobWorkOutword" routerLink='inventory/jobWorkOutWord' disabled>
                 Job Work Outword
             </button>
             <mat-menu #jobWorkOutword="matMenu">
                 <button mat-menu-item routerLink='inventory/jobWorkOutwardRate' disabled>Job Work Outward Rate</button>
                 <button mat-menu-item routerLink='inventory/materialIssueedForJobWork' disabled>Matrial Issued For Job
                     Work</button>
-                <button mat-menu-item routerLink='inventory/materialReceivedAfterJobWork' disabled>Material Received After Job
+                <button mat-menu-item routerLink='inventory/materialReceivedAfterJobWork' disabled>Material Received
+                    After Job
                     Work</button>
-                <button mat-menu-item routerLink='inventory/jobWorkOutwardInvoice' disabled>Job Work Outward Invoice</button>
+                <button mat-menu-item routerLink='inventory/jobWorkOutwardInvoice' disabled>Job Work Outward
+                    Invoice</button>
             </mat-menu>
 
         </span>
     </mat-menu>
 
-    <button mat-button [matMenuTriggerFor]="reports" #reportsTrigger="matMenuTrigger" (click)="reportsTrigger.openMenu()">
+    <button mat-button [matMenuTriggerFor]="reports" #reportsTrigger="matMenuTrigger"
+        (click)="reportsTrigger.openMenu()">
         Reports
     </button>
     <mat-menu #reports="matMenu" [overlapTrigger]="false">
         <span (mouseleave)="reportsTrigger.closeMenu()">
             <!-- <button mat-menu-item routerLink='reports/minimumPurchaseReport'>Minimum Purchase Report
             </button> -->
-            <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase Report
+            <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase
+                Report
             </button>
             <button mat-menu-item routerLink='reports/salesReport' disabled>Sales Report
-            </button>        
+            </button>
         </span>
     </mat-menu>
 
-    <button mat-button [matMenuTriggerFor]="buyProducts" #buyProductsTrigger="matMenuTrigger" (click)="buyProductsTrigger.openMenu()">
+    <!-- <button mat-button [matMenuTriggerFor]="buyProducts" #buyProductsTrigger="matMenuTrigger"
+        (click)="buyProductsTrigger.openMenu()">
         Buy Products
     </button>
     <mat-menu #buyProducts="matMenu" [overlapTrigger]="false">
-        <span (mouseleave)="buyProductsTrigger.closeMenu()">            
-            <button mat-menu-item routerLink='buyProducts/SubCategories'>SubCategories
-            </button>        
+        <span (mouseleave)="buyProductsTrigger.closeMenu()">
+            <button mat-menu-item routerLink='buyProducts/categories'>Categories
+            </button>
         </span>
-    </mat-menu>
- 
+    </mat-menu> -->
+
     <a mat-button routerLink='uploadDocuments'>Join with us</a>
     <a mat-button (click)="Logout()">Logout</a>
-</mat-toolbar>  
+</mat-toolbar>

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BuyProductsService } from '../buy-products/buy-products.service';
 
 
 import { MatButtonModule } from '@angular/material/button';
@@ -30,11 +31,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { SubCategoriesComponent } from './sub-categories/sub-categories.component';
+import { CategoryComponent } from './category/category.component';
+import { BrandsComponent } from './brands/brands.component';
+import { ProductInformationComponent } from './product-information/product-information.component';
 
 
 
 @NgModule({
-  declarations: [SubCategoriesComponent],
+  declarations: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -63,6 +67,7 @@ import { SubCategoriesComponent } from './sub-categories/sub-categories.componen
     MatPaginatorModule,
     ToastrModule.forRoot()
   ],
-  exports: [SubCategoriesComponent]
+  exports: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent],
+  providers: [BuyProductsService]
 })
 export class BuyProductsModule { }

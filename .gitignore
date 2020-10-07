@@ -50,8 +50,4 @@ Thumbs.db
 /SQL/Service/inventory/bin
 SQL/Service/inventory/obj
 
-<<<<<<< HEAD
 SQL/Service/inventory/inventory.csproj.user
-=======
-SQL/Service/inventory/inventory.csproj.user
->>>>>>> 42eaf7d5da9f42f8749301fc1c3704a212c3ac24

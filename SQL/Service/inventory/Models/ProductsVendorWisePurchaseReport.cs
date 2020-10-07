@@ -112,7 +112,7 @@ namespace inventory.Models
                     {
                         totalQuantityOrder += Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
                         totalFinalPrice += Convert.ToInt32(dt.Rows[j]["FinalPrice"].ToString());
-                        totalDiscountPrice += Convert.ToInt32(dt.Rows[j]["Discount"].ToString());
+                        totalDiscountPrice = totalDiscountPrice+ Convert.ToInt32(dt.Rows[j]["Discount"].ToString()) * Convert.ToInt32(dt.Rows[j]["PurchaseQuantity"].ToString());
                         finalPurchaseAmount = totalFinalPrice - totalDiscountPrice;
                       
 

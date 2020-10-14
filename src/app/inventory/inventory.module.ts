@@ -41,6 +41,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SalesReportComponent } from './sales-report/sales-report.component';
 import { DialogPrintPurchaseReportComponent } from './dialog-print-purchase-report/dialog-print-purchase-report.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 import { InventoryService } from './inventory.service';
 import { ToastrModule } from 'ngx-toastr';
@@ -73,6 +75,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    MatBadgeModule,
     MatTableModule,
     MatCardModule,
     MatMenuModule,

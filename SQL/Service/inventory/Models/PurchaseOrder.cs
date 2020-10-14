@@ -226,7 +226,7 @@ namespace inventory.Models
             objResultReturn.PurchaseOrderId = id;
             objResultReturn.OrderNo = purchaseOrderData.OrderNo;
             objResultReturn.vendorName = purchaseOrderData.vendorName;
-            ObjPurchaseOrderItemBL. postPurchaseOrderItemToDb(purchaseOrderData.items, id);
+            ObjPurchaseOrderItemBL.postPurchaseOrderItemToDb(purchaseOrderData.items, id);
             return objResultReturn;
         }
 

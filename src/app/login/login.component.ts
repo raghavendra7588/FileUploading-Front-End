@@ -41,6 +41,12 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('sellerId', data.id.toString());
       sessionStorage.setItem('categories', JSON.stringify(data.categories));
       sessionStorage.setItem('vendorId', data.vendorcode.toString());
+      // sessionStorage.setItem('isCategory', 'true');
+      // sessionStorage.setItem('isSubCategory', 'false');
+      // sessionStorage.setItem('isBrandWise', 'false');
+      // sessionStorage.setItem('isProductWise', 'false');
+      // sessionStorage.setItem('isProductInformationWise', 'false');
+      // sessionStorage.setItem('isCart', 'false');
       // this.emitterService.isLoginResponse.emit(data);
       this.purchaseService.storageSellerId = Number(data.id);
       this.purchaseService.sellerId = data.id;

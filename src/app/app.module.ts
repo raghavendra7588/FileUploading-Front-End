@@ -36,7 +36,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LoginComponent } from './login/login.component';
@@ -46,6 +46,7 @@ import { PurchaseService } from './purchase/purchase.service';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     HomeComponent,
     NavbarComponent,
     DashboardComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +80,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatExpansionModule,
     NgMultiSelectDropDownModule.forRoot(),
     BarecodeScannerLivestreamModule,
+    MatBadgeModule,
     ToastrModule.forRoot(),
     NgCircleProgressModule.forRoot({
       radius: 100,

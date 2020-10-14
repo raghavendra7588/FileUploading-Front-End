@@ -45,6 +45,10 @@ import { SubCategoriesComponent } from './buy-products/sub-categories/sub-catego
 import { CategoryComponent } from './buy-products/category/category.component';
 import { BrandsComponent } from './buy-products/brands/brands.component';
 import { ProductInformationComponent } from './buy-products/product-information/product-information.component';
+import { BuyProductComponent } from './buy-products/buy-product/buy-product.component';
+import { GoToCartComponent } from './buy-products/go-to-cart/go-to-cart.component';
+import { AddressDetailDataComponent } from './buy-products/address-detail-data/address-detail-data.component';
+import { PlaceOrderComponent } from './buy-products/place-order/place-order.component';
 
 
 
@@ -93,7 +97,11 @@ const routes: Routes = [
   { path: 'buyProducts/categories', component: CategoryComponent },
   { path: 'buyProducts/SubCategories/:id', component: SubCategoriesComponent },
   { path: 'buyProducts/brand/:id', component: BrandsComponent },
-  { path: 'buyProducts/productInformation/:id', component:  ProductInformationComponent},
+  { path: 'buyProducts/productInformation/:id', component: ProductInformationComponent },
+  { path: 'buyProducts/purchase', component: BuyProductComponent },
+  { path: 'buyProducts/goToCart', component: GoToCartComponent },
+  { path: 'buyProducts/addressDetailsData', component: AddressDetailDataComponent },
+  { path: 'buyProducts/placeOrder', component: PlaceOrderComponent },
   {
     path: '**',
     redirectTo: '/login'

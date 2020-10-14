@@ -26,7 +26,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxPrintModule } from 'ngx-print';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 import { MinimumRatePurchaseOrderComponent } from './minimum-rate-purchase-order/minimum-rate-purchase-order.component';
@@ -52,6 +52,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     MatToolbarModule,
     MatButtonModule,
     FormsModule,
+    MatBadgeModule,
     MatSelectModule,
     MatIconModule,
     MatInputModule,

@@ -28,23 +28,33 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxPrintModule } from 'ngx-print';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { SubCategoriesComponent } from './sub-categories/sub-categories.component';
 import { CategoryComponent } from './category/category.component';
 import { BrandsComponent } from './brands/brands.component';
 import { ProductInformationComponent } from './product-information/product-information.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
+import { GoToCartComponent } from './go-to-cart/go-to-cart.component';
+
+import { DialogAddAddressComponent } from './dialog-add-address/dialog-add-address.component';
+import { AddressDetailDataComponent } from './address-detail-data/address-detail-data.component';
+import { PlaceOrderComponent } from './place-order/place-order.component';
+import { DialogOrderNoComponent } from './dialog-order-no/dialog-order-no.component';
 
 
 
 @NgModule({
-  declarations: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent],
+  declarations: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent,
+    BuyProductComponent, GoToCartComponent, DialogAddAddressComponent, AddressDetailDataComponent, PlaceOrderComponent,
+    DialogOrderNoComponent],
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatBadgeModule,
     MatIconModule,
     MatFormFieldModule,
     MatToolbarModule,
@@ -67,7 +77,9 @@ import { ProductInformationComponent } from './product-information/product-infor
     MatPaginatorModule,
     ToastrModule.forRoot()
   ],
-  exports: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent],
+  entryComponents: [DialogAddAddressComponent, DialogOrderNoComponent],
+  exports: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent, BuyProductComponent,
+    GoToCartComponent, AddressDetailDataComponent],
   providers: [BuyProductsService]
 })
 export class BuyProductsModule { }

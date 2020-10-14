@@ -9,14 +9,15 @@
   </div>
 </div>
 
-<div class="row my-3 ml-3 mr-3">
-  <div class="col-md-3 col-sm-3 col-6 my-3" *ngFor="let subCategory of subCategoryListData">
-    <div class="card" style="width:290px" (click)="onCardClick(subCategory)"
-      style="cursor: pointer;border-radius: 15px">
+<div class="row my-3 ml-3 mr-3 mt-4">
+  <div class="col-md-2 col-sm-6 col-6 my-3" style="height:250px !important;"
+    *ngFor="let subCategory of subCategoryListData">
+    <div class="card" style="width:290px;" (click)="onCardClick(subCategory)"
+      style="cursor: pointer;border-radius: 15px;max-height: 270px;min-height: 270px;">
       <img class="card-img-top" src="{{subCategory.imageurl}}" alt="Card image" style="width:100%;height: 150px;">
 
       <div class="card-body">
-        <h4 class="card-title text-center">{{subCategory.name}}</h4>
+        <p class="card-title text-center mt-4">{{subCategory.name}}</p>
 
       </div>
     </div>

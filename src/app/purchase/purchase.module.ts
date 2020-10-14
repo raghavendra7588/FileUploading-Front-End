@@ -51,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxPrintModule } from 'ngx-print';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatSelectFilterModule } from 'mat-select-filter';
@@ -75,6 +76,7 @@ import { SpecificPriceListComponent } from './specific-price-list/specific-price
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    MatBadgeModule,
     MatTableModule,
     MatCardModule,
     MatMenuModule,

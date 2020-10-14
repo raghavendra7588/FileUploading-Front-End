@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\APPAddressController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\HelloController.cs" />
     <Compile Include="Controllers\ItemMasterController.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Controllers\PriceListController.cs" />
     <Compile Include="Controllers\ProductVendorWisePurchaseReportController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Controllers\PurchaseProductsController.cs" />
     <Compile Include="Controllers\PurchaseReportController.cs" />
     <Compile Include="Controllers\PurchaseReportInventoryController.cs" />
     <Compile Include="Controllers\StockInController.cs" />
@@ -108,6 +110,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\APPAddress.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ItemMaster.cs" />
     <Compile Include="Models\MinimumPurchaseReportInventory.cs" />
@@ -115,6 +118,8 @@
     <Compile Include="Models\ProductsVendorWisePurchaseReport.cs" />
     <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\PurchaseOrderItem.cs" />
+    <Compile Include="Models\PurchaseProductItems.cs" />
+    <Compile Include="Models\PurchaseProducts.cs" />
     <Compile Include="Models\PurchaseReport.cs" />
     <Compile Include="Models\PurchaseReportInventory.cs" />
     <Compile Include="Models\StockIn.cs" />

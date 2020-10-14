@@ -6,10 +6,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class BuyProductsService {
 
+  // private BASE_URL = 'http://localhost:55547/';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+
   private GET_PRODUCT_LIST = 'http://203.112.144.38/AdminApi/api/Product/GetProductList';
   private GET_ALL_CATEGORY_DATA = 'http://203.112.144.38/AdminApi/api/Category/getall';
   private GET_ALL_SUBCATEGORIES_DATA = 'http://203.112.144.38/AdminApi/api/Category/getall';
   private GET_PRODUCT_INFORMATION = 'http://203.112.144.38/AdminApi/api/Product/GetProductInfo';
+  private INSERT_ADDRESS_DATA = this.BASE_URL + 'api/APPAddress';
+  private GET_ADDRESS_DATA_BY_ID = this.BASE_URL + 'api/APPAddress';
+  private INSERT_PURCHASE_PRODUCT = this.BASE_URL + 'api/PurchaseProducts';
+  private GET_ADDRESS_BASED_ON_PINCODE = 'http://203.112.144.38/uat_AdminApi/api/Pincode/GetCityState';
 
   constructor(
     public http: HttpClient
@@ -42,9 +49,6 @@ export class BuyProductsService {
 
 
   getAllProduct(subcategoryid: string, vendorCode: string) {
-    console.log('service subcategoryid', subcategoryid);
-    console.log('service vendor id', vendorCode);
-
     const data = { 'vendorCode': vendorCode, subcategoryid: subcategoryid }
     let reqHeader = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -61,5 +65,26 @@ export class BuyProductsService {
 
     return this.http.post(this.GET_PRODUCT_INFORMATION, data, { headers: reqHeader });
   }
+
+  getAddressDetailsBasedOnPinCode(pinCode: string) {
+    const data = { 'pincode': pinCode }
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(this.GET_ADDRESS_BASED_ON_PINCODE, data, { headers: reqHeader });
+  }
+
+  insertAddressData(addressData) {
+    return this.http.post(this.INSERT_ADDRESS_DATA, addressData);
+  }
+
+  getAddressDataById(vendorId) {
+    return this.http.get(this.GET_ADDRESS_DATA_BY_ID + '/' + vendorId);
+  }
+
+  savePurchaseProduct(purchaseProductData) {
+    return this.http.post(this.INSERT_PURCHASE_PRODUCT, purchaseProductData);
+  }
+
 
 }

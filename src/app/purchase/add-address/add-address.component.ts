@@ -25,9 +25,15 @@ export class AddAddressComponent implements OnInit {
   maxLengthPinCode = 6;
   copyAddressToggle: boolean = false;
 
-  constructor(public formBuilder: FormBuilder, public router: Router, private dialogRef: MatDialogRef<AddAddressComponent>,
-    public purchaseService: PurchaseService, public loginService: LoginService, @Inject(MAT_DIALOG_DATA) public data: any,
-    public emitterService: EmitterService, public toastr: ToastrService) {
+  constructor(
+    public formBuilder: FormBuilder,
+    public router: Router,
+    private dialogRef: MatDialogRef<AddAddressComponent>,
+    public purchaseService: PurchaseService,
+    public loginService: LoginService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public emitterService: EmitterService,
+    public toastr: ToastrService) {
 
     this.addressForm = this.formBuilder.group({
       // billing_name: ['', [Validators.required]],

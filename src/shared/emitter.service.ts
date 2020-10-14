@@ -13,6 +13,8 @@ export class EmitterService {
   public isItemCreated: EventEmitter<boolean>;
   public isLoginResponse: EventEmitter<any>;
   public isBrandPreviousClicked: EventEmitter<boolean>;
+  public isProductRemoved: EventEmitter<boolean>;
+  public isProductIsAddedOrRemoved: EventEmitter<boolean>;
 
   constructor() {
     this.isRecord = new EventEmitter();
@@ -23,5 +25,7 @@ export class EmitterService {
     this.isItemCreated = new EventEmitter();
     this.isLoginResponse = new EventEmitter();
     this.isBrandPreviousClicked = new EventEmitter();
+    this.isProductRemoved = new EventEmitter();
+    this.isProductIsAddedOrRemoved = new EventEmitter();
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmitterService } from 'src/shared/emitter.service';
 import { LoginService } from '../login/login.service';
 
 @Component({
@@ -8,12 +9,45 @@ import { LoginService } from '../login/login.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
+  cartItems: any = [];
+  totalNoOfProducts: number;
+  totalProducts: number;
   constructor(
     public loginService: LoginService,
-    public router: Router) { }
+    public router: Router,
+    public emitterService: EmitterService) {
+
+    this.emitterService.isProductIsAddedOrRemoved.subscribe(value => {
+      if (value) {
+        this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
+        console.log('cart Items', this.cartItems);
+        this.totalProducts = this.totalProductsCalculation(this.cartItems);
+        this.totalNoOfProducts = this.totalProducts;
+        console.log('totalNoOfProducts', this.totalNoOfProducts);
+      }
+    });
+  }
 
   ngOnInit(): void {
+    this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
+    this.totalProducts = this.totalProductsCalculation(this.cartItems);
+    this.totalNoOfProducts = this.totalProducts;
+    console.log('totalNoOfProducts', this.totalNoOfProducts);
+  }
+
+  totalProductsCalculation(arr) {
+    let items = 0;
+    if (arr) {
+      for (let i = 0; i < arr.length; i++) {
+        items += Number(arr[i].RequiredQuantity);
+      }
+      return items;
+    }
+    else {
+      console.log('inside else');
+      return items = 0;
+    }
+
   }
 
   Logout() {

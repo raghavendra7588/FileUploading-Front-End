@@ -37,7 +37,7 @@
   <div class="container-fluid mt-3">
     <div class="row">
 
-      <div class="col-md-9 col-sm-9 col-9">
+      <div class="col-md-6 col-sm-6 col-6">
 
         <mat-form-field style="width: 100%;">
           <mat-label>Filter</mat-label>
@@ -50,6 +50,11 @@
         <button mat-raised-button color="primary" [disabled]="updateAllRecordsCount===0" class="width-100 mt-2"
           (click)="updateAll()">Update
           (<span>{{updateAllRecordsCount === 0 ? 0 : updateAllRecordsCount}}</span>) </button>
+      </div>
+
+      <div class="col-md-3 col-sm-3 col-3">
+        <button mat-raised-button color="primary" class="width-100 mt-2" (click)="goToCategories()">Add New Products
+        </button>
       </div>
     </div>
   </div>
@@ -152,14 +157,15 @@
           {{element.Unit}}
         </td>
       </ng-container>
-      <ng-container matColumnDef="discount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount</th>
-        <td mat-cell *matCellDef="let element"> {{element.Discount}} </td>
-      </ng-container>
 
       <ng-container matColumnDef="mrp">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> MRP </th>
         <td mat-cell *matCellDef="let element"> {{element.MRP}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="discount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount</th>
+        <td mat-cell *matCellDef="let element"> {{element.Discount}} </td>
       </ng-container>
 
       <ng-container matColumnDef="finalPrice">
@@ -396,16 +402,11 @@
   </div>
   <div class="container-fluid mb-4">
     <div class="row mt-3">
-      <div class="col-md-6 col-sm-6 col-6"></div>
-      <div class="col-md-3 col-sm-3 col-3 width-100">
-        <button mat-raised-button color="primary"  class="width-100 mt-2"
-        (click)="goToCategories()">Purchase Products
-        </button>
-      </div>
+      <div class="col-md-9 col-sm-9 col-9"></div>
       <div class="col-md-3 col-sm-3 col-3 width-100">
         <!-- <button mat-raised-button (click)="placeOrder()" [disabled]="!isAddressSelected" color="primary">Deliver To This Address</button> -->
         <button mat-raised-button color="primary" [disabled]="!isAddressSelected" class="width-100 mt-2"
-        (click)="placeOrder()">Place Order
+          (click)="placeOrder()">Place Order
         </button>
 
       </div>

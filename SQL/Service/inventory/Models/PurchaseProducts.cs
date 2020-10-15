@@ -20,6 +20,9 @@ namespace inventory.Models
         public string DeliveryType { get; set; }
         public string PaymentType { get; set; }
         public string DeliveryTime { get; set; }
+    
+        public string VendorName { get; set; }
+    
         public List<PurchaseProductItems> items { get; set; }
 
     }
@@ -47,6 +50,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@DeliveryType", objPurchaseProducts.DeliveryType);
             cmd.Parameters.AddWithValue("@PaymentType", objPurchaseProducts.PaymentType);
             cmd.Parameters.AddWithValue("@DeliveryTime", objPurchaseProducts.DeliveryTime);
+            cmd.Parameters.AddWithValue("@VendorName", objPurchaseProducts.VendorName);
             cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
             cmd.ExecuteNonQuery();

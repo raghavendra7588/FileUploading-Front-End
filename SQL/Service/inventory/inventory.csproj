@@ -97,6 +97,7 @@
     <Compile Include="Controllers\HelloController.cs" />
     <Compile Include="Controllers\ItemMasterController.cs" />
     <Compile Include="Controllers\MinimumPurchaseReportInventoryController.cs" />
+    <Compile Include="Controllers\MyOrdersController.cs" />
     <Compile Include="Controllers\PriceListController.cs" />
     <Compile Include="Controllers\ProductVendorWisePurchaseReportController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ItemMaster.cs" />
     <Compile Include="Models\MinimumPurchaseReportInventory.cs" />
+    <Compile Include="Models\MyOrders.cs" />
     <Compile Include="Models\PriceList.cs" />
     <Compile Include="Models\ProductsVendorWisePurchaseReport.cs" />
     <Compile Include="Models\PurchaseOrder.cs" />

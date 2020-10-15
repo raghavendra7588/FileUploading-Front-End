@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginService.loginUser(this.user).subscribe(data => {
+      console.log('logged in data', data)
       this.loginService.seller_object = data;
       this.loginService.seller_token = data.token;
       this.loginService.seller_mapped_categories = data.categories;

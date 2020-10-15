@@ -49,6 +49,7 @@ import { BuyProductComponent } from './buy-products/buy-product/buy-product.comp
 import { GoToCartComponent } from './buy-products/go-to-cart/go-to-cart.component';
 import { AddressDetailDataComponent } from './buy-products/address-detail-data/address-detail-data.component';
 import { PlaceOrderComponent } from './buy-products/place-order/place-order.component';
+import { MyOrderComponent } from './buy-products/my-order/my-order.component';
 
 
 
@@ -102,6 +103,7 @@ const routes: Routes = [
   { path: 'buyProducts/goToCart', component: GoToCartComponent },
   { path: 'buyProducts/addressDetailsData', component: AddressDetailDataComponent },
   { path: 'buyProducts/placeOrder', component: PlaceOrderComponent },
+  { path: 'buyProducts/myOrder', component: MyOrderComponent },
   {
     path: '**',
     redirectTo: '/login'

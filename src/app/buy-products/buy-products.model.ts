@@ -32,6 +32,7 @@ export class OrderedItems {
 export class PurchaseProducts {
     PurchaseProductId?: number;
     VendorCode?: string;
+    VendorName?: string;
     SellerId?: number;
     OrderNo?: string;
     OrderDate?: string;
@@ -43,7 +44,7 @@ export class PurchaseProducts {
     items?: Array<PurchaseProductsItems>;
 }
 
-export class PurchaseProductsItems{
+export class PurchaseProductsItems {
     SellerId?: number;
     CategoryId?: number;
     SubCategoryId?: number;
@@ -60,8 +61,26 @@ export class PurchaseProductsItems{
     VendorCode?: string;
 }
 
+export class MyOrders {
+    vendorName?: string;
+    vendorCode?: string;
+    sellerId?: string;
+    OrderDate?: any;
+    DeliveryDate?: any;
+    orderNo?: string;
+}
 
-
+export class EditMyOrder {
+    PurchaseProductId?: number;
+    PurchaseProductsItemId?: number;
+    name?: string;
+    Unit?: string;
+    MRP?: number;
+    Discount?: number;
+    FinalPrice?: number;
+    RequiredQuantity?: number;
+    Quantity?: number;
+}
 
 
 

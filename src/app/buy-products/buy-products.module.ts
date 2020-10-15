@@ -41,13 +41,19 @@ import { DialogAddAddressComponent } from './dialog-add-address/dialog-add-addre
 import { AddressDetailDataComponent } from './address-detail-data/address-detail-data.component';
 import { PlaceOrderComponent } from './place-order/place-order.component';
 import { DialogOrderNoComponent } from './dialog-order-no/dialog-order-no.component';
+import { MyOrderComponent } from './my-order/my-order.component';
+import { DialogMyOrdersEditComponent } from './dialog-my-orders-edit/dialog-my-orders-edit.component';
+import { DialogMyOrdersViewComponent } from './dialog-my-orders-view/dialog-my-orders-view.component';
 
 
 
 @NgModule({
   declarations: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent,
     BuyProductComponent, GoToCartComponent, DialogAddAddressComponent, AddressDetailDataComponent, PlaceOrderComponent,
-    DialogOrderNoComponent],
+    DialogOrderNoComponent,
+    MyOrderComponent,
+    DialogMyOrdersEditComponent,
+    DialogMyOrdersViewComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -77,9 +83,9 @@ import { DialogOrderNoComponent } from './dialog-order-no/dialog-order-no.compon
     MatPaginatorModule,
     ToastrModule.forRoot()
   ],
-  entryComponents: [DialogAddAddressComponent, DialogOrderNoComponent],
+  entryComponents: [DialogAddAddressComponent, DialogOrderNoComponent, DialogMyOrdersEditComponent, DialogMyOrdersViewComponent],
   exports: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent, BuyProductComponent,
-    GoToCartComponent, AddressDetailDataComponent],
+    GoToCartComponent, AddressDetailDataComponent, MyOrderComponent],
   providers: [BuyProductsService]
 })
 export class BuyProductsModule { }

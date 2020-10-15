@@ -39,7 +39,7 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   isAddressSelected: boolean = false;
 
   selection = new SelectionModel<any>(true, []);
-  displayedColumns: string[] = ['select', 'name', 'quantity', 'discount', 'mrp', 'finalPrice', 'requiredQuantity', 'delete'];
+  displayedColumns: string[] = ['select', 'name', 'quantity', 'mrp', 'discount', 'finalPrice', 'requiredQuantity', 'delete'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -260,18 +260,6 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     let requiredQuantity = element.RequiredQuantity;
     let availableQuantity = element.Quantity;
 
-
-    // if (purchasedQuantity < 1 || (Number(element.ProductPrice) < 1) || (Number(element.FinalPrice) < 1)) {
-    //   isRecordValid = false;
-    // } else {
-    //   if ((Number(element.ProductPrice) - Number(element.Discount) === Number(element.FinalPrice)) || (Number(element.ProductPrice) - Number(element.Discount) === (Number(element.FinalPrice)) / element.AvailableQuantity)) {
-    //     isRecordValid = true;
-    //   }
-    //   else {
-    //     isRecordValid = false;
-    //   }
-    // }
-
     if ((Number(requiredQuantity) < 1) || (Number(requiredQuantity) > Number(availableQuantity))) {
       isRecordValid = false;
     }
@@ -409,7 +397,12 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   }
 
   addNewAddress() {
-    this.router.navigate(['buyProducts/addressDetailsData']);
+    this.dialog.open(DialogAddAddressComponent, {
+      height: '400px',
+      width: '800px'
+    });
+
+    // this.router.navigate(['buyProducts/addressDetailsData']);
   }
 
   editExistingAddress() {
@@ -623,8 +616,9 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
       this.purchaseProducts.DeliveryTime = 'NULL';
     }
     this.purchaseProducts.items = JSON.parse(sessionStorage.getItem('cart_items'));
+    this.purchaseProducts.VendorName =sessionStorage.getItem('sellerName');
 
-    console.log(this.purchaseProducts);
+      console.log(this.purchaseProducts);
     this.buyProductsService.savePurchaseProduct(this.purchaseProducts).subscribe(data => {
 
       this.ProductsResponse = data;

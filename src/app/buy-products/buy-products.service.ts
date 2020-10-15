@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class BuyProductsService {
 
-  // private BASE_URL = 'http://localhost:55547/';
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  private BASE_URL = 'http://localhost:55547/';
+  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
 
   private GET_PRODUCT_LIST = 'http://203.112.144.38/AdminApi/api/Product/GetProductList';
   private GET_ALL_CATEGORY_DATA = 'http://203.112.144.38/AdminApi/api/Category/getall';
@@ -17,6 +17,9 @@ export class BuyProductsService {
   private GET_ADDRESS_DATA_BY_ID = this.BASE_URL + 'api/APPAddress';
   private INSERT_PURCHASE_PRODUCT = this.BASE_URL + 'api/PurchaseProducts';
   private GET_ADDRESS_BASED_ON_PINCODE = 'http://203.112.144.38/uat_AdminApi/api/Pincode/GetCityState';
+  private GET_ALL_MY_ORDERS_DATA = this.BASE_URL + 'api/MyOrders/getMyOrders';
+  private GET_ALL_MY_ORDERS_DATA_BY_PURCHASE_PRODUCT_ID = this.BASE_URL + 'api/MyOrders';
+  private UPDATE_MY_ORDERS_DATA = this.BASE_URL + 'api/MyOrders/editMyOrders';
 
   constructor(
     public http: HttpClient
@@ -86,5 +89,15 @@ export class BuyProductsService {
     return this.http.post(this.INSERT_PURCHASE_PRODUCT, purchaseProductData);
   }
 
+  getALLOrdersData(MyOrdersData) {
+    return this.http.post(this.GET_ALL_MY_ORDERS_DATA, MyOrdersData);
+  }
 
+  getAllOrdersDataByPurchaseProductId(PurchaseProductId: number) {
+    return this.http.get(this.GET_ALL_MY_ORDERS_DATA_BY_PURCHASE_PRODUCT_ID + '/' + PurchaseProductId);
+  }
+
+  updateOrdersData(MyOrdersData) {
+    return this.http.post(this.UPDATE_MY_ORDERS_DATA, MyOrdersData);
+  }
 }

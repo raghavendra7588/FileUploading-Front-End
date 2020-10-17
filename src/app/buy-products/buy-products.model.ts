@@ -80,6 +80,17 @@ export class EditMyOrder {
     FinalPrice?: number;
     RequiredQuantity?: number;
     Quantity?: number;
+    NewQuantity?: number;
+    categoryid?: number;
+    id?: number;
+    productid?: number;
+    brandId?: number;
+    categoryId?: number;
+}
+
+export class DeleteMyOrder {
+    PurchaseProductId?: number;
+    PurchaseProductsItemId?: number;
 }
 
 

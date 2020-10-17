@@ -7,7 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import { EmitterService } from 'src/shared/emitter.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditMyOrder } from '../buy-products.model';
+import { DeleteMyOrder, EditMyOrder } from '../buy-products.model';
 
 
 
@@ -21,12 +21,13 @@ export class DialogMyOrdersEditComponent implements OnInit {
 
 
   selection = new SelectionModel<any>(true, []);
-  displayedColumns: string[] = ['select', 'name', 'quantity', 'mrp', 'discount', 'finalPrice', 'requiredQuantity'];
+  displayedColumns: string[] = ['select', 'name', 'brandName', 'quantity', 'mrp', 'discount', 'finalPrice', 'oldQuantity', 'newQuantity'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   updateAllRecordsCount = 0;
   dataSource: any;
   checkFinalPrice: boolean;
+  checkCategoryId: boolean;
   isActive: boolean;
   multipleEntriesArray: any = [];
   uniquePurchaseOrderItemArray: any = [];
@@ -53,6 +54,7 @@ export class DialogMyOrdersEditComponent implements OnInit {
   orderNo: string;
 
   editMyOrder: EditMyOrder = new EditMyOrder();
+  deleteMyOrder: DeleteMyOrder = new DeleteMyOrder();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,11 +65,13 @@ export class DialogMyOrdersEditComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
   ) {
-
+    let mappedMyOrdersData: any = [];
     this.PurchaseProductId = data;
     this.buyProductsService.getAllOrdersDataByPurchaseProductId(this.PurchaseProductId).subscribe(data => {
       console.log('received data', data);
+
       this.myOrdersData = data;
+      mappedMyOrdersData = this.createCustomMyOrder(this.myOrdersData);
       this.dataSource = new MatTableDataSource(this.myOrdersData);
       this.dataSource.paginator = this.paginator;
 
@@ -101,6 +105,13 @@ export class DialogMyOrdersEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  createCustomMyOrder(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].pincode = 0;
+    }
+    console.log('i return ', arr);
+    return arr;
+  }
 
   payableCalculation(arr) {
 
@@ -115,7 +126,7 @@ export class DialogMyOrdersEditComponent implements OnInit {
       // this.totalFinalPrice += arr[i].FinalPrice;
     }
     this.totalPayableAmount = this.totalMRP - this.totalDiscount;
-    
+
 
   }
 
@@ -155,17 +166,30 @@ export class DialogMyOrdersEditComponent implements OnInit {
 
   updateAll() {
     this.checkFinalPrice = true;
+    this.checkCategoryId = true;
     this.selection.selected.forEach((element) => {
       if (this.checkFinalPrice === false) {
+        return;
+      }
+
+      if (this.checkCategoryId === false) {
+        return;
+      }
+      this.checkCategoryId = this.checkStorageCategoryId(element);
+
+      if (!(this.checkCategoryId)) {
+        this.toastr.error('Category Mismatched !');
         return;
       }
 
       this.checkFinalPrice = this.checkItemFinalPrice(element);
       if (!this.checkFinalPrice) {
         this.toastr.error('Please Check Quantity');
+        return;
       }
+
     });
-    if (this.checkFinalPrice) {
+    if (this.checkFinalPrice && this.checkCategoryId) {
       this.selection.selected.forEach((element) => {
         this.multipleEntriesArray.push(element);
         this.uniquePurchaseOrderItemArray = this.uniqueEntries(this.multipleEntriesArray, element);
@@ -182,7 +206,28 @@ export class DialogMyOrdersEditComponent implements OnInit {
     return arr;
   }
 
+  checkStorageCategoryId(element) {
+    let isCategoryValid: boolean = true;
+    // console.log('check category id', element);
+    let cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
 
+    if (cartItems === null || cartItems === undefined || cartItems === []) {
+      return true;
+    }
+    else {
+      for (let i = 0; i < cartItems.length; i++) {
+        if (Number(cartItems[i].categoryid) === Number(element.CategoryId)) {
+          isCategoryValid = true;
+        }
+        else {
+          isCategoryValid = false;
+        }
+      }
+    }
+
+
+    return isCategoryValid;
+  }
   checkItemFinalPrice(element) {
 
     console.log('checking quantity', element);
@@ -190,22 +235,36 @@ export class DialogMyOrdersEditComponent implements OnInit {
 
     let requiredQuantity = Number(element.RequiredQuantity);
     let availableQuantity = Number(element.Quantity);
+    let newQuantity = Number(element.pincode);
 
-    if ((Number(requiredQuantity) < 1) || (Number(requiredQuantity) > Number(availableQuantity))) {
+    if ((Number(newQuantity) < 1) || (Number(newQuantity) > Number(availableQuantity))) {
+      isRecordValid = false;
+    }
+    if (requiredQuantity === newQuantity) {
       isRecordValid = false;
     }
     else {
-      if ((Number(requiredQuantity) >= 1) || (Number(requiredQuantity) < Number(availableQuantity))) {
+      if ((Number(newQuantity) >= 1) || (Number(newQuantity) < Number(availableQuantity))) {
         isRecordValid = true;
       }
     }
+
+
+    // if ((Number(requiredQuantity) < 1) || (Number(requiredQuantity) > Number(availableQuantity))) {
+    //   isRecordValid = false;
+    // }
+    // else {
+    //   if ((Number(requiredQuantity) >= 1) || (Number(requiredQuantity) < Number(availableQuantity))) {
+    //     isRecordValid = true;
+    //   }
+    // }
     return isRecordValid;
   }
 
 
   postMultipleInsertion(elements) {
     elements.forEach(element => {
-      console.log('add to edit model', element);
+      // console.log('add to edit model', element);
 
 
       this.editMyOrder = new EditMyOrder();
@@ -223,8 +282,13 @@ export class DialogMyOrdersEditComponent implements OnInit {
       this.editMyOrder.name = element.name;
       this.editMyOrder.PurchaseProductId = element.PurchaseProductId;
       this.editMyOrder.PurchaseProductsItemId = element.PurchaseProductsItemId;
-
-
+      this.editMyOrder.NewQuantity = Number(element.pincode);
+      this.editMyOrder.categoryid = Number(element.CategoryId);
+      this.editMyOrder.RequiredQuantity = this.editMyOrder.NewQuantity;
+      this.editMyOrder.id = Number(element.id);
+      this.editMyOrder.productid = Number(element.ProductId);
+      // this.editMyOrder.categoryId = Number(element.CategoryId);
+      this.editMyOrder.brandId = Number(element.BrandId);
       this.multipleEntries.push(this.editMyOrder);
 
     });
@@ -233,27 +297,107 @@ export class DialogMyOrdersEditComponent implements OnInit {
     let prevStorageArray: any = [];
     let finalStorageArray: any = [];
 
-    this.buyProductsService.updateOrdersData(this.multipleEntries).subscribe(data => {
-      console.log('data inserted', data);
-      this.toastr.success('Records Updated Succesfully');
-      this.updateAllRecordsCount = 0;
-      this.selection.clear();
-      this.multipleEntriesArray = [];
-      this.multipleEntries = [];
-      this.dialogRef.close();
+    // this.buyProductsService.updateOrdersData(this.multipleEntries).subscribe(data => {
+    //   console.log('data inserted', data);
+    //   this.toastr.success('Records Updated Succesfully');
+    //   this.updateAllRecordsCount = 0;
+    //   this.selection.clear();
+    //   this.multipleEntriesArray = [];
+    //   this.multipleEntries = [];
+    //   this.dialogRef.close();
+    // });
+
+
+    finalStorageArray = this.multipleEntries;
+    prevStorageArray = JSON.parse(sessionStorage.getItem('cart_items'));
+    if (prevStorageArray === null || prevStorageArray === undefined || prevStorageArray === []) {
+      finalStorageArray = this.multipleEntries;
+    }
+    else {
+      finalStorageArray = this.createOrderItems(prevStorageArray, this.multipleEntries);
+    }
+
+
+    sessionStorage.removeItem('cart_items');
+    sessionStorage.setItem('cart_items', JSON.stringify(finalStorageArray));
+    console.log('finalStorageArray ', finalStorageArray);
+
+    this.emitterService.isProductIsAddedOrRemoved.emit(true);
+    this.dialogRef.close();
+    this.router.navigate(['buyProducts/goToCart']);
+  }
+
+  deleteProducts(response) {
+    // console.log('delete is cliked,', response.PurchaseProductId);
+    // console.log('delete is cliked,', response);
+    this.deleteMyOrder.PurchaseProductId = response.PurchaseProductId;
+    this.deleteMyOrder.PurchaseProductsItemId = response.PurchaseProductsItemId;
+    this.buyProductsService.deleteMyOrdersData(this.deleteMyOrder).subscribe(data => {
+      console.log('data', data);
     });
-    // finalStorageArray = this.multipleEntries;
-    // prevStorageArray = JSON.parse(sessionStorage.getItem('cart_items'));
-    // console.log('prevStorageArray ', prevStorageArray);
-    // finalStorageArray = this.mergeOrderItems(prevStorageArray, this.multipleEntries);
-    // sessionStorage.removeItem('cart_items');
-    // sessionStorage.setItem('cart_items', JSON.stringify(finalStorageArray));
-    // console.log('finalStorageArray ', finalStorageArray);
-    // this.payableCalculation(finalStorageArray);
+  }
 
-    // this.emitterService.isProductIsAddedOrRemoved.emit(true);
+  createOrderItems(storageArray, currentItemsArray) {
+    console.log('storageArray', storageArray);
+    console.log('currentItemsArray', currentItemsArray);
 
-    // this.router.navigate(['buyProducts/goToCart']);
+    // for (let i = 0; i < currentItemsArray.length; i++) {
+    //   for (let j = 0; j < storageArray.length; j++) {
+    //     if (Number(storageArray[j].id) == Number(currentItemsArray[i].id) && storageArray[j].name == currentItemsArray[i].name && storageArray[j].Unit == currentItemsArray[i].Unit) {
+    //       console.log('items exist storageArray', storageArray[j]);
+
+    //       // storageArray.pop(storageArray[j]);
+    //       storageArray.splice(j, 1);
+    //       storageArray.push(currentItemsArray[i]);
+    //       // storageArray[j].Discount = currentItemsArray[i].Discount;
+    //       // storageArray[j].FinalPrice = currentItemsArray[i].FinalPrice;
+    //       // storageArray[j].MRP = currentItemsArray[i].MRP;
+    //       // storageArray[j].Quantity = currentItemsArray[i].Quantity;
+    //       // storageArray[j].RequiredQuantity = currentItemsArray[i].RequiredQuantity;
+    //       // storageArray[j].Unit = currentItemsArray[i].RequiredQuantity;
+    //       // storageArray[j].brandid = currentItemsArray[i].brandId;
+    //       // // storageArray[j].categoryid = currentItemsArray[i].RequiredQuantity;
+
+
+    //       // storageArray[j].id = currentItemsArray[i].id;
+    //       // storageArray[j].name = currentItemsArray[i].name;
+    //       // storageArray[j].productid = currentItemsArray[i].productid;
+    //     }
+    //     else {
+    //       console.log('not exist');
+    //       storageArray.push(currentItemsArray[i]);
+    //     }
+
+    //     console.log('check item is removed', storageArray);
+    //     return storageArray;
+    //   }
+
+
+    //   var result = result1.filter(function (o1) {
+    //     return result2.some(function (o2) {
+    //         return o1.id === o2.id; // return the ones with equal id
+    //    });
+    // });
+
+    var finalarray = currentItemsArray.filter(function (currentItems) {
+      return storageArray.some(function (stroageItems) {
+        if ((Number(currentItems.id) === Number(stroageItems.id)) && (Number(currentItems.productid) == Number(stroageItems.productid))) {
+          storageArray.Discount = currentItemsArray.Discount;
+          storageArray.FinalPrice = currentItemsArray.FinalPrice;
+          storageArray.MRP = currentItemsArray.MRP;
+          storageArray.Quantity = currentItemsArray.Quantity;
+          storageArray.RequiredQuantity = currentItemsArray.RequiredQuantity;
+          return storageArray;
+        }
+        else {
+          storageArray.push(currentItems);
+          return storageArray;
+        }
+      });
+    });
+
+    return finalarray;
   }
 
 }
+

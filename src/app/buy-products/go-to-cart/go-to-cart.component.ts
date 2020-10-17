@@ -86,6 +86,7 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   selectAddressId: any;
   addressSelected: boolean = false;
   currentlySelectedAddress: any;
+  selectedTimeSlot: any;
 
   purchaseProducts: PurchaseProducts = new PurchaseProducts();
 
@@ -169,10 +170,10 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     ];
 
     this.deliveryTime = [
-      { id: 0, type: '9.00 AM - 1.00PM' },
-      { id: 1, type: '1.00 AM - 5.00PM' },
-      { id: 2, type: '5.00 AM - 9.00PM' },
-      { id: 3, type: 'Anytime Ok' }
+      { id: 0, type: '9.00 AM - 1.00PM', minHour: 9, maxHour: 13 },
+      { id: 1, type: '1.00 AM - 5.00PM', minHour: 13, maxHour: 17 },
+      { id: 2, type: '5.00 AM - 9.00PM', minHour: 17, maxHour: 21 },
+      { id: 3, type: 'Anytime Ok', minHour: 0, maxHour: 24 }
     ];
 
     this.buyProductsService.getAddressDataById(this.vendorId).subscribe(data => {
@@ -531,6 +532,13 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     });
     sessionStorage.removeItem('cart_items');
     sessionStorage.setItem('cart_items', JSON.stringify(finalStorageArray));
+    // this.cartItems.length === 0 || this.cartItems === null || this.cartItems === undefined || this.cartItems === []
+    if (finalStorageArray.length === 0 || finalStorageArray === undefined || finalStorageArray === null || finalStorageArray === []) {
+      console.log('empty the cart now');
+      sessionStorage.removeItem('cart_items');
+    }
+
+
     this.emitterService.isProductRemoved.emit(true);
     this.payableCalculation(finalStorageArray);
     this.emitterService.isProductIsAddedOrRemoved.emit(true);
@@ -547,6 +555,8 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
 
   selectedDeliveryTypeFromList(response) {
     console.log(response);
+    this.selectedTimeSlot = response.id;
+    console.log('&&&&&& id ', this.selectedTimeSlot);
 
   }
   selectedPaymentTermFromList(response) {
@@ -578,15 +588,34 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   placeOrder() {
     this.purchaseProducts.VendorCode = sessionStorage.getItem('vendorId');
     this.purchaseProducts.SellerId = Number(sessionStorage.getItem('sellerId'));
+    let todaysDate = new Date();
+    let formattedTodaysDate = this.convertDate(todaysDate);
+    let selectedDeliveryDate = this.convertDate(this.purchaseProducts.DeliveryDate);
+    let minTimeSlot: number;
+    let maxTimeSlot: number;
 
+    let date = new Date();
+    let currentHour = date.getHours();
+    console.log('current hr', currentHour);
+    for (let i = 0; i < this.deliveryTime.length; i++) {
 
-    // this.purchaseProducts.OrderNo = 'A';
-    // this.purchaseProducts.OrderDate = 'A';
-    // this.purchaseProducts.DeliveryDate = 'A';
-    // this.purchaseProducts.AddressId = 1;
-    // this.purchaseProducts.DeliveryType = 'A';
-    // this.purchaseProducts.PaymentType = 'A';
-    // this.purchaseProducts.DeliveryTime = 'A';
+      if (this.deliveryTime[i].id === this.selectedTimeSlot) {
+        console.log('formattedTodaysDate', formattedTodaysDate);
+        console.log('selectedDeliveryDate', selectedDeliveryDate);
+        minTimeSlot = this.deliveryTime[i].minHour;
+        maxTimeSlot = this.deliveryTime[i].maxHour;
+        // console.log('you selected ', this.deliveryTime[i]);
+      }
+    }
+    if ((formattedTodaysDate === selectedDeliveryDate)) {
+      if (currentHour >= maxTimeSlot) {
+        this.toastr.error('Check Delivery Time');
+        return;
+      }
+    
+    }
+    console.log('i supposed to not exceute');
+
 
     if (this.purchaseProducts.OrderNo === null || this.purchaseProducts.OrderNo === undefined) {
       this.purchaseProducts.OrderNo = 'NULL';
@@ -616,9 +645,9 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
       this.purchaseProducts.DeliveryTime = 'NULL';
     }
     this.purchaseProducts.items = JSON.parse(sessionStorage.getItem('cart_items'));
-    this.purchaseProducts.VendorName =sessionStorage.getItem('sellerName');
+    this.purchaseProducts.VendorName = sessionStorage.getItem('sellerName');
 
-      console.log(this.purchaseProducts);
+    console.log(this.purchaseProducts);
     this.buyProductsService.savePurchaseProduct(this.purchaseProducts).subscribe(data => {
 
       this.ProductsResponse = data;

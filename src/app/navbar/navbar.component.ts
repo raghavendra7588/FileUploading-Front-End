@@ -20,19 +20,32 @@ export class NavbarComponent implements OnInit {
     this.emitterService.isProductIsAddedOrRemoved.subscribe(value => {
       if (value) {
         this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
-        console.log('cart Items', this.cartItems);
-        this.totalProducts = this.totalProductsCalculation(this.cartItems);
-        this.totalNoOfProducts = this.totalProducts;
-        console.log('totalNoOfProducts', this.totalNoOfProducts);
+        if (this.cartItems === null || this.cartItems === undefined || this.cartItems === [] || this.cartItems === '') {
+          this.totalNoOfProducts = 0;
+          return;
+        }
+        else {
+          console.log('cart Items', this.cartItems);
+          this.totalProducts = this.totalProductsCalculation(this.cartItems);
+          this.totalNoOfProducts = this.totalProducts;
+          console.log('totalNoOfProducts', this.totalNoOfProducts);
+        }
       }
     });
   }
 
   ngOnInit(): void {
     this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
-    this.totalProducts = this.totalProductsCalculation(this.cartItems);
-    this.totalNoOfProducts = this.totalProducts;
-    console.log('totalNoOfProducts', this.totalNoOfProducts);
+    if (this.cartItems === null || this.cartItems === undefined || this.cartItems === [] || this.cartItems === '') {
+      this.totalNoOfProducts = 0;
+      return;
+    }
+    else {
+      this.totalProducts = this.totalProductsCalculation(this.cartItems);
+      this.totalNoOfProducts = this.totalProducts;
+      console.log('totalNoOfProducts', this.totalNoOfProducts);
+    }
+
   }
 
   totalProductsCalculation(arr) {

@@ -62,5 +62,23 @@ namespace inventory.Controllers
 
             }
         }
+
+
+        [HttpPost]
+        [Route("api/MyOrders/deleteMyOrders")]
+        public HttpResponseMessage deleteMyOrdersData(DeleteMyOrdersItems objDeleteMyOrdersItems)
+        {
+            try
+            {
+                string dt = objMyOrdersBL.deleteMyOrdersProducts(objDeleteMyOrdersItems);
+                return Request.CreateResponse(HttpStatusCode.OK, dt);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+            }
+        }
+
     }
 }

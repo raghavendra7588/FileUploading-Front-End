@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DialogMyOrdersViewComponent implements OnInit {
   PurchaseProductId: number;
-  displayedColumns: string[] = ['name', 'quantity', 'mrp', 'discount', 'finalPrice', 'requiredQuantity'];
+  displayedColumns: string[] = ['name','brandName' ,'quantity', 'mrp', 'discount', 'finalPrice', 'requiredQuantity'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   myOrdersData: any = [];

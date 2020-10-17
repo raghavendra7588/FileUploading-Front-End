@@ -17,7 +17,7 @@ import { DialogMyOrdersViewComponent } from '../dialog-my-orders-view/dialog-my-
 export class MyOrderComponent implements OnInit {
 
   displayedColumns: string[] = ['VendorName', 'OrderNo', 'OrderDate', 'DeliveryDate', 'PaymentType',
-    'DeliveryType', 'DeliveryTime', 'view', 'edit'];
+    'DeliveryType', 'DeliveryTime', 'view', 'Reorder'];
 
 
   dataSource: any;
@@ -107,7 +107,6 @@ export class MyOrderComponent implements OnInit {
 
   editProducts(response) {
     this.PurchaseProductId = response.PurchaseProductId;
-    console.log('edit mode', response);
     this.dialog.open(DialogMyOrdersEditComponent, {
       height: '600px',
       width: '1200px',
@@ -117,7 +116,6 @@ export class MyOrderComponent implements OnInit {
 
 
   viewProducts(response) {
-    console.log('view mode', response);
     this.PurchaseProductId = response.PurchaseProductId;
     console.log('cart array main', this.myOrdersData);
     // let particularResponse: any = [];

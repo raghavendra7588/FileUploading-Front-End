@@ -25,17 +25,24 @@
             <p>Total Items Ordered : {{totalItemsOrdered}}</p>
             <p>Total MRP : {{totalMRP}}</p>
             <p>Total Discount : {{totalDiscount}}</p>
-           
+
             <p style="color:blue;">Total Payable Amount : {{totalPayableAmount}}</p>
 
         </div>
     </div>
 </div>
+<div class="row mb-4"></div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="brandName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Brand Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.BrandId}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Units </th>
         <td mat-cell *matCellDef="let element">

@@ -35,6 +35,12 @@ namespace inventory.Models
 
     }
 
+    public class DeleteMyOrdersItems
+    {
+        public int PurchaseProductId { get; set; }
+        public int PurchaseProductsItemId { get; set; }
+    }
+
     public class MyOrdersBL
     {
 
@@ -124,5 +130,23 @@ namespace inventory.Models
             return strPurchaseProductId;
         }
 
+
+        public string deleteMyOrdersProducts(DeleteMyOrdersItems objDeleteMyOrdersItems)
+        {
+            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(strConn);
+            command.Connection = conn;
+            command.CommandType = CommandType.StoredProcedure;
+            conn.Open();
+            command.CommandText = "Mst_delete_MyOrdersData";
+            command.Parameters.AddWithValue("@PurchaseProductId", objDeleteMyOrdersItems.PurchaseProductId);
+            command.Parameters.AddWithValue("@PurchaseProductsItemId", objDeleteMyOrdersItems.PurchaseProductsItemId);
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+     
+
+            conn.Close();
+
+            return "Record Deleted";
+        }
     }
 }

@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-3 mt-4">
       <mat-form-field style="width: 100% !important;">
-        <mat-select id="vendor_List" placeholder="Category List" [(ngModel)]="selectedCategory">
+        <mat-select placeholder="Category List" [(ngModel)]="selectedCategory">
           <mat-option *ngFor="let item of categoryListData;" [value]="item.id" (click)="selectedCategoryFromList(item)">
             {{item.name}}
           </mat-option>
@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-3 mt-4">
       <mat-form-field style="width: 100% !important;">
-        <mat-select id="vendor_List" placeholder="Sub Category List" [(ngModel)]="selectedSubCategory">
+        <mat-select  placeholder="Sub Category List" [(ngModel)]="selectedSubCategory">
           <mat-option *ngFor="let item of subCategoryListData;" [value]="item.id"
             (click)="selectedSubCategoryFromList(item)">
             {{item.name}}
@@ -19,7 +19,16 @@
         </mat-select>
       </mat-form-field>
     </div>
-
+    <div class="col-md-3 mt-4">
+      <mat-form-field style="width: 100% !important;">
+        <mat-select  placeholder="Brand List" [(ngModel)]="selectedBrands">
+          <mat-option *ngFor="let item of uniqueBrandNamesArray;" [value]="item.brandid"
+            (click)="selectedBrandFromList(item)">
+            {{item.brandname}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
   </div>
 </div>
@@ -35,7 +44,7 @@
 
 
     <div class="col-md-2 col-sm-2 col-12">
-      <button mat-raised-button class="float-right mb-4 width-100" color="primary" (click)="goCart()">Go to
+      <button mat-raised-button class="float-right mb-2 width-100" color="primary" (click)="goCart()">Add to
         Cart</button>
     </div>
 

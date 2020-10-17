@@ -547,6 +547,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
 
   createUniqueBrandName(array: any) {
+    console.log('inside funcn *',array);
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {

@@ -24,6 +24,7 @@ namespace inventory.Models
         public string Unit { get; set; }
         public int id { get; set; }
         public string name { get; set; }
+        public int categoryid { get; set; }
 
     }
 
@@ -58,6 +59,7 @@ namespace inventory.Models
                 cmd.Parameters.AddWithValue("@Unit", purchaseProductsItemData[i].Unit);
                 cmd.Parameters.AddWithValue("@id", purchaseProductsItemData[i].id);
                 cmd.Parameters.AddWithValue("@name", purchaseProductsItemData[i].name);
+                cmd.Parameters.AddWithValue("@CategoryId", purchaseProductsItemData[i].categoryid);
                 cmd.ExecuteNonQuery();
             }
             conn.Close();

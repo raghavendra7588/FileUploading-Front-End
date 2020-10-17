@@ -26,6 +26,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   subCategoryId: string;
   selectedSubCategory: any;
   selectedCategory: any = [];
+  selectedBrands: any;
   purchaseProductArray: any = [];
   catchResponse: any = [];
   availableQuantity: boolean = true;
@@ -34,6 +35,9 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   mrp = 0;
   discount = 0;
   finalPrice = 0;
+  uniqueBrandNamesArray: any = [];
+  catchBrandArray: any = [];
+  productsArray: any = [];
 
   displayedColumns: string[] = ['name', 'brandname', 'selectVarient', 'mrp', 'discount', 'finalPrice', 'requiredQuantity'];
 
@@ -44,6 +48,9 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
   requiredQuantity: boolean = false;
   fakeRequiredQuantity: boolean = true;
+  categoryIdArray: any = [];
+  uniqueCategoriesArray: any = [];
+  cartItems: any = [];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -53,34 +60,108 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef
   ) {
-
+    this.parentId = '0';
+    this.vendorId = sessionStorage.getItem('vendorId');
     this.productForm = this.formBuilder.group({
       Quantity: [''],
     });
+
+
+
+    this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
+    // console.log('cart Items', cartItems);
+
+
+    if (this.cartItems === null || this.cartItems === undefined || this.cartItems === []) {
+      // console.log('no items in cart');
+      return;
+    }
+    else {
+      // console.log('items are present in cart');
+      for (let i = 0; i < this.cartItems.length; i++) {
+        this.categoryIdArray.push(this.cartItems[i].categoryid);
+      }
+
+      // console.log('categoryIdArray', this.categoryIdArray);
+      this.uniqueCategoriesArray = [... new Set(this.categoryIdArray)];
+      let numberArray = this.uniqueCategoriesArray.map(Number);
+      this.uniqueCategoriesArray = numberArray;
+      console.log('unique', this.uniqueCategoriesArray);
+
+    }
+
+
+
+
+
+    // if (uniqueCategoriesArray.length !== undefined || uniqueCategoriesArray.length === null) {
+
+
+    // }
+
   }
 
   ngOnInit(): void {
-    this.parentId = '0';
-    this.vendorId = sessionStorage.getItem('vendorId');
 
-    this.getCategoryListData();
+    this.buyProductsService.getAllCategory(this.parentId, this.vendorId).subscribe(data => {
+
+      this.categoryListData = data;
+      console.log(' ***** category list ******', this.categoryListData);
+      this.checkCartItems(this.categoryListData);
+    });
+    // this.getCategoryListData();
     // this.getSubCategoryListData();
+
+    // if (!(this.cartItems === null || this.cartItems === undefined || this.cartItems === [])) {
+    // console.log('no items in cart');
+    // return;}
+
+    // }
   }
 
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator
   }
 
+  checkCartItems(arr) {
+    console.log('recieved cart items', arr);
+    // console.log(' ***', this.categoryListData);
+    if ((this.cartItems === null || this.cartItems === undefined || this.cartItems === [])) {
+    
+      this.categoryListData;
+      return;
+    }
+    else {
+      let particularCategories: any = [];
+      // console.log('this.uniqueCategoriesArray', this.uniqueCategoriesArray);
+      this.categoryListData = [];
+      arr.filter(item => {
+        // console.log('item', item);
+        if (this.uniqueCategoriesArray.includes(Number(item.id))) {
+          // console.log('required category response', item);
+          particularCategories = item;
+          // this.categoryListData = [];
+          this.categoryListData.push(particularCategories);
+          // particularCategory = item;
+          // this.particularCategoryArray.push(particularCategory);
+        }
+
+      });
+    }
+
+    console.log('after manipultn this.categoryListData', this.categoryListData);
+  }
+
 
   onCardClick(category) {
-    console.log('i received the category', category);
+    // console.log('i received the category', category);
     this.router.navigate(['buyProducts/SubCategories/' + category.id]);
     sessionStorage.setItem('categoryId', category.id);
   }
 
   getCategoryListData() {
     this.buyProductsService.getAllCategory(this.parentId, this.vendorId).subscribe(data => {
-      console.log('category list', data);
+      // console.log('category list', data);
       this.categoryListData = data;
     });
   }
@@ -107,16 +188,20 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   getAllBrandsData() {
     console.log('sub cat id', this.subCategoryId);
     console.log('vendorId', this.vendorId);
-
+    let uniqueBrandNames: any = [];
     this.buyProductsService.getAllProduct(this.subCategoryId, this.vendorId).subscribe(response => {
       this.brandsData = response;
+      this.catchBrandArray = response;
       // this.apiResponseBrandsData = response;
       // mappedData = this.createCustomResponse(this.apiResponseBrandsData, this.storageBrandsData);
       // this.brandsData = mappedData;
       this.dataSource = new MatTableDataSource(this.brandsData);
       this.dataSource.paginator = this.paginator;
       console.log('brands data', this.brandsData);
-     
+      uniqueBrandNames = this.createUniqueBrandName(this.brandsData);
+      this.uniqueBrandNamesArray = this.sortUniqueBrandName(uniqueBrandNames);
+      console.log('unique brand names', this.uniqueBrandNamesArray);
+
     });
   }
 
@@ -136,6 +221,17 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     console.log('seeletce SubCategory', response);
     this.subCategoryId = response.id;
     this.getAllBrandsData();
+
+  }
+
+  selectedBrandFromList(response) {
+    console.log('selected brands from list', response);
+    let filteredBrandArray = this.catchBrandArray.filter(function (item) {
+      return item.brandname.trim() === response.brandname.trim() && item.brandid === response.brandid;
+    });
+    this.productsArray = filteredBrandArray;
+    this.dataSource = new MatTableDataSource(this.productsArray);
+    this.dataSource.paginator = this.paginator;
   }
 
   selectedVarientFromList(response, i) {
@@ -196,7 +292,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   }
 
   pushProduct(arr, response, j) {
-
+    console.log('response', response);
+    console.log('arr', arr);
     if (j === undefined) {
       j = 0;
     }
@@ -210,7 +307,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
         brandid: response.brandid, productid: response.productid,
         id: response.productDetails[j].id, Unit: response.productDetails[j].Unit, Discount: response.productDetails[j].Discount,
         FinalPrice: response.productDetails[j].FinalPrice, MRP: response.productDetails[j].MRP, Quantity: response.productDetails[j].Quantity,
-        RequiredQuantity: response.mappingid
+        RequiredQuantity: response.mappingid, categoryid: response.categoryid
       });
 
     } else {
@@ -229,6 +326,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
           arr[i].FinalPrice = response.productDetails[j].FinalPrice;
           arr[i].MRP = response.productDetails[j].MRP;
           arr[i].Quantity = response.productDetails[j].Quantity
+          arr[i].categoryid = response.categoryid
         }
       }
     }
@@ -242,6 +340,29 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   }
   goCart() {
     this.router.navigate(['/buyProducts/goToCart']);
+  }
+
+
+  createUniqueBrandName(array: any) {
+    console.log('inside fun ', array);
+    let sortedArray: Array<any> = [];
+    for (let i = 0; i < array.length; i++) {
+      if ((sortedArray.findIndex(p => p.brandname.trim() == array[i].brandname.trim())) == -1) {
+        var item = {
+          brandname: array[i].brandname.trim(), subcategoryid: array[i].subcategoryid, brandid: array[i].brandid,
+          productid: array[i].productid
+        }
+        sortedArray.push(item);
+      }
+    }
+    return sortedArray;
+  }
+
+  sortUniqueBrandName(array) {
+    array.sort((a, b) => {
+      return a.brandname.localeCompare(b.brandname);
+    });
+    return array
   }
 
 }

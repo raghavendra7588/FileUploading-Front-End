@@ -29,7 +29,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   selectedBrands: any;
   purchaseProductArray: any = [];
   catchResponse: any = [];
-  availableQuantity: boolean = true;
+  availableQuantity: any;
   selectedProductId: any;
   productForm: FormGroup;
   mrp = 0;
@@ -39,7 +39,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   catchBrandArray: any = [];
   productsArray: any = [];
 
-  displayedColumns: string[] = ['name', 'brandname', 'selectVarient', 'mrp', 'discount', 'finalPrice', 'requiredQuantity'];
+  displayedColumns: string[] = ['name', 'brandname', 'selectVarient', 'mrp',
+    'discount', 'finalPrice', 'requiredQuantity', 'add'];
 
   // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
@@ -51,6 +52,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   categoryIdArray: any = [];
   uniqueCategoriesArray: any = [];
   cartItems: any = [];
+  selectedIndex: number;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -127,7 +129,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     console.log('recieved cart items', arr);
     // console.log(' ***', this.categoryListData);
     if ((this.cartItems === null || this.cartItems === undefined || this.cartItems === [])) {
-    
+
       this.categoryListData;
       return;
     }
@@ -235,8 +237,16 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   }
 
   selectedVarientFromList(response, i) {
-
-
+    this.availableQuantity = 'False';
+    console.log('intially availableQuantity', this.availableQuantity);
+    // console.log('select list changed', i);
+    console.log(' response.productDetails', response.productDetails);
+    console.log(' response.productDetails', response.productDetails[i]);
+    // response.productDetails.filter(item=>{
+    //   console.log('3 items',item);
+    // });
+    this.selectedIndex = i;
+    console.log('selectedIndex', this.selectedIndex);
 
     document.getElementById("mrp" + response.productid).innerHTML = response.productDetails[i].MRP;
     document.getElementById("finalPrice" + response.productid).innerHTML = response.productDetails[i].FinalPrice;
@@ -271,18 +281,25 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
 
   onQuantityChange(response, quantity, i) {
+    console.log('i ', i);
+    console.log();
 
-    if (i === undefined || i === null) {
+    if (this.selectedIndex === undefined || this.selectedIndex === null) {
       i = 0;
     }
-
-
+    if (this.availableQuantity === 'True') {
+      this.toastr.error('Currently this Product is Out of Stock');
+      return;
+    }
+    console.log('i will not execute after Out of Stock');
     this.purchaseProductArray = JSON.parse(sessionStorage.getItem('cart_items') || '[]');
     if (Number(quantity) > 0) {
-      this.catchResponse = this.pushProduct(this.purchaseProductArray, response, i);
+      // this.catchResponse = this.pushProduct(this.purchaseProductArray, response, i);
+      this.catchResponse = this.pushProduct(this.purchaseProductArray, response, this.selectedIndex);
       this.purchaseProductArray = this.catchResponse;
 
       sessionStorage.setItem('cart_items', JSON.stringify(this.purchaseProductArray));
+      this.toastr.success('Product is Added Into Cart');
       this.emitterService.isProductIsAddedOrRemoved.emit(true);
     }
     else {

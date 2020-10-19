@@ -38,6 +38,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   uniqueBrandNamesArray: any = [];
   catchBrandArray: any = [];
   productsArray: any = [];
+  totalNoOfProducts: number;
+  totalProducts: number;
 
   displayedColumns: string[] = ['name', 'brandname', 'selectVarient', 'mrp',
     'discount', 'finalPrice', 'requiredQuantity', 'add'];
@@ -89,17 +91,30 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       let numberArray = this.uniqueCategoriesArray.map(Number);
       this.uniqueCategoriesArray = numberArray;
       console.log('unique', this.uniqueCategoriesArray);
-
+      this.totalProductsCalculation(this.cartItems);
     }
 
 
 
 
 
-    // if (uniqueCategoriesArray.length !== undefined || uniqueCategoriesArray.length === null) {
+    // this.emitterService.isProductIsAddedOrRemoved.subscribe(value => {
+    //   if (value) {
+    //     this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
+    //     if (this.cartItems === null || this.cartItems === undefined || this.cartItems === [] || this.cartItems === '') {
+    //       this.totalNoOfProducts = 0;
+    //       console.log('cart is blank', this.totalNoOfProducts);
+    //       return;
+    //     }
+    //     else {
+    //       console.log('cart Items', this.cartItems);
+    //       this.totalProducts = this.totalProductsCalculation(this.cartItems);
+    //       this.totalNoOfProducts = this.totalProducts;
+    //       console.log('totalNoOfProducts', this.totalNoOfProducts);
+    //     }
+    //   }
+    // });
 
-
-    // }
 
   }
 
@@ -120,7 +135,22 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
     // }
   }
+  totalProductsCalculation(arr) {
+    let items = 0;
+    if (arr) {
+      for (let i = 0; i < arr.length; i++) {
+        items += Number(arr[i].RequiredQuantity);
+      }
+      this.totalNoOfProducts = items;
+      return items;
+    }
+    else {
+      console.log('inside else');
+      this.totalNoOfProducts = 0;
+      return items = 0;
+    }
 
+  }
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator
   }
@@ -300,6 +330,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
       sessionStorage.setItem('cart_items', JSON.stringify(this.purchaseProductArray));
       this.toastr.success('Product is Added Into Cart');
+      this.totalProductsCalculation(this.purchaseProductArray);
       this.emitterService.isProductIsAddedOrRemoved.emit(true);
     }
     else {

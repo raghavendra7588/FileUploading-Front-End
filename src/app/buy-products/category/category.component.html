@@ -44,8 +44,9 @@
 
 
     <div class="col-md-2 col-sm-2 col-12">
-      <button mat-raised-button class="float-right mb-2 width-100" color="primary" (click)="goCart()">Add to
-        Cart</button>
+      <button mat-raised-button class="float-right mb-2 width-100" color="primary" (click)="goCart()">Basket
+        (<span>{{totalNoOfProducts > 0 ? totalNoOfProducts : '0'}}</span>)
+      </button>
     </div>
 
   </div>

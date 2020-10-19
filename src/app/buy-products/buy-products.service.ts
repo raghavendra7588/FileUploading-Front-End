@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class BuyProductsService {
 
 
-  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  private BASE_URL = 'http://localhost:55547/';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'http://localhost:55547/';
 
   private GET_PRODUCT_LIST = 'http://203.112.144.38/AdminApi/api/Product/GetProductList';
   private GET_ALL_CATEGORY_DATA = 'http://203.112.144.38/AdminApi/api/Category/getall';

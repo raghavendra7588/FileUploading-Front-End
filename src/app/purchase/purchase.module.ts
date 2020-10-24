@@ -57,6 +57,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-view-vendor-data.component';
 import { SpecificPriceListComponent } from './specific-price-list/specific-price-list.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
@@ -67,6 +68,7 @@ import { SpecificPriceListComponent } from './specific-price-list/specific-price
   imports: [
     CommonModule,
     HttpClientModule,
+    AngularMultiSelectModule,
     MatFormFieldModule,
     MatFormFieldModule,
     MatToolbarModule,
@@ -94,6 +96,7 @@ import { SpecificPriceListComponent } from './specific-price-list/specific-price
     MatSelectFilterModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
+    
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 23,

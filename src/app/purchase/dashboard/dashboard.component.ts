@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AddAddressComponent } from '../add-address/add-address.component';
 import { DashBoardPurchaseOrderPerDay, DashBoardPurchaseOrderPerMonth, DashBoardPurchasePerDay, DashBoardPurchasePerMonth, FastestGrowingProducts } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dashboard',
@@ -116,6 +117,7 @@ export class DashboardComponent implements OnInit {
   getAllPurchasePerDayData(dashBoardPurchasePerDay) {
     this.purchaseService.getDashBoardPurchasePerDayData(dashBoardPurchasePerDay).subscribe(data => {
       this.purchasePerDayArray = data;
+      // console.log('inside this funcn', data);
       // console.log('PurchasePerDay', data);
       this.purchasePerDayResult = this.getPurchasePerDayComputation();
 
@@ -125,7 +127,9 @@ export class DashboardComponent implements OnInit {
     this.purchaseService.getDashBoardPurchasePerMonthData(dashBoardPurchasePerMonth).subscribe(data => {
 
       this.purchasePerMonthArray = data;
-      // console.log('PurchasePerMonth', data);
+      console.log('inside this funcn *****', data);
+      let uniqueReceivedPurchaseOrder = _.uniqBy(this.purchasePerMonthArray, 'ProductVarientId');
+      console.log('inside this funcn *****', uniqueReceivedPurchaseOrder);
       this.purchasePerMonthResult = this.getPurchasePerMonthComputation();
 
     });
@@ -156,6 +160,8 @@ export class DashboardComponent implements OnInit {
     this.purchaseService.getFastestMovingDataPerMonth(this.strSellerId).subscribe(data => {
       console.log('fastest growing data', data);
       this.topPurchaseOrderData = data;
+      let uniqueFastestPurchaseData = _.uniqBy(this.topPurchaseOrderData, 'ProductVarientId');
+      this.topPurchaseOrderData=uniqueFastestPurchaseData;
     });
   }
 
@@ -174,10 +180,12 @@ export class DashboardComponent implements OnInit {
   getPurchasePerMonthComputation() {
     let totalPurchaseBuyingPrice = 0;
     let totalPurchaseDiscount = 0;
+    let totalPurchaseQuantity = 0;
     let totalPurchasePerMonthCalculation = 0;
     this.purchasePerMonthArray.forEach(item => {
       totalPurchaseBuyingPrice += Number(item.BuyingPrice);
       totalPurchaseDiscount += Number(item.Discount);
+      totalPurchaseQuantity += Number(item.PurchaseQuantity);
     });
     totalPurchasePerMonthCalculation = totalPurchaseBuyingPrice - totalPurchaseDiscount;
     // console.log('totalPurchasePerMonthCalculation', totalPurchasePerMonthCalculation);

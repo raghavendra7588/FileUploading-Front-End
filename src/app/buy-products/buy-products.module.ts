@@ -44,7 +44,7 @@ import { DialogOrderNoComponent } from './dialog-order-no/dialog-order-no.compon
 import { MyOrderComponent } from './my-order/my-order.component';
 import { DialogMyOrdersEditComponent } from './dialog-my-orders-edit/dialog-my-orders-edit.component';
 import { DialogMyOrdersViewComponent } from './dialog-my-orders-view/dialog-my-orders-view.component';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -81,7 +81,8 @@ import { DialogMyOrdersViewComponent } from './dialog-my-orders-view/dialog-my-o
     ToastrModule,
     NgxPrintModule,
     MatPaginatorModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ModalModule.forRoot()
   ],
   entryComponents: [DialogAddAddressComponent, DialogOrderNoComponent, DialogMyOrdersEditComponent, DialogMyOrdersViewComponent],
   exports: [SubCategoriesComponent, CategoryComponent, BrandsComponent, ProductInformationComponent, BuyProductComponent,

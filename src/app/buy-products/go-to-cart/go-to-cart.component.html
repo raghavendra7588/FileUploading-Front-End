@@ -33,6 +33,7 @@
     </div>
   </div>
    -->
+
 <div *ngIf="isDisplay">
   <div class="container-fluid mt-3">
     <div class="row">
@@ -189,7 +190,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="deleteRecord(element)">
+          <button mat-icon-button (click)="openModal(template,element)">
             <mat-icon class="mat-18">delete</mat-icon>
           </button>
         </td>
@@ -252,8 +253,9 @@
   <div class="container-fluid my-5">
     <div class="row">
       <div class="col-md-3 col-sm-3 col-3">
+        <h4 style="text-align: left;" class="font-weight-bold">Delivery Type : </h4>
         <mat-form-field style="width: 100% !important;">
-          <mat-select placeholder="Delivery Type" [(ngModel)]="purchaseProducts.DeliveryType">
+          <mat-select  [(ngModel)]="purchaseProducts.DeliveryType">
             <mat-option *ngFor="let item of deliveryType;" [value]="item.type"
               (click)="selectedDeliveryTypeFromList(item)">
               {{item.type}}
@@ -262,8 +264,9 @@
         </mat-form-field>
       </div>
       <div class="col-md-3 col-sm-3 col-3">
+        <h4 style="text-align: left;"  class="font-weight-bold">Payment Type : </h4>
         <mat-form-field style="width: 100% !important;">
-          <mat-select placeholder="Payment Type" [(ngModel)]="purchaseProducts.PaymentType">
+          <mat-select [(ngModel)]="purchaseProducts.PaymentType">
             <mat-option *ngFor="let item of paymentType;" [value]="item.type"
               (click)="selectedPaymentTermFromList(item)">
               {{item.type}}
@@ -272,17 +275,19 @@
         </mat-form-field>
       </div>
       <div class="col-md-3 col-sm-3 col-3">
+        <h4 style="text-align: left;"  class="font-weight-bold">Delivery Date : </h4>
         <mat-form-field style="width: 100% !important;">
-          <mat-label>Delivery Date</mat-label>
+
           <input matInput [matDatepicker]="picker1" autocomplete="off" [min]="minDate"
-            [(ngModel)]="purchaseProducts.DeliveryDate" placeholder="Delivery Date">
+            [(ngModel)]="purchaseProducts.DeliveryDate">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col-md-3 col-sm-3 col-3">
+        <h4 style="text-align: left;" class="font-weight-bold">Delivery Time : </h4>
         <mat-form-field style="width: 100% !important;">
-          <mat-select placeholder="Delivery Time" [(ngModel)]="purchaseProducts.DeliveryTime">
+          <mat-select [(ngModel)]="purchaseProducts.DeliveryTime">
             <mat-option *ngFor="let item of deliveryTime;" [value]="item.type"
               (click)="selectedDeliveryTypeFromList(item)">
               {{item.type}}
@@ -325,36 +330,17 @@
 
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="name" [(ngModel)]="address.name" readonly />
+              <input matInput placeholder="Name" [(ngModel)]="address.name" readonly />
             </mat-form-field>
           </div>
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="mobileNumber" [(ngModel)]="address.mobileNumber" readonly />
+              <input matInput placeholder="Mobile Number" [(ngModel)]="address.mobileNumber" readonly />
             </mat-form-field>
           </div>
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="houseNo" [(ngModel)]="address.houseNo" readonly />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="row">
-
-          <div class="col-md-4 col-sm-4 col-12">
-            <mat-form-field style="width: 100%;">
-              <input matInput placeholder="society" [(ngModel)]="address.society" readonly />
-            </mat-form-field>
-          </div>
-          <div class="col-md-4 col-sm-4 col-12">
-            <mat-form-field style="width: 100%;">
-              <input matInput placeholder="landMark" [(ngModel)]="address.landMark" readonly />
-            </mat-form-field>
-          </div>
-          <div class="col-md-4 col-sm-4 col-12">
-            <mat-form-field style="width: 100%;">
-              <input matInput placeholder="pinCode" [(ngModel)]="address.pinCode" readonly />
+              <input matInput placeholder="House No" [(ngModel)]="address.houseNo" readonly />
             </mat-form-field>
           </div>
         </div>
@@ -363,17 +349,36 @@
 
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="city" [(ngModel)]="address.city" readonly />
+              <input matInput placeholder="Society" [(ngModel)]="address.society" readonly />
             </mat-form-field>
           </div>
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="area" [(ngModel)]="address.area" readonly />
+              <input matInput placeholder="Land Mark" [(ngModel)]="address.landMark" readonly />
             </mat-form-field>
           </div>
           <div class="col-md-4 col-sm-4 col-12">
             <mat-form-field style="width: 100%;">
-              <input matInput placeholder="state" [(ngModel)]="address.state" readonly />
+              <input matInput placeholder="Pin Code" [(ngModel)]="address.pinCode" readonly />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-4 col-sm-4 col-12">
+            <mat-form-field style="width: 100%;">
+              <input matInput placeholder="City" [(ngModel)]="address.city" readonly />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-4 col-12">
+            <mat-form-field style="width: 100%;">
+              <input matInput placeholder="Area" [(ngModel)]="address.area" readonly />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-4 col-12">
+            <mat-form-field style="width: 100%;">
+              <input matInput placeholder="State" [(ngModel)]="address.state" readonly />
             </mat-form-field>
           </div>
         </div>
@@ -446,3 +451,14 @@
     </div>
   </div>
 </div> -->
+
+
+
+<!-- <pre class="card card-block card-header">{{message}}</pre> -->
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to remove this product from Cart?</p>
+    <button type="button" class="btn btn-primary" (click)="confirm()">Yes</button>
+    <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+  </div>
+</ng-template>

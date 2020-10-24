@@ -113,7 +113,7 @@
         </span>
     </mat-menu>
 
-    <button mat-button [matMenuTriggerFor]="buyProducts" #buyProductsTrigger="matMenuTrigger"
+    <!-- <button mat-button [matMenuTriggerFor]="buyProducts" #buyProductsTrigger="matMenuTrigger"
         (click)="buyProductsTrigger.openMenu()">
         Buy Products
     </button>
@@ -122,47 +122,24 @@
 
             <button mat-menu-item routerLink='buyProducts/categories'>Categories
             </button>
-            <!-- <button mat-menu-item routerLink='buyProducts/purchase'>Categories
-            </button> -->
-            <!-- 'buyProducts/goToCart' -->
-            
-            <button mat-menu-item routerLink='buyProducts/goToCart'>Add to Cart  (<span>{{totalNoOfProducts > 0 ? totalNoOfProducts : '0'}}</span>)
+       
+
+            <button mat-menu-item routerLink='buyProducts/goToCart'>
+                Add to Cart
+                (<span>{{totalNoOfProducts > 0 ? totalNoOfProducts : '0'}}</span>)
             </button>
-            <button mat-menu-item routerLink='buyProducts/addressDetailsData'>Add Address
+            <button mat-menu-item routerLink='buyProducts/addressDetailsData'>
+
+                <span> Add Address</span>
+
             </button>
             <button mat-menu-item routerLink='buyProducts/myOrder'>My Orders
             </button>
         </span>
-    </mat-menu>
+    </mat-menu> -->
 
-    <a mat-button routerLink='uploadDocuments'>Join with us</a>
+
     <a mat-button (click)="Logout()">Logout</a>
 </mat-toolbar>
 
 
-
-<!-- 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Brand</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="main_nav">
-  
-   <ul class="navbar-nav">
-      <li class="nav-item active"> <a class="nav-link" href="#">Home </a> </li>
-      <li class="nav-item"><a class="nav-link" href="#"> About </a></li>
-      <li class="nav-item"><a class="nav-link" href="#"> Services </a></li>
-      <li class="nav-item dropdown">
-          <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">  Hover up  </a>
-          <ul class="dropdown-menu fade-up">
-            <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-            <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
-            <li><a class="dropdown-item" href="#"> Submenu item 3 </a></li>
-          </ul>
-      </li>
-  </ul>
-        
-    </div>
-  
-  </nav> -->

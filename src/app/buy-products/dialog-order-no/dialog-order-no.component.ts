@@ -15,7 +15,8 @@ export class DialogOrderNoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogOrderNoComponent>) {
       console.log('dtaa received ',data);
-    this.orderNo = data.OrderNo;
+    // this.orderNo = data.OrderNo;
+    this.orderNo = data;
   }
 
   ngOnInit(): void {

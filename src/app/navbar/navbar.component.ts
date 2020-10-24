@@ -67,5 +67,22 @@ export class NavbarComponent implements OnInit {
     sessionStorage.clear();
     this.router.navigate(['/login']);
   }
+  goToCategories() {
+
+    // this.router.navigate(['/dashboard']);
+    this.router.navigate(['/buyProducts/categories']);
+  }
+
+  goToCart() {
+    this.router.navigate(['/buyProducts/goToCart']);
+  }
+
+  goToAddress() {
+    this.router.navigate(['/buyProducts/addressDetailsData']);
+  }
+
+  goToMyOrders() {
+    this.router.navigate(['/buyProducts/myOrder']);
+  }
 
 }

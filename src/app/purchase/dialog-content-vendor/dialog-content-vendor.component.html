@@ -40,7 +40,7 @@
     <div class="row">
 
       <div class="col-md-4">
-        <!-- <mat-form-field style="width: 100%;">
+        <mat-form-field style="width: 100%;">
           <mat-label>Category</mat-label>
           <mat-select placeholder="Category" [(ngModel)]="vendor.category" formControlName="category" multiple>
             <mat-option (onSelectionChange)="onCategoriesChange($event,category)"
@@ -48,7 +48,7 @@
               {{category.name }}
             </mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
 
         <!-- <mat-form-field style="width: 100%;">
           <mat-label>Category</mat-label>
@@ -60,20 +60,16 @@
             </mat-option>
           </mat-select>
         </mat-form-field> -->
-
-        <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
+        <!-- <ng-multiselect-dropdown [placeholder]="'Categories'" [settings]="categorySettings"
           [data]="loginService.seller_object.categories" (onSelect)="onCategorySelect($event)"
-          (onDeSelect)="onCategoryDeSelect($event)" (onSelectAll)="onCategorySelectAllList($event)"
-          (onDeSelectAll)="onCategoryDeSelectAll($event)" [(ngModel)]="vendor.category" formControlName="category"
+          (onDeSelect)="onCategoryDeSelect($event)" [(ngModel)]="vendor.category" formControlName="category"
           name='categorySelect'>
-        </ng-multiselect-dropdown>
-
-
+        </ng-multiselect-dropdown> -->
       </div>
 
 
-      <div class="col-md-4">
-        <!-- <mat-form-field style="width: 100%;">
+        <div class="col-md-4">
+          <mat-form-field style="width: 100%;">
           <mat-label>Sub Category</mat-label>
           <mat-select #select formControlName="subCategory" [(ngModel)]="vendor.subCategory" multiple>
             <mat-option (onSelectionChange)="onSubCategoriesChange($event,category)"
@@ -81,8 +77,8 @@
               {{category.name }}
             </mat-option>
           </mat-select>
-        </mat-form-field> -->
-        <!-- <mat-form-field style="width: 100%;">
+        </mat-form-field>
+          <!-- <mat-form-field style="width: 100%;">
           <mat-label>Sub Category</mat-label>
           <mat-select #select formControlName="subCategory" [(ngModel)]="vendor.subCategory" multiple>
             <mat-option value="all" (click)="onSubCategorySelectAll()">All</mat-option>
@@ -93,7 +89,7 @@
           </mat-select>
 
         </mat-form-field> -->
-        <!-- 
+          <!-- 
         <mat-form-field style="width: 100%;">
           <mat-label>Sub Category</mat-label>
           <mat-select #select formControlName="subCategory" [ngModel]="vendor.subCategory" multiple>
@@ -106,17 +102,17 @@
         </mat-form-field> -->
 
 
+<!-- 
+          <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
+            [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
+            (onDeSelect)="onSubCategoryDeSelect($event)" [(ngModel)]="vendor.subCategory" formControlName="subCategory"
+            name='subCategorySelect'>
+          </ng-multiselect-dropdown> -->
 
-        <ng-multiselect-dropdown [placeholder]="'Sub Categories'" [settings]="subCategorySettings"
-          [data]="multipleCategoriesArray" (onSelect)="onSubCategorySelect($event,multipleCategoriesArray)"
-          (onDeSelect)="onSubCategoryDeSelect($event)" [(ngModel)]="vendor.subCategory" formControlName="subCategory"
-          name='subCategorySelect'>
-        </ng-multiselect-dropdown>
+        </div>
 
-      </div>
-
-      <div class="col-md-4">
-        <!-- <mat-form-field style="width: 100%;">
+        <div class="col-md-4">
+          <mat-form-field style="width: 100%;">
           <mat-label>Brand</mat-label>
           <mat-select #BrandSelect formControlName="brand" [(ngModel)]="vendor.brand" multiple>
             <mat-option (onSelectionChange)="onProductChange($event,brand)" *ngFor="let brand of anyArray"
@@ -124,9 +120,9 @@
               {{brand.BrandName}}
             </mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
 
-        <!-- <mat-form-field style="width: 100%;">
+          <!-- <mat-form-field style="width: 100%;">
           <mat-label>Brand</mat-label>
           <mat-select #BrandSelect formControlName="brand" [(ngModel)]="vendor.brand">
             <mat-option value="all" (click)="onBrandSelectAll()">All</mat-option>
@@ -138,263 +134,263 @@
         </mat-form-field>
         {{vendor.brand}} -->
 
+<!-- 
+          <ng-multiselect-dropdown class="customDropdown" [placeholder]="'Brand'" [settings]="brandSettings"
+            [data]="anyArray" (onSelect)="onBrandSelect($event)" [(ngModel)]="vendor.brand"
+            (onDeSelect)="onBrandDeSelect($event)" formControlName="brand" name='brandSelect'>
+          </ng-multiselect-dropdown> -->
 
-        <ng-multiselect-dropdown class="customDropdown"  [placeholder]="'Brand'" [settings]="brandSettings" [data]="anyArray"
-          (onSelect)="onBrandSelect($event)" [(ngModel)]="vendor.brand" (onDeSelect)="onBrandDeSelect($event)"
-          formControlName="brand" name='brandSelect'>
-        </ng-multiselect-dropdown>
 
 
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Under Ledger" type="text" formControlName="underLedger"
+              [(ngModel)]="vendor.underLedger">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Contact-Person" type="text" formControlName="contactPerson"
+              [(ngModel)]="vendor.contactPerson">
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+    <mat-divider></mat-divider>
+
+
+    <div class="container">
+      <h2 class="font-weight-bold">Statutory</h2>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="GST No" formControlName="gst" [maxLength]="maxLengthGst"
+              [(ngModel)]="vendor.gst">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="GST Category" formControlName="gstCategory" [(ngModel)]="vendor.gstCategory">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="PAN" [maxLength]="maxLengthPan" formControlName="pan" [(ngModel)]="vendor.pan">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="datePicker" [(ngModel)]="vendor.registrationDate"
+              (dateChange)="valueChanged()" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Distance" formControlName="distance" [(ngModel)]="vendor.distance">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="CIN" [maxLength]="maxLengthCin" formControlName="cin" [(ngModel)]="vendor.cin">
+          </mat-form-field>
+        </div>
       </div>
     </div>
+    <mat-divider></mat-divider>
 
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Under Ledger" type="text" formControlName="underLedger"
-            [(ngModel)]="vendor.underLedger">
-        </mat-form-field>
+    <div class="container">
+      <h2 class="font-weight-bold">Vendor Address Details</h2>
+      <div class="row">
+
+        <div class="col-md-4">
+
+          <mat-form-field>
+            <mat-label>Address</mat-label>
+            <textarea matInput placeholder="Ex. It makes me feel..." [(ngModel)]="vendor.Address"
+              formControlName="address"></textarea>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <mat-form-field>
+            <input matInput placeholder="City" [(ngModel)]="vendor.City" formControlName="city">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4 mt-3">
+          <mat-form-field>
+            <input matInput placeholder="Pin Code" [maxLength]="maxLengthPinCode" [(ngModel)]="vendor.PinCode"
+              formControlName="pinCode">
+
+          </mat-form-field>
+        </div>
       </div>
 
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Contact-Person" type="text" formControlName="contactPerson"
-            [(ngModel)]="vendor.contactPerson">
-        </mat-form-field>
-      </div>
-    </div>
 
-  </div>
-  <mat-divider></mat-divider>
+      <div class="row">
 
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="State" [(ngModel)]="vendor.State" val formControlName="state">
+          </mat-form-field>
+        </div>
 
-  <div class="container">
-    <h2 class="font-weight-bold">Statutory</h2>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country" />
+          </mat-form-field>
+        </div>
 
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="GST No" formControlName="gst" [maxLength]="maxLengthGst"
-            [(ngModel)]="vendor.gst">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="GST Category" formControlName="gstCategory" [(ngModel)]="vendor.gstCategory">
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="PAN" [maxLength]="maxLengthPan" formControlName="pan" [(ngModel)]="vendor.pan">
-        </mat-form-field>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="datePicker" [(ngModel)]="vendor.registrationDate"
-            (dateChange)="valueChanged()" [max]="maxDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Phone" [(ngModel)]="vendor.Phone" [maxLength]="maxLengthPhone"
+              formControlName="phone">
+          </mat-form-field>
+        </div>
       </div>
 
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Distance" formControlName="distance" [(ngModel)]="vendor.distance">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="CIN" [maxLength]="maxLengthCin" formControlName="cin" [(ngModel)]="vendor.cin">
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-  <mat-divider></mat-divider>
-
-  <div class="container">
-    <h2 class="font-weight-bold">Vendor Address Details</h2>
-    <div class="row">
-
-      <div class="col-md-4">
-
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <textarea matInput placeholder="Ex. It makes me feel..." [(ngModel)]="vendor.Address"
-            formControlName="address"></textarea>
-
-        </mat-form-field>
-
-      </div>
-
-      <div class="col-md-4 mt-3">
-        <mat-form-field>
-          <input matInput placeholder="City" [(ngModel)]="vendor.City" formControlName="city">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4 mt-3">
-        <mat-form-field>
-          <input matInput placeholder="Pin Code" [maxLength]="maxLengthPinCode" [(ngModel)]="vendor.PinCode"
-            formControlName="pinCode">
-
-        </mat-form-field>
-      </div>
-    </div>
-
-
-    <div class="row">
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="State" [(ngModel)]="vendor.State" val formControlName="state">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Country" [(ngModel)]="vendor.Country" formControlName="country" />
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Phone" [(ngModel)]="vendor.Phone" [maxLength]="maxLengthPhone"
-            formControlName="phone">
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Email" [(ngModel)]="vendor.Email" formControlName="email">
-        </mat-form-field>
-      </div>
-    </div>
-
-  </div>
-
-
-
-  <mat-divider></mat-divider>
-
-  <div class="mt-3"></div>
-
-
-  <div class="container">
-    <h2 class="font-weight-bold">Defaults</h2>
-
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Price Category</mat-label>
-          <mat-select [(ngModel)]="vendor.priceCategory" formControlName="priceCategory"
-            (ngModelChange)="selectePriceCategory()">
-            <mat-option *ngFor="let category of paymentCategory" [value]="category.title">
-              {{ category.title }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Transporter</mat-label>
-          <mat-select [(ngModel)]="vendor.transporter" formControlName="selectedTransporter"
-            (ngModelChange)="selectedTransporterDetail()">
-            <mat-option *ngFor="let transporter of transporters" [value]="transporter.title">
-              {{ transporter.title }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4 mt-3">
-        <input type="file" name="filetype" id="filee" [(ngModel)]="fileName" formControlName="inputFiles"
-          (change)="onFileSelect($event)" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Credit Limit Days" [maxLength]="maxLengthCreditLimit"
-            formControlName="creditLimitDays" [(ngModel)]="vendor.creditLimitDays">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Credit Limit/Per Order" formControlName="creditLimit"
-            [(ngModel)]="vendor.creditLimit">
-        </mat-form-field>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Email" [(ngModel)]="vendor.Email" formControlName="email">
+          </mat-form-field>
+        </div>
       </div>
 
     </div>
 
-  </div>
-  <mat-divider></mat-divider>
-  <div class="container">
-    <h2 class="font-weight-bold">Bank Details</h2>
 
-    <div class="row">
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Account Name" formControlName="accountName" [(ngModel)]="vendor.accountName">
-        </mat-form-field>
+
+    <mat-divider></mat-divider>
+
+    <div class="mt-3"></div>
+
+
+    <div class="container">
+      <h2 class="font-weight-bold">Defaults</h2>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Price Category</mat-label>
+            <mat-select [(ngModel)]="vendor.priceCategory" formControlName="priceCategory"
+              (ngModelChange)="selectePriceCategory()">
+              <mat-option *ngFor="let category of paymentCategory" [value]="category.title">
+                {{ category.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Transporter</mat-label>
+            <mat-select [(ngModel)]="vendor.transporter" formControlName="selectedTransporter"
+              (ngModelChange)="selectedTransporterDetail()">
+              <mat-option *ngFor="let transporter of transporters" [value]="transporter.title">
+                {{ transporter.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4 mt-3">
+          <input type="file" name="filetype" id="filee" [(ngModel)]="fileName" formControlName="inputFiles"
+            (change)="onFileSelect($event)" />
+        </div>
       </div>
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="RTGS/IFSC Code" [maxLength]="maxLengthIfsc" formControlName="ifscCode"
-            [(ngModel)]="vendor.ifscCode">
-        </mat-form-field>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Credit Limit Days" [maxLength]="maxLengthCreditLimit"
+              formControlName="creditLimitDays" [(ngModel)]="vendor.creditLimitDays">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Credit Limit/Per Order" formControlName="creditLimit"
+              [(ngModel)]="vendor.creditLimit">
+          </mat-form-field>
+        </div>
+
       </div>
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Accounts Number" formControlName="accountNumber"
-            [maxLength]="maxLengthAccountNumber" [(ngModel)]="vendor.accountNumber">
-        </mat-form-field>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="container">
+      <h2 class="font-weight-bold">Bank Details</h2>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Account Name" formControlName="accountName" [(ngModel)]="vendor.accountName">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="RTGS/IFSC Code" [maxLength]="maxLengthIfsc" formControlName="ifscCode"
+              [(ngModel)]="vendor.ifscCode">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Accounts Number" formControlName="accountNumber"
+              [maxLength]="maxLengthAccountNumber" [(ngModel)]="vendor.accountNumber">
+          </mat-form-field>
+        </div>
       </div>
+
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Bank Name" formControlName="bankName" [(ngModel)]="vendor.bankName">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput placeholder="Branch" formControlName="branch" [(ngModel)]="vendor.branch">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-label>Account Type</mat-label>
+            <mat-select [(ngModel)]="vendor.accountType" formControlName="accountType">
+              <mat-option *ngFor="let accountType of AccountType" [value]="accountType.title">
+                {{ accountType.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
     </div>
 
 
-    <div class="row">
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Bank Name" formControlName="bankName" [(ngModel)]="vendor.bankName">
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field>
-          <input matInput placeholder="Branch" formControlName="branch" [(ngModel)]="vendor.branch">
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-4">
-        <mat-form-field>
-          <mat-label>Account Type</mat-label>
-          <mat-select [(ngModel)]="vendor.accountType" formControlName="accountType">
-            <mat-option *ngFor="let accountType of AccountType" [value]="accountType.title">
-              {{ accountType.title }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <div mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid">Save</button>
+      <button mat-raised-button mat-dialog-close>Close</button>
     </div>
-
-  </div>
-
-
-  <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid">Save</button>
-    <button mat-raised-button mat-dialog-close>Close</button>
-  </div>
 
 </form>

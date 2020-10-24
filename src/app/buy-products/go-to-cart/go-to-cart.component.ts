@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogOrderNoComponent } from '../dialog-order-no/dialog-order-no.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddAddressComponent } from '../dialog-add-address/dialog-add-address.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -20,11 +21,11 @@ import { DialogAddAddressComponent } from '../dialog-add-address/dialog-add-addr
 })
 export class GoToCartComponent implements OnInit, AfterViewInit {
   dataSource: any;
-
+  modalRef: BsModalRef;
   cartItems: any = [];
   totalFinalPrice: number = 0;
-  totalMRP: number = 0;
-  totalDiscount: number = 0;
+  totalMRP: any = 0;
+  totalDiscount: any = 0;
   totalPayableAmount: number = 0;
   totalItemsOrdered: number = 0;
   selectedAddressId: any;
@@ -35,7 +36,7 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   orderedItems: OrderedItems = new OrderedItems();
   isDisplay: boolean;
   cartLength: number;
-  options: any;
+
   isAddressSelected: boolean = false;
 
   selection = new SelectionModel<any>(true, []);
@@ -87,6 +88,9 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
   addressSelected: boolean = false;
   currentlySelectedAddress: any;
   selectedTimeSlot: any;
+  // modalRef: BsModalRef;
+  message: string;
+  deleteRecordResponse: any;
 
   purchaseProducts: PurchaseProducts = new PurchaseProducts();
 
@@ -97,6 +101,7 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     public buyProductsService: BuyProductsService,
     public toastr: ToastrService,
     public dialog: MatDialog,
+    private modalService: BsModalService
   ) {
     this.emitterService.isProductRemoved.subscribe(value => {
       if (value) {
@@ -159,14 +164,14 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     this.purchaseProducts.OrderDate = orderDate;
 
     this.deliveryType = [
-      { id: 0, type: 'Pickup from Shop' },
+      { id: 0, type: 'Pickup' },
       { id: 1, type: 'Home Delivery' }
     ];
 
     this.paymentType = [
       { id: 0, type: 'Cash' },
       { id: 1, type: 'Credit' },
-      { id: 2, type: 'Online' }
+      // { id: 2, type: 'Online' }
     ];
 
     this.deliveryTime = [
@@ -182,11 +187,30 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
 
     });
     this.getAddressData();
-
   }
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator
+    this.dataSource.paginator = this.paginator;
   }
+
+  openModal(template: TemplateRef<any>, response) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.deleteRecordResponse = response;
+    console.log('deleteRecordResponse', this.deleteRecordResponse);
+  }
+
+  confirm(): void {
+    console.log('deleteRecordResponse inside confirm', this.deleteRecordResponse);
+    this.message = 'Confirmed!';
+    this.deleteRecord(this.deleteRecordResponse);
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+    return ;
+  }
+
 
   applyFilter(filter: string) {
     this.dataSource.filter = filter.trim().toLowerCase();
@@ -430,8 +454,8 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
       this.totalItemsOrdered = 0;
       this.totalPayableAmount = 0;
       for (let i = 0; i < arr.length; i++) {
-        this.totalMRP += Number(arr[i].MRP) * Number(arr[i].RequiredQuantity);
-        this.totalDiscount += Number(arr[i].Discount) * Number(arr[i].RequiredQuantity);
+        this.totalMRP += (parseFloat(arr[i].MRP) * parseFloat(arr[i].RequiredQuantity));
+        this.totalDiscount += (parseFloat(arr[i].Discount) * parseFloat(arr[i].RequiredQuantity));
         this.totalItemsOrdered += Number(arr[i].RequiredQuantity);
         // this.totalFinalPrice += arr[i].FinalPrice;
       }
@@ -612,7 +636,7 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
         this.toastr.error('Check Delivery Time');
         return;
       }
-    
+
     }
     console.log('i supposed to not exceute');
 
@@ -691,7 +715,8 @@ export class GoToCartComponent implements OnInit, AfterViewInit {
     this.dialog.open(DialogOrderNoComponent, {
       height: '150px',
       width: '400px',
-      data: this.ProductsResponse
+      data: this.purchaseProducts.OrderNo,
+      disableClose: true
     });
   }
 

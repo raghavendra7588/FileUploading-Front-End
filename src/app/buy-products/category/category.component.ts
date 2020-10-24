@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit, AfterViewInit {
+  patientCategory: FormGroup;
 
   categoryListData: any = [];
   parentId: string;
@@ -40,6 +41,9 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   productsArray: any = [];
   totalNoOfProducts: number;
   totalProducts: number;
+  showInitialProductDetails: boolean;
+  finalProductDetails: boolean;
+  selectedValue: any;
 
   displayedColumns: string[] = ['name', 'brandname', 'selectVarient', 'mrp',
     'discount', 'finalPrice', 'requiredQuantity', 'add'];
@@ -55,6 +59,12 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   uniqueCategoriesArray: any = [];
   cartItems: any = [];
   selectedIndex: number;
+  allBrandsData: any = [];
+  allSubCategoryData: any = [];
+  sellerId: string;
+  categoryId: string;
+  SubCategoryId: string;
+
 
   constructor(
     public formBuilder: FormBuilder,
@@ -62,16 +72,18 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     private router: Router,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder
   ) {
     this.parentId = '0';
     this.vendorId = sessionStorage.getItem('vendorId');
-    this.productForm = this.formBuilder.group({
-      Quantity: [''],
+    this.sellerId = (sessionStorage.getItem('sellerId')).toString();
+    this.patientCategory = this.fb.group({
+      patientCategory: [null, Validators.required]
     });
 
-
-
+    this.showInitialProductDetails = true;
+    this.finalProductDetails = false;
     this.cartItems = JSON.parse(sessionStorage.getItem('cart_items'));
     // console.log('cart Items', cartItems);
 
@@ -227,8 +239,11 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       // this.apiResponseBrandsData = response;
       // mappedData = this.createCustomResponse(this.apiResponseBrandsData, this.storageBrandsData);
       // this.brandsData = mappedData;
+      // element.productDetails[0].Unit
+
       this.dataSource = new MatTableDataSource(this.brandsData);
       this.dataSource.paginator = this.paginator;
+
       console.log('brands data', this.brandsData);
       uniqueBrandNames = this.createUniqueBrandName(this.brandsData);
       this.uniqueBrandNamesArray = this.sortUniqueBrandName(uniqueBrandNames);
@@ -239,25 +254,27 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
 
   selectedCategoryFromList(response) {
-    console.log('seeletce category', response);
+    // console.log('seeletce category', response);
     this.parentId = response.id;
 
     this.buyProductsService.getAllSubCategory(this.parentId, this.vendorId).subscribe(data => {
       this.subCategoryListData = data;
-      console.log('sub category ', this.subCategoryListData);
+      // console.log('sub category ', this.subCategoryListData);
       this.parentId = '0';
     });
   }
 
   selectedSubCategoryFromList(response) {
-    console.log('seeletce SubCategory', response);
+    // console.log('seeletce SubCategory', response);
     this.subCategoryId = response.id;
     this.getAllBrandsData();
-
+    // this.selectedValue = this.catchBrandArray.productDetails[0].Unit;
+    // const toSelect = this.catchBrandArray.find(c =>console.log('ccccc',c));
+    // this.patientCategory.get('patientCategory').setValue(toSelect);
   }
 
   selectedBrandFromList(response) {
-    console.log('selected brands from list', response);
+    // console.log('selected brands from list', response);
     let filteredBrandArray = this.catchBrandArray.filter(function (item) {
       return item.brandname.trim() === response.brandname.trim() && item.brandid === response.brandid;
     });
@@ -281,7 +298,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     document.getElementById("mrp" + response.productid).innerHTML = response.productDetails[i].MRP;
     document.getElementById("finalPrice" + response.productid).innerHTML = response.productDetails[i].FinalPrice;
     document.getElementById("discount" + response.productid).innerHTML = response.productDetails[i].Discount;
-
+    this.showInitialProductDetails = false;
+    this.finalProductDetails = true;
 
     // response.productDetails[i].Unit = response.productDetails[i].Unit;
     // document.getElementById("discount" + response.productid)
@@ -310,6 +328,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   onQuantityChange(response, quantity, i) {
     console.log('i ', i);
     console.log();
@@ -321,8 +341,27 @@ export class CategoryComponent implements OnInit, AfterViewInit {
       this.toastr.error('Currently this Product is Out of Stock');
       return;
     }
-    console.log('i will not execute after Out of Stock');
+    // console.log('i will not execute after Out of Stock');
     this.purchaseProductArray = JSON.parse(sessionStorage.getItem('cart_items') || '[]');
+    console.log('session array', this.purchaseProductArray);
+    console.log('response ', response);
+    // if ((this.purchaseProductArray != null || this.purchaseProductArray != undefined || this.purchaseProductArray != [])) {
+    //   if (Number(this.purchaseProductArray[0].categoryid) != Number(response.categoryid)) {
+    //     this.toastr.error('Can not allowed to add more one categories product');
+    //     return;
+    //   }
+    // }
+
+    if ("cart_items" in sessionStorage) {
+      if (Number(this.purchaseProductArray[0].categoryid) != Number(response.categoryid)) {
+        this.toastr.error('Can not allowed to add more one categories product');
+        return;
+      }
+
+    } else {
+      console.log("");
+    }
+
     if (Number(quantity) > 0) {
       // this.catchResponse = this.pushProduct(this.purchaseProductArray, response, i);
       this.catchResponse = this.pushProduct(this.purchaseProductArray, response, this.selectedIndex);
@@ -406,11 +445,23 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     return sortedArray;
   }
 
+
   sortUniqueBrandName(array) {
     array.sort((a, b) => {
       return a.brandname.localeCompare(b.brandname);
     });
     return array
+  }
+
+  onBrandSelectAll() {
+    this.categoryId = "0";
+    this.SubCategoryId = "0";
+    this.buyProductsService.getALLBrandsData(this.sellerId, this.categoryId, this.SubCategoryId).subscribe(response => {
+      this.allBrandsData = response;
+      console.log('all brands ', this.allBrandsData);
+      this.dataSource = new MatTableDataSource(this.allBrandsData);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
 }

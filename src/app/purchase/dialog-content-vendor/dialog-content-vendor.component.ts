@@ -124,6 +124,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   prevSubCategory: string;
   prevCategory: string;
 
+
+
   constructor(public purchaseService: PurchaseService,
     public loginService: LoginService,
     public toastr: ToastrService,
@@ -146,8 +148,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
@@ -156,8 +156,6 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
@@ -166,12 +164,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       singleSelection: false,
       idField: 'BrandID',
       textField: 'BrandName',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      enableSearchFilter: true,
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
+
     this.getAddressDetails();
     this.getMasterBrandData();
     this.getVendorData();
@@ -318,6 +314,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
   }
+
 
   selectedBillingAddress(event, adr) {
     this.currentBillingId = adr.id.toString();
@@ -585,8 +582,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onCategoriesChange(event, category: any) {
 
     this.categoryId = category.id;
-    this.selectedCategoryIdArray = [];
+    // this.selectedCategoryIdArray = [];
     this.selectedCategoryIdArray.push(category.id);
+
+    console.log('selectedCategoryIdArray', this.selectedCategoryIdArray);
 
     if (event.isUserInput) {
       if (event.source.selected) {
@@ -607,17 +606,34 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
 
     if (!event.source.selected) {
-
+      // console.log('cat ', category);
+      // console.log('multipleCategoriesArray', this.multipleCategoriesArray);
       let newCategoriesArr = this.multipleCategoriesArray.filter(function (item) {
         // return item.id != category.id;
         return Number(item.parentid) !== Number(category.id);
       });
+      // console.log('after unselect cat', newCategoriesArr);
       this.multipleCategoriesArray = newCategoriesArr;
       const index = this.categoriesArray.indexOf(category.id);
       if (index > -1) {
         this.categoriesArray.splice(index, 1);
       }
+      console.log('before removed  this.selectedCategoryIdArray', this.selectedCategoryIdArray);
+      // const indexx = this.selectedCategoryIdArray.indexOf(event.id);
+      // if (index > -1) {
+      //   this.selectedCategoryIdArray.splice(indexx, 1);
+      // }
+      let uniqueCategoryIdArray = [...new Set(this.selectedCategoryIdArray)];
 
+      console.log('extracted index to be deleted', category.id);
+      const indexx = uniqueCategoryIdArray.indexOf(category.id);
+      console.log('extracted index', indexx);
+      if (indexx > -1) {
+        uniqueCategoryIdArray.splice(indexx, 1);
+      }
+
+      this.selectedCategoryIdArray = uniqueCategoryIdArray;
+      console.log('removed  this.selectedCategoryIdArray', this.selectedCategoryIdArray);
 
 
     }
@@ -627,9 +643,10 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (event.isUserInput) {
       if (event.source.selected) {
 
-        this.selectedSubCategoryIdArray = [];
+        // this.selectedSubCategoryIdArray = [];
         this.selectedSubCategoryIdArray.push(subCategory.id);
         console.log('cate called ', this.selectedSubCategoryIdArray);
+
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -646,14 +663,32 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
       }
     }
     if (!event.source.selected) {
-      var newArr = this.multipleBrandArray.filter(function (item) {
-        return item.SubCategoryID != subCategory.id;
+      // console.log('sub cat unselect', subCategory);
+      // console.log('multiple brand array', this.multipleBrandArray);
+      let newArr = this.multipleBrandArray.filter(function (item) {
+        return Number(item.SubCategoryID) != Number(subCategory.id);
       });
+      // console.log('new arr', newArr);
       this.multipleBrandArray = newArr;
+      this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
+      this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
       const index = this.subCategoriesArray.indexOf(subCategory.id);
       if (index > -1) {
         this.subCategoriesArray.splice(index, 1);
       }
+
+
+      let uniqueSubCategoryIdArray = [...new Set(this.selectedSubCategoryIdArray)];
+
+      console.log('extracted index to be deleted', subCategory.id);
+      const indexx = uniqueSubCategoryIdArray.indexOf(subCategory.id);
+      console.log('extracted index', indexx);
+      if (indexx > -1) {
+        uniqueSubCategoryIdArray.splice(indexx, 1);
+      }
+
+      this.selectedSubCategoryIdArray = uniqueSubCategoryIdArray;
+      console.log('removed  this.selectedSubCategoryIdArray', this.selectedSubCategoryIdArray);
     }
   }
 
@@ -662,8 +697,9 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
-        this.selectedBrandIdArray = [];
+        // this.selectedBrandIdArray = [];
         this.selectedBrandIdArray.push(product.BrandID);
+        console.log('selectedBrandIdArray', this.selectedBrandIdArray);
         if (this.finalBrandArray.length === 0) {
           let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
             return item.BrandName.trim() === product.BrandName
@@ -683,6 +719,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
       }
       if (!event.source.selected) {
+        console.log('product unselect', product);
+        console.log('final brand array', this.finalBrandArray);
 
         var tempArr = this.finalBrandArray.filter(function (item) {
           return item.BrandName.trim() != product.BrandName;
@@ -693,6 +731,23 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
           this.brandArray.splice(index, 1);
         }
 
+
+        console.log('before removed  this.selectedCategoryIdArray', this.selectedBrandIdArray);
+        // const indexx = this.selectedCategoryIdArray.indexOf(event.id);
+        // if (index > -1) {
+        //   this.selectedCategoryIdArray.splice(indexx, 1);
+        // }
+        let uniqueBrandIdArray = [...new Set(this.selectedBrandIdArray)];
+
+        console.log('extracted index to be deleted', product.BrandID);
+        const indexx = uniqueBrandIdArray.indexOf(product.BrandID);
+        console.log('extracted index', indexx);
+        if (indexx > -1) {
+          uniqueBrandIdArray.splice(indexx, 1);
+        }
+
+        this.selectedBrandIdArray = uniqueBrandIdArray;
+        console.log('removed  this.selectedCategoryIdArray', this.selectedBrandIdArray);
       }
     }
   }

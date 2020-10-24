@@ -240,9 +240,9 @@ export class DialogMyOrdersEditComponent implements OnInit {
     if ((Number(newQuantity) < 1) || (Number(newQuantity) > Number(availableQuantity))) {
       isRecordValid = false;
     }
-    if (requiredQuantity === newQuantity) {
-      isRecordValid = false;
-    }
+    // if (requiredQuantity === newQuantity) {
+    //   isRecordValid = false;
+    // }
     else {
       if ((Number(newQuantity) >= 1) || (Number(newQuantity) < Number(availableQuantity))) {
         isRecordValid = true;

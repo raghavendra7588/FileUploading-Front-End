@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class BuyProductsService {
 
 
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  // private BASE_URL = 'http://localhost:55547/';
+  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  private BASE_URL = 'http://localhost:55547/';
 
   private GET_PRODUCT_LIST = 'http://203.112.144.38/AdminApi/api/Product/GetProductList';
   private GET_ALL_CATEGORY_DATA = 'http://203.112.144.38/AdminApi/api/Category/getall';
@@ -22,6 +22,8 @@ export class BuyProductsService {
   private GET_ALL_MY_ORDERS_DATA_BY_PURCHASE_PRODUCT_ID = this.BASE_URL + 'api/MyOrders';
   private UPDATE_MY_ORDERS_DATA = this.BASE_URL + 'api/MyOrders/editMyOrders';
   private DELETE_MY_ORDERS_DATA = this.BASE_URL + 'api/MyOrders/deleteMyOrders';
+  private SubCategoryId = 'http://203.112.144.38/AdminApi/api//ProductSellerMapping/getalledit';
+
 
   constructor(
     public http: HttpClient
@@ -106,5 +108,14 @@ export class BuyProductsService {
   deleteMyOrdersData(MyOrdersData) {
     return this.http.post(this.DELETE_MY_ORDERS_DATA, MyOrdersData);
   }
-  
+
+  getALLBrandsData(SellerId: string, CategoryId: string, SubCategoryId: string) {
+    const data = { 'SellerId': SellerId, 'CategoryId': CategoryId, 'SubCategoryId': SubCategoryId }
+    let reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(this.SubCategoryId, data, { headers: reqHeader });
+  }
+
 }

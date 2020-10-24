@@ -36,12 +36,12 @@ namespace inventory.Models
     }
 
 
-    //public class DashBoardFastestMovingProductsPerMonth
-    //{
-    //    public string StartDate { get; set; }
-    //    public string EndDate { get; set; }
-    //    public string SellerId { get; set; }
-    //}
+    public class DashBoardFastestMovingProductsPerMonth
+    {
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string SellerId { get; set; }
+    }
 
 
 
@@ -50,10 +50,10 @@ namespace inventory.Models
     //    string strConn = ConfigurationManager.ConnectionStrings["sqlConnection"].ToString();
     //    public DataTable postPurchasePerDayToDb(DashBoardPurchasePerDay objDashBoardPurchasePerDay)
     //    {
-   
+
     //        SqlCommand command = new SqlCommand();
     //        SqlConnection conn = new SqlConnection(strConn);
-      
+
     //        conn.Open();
     //        command.Connection = conn;
     //        command.CommandType = CommandType.StoredProcedure;
@@ -87,8 +87,8 @@ namespace inventory.Models
             command.CommandText = "Mst_GetPurchasePerMonth";
 
             command.Parameters.AddWithValue("@SellerId", objDashBoardPurchasePerMonth.SellerId);
-            command.Parameters.AddWithValue("@OrderDate", objDashBoardPurchasePerMonth.StartDate);
-            command.Parameters.AddWithValue("@DeliveryDate", objDashBoardPurchasePerMonth.EndDate);
+            //command.Parameters.AddWithValue("@OrderDate", objDashBoardPurchasePerMonth.StartDate);
+            //command.Parameters.AddWithValue("@DeliveryDate", objDashBoardPurchasePerMonth.EndDate);
             
 
             SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -116,7 +116,7 @@ namespace inventory.Models
             command.CommandText = "Mst_GetPurchaseOrderPerDay";
 
             command.Parameters.AddWithValue("@SellerId", objDashBoardPurchaseOrderPerDay.SellerId);
-            command.Parameters.AddWithValue("@OrderDate", objDashBoardPurchaseOrderPerDay.CurrentDate);
+            //command.Parameters.AddWithValue("@OrderDate", objDashBoardPurchaseOrderPerDay.CurrentDate);
             
             SqlDataAdapter adapter = new SqlDataAdapter(command);
 

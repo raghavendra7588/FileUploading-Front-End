@@ -40,8 +40,11 @@ import { SalesReportComponent } from './sales-report/sales-report.component';
 import { DialogSalesReportComponent } from './dialog-sales-report/dialog-sales-report.component';
 import { MatSelectFilterModule } from 'mat-select-filter';
 
+
+
 @NgModule({
-  declarations: [MinimumRatePurchaseOrderComponent, DialogMinimumRatePurchaseOrderComponent, ProductVendorWisePurchaseReportComponent, DialogProductVendorWisePurchaseReportComponent, SalesReportComponent, DialogSalesReportComponent],
+  declarations: [MinimumRatePurchaseOrderComponent, DialogMinimumRatePurchaseOrderComponent, ProductVendorWisePurchaseReportComponent, 
+    DialogProductVendorWisePurchaseReportComponent, SalesReportComponent, DialogSalesReportComponent],
   imports: [
     CommonModule,
     HttpClientModule,

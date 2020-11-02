@@ -12,17 +12,16 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { BarecodeScannerLivestreamModule } from 'ngx-barcode-scanner';
 import { ReportsModule } from './reports/reports.module';
-import { BuyProductsModule } from './buy-products/buy-products.module';
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
+
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 //services
 import { EmitterService } from '../shared/emitter.service';
-import { UploadDocumentsService } from './upload-documents/upload-documents.service';
+
 
 //angular material
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -50,7 +49,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     AppComponent,
-    UploadDocumentsComponent,
     HomeComponent,
     NavbarComponent,
     DashboardComponent,
@@ -65,7 +63,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     PurchaseModule,
     InventoryModule,
     ReportsModule,
-    BuyProductsModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,
@@ -91,7 +88,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
       animationDuration: 300
     })
   ],
-  providers: [EmitterService, UploadDocumentsService, LoginService, PurchaseService],
+  providers: [EmitterService, LoginService, PurchaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

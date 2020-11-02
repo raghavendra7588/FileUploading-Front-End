@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 import { HomeComponent } from './home/home.component';
 
 //purchase
@@ -41,15 +40,8 @@ import { MinimumRatePurchaseOrderComponent } from './reports/minimum-rate-purcha
 import { ProductVendorWisePurchaseReportComponent } from './reports/product-vendor-wise-purchase-report/product-vendor-wise-purchase-report.component';
 import { SalesReportComponent } from './reports/sales-report/sales-report.component';
 import { SpecificPriceListComponent } from './purchase/specific-price-list/specific-price-list.component';
-import { SubCategoriesComponent } from './buy-products/sub-categories/sub-categories.component';
-import { CategoryComponent } from './buy-products/category/category.component';
-import { BrandsComponent } from './buy-products/brands/brands.component';
-import { ProductInformationComponent } from './buy-products/product-information/product-information.component';
-import { BuyProductComponent } from './buy-products/buy-product/buy-product.component';
-import { GoToCartComponent } from './buy-products/go-to-cart/go-to-cart.component';
-import { AddressDetailDataComponent } from './buy-products/address-detail-data/address-detail-data.component';
-import { PlaceOrderComponent } from './buy-products/place-order/place-order.component';
-import { MyOrderComponent } from './buy-products/my-order/my-order.component';
+
+
 
 
 
@@ -62,8 +54,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'uploadDocuments', component: UploadDocumentsComponent },
-  { path: 'uploadDocuments/:userId/:role', component: UploadDocumentsComponent },
   { path: 'purchase/address', component: AddressDetailsComponent },
   { path: 'purchase/vendor', component: VendorComponent },
   { path: 'purchase/priceList', component: PriceListComponent },
@@ -95,15 +85,6 @@ const routes: Routes = [
   { path: 'reports/minimumPurchaseReport', component: MinimumRatePurchaseOrderComponent },
   { path: 'reports/productVendorWisePurchaseReport', component: ProductVendorWisePurchaseReportComponent },
   { path: 'reports/salesReport', component: SalesReportComponent },
-  // { path: 'buyProducts/categories', component: CategoryComponent },
-  // { path: 'buyProducts/SubCategories/:id', component: SubCategoriesComponent },
-  // { path: 'buyProducts/brand/:id', component: BrandsComponent },
-  // { path: 'buyProducts/productInformation/:id', component: ProductInformationComponent },
-  // { path: 'buyProducts/purchase', component: BuyProductComponent },
-  // { path: 'buyProducts/goToCart', component: GoToCartComponent },
-  // { path: 'buyProducts/addressDetailsData', component: AddressDetailDataComponent },
-  // { path: 'buyProducts/placeOrder', component: PlaceOrderComponent },
-  // { path: 'buyProducts/myOrder', component: MyOrderComponent },
   {
     path: '**',
     redirectTo: '/login'

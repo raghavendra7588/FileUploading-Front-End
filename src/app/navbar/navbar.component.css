@@ -52,3 +52,12 @@ mat-icon{
 .order-text{
     color: #17a2b8;
 }
+
+mat-toolbar {
+    background: transparent;
+    color: rgba(0,0,0,.87);
+}
+
+button{
+    color: #FF8C00;
+}

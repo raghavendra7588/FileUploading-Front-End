@@ -1,11 +1,12 @@
-<mat-toolbar color="primary" class="mat-elevation-z6">
+<mat-toolbar>
 
     <span>
-        <!-- <mat-icon>eco</mat-icon>Gramvyapar -->
-        <img src="assets/images/gv.PNG" class="img-fluid" alt="image" style="height: 62px !important;"> 
+        <img src="assets/images/gv.PNG" class="img-fluid" alt="image" style="height: 62px !important;">
     </span>
     <div class="spacer"></div>
-    <a mat-button routerLink='dashboard'>Dashboard</a>
+
+    <button mat-button routerLink='dashboard'> Dashboard</button>
+    <!-- <a mat-button routerLink='dashboard'>Dashboard</a> -->
     <button mat-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
         Purchase
     </button>
@@ -109,10 +110,10 @@
             <button mat-menu-item routerLink='reports/productVendorWisePurchaseReport'>Product/Vendor Wise Purchase
                 Report
             </button>
-          
+
             <button mat-menu-item routerLink='reports/salesReport' disabled>Sales Report
             </button>
-          
+
         </span>
     </mat-menu>
 
@@ -141,8 +142,6 @@
         </span>
     </mat-menu> -->
 
-
-    <a mat-button (click)="Logout()">Logout</a>
+    <button mat-button (click)="Logout()"> Logout</button>
+    <!-- <a mat-button (click)="Logout()">Logout</a> -->
 </mat-toolbar>
-
-

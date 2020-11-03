@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\AgriCultureFormController.cs" />
     <Compile Include="Controllers\APPAddressController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\HelloController.cs" />
@@ -111,6 +112,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\AgriCultureForm.cs" />
     <Compile Include="Models\APPAddress.cs" />
     <Compile Include="Models\DashBoard.cs" />
     <Compile Include="Models\ItemMaster.cs" />

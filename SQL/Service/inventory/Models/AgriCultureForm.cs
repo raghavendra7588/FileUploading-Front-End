@@ -25,6 +25,8 @@ namespace inventory.Models
         public string State { get; set; }
         public string PinCode { get; set; }
         public string AreaGuntha { get; set; }
+
+        public string AreaInAcre { get; set; }
         public string Well { get; set; }
         public string WaterLevelPerYear { get; set; }
         public string CropType { get; set; }
@@ -78,6 +80,7 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@State", objAgriCultureForm.State);
             cmd.Parameters.AddWithValue("@PinCode", objAgriCultureForm.PinCode);
             cmd.Parameters.AddWithValue("@AreaGuntha", objAgriCultureForm.AreaGuntha);
+            cmd.Parameters.AddWithValue("@AreaInAcre", objAgriCultureForm.AreaInAcre);
             cmd.Parameters.AddWithValue("@Well", objAgriCultureForm.Well);
             cmd.Parameters.AddWithValue("@WaterLevelPerYear", objAgriCultureForm.WaterLevelPerYear);
 

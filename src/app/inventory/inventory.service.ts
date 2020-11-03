@@ -16,13 +16,14 @@ export class InventoryService {
   extractPriceListData: any = [];
   finalPriceList: any = [];
 
+  private ADMIN_BASE_URL = 'http://203.112.144.38/uat_AdminApi/api/';
   private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
   // private BASE_URL = 'http://localhost:55547/';
   
   private GET_PURCHASE_ORDER_INVENTORY_DATA = this.BASE_URL + 'api/PurchaseReportInventory';
   private SAVE_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
   private GET_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';
-  private GET_MEASUREMENT_UNIT = 'http://203.112.144.38/uat_AdminApi/api/PriceDecisionFactor/getall';
+  private GET_MEASUREMENT_UNIT = this.ADMIN_BASE_URL + 'PriceDecisionFactor/getall';
   private SAVE_STOCK_IN_ITEMS = this.BASE_URL + 'api/StockIn';
   private GET_STOCK_IN_ITEMS = this.BASE_URL + 'api/StockIn';
 

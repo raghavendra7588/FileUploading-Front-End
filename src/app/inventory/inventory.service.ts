@@ -16,8 +16,8 @@ export class InventoryService {
   extractPriceListData: any = [];
   finalPriceList: any = [];
 
-  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  private BASE_URL = 'http://localhost:55547/';
+  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'http://localhost:55547/';
 
   private GET_PURCHASE_ORDER_INVENTORY_DATA = this.BASE_URL + 'api/PurchaseReportInventory';
   private SAVE_ITEM_MASTER = this.BASE_URL + 'api/ItemMaster';

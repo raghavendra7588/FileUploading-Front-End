@@ -32,6 +32,8 @@ namespace inventory.Models
         public string CropType { get; set; }
         public string NoOfTimesInYear { get; set; }
         public string MajorCrop { get; set; }
+        public string MinorCrop { get; set; }
+        public string MajorCropArea { get; set; }
         public string SmallCropArea { get; set; }
         public string MajorCropOutput { get; set; }
         public string SmallCropOutput { get; set; }
@@ -87,6 +89,8 @@ namespace inventory.Models
             cmd.Parameters.AddWithValue("@CropType", objAgriCultureForm.CropType);
             cmd.Parameters.AddWithValue("@NoOfTimesInYear", objAgriCultureForm.NoOfTimesInYear);
             cmd.Parameters.AddWithValue("@MajorCrop", objAgriCultureForm.MajorCrop);
+            cmd.Parameters.AddWithValue("@MinorCrop", objAgriCultureForm.MinorCrop);
+            cmd.Parameters.AddWithValue("@MajorCropArea", objAgriCultureForm.MajorCropArea);
             cmd.Parameters.AddWithValue("@SmallCropArea", objAgriCultureForm.SmallCropArea);
             cmd.Parameters.AddWithValue("@MajorCropOutput", objAgriCultureForm.MajorCropOutput);
             cmd.Parameters.AddWithValue("@SmallCropOutput", objAgriCultureForm.SmallCropOutput);

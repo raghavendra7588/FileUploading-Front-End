@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
 import { PriceList } from './purchase.model';
-
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -23,33 +22,33 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  private ADMIN_BASE_URL = 'http://203.112.144.38/uat_AdminApi/api/';
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private ADMIN_BASE_URL = 'http://203.112.144.38/uat_AdminApi/api/';
+  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
   // private BASE_URL = 'http://localhost:55547/';
 
-  private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
-  private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';
-  private GET_SUBCATEGORIES = this.ADMIN_BASE_URL + 'Category/getall';
-  private GET_BRANDS = this.ADMIN_BASE_URL + 'ProductSellerMapping/getalledit';
-  private GET_ALL_VENDOR_DATA = this.BASE_URL + 'api/Vendor';
-  private SAVE_ADDRESS_MASTER = this.BASE_URL + 'api/address';
-  private SAVE_PRICE_LIST = this.BASE_URL + 'api/PriceList';
-  private SAVE_MULTIPLE_PRICE_LIST = this.BASE_URL + 'api/PriceList/multiple';
-  private GET_ALL_PRICELIST_DATA = this.BASE_URL + 'api/PriceList';
-  private SAVE_PURCHASE_ORDER_MASTER = this.BASE_URL + 'api/PurchaseOrder';
-  private SAVE_PURCHASE_ORDER_ITEM_MASTER = this.BASE_URL + 'api/PurchaseOrderItem';
-  private GET_PURCHASE_ORDER_DATA = this.BASE_URL + 'api/PurchaseReport';
-  private GET_PURCHASE_ORDER = this.BASE_URL + 'api/PurchaseOrder/getOrderIdByVendorId';
-  private GET_PURCHASE_ORDER_ITEM_DATA = this.BASE_URL + 'api/PurchaseOrder/getOrderItemData';
+  private GET_ALL_ADDRESSS_DATA = environment.BASE_URL + 'api/Address';
+  private SAVE_VENDOR_MASTER = environment.BASE_URL + 'api/Vendor';
+  private GET_SUBCATEGORIES = environment.ADMIN_BASE_URL + 'Category/getall';
+  private GET_BRANDS =environment.ADMIN_BASE_URL + 'ProductSellerMapping/getalledit';
+  private GET_ALL_VENDOR_DATA = environment.BASE_URL + 'api/Vendor';
+  private SAVE_ADDRESS_MASTER = environment.BASE_URL + 'api/address';
+  private SAVE_PRICE_LIST = environment.BASE_URL + 'api/PriceList';
+  private SAVE_MULTIPLE_PRICE_LIST = environment.BASE_URL + 'api/PriceList/multiple';
+  private GET_ALL_PRICELIST_DATA = environment.BASE_URL + 'api/PriceList';
+  private SAVE_PURCHASE_ORDER_MASTER = environment.BASE_URL + 'api/PurchaseOrder';
+  private SAVE_PURCHASE_ORDER_ITEM_MASTER = environment.BASE_URL + 'api/PurchaseOrderItem';
+  private GET_PURCHASE_ORDER_DATA = environment.BASE_URL + 'api/PurchaseReport';
+  private GET_PURCHASE_ORDER = environment.BASE_URL + 'api/PurchaseOrder/getOrderIdByVendorId';
+  private GET_PURCHASE_ORDER_ITEM_DATA = environment.BASE_URL + 'api/PurchaseOrder/getOrderItemData';
 
-  public PURCHASE_VENDOR_ORDER_WISE = this.BASE_URL + 'api/PurchaseReport/purchaseReportVendorOrderWise';
-  public GET_VENDOR_VIEW_DATA = this.BASE_URL + 'api/VendorView';
+  public PURCHASE_VENDOR_ORDER_WISE = environment.BASE_URL + 'api/PurchaseReport/purchaseReportVendorOrderWise';
+  public GET_VENDOR_VIEW_DATA = environment.BASE_URL + 'api/VendorView';
 
-  private GET_DASHBOARD_PURCHASE_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchasePerDay';
-  private GET_DASHBOARD_PURCHASE_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchasePerMonth';
-  private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
-  private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = this.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
-  private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = this.BASE_URL + 'api/DashBoard';
+  private GET_DASHBOARD_PURCHASE_PER_DAY = environment.BASE_URL + 'api/DashBoard/postPurchasePerDay';
+  private GET_DASHBOARD_PURCHASE_PER_MONTH = environment.BASE_URL + 'api/DashBoard/postPurchasePerMonth';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_DAY = environment.BASE_URL + 'api/DashBoard/postPurchaseOrderPerDay';
+  private GET_DASHBOARD_PURCHASE_ORDER_PER_MONTH = environment.BASE_URL + 'api/DashBoard/postPurchaseOrderPerMonth';
+  private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = environment.BASE_URL + 'api/DashBoard';
 
   constructor(
     public http: HttpClient, 

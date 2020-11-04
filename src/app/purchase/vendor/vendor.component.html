@@ -10,7 +10,7 @@
     <button mat-raised-button (click)="openDialog()">Add New Vendor</button>
 
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-9 col-sm-9"></div>
     <div class="col-md-3 col-sm-3 float-right">
       <mat-form-field>
@@ -19,11 +19,11 @@
         <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
     </div>
-  </div>
+  </div> -->
   <div class="row">
 
     <!-- ['name', 'registrationDate', 'bankName', 'creditLimit', 'creditLimitDays','transporter', 'action']; -->
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mt-3">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>

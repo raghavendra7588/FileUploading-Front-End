@@ -25,7 +25,7 @@ export class PurchaseService {
 
   private ADMIN_BASE_URL = 'http://203.112.144.38/uat_AdminApi/api/';
   private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
-  //private BASE_URL = 'http://localhost:55547/';
+  // private BASE_URL = 'http://localhost:55547/';
 
   private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = this.BASE_URL + 'api/Vendor';

@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
       console.log('fastest growing data', data);
       this.topPurchaseOrderData = data;
       let uniqueFastestPurchaseData = _.uniqBy(this.topPurchaseOrderData, 'ProductVarientId');
-      this.topPurchaseOrderData=uniqueFastestPurchaseData;
+      this.topPurchaseOrderData = uniqueFastestPurchaseData;
     });
   }
 
@@ -188,6 +188,8 @@ export class DashboardComponent implements OnInit {
       totalPurchaseQuantity += Number(item.PurchaseQuantity);
     });
     totalPurchasePerMonthCalculation = totalPurchaseBuyingPrice - totalPurchaseDiscount;
+    console.log('per month Buying Price', totalPurchaseBuyingPrice);
+    console.log('per month Discount', totalPurchaseDiscount);
     // console.log('totalPurchasePerMonthCalculation', totalPurchasePerMonthCalculation);
     return totalPurchasePerMonthCalculation;
   }

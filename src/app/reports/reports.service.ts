@@ -7,8 +7,9 @@ import { environment } from '../../environments/environment';
 })
 export class ReportsService {
 
-
-  // private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  // private BASE_URL = 'https://3intellects.co.in/uat_InventoryService/';
+  // private ADMIN_BASE_URL = 'https://3intellects.co.in/uat_AdminApi/api/';
+  
   // private BASE_URL = 'http://localhost:55547/';
 
   private GET_Product_Vendor_Wise_Purchase_Report_Data = environment.BASE_URL + 'api/ProductVendorWisePurchaseReport';  

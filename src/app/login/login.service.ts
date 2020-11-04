@@ -15,8 +15,8 @@ export class LoginService {
   // public UPLOAD_DOCUMENT_URL = this.BASE_API + '/' + 'api/UploadFiles';
 
 
-  public LOGIN_URL = 'http://203.112.144.38/AdminApi/api//user/authenticate';
-  public LOGGED_IN_URL = 'http://203.112.144.38/uat_AdminApi/api/User/authenticate';
+  public LOGIN_URL = 'http://3intellects.co.in/AdminApi/api//user/authenticate';  
+  private LOGGED_IN_URL = 'https://3intellects.co.in/uat_AdminApi/api/User/authenticate';
 
   public seller_token: string;
   public seller_mapped_categories: any = [];

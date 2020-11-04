@@ -23,8 +23,9 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  private ADMIN_BASE_URL = 'http://203.112.144.38/uat_AdminApi/api/';
-  private BASE_URL = 'http://203.112.144.38/uat_InventoryService/';
+  
+  private ADMIN_BASE_URL = 'https://3intellects.co.in/uat_AdminApi/api/';
+  private BASE_URL = 'https://3intellects.co.in/uat_InventoryService/';
   // private BASE_URL = 'http://localhost:55547/';
 
   private GET_ALL_ADDRESSS_DATA = this.BASE_URL + 'api/Address';

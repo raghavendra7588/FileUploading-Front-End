@@ -11,6 +11,16 @@
     "build:prod": "ng build --prod"
   },
   "private": true,
+  "configurations": {
+    "production": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.prod.ts"
+        }
+      ]
+    }
+  },
   "dependencies": {
     "@angular/animations": "~10.0.2",
     "@angular/cdk": "^10.0.1",

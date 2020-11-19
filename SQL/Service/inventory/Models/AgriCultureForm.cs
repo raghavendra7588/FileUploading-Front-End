@@ -11,6 +11,7 @@ namespace inventory.Models
     public class AgriCultureForm
     {
         public string Fpo { get; set; }
+        public string FpoDistrictName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DOB { get; set; }
@@ -66,6 +67,7 @@ namespace inventory.Models
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@Fpo", objAgriCultureForm.Fpo);
+            cmd.Parameters.AddWithValue("@FpoDistrictName", objAgriCultureForm.FpoDistrictName);
             cmd.Parameters.AddWithValue("@FirstName", objAgriCultureForm.FirstName);
             cmd.Parameters.AddWithValue("@LastName", objAgriCultureForm.LastName);
             cmd.Parameters.AddWithValue("@DOB", objAgriCultureForm.DOB);

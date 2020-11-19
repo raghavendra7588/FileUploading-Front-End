@@ -116,6 +116,7 @@ namespace inventory.Models
             finalTable.Columns.Add("Discount", typeof(string));
             finalTable.Columns.Add("SellingPrice", typeof(int));
             finalTable.Columns.Add("Barcode", typeof(string));
+            finalTable.Columns.Add("BuyingPrice", typeof(int));
 
 
             for (int i = 0; i < purchaseOrderItemTable.Rows.Count; i++)
@@ -135,6 +136,7 @@ namespace inventory.Models
                 int QuantityReceived = 0;
                 int Discount = 0;
                 int SellingPrice = 0;
+                int BuyingPrice = 0;
                 string BarCode="NULL";
                
         
@@ -154,6 +156,7 @@ namespace inventory.Models
                         Discount = Convert.ToInt32(stockInTable.Rows[j]["Discount"].ToString());
                         SellingPrice = Convert.ToInt32(stockInTable.Rows[j]["SellingPrice"].ToString());
                         BarCode = (stockInTable.Rows[j]["BarCode"].ToString());
+                        //BuyingPrice= Convert.ToInt32(stockInTable.Rows[j]["BuyingPrice"].ToString());
                         flag = true;
 
                     }
@@ -167,6 +170,7 @@ namespace inventory.Models
                     ProductVarientId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["ProductVarientId"].ToString());
                     ReferenceId = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["ReferenceId"].ToString());                    
                     Discount = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["Discount"].ToString());
+                    BuyingPrice = Convert.ToInt32(purchaseOrderItemTable.Rows[i]["BuyingPrice"].ToString());
                     StockInItemId = 0;
                     SellingPrice = 0;
                     QuantityReceived = 0;
@@ -183,7 +187,7 @@ namespace inventory.Models
                 if (PurchaseQuantity != QuantityReceived)
                 {
                     finalTable.Rows.Add(StockInItemId, PurchaseOrderItemId, PurchaseOrderId, ProductVarientId, ReferenceId, SubCategoryId, BrandID, ProductId,
-                Quantity, PurchaseQuantity, QuantityReceived, Discount, SellingPrice, BarCode);
+                Quantity, PurchaseQuantity, QuantityReceived, Discount, SellingPrice, BarCode, BuyingPrice);
                 }
            
             }

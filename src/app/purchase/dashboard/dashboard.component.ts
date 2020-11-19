@@ -39,13 +39,17 @@ export class DashboardComponent implements OnInit {
   strSellerId: string;
   topPurchaseOrderData: any = [];
   // NoOfOrdersProgressBar = document.querySelector('.progress-bar');
-
+  sellerName: string;
+  vendorCode: string;
 
   constructor(
     public dialog: MatDialog,
     public router: Router,
     public purchaseService: PurchaseService,
-  ) { }
+  ) {
+    this.sellerName = sessionStorage.getItem('sellerName');
+    this.vendorCode = sessionStorage.getItem('vendorId');
+  }
 
   ngOnInit(): void {
     this.dashBoardPurchasePerDay.SellerId = sessionStorage.getItem('sellerId').toString();

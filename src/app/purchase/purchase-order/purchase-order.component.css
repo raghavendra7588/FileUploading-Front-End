@@ -58,6 +58,9 @@ mat-form-field {
 .mat-column-Quantity {
    flex: none;
    width: 140px !important;
+   word-wrap: break-word;
+   text-align: left;
+   padding: 4px;
 } 
 
 /* .mat-cell,.mat-header-cell { 

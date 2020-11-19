@@ -22,7 +22,7 @@ export class PurchaseService {
   allvendorData: any = [];
   allBrandData: any = [];
 
-  
+
   // private ADMIN_BASE_URL = 'https://3intellects.co.in/uat_AdminApi/api/';
   // private BASE_URL = 'https://3intellects.co.in/uat_InventoryService/';
   // private BASE_URL = 'http://localhost:55547/';
@@ -30,7 +30,7 @@ export class PurchaseService {
   private GET_ALL_ADDRESSS_DATA = environment.BASE_URL + 'api/Address';
   private SAVE_VENDOR_MASTER = environment.BASE_URL + 'api/Vendor';
   private GET_SUBCATEGORIES = environment.ADMIN_BASE_URL + 'Category/getall';
-  private GET_BRANDS =environment.ADMIN_BASE_URL + 'ProductSellerMapping/getalledit';
+  private GET_BRANDS = environment.ADMIN_BASE_URL + 'ProductSellerMapping/getalledit';
   private GET_ALL_VENDOR_DATA = environment.BASE_URL + 'api/Vendor';
   private SAVE_ADDRESS_MASTER = environment.BASE_URL + 'api/address';
   private SAVE_PRICE_LIST = environment.BASE_URL + 'api/PriceList';
@@ -52,7 +52,7 @@ export class PurchaseService {
   private GET_DASHBOARD_FASTEST_MOVING_DATA_PER_MONTH = environment.BASE_URL + 'api/DashBoard';
 
   constructor(
-    public http: HttpClient, 
+    public http: HttpClient,
     public loginService: LoginService) {
     this.token = sessionStorage.getItem('token');
     this.sellerId = sessionStorage.getItem('sellerId');

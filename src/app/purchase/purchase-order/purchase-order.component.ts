@@ -113,6 +113,7 @@ export class PurchaseOrderComponent implements OnInit {
       height: '600px',
       width: '1000px',
       data: this.vendorId,
+      disableClose: true
     });
   }
 

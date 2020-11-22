@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class StockAdjustmentComponent implements OnInit {
   selection = new SelectionModel<any[]>(true, []);
-  displayedColumns: string[] = ['select', 'subCategory', 'brand', 'product', 'varient','buyingPrice', 'quantityOrdered', 'quantityReceived', 'Discount', 'sellingPrice', 'barCode'];
+  displayedColumns: string[] = ['select', 'subCategory', 'brand', 'product', 'varient', 'buyingPrice', 'quantityOrdered', 'quantityReceived', 'sellingPrice', 'Discount', 'barCode'];
   updateAllRecordsCount = 0;
   dataSource: any;
   vendorData: any = [];

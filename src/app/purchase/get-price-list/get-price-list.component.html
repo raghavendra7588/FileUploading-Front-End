@@ -153,11 +153,18 @@
     </div>
   </div>
 </div>
-
-<div mat-dialog-actions align="end" class="my-3">
-  <button mat-raised-button color="primary" (click)="sendPurchaseOrder()" [disabled]="isActive">Save</button>
-  <button mat-raised-button mat-dialog-close>Close</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div mat-dialog-actions align="end" class="my-3">
+        <button mat-raised-button color="primary" (click)="sendPurchaseOrder()" [disabled]="isActive">Save</button>
+        <button mat-raised-button mat-dialog-close>Close</button>
+      </div>
+    </div>
+   
+  </div>
 </div>
+
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <ng-container matColumnDef="select">
@@ -241,7 +248,13 @@
 
 <mat-paginator [pageSizeOptions]="[25,50,100]" showFirstLastButtons></mat-paginator>
 
-<div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" (click)="sendPurchaseOrder()" [disabled]="isActive">Save</button>
-  <button mat-raised-button mat-dialog-close>Close</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div mat-dialog-actions align="end" class="my-3">
+        <button mat-raised-button color="primary" (click)="sendPurchaseOrder()" [disabled]="isActive">Save</button>
+        <button mat-raised-button mat-dialog-close>Close</button>
+      </div>
+    </div>
+  </div>
 </div>

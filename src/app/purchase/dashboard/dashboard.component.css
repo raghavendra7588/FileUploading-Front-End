@@ -58,3 +58,8 @@ p {
 .green-button{
   background-color: #5cb85c;
 }
+
+.width-100{
+  width: 100% !important;
+  min-width: unset!important;
+}

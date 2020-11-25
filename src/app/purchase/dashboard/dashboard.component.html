@@ -1,15 +1,15 @@
 <div class="container-fluid text-center">
   <div class="row">
-      <div class="col-md-12 col-sm-12 col-12">
-          <h4 class="font-weight-bold" style="color:#FF8C00">{{sellerName}}</h4>
-          <h4 class="font-weight-bold" style="color:#008000"> {{vendorCode}}</h4>
-      </div>
+    <div class="col-md-12 col-sm-12 col-12">
+      <h4 class="font-weight-bold" style="color:#FF8C00">{{sellerName}}</h4>
+      <h4 class="font-weight-bold" style="color:#008000"> {{vendorCode}}</h4>
+    </div>
   </div>
 </div>
 
 <div class="container-fluid mt-5">
-  <div class="row">
-    <div class="col-3 col-md-3 col-sm-3">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-3 col-sm-12 my-2">
       <div class="card bg-orange">
         <div class="card-body text-center">
           <span>{{saleForTheDay}} <i class="fa fa-inr fa-1x"></i></span>
@@ -18,7 +18,8 @@
         </div>
       </div>
     </div>
-    <div class="col-3 col-md-3 col-sm-3">
+
+    <div class="col-12 col-md-3 col-sm-12 my-2">
       <div class="card bg-green">
         <div class="card-body text-center">
           <span>{{purchaseOrderPerDayResult}} <i class="fa fa-user-o fa-1x"></i></span>
@@ -29,7 +30,7 @@
     </div>
 
 
-    <div class="col-3 col-md-3 col-sm-3">
+    <div class="col-12 col-md-3 col-sm-12 my-2">
       <div class="card bg-red">
         <div class="card-body text-center">
           <span>{{purchasePerMonthResult}} <i class="fa fa-inr fa-1x"></i></span>
@@ -39,7 +40,7 @@
       </div>
     </div>
 
-    <div class="col-3 col-md-3 col-sm-3">
+    <div class="col-12 col-md-3 col-sm-12 my-2">
       <div class="card bg-blue">
         <div class="card-body text-center">
           <span>{{saleForTheDay}} <i class="fa fa-inr fa-1x"></i></span>
@@ -55,7 +56,7 @@
 
 <div class="container-fluid mt-4">
   <div class="row">
-    <div class="col-md-6 col-6 col-sm-6 col-lg-6">
+    <div class="col-md-6 col-12 col-sm-12 col-lg-6">
       <h3 class="text-center font-weight-bold" style="color: #5cb85c;">Top Selling Products</h3>
       <!-- <table class="table table-hover">
         <thead class="yellow-button">
@@ -88,7 +89,7 @@
           </tr>
         </tbody>
       </table> -->
-    
+
       <table class="table table-hover">
         <thead class="yellow-button">
           <tr>
@@ -124,7 +125,7 @@
         </tbody>
       </table>
     </div>
-    <div class="col-md-6 col-6 col-sm-6 col-lg-6">
+    <div class="col-md-6 col-12 col-sm-12 col-lg-6">
       <h3 class="text-center font-weight-bold" style="color: #337ab7;">Fastest Purchased Products</h3>
       <table class="table table-hover">
         <thead class="red-button">
@@ -164,21 +165,21 @@
   </div>
 </div>
 <div class="container-fluid text-center my-4">
-  <div class="row">
-    <div class="col-md-3">
-      <button type="button" class="btn btn-primary yellow-button" (click)="addAddress()"> Add Shop
+  <div class="row my-2">
+    <div class="col-md-3 col-sm-6 col-6">
+      <button type="button" class="btn btn-primary yellow-button mb-2 width-100 text-center" (click)="addAddress()"> Add Shop
         Address</button>
 
     </div>
-    <div class="col-md-3">
-      <button type="button" class="btn btn-info green-button" (click)="createVendor()">Create New Vendor</button>
+    <div class="col-md-3 col-sm-6 col-6">
+      <button type="button" class="btn btn-info green-button mb-2 width-100 text-center" (click)="createVendor()">Create New Vendor</button>
     </div>
-    <div class="col-md-3">
-      <button type="button" class="btn btn-info red-button" (click)="goToPriceList()">Add Price List
+    <div class="col-md-3 col-sm-6 col-6">
+      <button type="button" class="btn btn-info red-button mb-2 width-100 text-center" (click)="goToPriceList()">Add Price List
         Items</button>
     </div>
-    <div class="col-md-3">
-      <button type="button" class="btn btn-info blue-button" (click)="createOrder()">Create New Order</button>
+    <div class="col-md-3 col-sm-6 col-6">
+      <button type="button" class="btn btn-info blue-button mb-2 width-100 text-center" (click)="createOrder()">Create New Order</button>
     </div>
   </div>
 </div>

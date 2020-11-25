@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { PurchaseService } from '../purchase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAddressComponent } from '../add-address/add-address.component';
 import { Address } from '../purchase.model';
 import { EmitterService } from 'src/shared/emitter.service';
 import { LoginService } from 'src/app/login/login.service';
-
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-address-details',
@@ -18,8 +18,15 @@ export class AddressDetailsComponent implements OnInit {
   displayedColumns: string[] = ['billingName', 'address', 'city', 'email', 'phone', 'action'];
   dataSource: any;
   sellerId: number;
-  constructor(public purchaseService: PurchaseService, public dialog: MatDialog, public emitterService: EmitterService,
-    public loginService: LoginService) { }
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(
+    public purchaseService: PurchaseService,
+    public dialog: MatDialog,
+    public emitterService: EmitterService,
+    public loginService: LoginService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.getAddressDetails();
@@ -36,9 +43,15 @@ export class AddressDetailsComponent implements OnInit {
     this.purchaseService.getAddressData().subscribe(data => {
       this.getAddress = data;
       this.dataSource = data;
+      this.dataSource.paginator = this.paginator;
+      this.cdr.detectChanges();
+      // setTimeout(() => this.dataSource.paginator = this.paginator);
     });
   }
-
+  detectChanges() {
+    console.log('detect changes called');
+    setTimeout(() => this.dataSource.paginator = this.paginator);
+  }
 
   openDialog() {
     this.dialog.open(AddAddressComponent, {

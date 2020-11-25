@@ -95,6 +95,7 @@
     <Compile Include="Controllers\AgriCultureFormController.cs" />
     <Compile Include="Controllers\APPAddressController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
+    <Compile Include="Controllers\Gov_PersonalDetailsController.cs" />
     <Compile Include="Controllers\HelloController.cs" />
     <Compile Include="Controllers\ItemMasterController.cs" />
     <Compile Include="Controllers\MinimumPurchaseReportInventoryController.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Models\AgriCultureForm.cs" />
     <Compile Include="Models\APPAddress.cs" />
     <Compile Include="Models\DashBoard.cs" />
+    <Compile Include="Models\Gov_PersonalDetails.cs" />
     <Compile Include="Models\ItemMaster.cs" />
     <Compile Include="Models\MinimumPurchaseReportInventory.cs" />
     <Compile Include="Models\MyOrders.cs" />

@@ -1,0 +1,19 @@
+.mat-column-name {
+    word-wrap: break-word;
+    text-align: left;
+    padding: 4px;
+  }
+  
+  .mat-column-bank {
+    word-wrap: break-word;
+    text-align: left;
+    padding: 4px;
+  }
+  
+ 
+  .mat-column-registrationDate {
+    word-wrap: break-word;
+    text-align: left;
+    padding: 4px;
+  }
+  

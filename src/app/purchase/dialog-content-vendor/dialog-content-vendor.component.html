@@ -389,8 +389,9 @@
 
 
     <div mat-dialog-actions align="end">
-      <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid">Save</button>
+      <button mat-raised-button color="primary" (click)="saveVendor()" [disabled]="!saveVendorForm.valid" DisableAfterClick>Save</button>
       <button mat-raised-button mat-dialog-close>Close</button>
     </div>
 
 </form>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

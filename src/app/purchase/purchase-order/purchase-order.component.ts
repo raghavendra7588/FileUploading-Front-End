@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material/core";
 import { AppDateAdapter, APP_DATE_FORMATS } from "./date.adapter";
 import * as _ from 'lodash';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-purchase-order',
@@ -33,7 +34,7 @@ import * as _ from 'lodash';
 export class PurchaseOrderComponent implements OnInit {
 
   displayedColumns: string[] = ['ProductId', 'BrandName', 'ProductName', 'Quantity', 'BuyingPrice',
-    'Discount','AvailableQuantity', 'TotalDiscount', 'FinalPrice'];
+    'Discount', 'AvailableQuantity', 'TotalDiscount', 'FinalPrice'];
   dataSource: any;
 
   purchaseOrder: PurchaseOrder = new PurchaseOrder();
@@ -65,8 +66,13 @@ export class PurchaseOrderComponent implements OnInit {
   calculatedDiscount: number;
   calculatedFinalPrice: number;
 
-  constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService,
-    public toastr: ToastrService, public router: Router) {
+  constructor(
+    public dialog: MatDialog,
+    public purchaseService: PurchaseService,
+    public emitterService: EmitterService,
+    public toastr: ToastrService,
+    public router: Router,
+    private spinner: NgxSpinnerService) {
     this.emitterService.sendPurchaseOrder.subscribe(value => {
       if (value) {
         this.receivedPurchaseOrder = [...this.receivedPurchaseOrder, ...value].reverse();
@@ -101,10 +107,12 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getVendorData() {
+    this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
       console.log('all vendor data from Purchase Order', this.purchaseService.allvendorData);
+      this.spinner.hide();
     });
   }
 
@@ -150,8 +158,10 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   getAddressData() {
+    this.spinner.show();
     this.purchaseService.getAddressData().subscribe(data => {
       this.addressData = data;
+      this.spinner.hide();
     });
   }
 

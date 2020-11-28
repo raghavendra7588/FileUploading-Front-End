@@ -16,6 +16,7 @@ import { DialogPrintPurchaseReportComponent } from '../dialog-print-purchase-rep
 import { InventoryService } from '../inventory.service';
 // import { DialogPurchaseReportInventoryComponent } from '../dialog-purchase-report-inventory/dialog-purchase-report-inventory.component';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-purchase-report',
@@ -111,9 +112,10 @@ export class PurchaseReportComponent implements OnInit {
     public emitterService: EmitterService,
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
-    private inventoryService: InventoryService) {
+    private inventoryService: InventoryService,
+    private spinner: NgxSpinnerService) {
   }
-  // ['id', 'billingName', 'address', 'city', 'email', 'phone'];
+
   ngOnInit() {
     this.objSeller = JSON.parse(sessionStorage.getItem('categories'));
     this.sellerName = sessionStorage.getItem('sellerName');
@@ -453,6 +455,7 @@ export class PurchaseReportComponent implements OnInit {
       if (event.source.selected) {
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
+        this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           orderedSubCategoriesData = this.sortArrayInAscendingOrder(data);
           // if (this.multipleCategoriesArray.length === 0) {
@@ -483,7 +486,7 @@ export class PurchaseReportComponent implements OnInit {
           // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
         });
 
-
+        this.spinner.hide();
       }
       this.loginService.seller_object.categories = this.categorySearch.slice();
       this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -509,6 +512,7 @@ export class PurchaseReportComponent implements OnInit {
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           // if (this.multipleBrandArray.length === 0) {
           this.multipleBrandArray = data;
@@ -529,7 +533,7 @@ export class PurchaseReportComponent implements OnInit {
 
           // this.dataSource = new MatTableDataSource(this.catchMappedData);
           // this.dataSource.paginator = this.paginator;
-
+          this.spinner.hide();
         });
       }
       this.loginService.seller_object.categories = this.categorySearch.slice();
@@ -559,6 +563,7 @@ export class PurchaseReportComponent implements OnInit {
     console.log('multiple brand array', this.multipleBrandArray);
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
         // if (this.finalBrandArray.length === 0) {
@@ -596,6 +601,7 @@ export class PurchaseReportComponent implements OnInit {
         this.multipleCategoriesArray = this.subCategorySearch.slice();
         this.anyArray = this.brandSearch.slice();
         this.finalProductNameArray = this.productSearch.slice();
+        this.spinner.hide();
       }
       if (!event.source.selected) {
         var tempArr = this.finalBrandArray.filter(function (item) {

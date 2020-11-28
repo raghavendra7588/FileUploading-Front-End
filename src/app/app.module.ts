@@ -44,6 +44,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PurchaseService } from './purchase/purchase.service';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
       outerStrokeColor: "#78C000",
       innerStrokeColor: "#C7E596",
       animationDuration: 300
-    })
+    }),
+    NgxSpinnerModule
   ],
   providers: [EmitterService, LoginService, PurchaseService],
   bootstrap: [AppComponent]

@@ -9,7 +9,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 table{
     width: 100%;
 }
-
+.width-100{
+    width: 100% !important;
+    min-width: unset!important;
+}
 
 /* @media all and (min-width: 992px) {
 	.navbar .nav-item .dropdown-menu{  display:block; opacity: 0;  visibility: hidden; transition:.3s; margin-top:0;  }

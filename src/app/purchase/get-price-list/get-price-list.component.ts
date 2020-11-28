@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { EmitterService } from 'src/shared/emitter.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 @Component({
@@ -104,13 +105,15 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   subCategoryId: any;
   isActive: boolean = true;
 
-  constructor(public purchaseService: PurchaseService,
+  constructor(
+    public purchaseService: PurchaseService,
     public loginService: LoginService,
     public toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     public emitterService: EmitterService,
     private dialogRef: MatDialogRef<GetPriceListComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private spinner: NgxSpinnerService) {
     this.isDataLoaded = false;
     this.isProductSelected = false;
     this.receivedVendorId = data;
@@ -573,8 +576,9 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
   onCategoriesChange(event, category: any) {
     // console.log('category', category);
     // this.categoryList = '';
- 
+
     console.log('current category id is', this.categoryList);
+    this.spinner.show();
     if (event.isUserInput) {
       let catchMappedCategoryData: any = [];
       if (event.source.selected) {
@@ -601,6 +605,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
             this.multipleCategoriesArray = particularSubCategoryArray;
             this.subCategorySearch = this.multipleCategoriesArray;
           });
+          this.spinner.hide();
         });
 
         this.particularCategoryArray = this.categorySearch.slice();
@@ -628,6 +633,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           // if (this.multipleBrandArray.length === 0) {
           this.multipleBrandArray = data;
@@ -664,6 +670,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
           this.particularCategoryArray = this.categorySearch.slice();
           this.multipleCategoriesArray = this.subCategorySearch.slice();
           this.anyArray = this.brandSearch.slice();
+          this.spinner.hide();
         });
       }
     }
@@ -689,6 +696,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
       if (event.source.selected) {
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
+        this.spinner.show();
         // if (this.finalBrandArray.length === 0) {
         let filteredBrandArray = this.multipleBrandArray.filter(function (item) {
           return item.BrandName.trim() === product.BrandName;
@@ -714,6 +722,7 @@ export class GetPriceListComponent implements OnInit, AfterViewChecked, OnDestro
         this.particularCategoryArray = this.categorySearch.slice();
         this.multipleCategoriesArray = this.subCategorySearch.slice();
         // this.anyArray = this.brandSearch.slice();
+        this.spinner.hide();
       }
       if (!event.source.selected) {
         var tempArr = this.finalBrandArray.filter(function (item) {

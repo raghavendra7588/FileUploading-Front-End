@@ -4,7 +4,7 @@ import { VendorView } from '../purchase.model';
 import { PurchaseService } from '../purchase.service';
 import * as _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-dialog-view-vendor-data',
@@ -25,7 +25,10 @@ export class DialogViewVendorDataComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public purchaseService: PurchaseService) {
+    public purchaseService: PurchaseService,
+    private spinner: NgxSpinnerService,
+    private dialogRef: MatDialogRef<DialogViewVendorDataComponent>,) {
+
     this.particularVendor = data;
     this.vendorId = Number(this.particularVendor.vendorId);
     console.log('i received ', this.vendorId);
@@ -50,15 +53,24 @@ export class DialogViewVendorDataComponent implements OnInit {
   }
 
   getVendorViewData() {
+    this.spinner.show();
     this.purchaseService.getAllVendorViewData(this.vendorView).subscribe(data => {
-      console.log('yooo ', data);
+      console.log('got data ', data);
       this.vendorViewData = data;
       let uniqueVendorViewData = _.uniqBy(this.vendorViewData, 'ReferenceId');
       this.vendorViewData = [];
       this.vendorViewData = uniqueVendorViewData;
       // this.vendorName = this.vendorViewData[0].name;
+      console.log('vendorViewData', this.vendorViewData);
       this.dataSource = new MatTableDataSource(this.vendorViewData);
-    });
+      this.spinner.hide();
+    },
+      err => {
+        setTimeout(() => {
+          this.spinner.hide();
+          this.dialogRef.close();
+        }, 6000);
+      });
   }
 
 

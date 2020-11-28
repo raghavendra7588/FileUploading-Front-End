@@ -53,6 +53,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { MinimumPurchaseOrderComponent } from './minimum-purchase-order/minimum-purchase-order.component';
 import { DialogMinimumPurchaseOrderComponent } from './dialog-minimum-purchase-order/dialog-minimum-purchase-order.component';
 import { MatSelectFilterModule } from 'mat-select-filter';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [ItemMasterComponent, StockAdjustmentComponent, MaterialIssueComponent, MaterialReceiptComponent, InterBranchIssueRequestComponent,
@@ -90,7 +91,8 @@ import { MatSelectFilterModule } from 'mat-select-filter';
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
     MatCheckboxModule,
-    MatSelectFilterModule
+    MatSelectFilterModule,
+    NgxSpinnerModule
   ],
   entryComponents: [DialogPrintPurchaseReportComponent],
   providers: [InventoryService],

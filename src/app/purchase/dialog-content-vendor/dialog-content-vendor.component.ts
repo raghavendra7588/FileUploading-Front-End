@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, NumberValueAccessor } from '@angular/forms';
 import { EmitterService } from 'src/shared/emitter.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-dialog-content-vendor',
@@ -133,7 +134,8 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     public emitterService: EmitterService,
     public router: Router,
     public formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<DialogContentVendorComponent>) {
+    private dialogRef: MatDialogRef<DialogContentVendorComponent>,
+    private spinner: NgxSpinnerService) {
 
     this.strSellerId = sessionStorage.getItem('sellerId');
     this.sellerName = sessionStorage.getItem('sellerName');
@@ -590,6 +592,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (event.isUserInput) {
       if (event.source.selected) {
         this.categoriesArray.push(category.id);
+        this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
 
           if (this.multipleCategoriesArray.length === 0) {
@@ -600,6 +603,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
             this.categoriesArray3 = [...this.multipleCategoriesArray, ...this.categoriesArray2];
             this.multipleCategoriesArray = this.categoriesArray3;
           }
+          this.spinner.hide();
         });
 
       }
@@ -646,7 +650,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
         // this.selectedSubCategoryIdArray = [];
         this.selectedSubCategoryIdArray.push(subCategory.id);
         console.log('cate called ', this.selectedSubCategoryIdArray);
-
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           if (this.multipleBrandArray.length < 2 && this.array3 < 1) {
             this.multipleBrandArray = data;
@@ -659,6 +663,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
           this.uniqueBrandNamesArray = this.createUniqueBrandName(this.multipleBrandArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
           this.subCategoryNamesArray = this.multipleBrandArray;
+          this.spinner.hide();
         });
       }
     }
@@ -698,6 +703,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     if (event.isUserInput) {
       if (event.source.selected) {
         // this.selectedBrandIdArray = [];
+        this.spinner.show();
         this.selectedBrandIdArray.push(product.BrandID);
         console.log('selectedBrandIdArray', this.selectedBrandIdArray);
         if (this.finalBrandArray.length === 0) {
@@ -716,7 +722,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
           this.brands3 = [...this.finalBrandArray, ...this.brands2];
           this.finalBrandArray = this.brands3;
         }
-
+        this.spinner.hide();
       }
       if (!event.source.selected) {
         console.log('product unselect', product);
@@ -813,7 +819,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.name === null || this.vendor.name === undefined || this.vendor.name === '') {
-      formData.append('name', 'NULL');
+      formData.append('name', '');
     }
     else {
       formData.append('name', this.vendor.name);
@@ -821,21 +827,21 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.code === null || this.vendor.code === undefined || this.vendor.code === '') {
-      formData.append('code', 'NULL');
+      formData.append('code', '');
     }
     else {
       formData.append('code', this.vendor.code);
     }
 
     if (this.vendor.underLedger === null || this.vendor.underLedger === undefined || this.vendor.underLedger === '') {
-      formData.append('underLedger', 'NULL');
+      formData.append('underLedger', '');
     }
     else {
       formData.append('underLedger', this.vendor.underLedger);
     }
 
     if (this.vendor.contactPerson === null || this.vendor.contactPerson === undefined || this.vendor.contactPerson === '') {
-      formData.append('contactPerson', 'NULL');
+      formData.append('contactPerson', '');
     }
     else {
       formData.append('contactPerson', this.vendor.contactPerson);
@@ -843,7 +849,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.printName === null || this.vendor.printName === undefined || this.vendor.printName === '') {
-      formData.append('printName', 'NULL');
+      formData.append('printName', '');
     }
     else {
       formData.append('printName', this.vendor.printName);
@@ -876,14 +882,14 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     // }
 
     if (this.vendor.gst === null || this.vendor.gst === undefined || this.vendor.gst === '') {
-      formData.append('gst', 'NULL');
+      formData.append('gst', '');
     }
     else {
       formData.append('gst', this.vendor.gst);
     }
 
     if (this.vendor.gstCategory === null || this.vendor.gstCategory === undefined || this.vendor.gstCategory === '') {
-      formData.append('gstCategory', 'NULL');
+      formData.append('gstCategory', '');
     }
     else {
       formData.append('gstCategory', this.vendor.gstCategory);
@@ -891,14 +897,14 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.pan === null || this.vendor.pan === undefined || this.vendor.pan === '') {
-      formData.append('pan', 'NULL');
+      formData.append('pan', '');
     }
     else {
       formData.append('pan', this.vendor.pan);
     }
 
     if (this.vendor.registrationDate === null || this.vendor.registrationDate === undefined) {
-      formData.append('registrationDate', 'NULL');
+      formData.append('registrationDate', '');
     }
     else {
       this.fullDate = this.valueChanged();
@@ -906,7 +912,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
 
     if (this.vendor.distance === null || this.vendor.distance === undefined || this.vendor.distance === '') {
-      formData.append('distance', 'NULL');
+      formData.append('distance', '');
     }
     else {
       formData.append('distance', this.vendor.distance);
@@ -928,7 +934,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.priceCategory === null || this.vendor.priceCategory === undefined || this.vendor.priceCategory === '') {
-      formData.append('priceCategory', 'NULL');
+      formData.append('priceCategory', '');
     }
     else {
       formData.append('priceCategory', this.vendor.priceCategory);
@@ -936,7 +942,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.transporter === null || this.vendor.transporter === undefined || this.vendor.transporter === '') {
-      formData.append('transporter', 'NULL');
+      formData.append('transporter', '');
     }
     else {
       formData.append('transporter', this.vendor.transporter);
@@ -944,7 +950,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.agentBroker === null || this.vendor.agentBroker === undefined || this.vendor.agentBroker === '') {
-      formData.append('agentBroker', 'NULL');
+      formData.append('agentBroker', '');
     }
     else {
       formData.append('agentBroker', this.vendor.agentBroker);
@@ -960,7 +966,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.ifscCode === null || this.vendor.ifscCode === undefined) {
-      formData.append('ifscCode', 'NULL');
+      formData.append('ifscCode', '');
     }
     else {
       formData.append('ifscCode', this.vendor.ifscCode.toString());
@@ -968,7 +974,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.bankName === null || this.vendor.bankName === undefined || this.vendor.bankName === '') {
-      formData.append('bankName', 'NULL');
+      formData.append('bankName', '');
     }
     else {
       formData.append('bankName', this.vendor.bankName);
@@ -976,7 +982,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.branch === null || this.vendor.branch === undefined || this.vendor.branch === '') {
-      formData.append('branch', 'NULL');
+      formData.append('branch', '');
     }
     else {
       formData.append('branch', this.vendor.branch);
@@ -993,7 +999,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
 
     if (this.vendor.Address === null || this.vendor.Address === undefined || this.vendor.Address === '') {
-      formData.append('address', 'NULL');
+      formData.append('address', '');
     }
     else {
       formData.append('address', this.vendor.Address);
@@ -1003,7 +1009,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.City === null || this.vendor.City === undefined || this.vendor.City === '') {
 
-      formData.append('city', 'NULL');
+      formData.append('city', '');
     }
     else {
       formData.append('city', this.vendor.City);
@@ -1011,7 +1017,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.State === null || this.vendor.State === undefined || this.vendor.State === '') {
 
-      formData.append('state', 'NULL');
+      formData.append('state', '');
     }
     else {
       formData.append('state', this.vendor.State);
@@ -1020,7 +1026,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.PinCode === null || this.vendor.PinCode === undefined || this.vendor.PinCode === '') {
 
-      formData.append('pinCode', 'NULL');
+      formData.append('pinCode', '');
     }
     else {
       formData.append('pinCode', this.vendor.PinCode);
@@ -1028,35 +1034,35 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
 
     if (this.vendor.Country === null || this.vendor.Country === undefined || this.vendor.Country === '') {
 
-      formData.append('country', 'NULL');
+      formData.append('country', '');
     }
     else {
       formData.append('country', this.vendor.Country);
     }
 
     if (this.vendor.Phone === null || this.vendor.Phone === undefined || this.vendor.Phone === '') {
-      formData.append('phone', 'NULL');
+      formData.append('phone', '');
     }
     else {
       formData.append('phone', this.vendor.Phone);
     }
 
     if (this.vendor.Email === null || this.vendor.Email === undefined || this.vendor.Email === '') {
-      formData.append('email', 'NULL');
+      formData.append('email', '');
     }
     else {
       formData.append('email', this.vendor.Email);
     }
 
     if (this.vendor.accountName === null || this.vendor.accountName === undefined || this.vendor.accountName === '') {
-      formData.append('accountName', 'NULL');
+      formData.append('accountName', '');
     }
     else {
       formData.append('accountName', this.vendor.accountName);
     }
 
     if (this.vendor.accountType === null || this.vendor.accountType === undefined || this.vendor.accountType === '') {
-      formData.append('accountType', 'NULL');
+      formData.append('accountType', '');
     }
     else {
       formData.append('accountType', this.vendor.accountType);
@@ -1069,7 +1075,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     let brandValue = this.saveVendorForm.get('brand').value;
     console.log('cat ng mdoel', this.vendor.category);
     if (categoriesValue === undefined || categoriesValue === null || categoriesValue === '') {
-      formData.append('category', "NULL");
+      formData.append('category', "");
     } else {
       let categoryStr = '';
 
@@ -1108,7 +1114,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
     // console.log();
     if (subCategoriesValue === undefined || subCategoriesValue === null || subCategoriesValue === '') {
-      formData.append('subCategory', "NULL");
+      formData.append('subCategory', "");
     } else {
       let SubCategorystr = '';
 
@@ -1141,7 +1147,7 @@ export class DialogContentVendorComponent implements OnInit, OnDestroy {
     }
 
     if (brandValue === undefined || brandValue === null || brandValue === '') {
-      formData.append('brand', "NULL");
+      formData.append('brand', "");
     } else {
       let brandStr = '';
 

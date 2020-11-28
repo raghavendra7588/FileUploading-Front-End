@@ -133,6 +133,7 @@ export class DashboardComponent implements OnInit {
       this.purchasePerMonthArray = data;
       console.log('inside this funcn *****', data);
       let uniqueReceivedPurchaseOrder = _.uniqBy(this.purchasePerMonthArray, 'ProductVarientId');
+      this.purchasePerMonthArray = uniqueReceivedPurchaseOrder;
       console.log('inside this funcn *****', uniqueReceivedPurchaseOrder);
       this.purchasePerMonthResult = this.getPurchasePerMonthComputation();
 

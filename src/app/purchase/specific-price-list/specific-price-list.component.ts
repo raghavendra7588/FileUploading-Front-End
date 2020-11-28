@@ -14,6 +14,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import * as _ from 'lodash';
 
@@ -113,7 +114,8 @@ export class SpecificPriceListComponent implements OnInit {
     public purchaseService: PurchaseService,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
@@ -172,10 +174,12 @@ export class SpecificPriceListComponent implements OnInit {
   }
 
   getVendorData() {
+    this.spinner.show();
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
       this.vendorData = data;
       this.purchaseService.allvendorData = data;
-      console.log('all vendor data from Purchase Order', this.purchaseService.allvendorData);
+      this.spinner.hide();
+      console.log('all vendor data from Purchase Order 11', this.purchaseService.allvendorData);
     });
   }
 
@@ -272,9 +276,11 @@ export class SpecificPriceListComponent implements OnInit {
   }
 
   getBrandsMasterData() {
+    this.spinner.show();
     setTimeout(() => {
       this.purchaseService.getEveryBrand().subscribe(data => {
         this.masterBrandData = data;
+        this.spinner.hide();
       });
     }, 400);
   }
@@ -475,6 +481,7 @@ export class SpecificPriceListComponent implements OnInit {
       if (event.source.selected) {
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
+        this.spinner.show();
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
           multipleCategoryData = data;
           // this.multipleCategoriesArray = data;
@@ -495,7 +502,7 @@ export class SpecificPriceListComponent implements OnInit {
           // this.multipleCategoriesArray = particularSubCategoryArray;
           this.multipleCategoriesArray = particularSubCategoryArray;
           this.subCategorySearch = this.multipleCategoriesArray;
-
+          this.spinner.hide();
         });
 
         this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -533,6 +540,7 @@ export class SpecificPriceListComponent implements OnInit {
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
 
           this.multipleBrandArray = data;
@@ -550,6 +558,13 @@ export class SpecificPriceListComponent implements OnInit {
             }
           });
           console.log('filteredBrandDataArray', filteredBrandDataArray);
+
+
+
+          // let uniquePurchaseOrder = _.uniqBy(this.reportData, 'ProductVarientId');
+
+
+
 
           this.uniqueBrandNamesArray = this.createUniqueBrandName(filteredBrandDataArray);
           this.anyArray = this.sortUniqueBrandName(this.uniqueBrandNamesArray);
@@ -570,7 +585,7 @@ export class SpecificPriceListComponent implements OnInit {
           // this.brandSearch = this.anyArray;
           // this.dataSource = new MatTableDataSource(this.catchMappedData);
           // this.dataSource.paginator = this.paginator;
-
+          this.spinner.hide();
         });
         this.anyArray = this.brandSearch.slice();
 
@@ -583,6 +598,7 @@ export class SpecificPriceListComponent implements OnInit {
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
 
@@ -594,7 +610,7 @@ export class SpecificPriceListComponent implements OnInit {
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
         this.dataSource.paginator = this.paginator;
-
+        this.spinner.hide();
       }
 
     }
@@ -656,8 +672,10 @@ export class SpecificPriceListComponent implements OnInit {
   }
 
   getPriceListData() {
+    this.spinner.show();
     this.purchaseService.getAllPriceListData(this.sellerId).subscribe(data => {
       this.dbData = data;
+      this.spinner.hide();
     });
   }
 

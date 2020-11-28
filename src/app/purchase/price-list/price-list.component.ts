@@ -19,6 +19,7 @@ import { MyPipePipe } from '../my-pipe.pipe';
 import { EventManager } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import { MatCardTitleGroup } from '@angular/material/card';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-price-list',
@@ -29,7 +30,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
 
 
-  displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity', 'save'];
+  // displayedColumns: string[] = ['select', 'productId', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'availableQuantity', 'save'];
+  displayedColumns: string[] = ['select', 'brandName', 'productName', 'quantity', 'actualPrice', 'discount', 'finalPrice', 'save'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource: any;
@@ -98,7 +100,8 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
     public purchaseService: PurchaseService,
     public emitterService: EmitterService,
     public toastr: ToastrService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
@@ -252,7 +255,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       let uniqueBrands = this.createUniqueBrandName(this.AllSubCategoryArray);
       this.anyArray = this.sortUniqueBrandName(uniqueBrands);
       this.brandSearch = this.anyArray;
-     
+
       console.log('any array', this.anyArray);
       this.loginService.seller_object.categories = this.categorySearch.slice();
       this.multipleCategoriesArray = this.subCategorySearch.slice();
@@ -288,6 +291,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   onCategoriesChange(event, category: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.spinner.show();
         this.categoryId = category.id.toString();
         this.categoriesArray.push(category.id);
         this.purchaseService.getAllSubCategories(category.id).subscribe(data => {
@@ -317,6 +321,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
           this.dataSource.paginator = this.paginator;
           // uniqueBrandName = this.createUniqueBrandName(mappedData);
           // this.anyArray = this.sortUniqueBrandName(uniqueBrandName);
+          this.spinner.hide();
         });
 
 
@@ -340,6 +345,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
       if (event.source.selected) {
         this.subCategoryId = subCategory.id.toString();
         this.subCategoriesArray.push(subCategory.id);
+        this.spinner.show();
         this.purchaseService.getAllBrand(subCategory.parentid, subCategory.id).subscribe(data => {
           // if (this.multipleBrandArray.length === 0) {
           this.multipleBrandArray = data;
@@ -359,7 +365,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
           this.brandSearch = this.anyArray;
           this.dataSource = new MatTableDataSource(this.catchMappedData);
           this.dataSource.paginator = this.paginator;
-
+          this.spinner.hide();
         });
         this.anyArray = this.brandSearch.slice();
       }
@@ -384,6 +390,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
   onProductChange(event, product: any) {
     if (event.isUserInput) {
       if (event.source.selected) {
+        this.spinner.show();
         this.dataSource = [];
         this.brandArray.push(product.ProductID);
         // if (this.finalBrandArray.length === 0) {
@@ -407,7 +414,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
         this.dataSource = [];
         this.dataSource = new MatTableDataSource(this.finalBrandArray);
         this.dataSource.paginator = this.paginator;
-
+        this.spinner.hide();
       }
       if (!event.source.selected) {
         var tempArr = this.finalBrandArray.filter(function (item) {
@@ -547,7 +554,7 @@ export class PriceListComponent implements OnInit, AfterViewChecked {
 
 
   createUniqueBrandName(array: any) {
-    console.log('inside funcn *',array);
+    console.log('inside funcn *', array);
     let sortedArray: Array<any> = [];
     for (let i = 0; i < array.length; i++) {
       if ((sortedArray.findIndex(p => p.BrandName.trim() == array[i].BrandName.trim())) == -1) {

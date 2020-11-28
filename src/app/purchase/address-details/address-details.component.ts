@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { PurchaseService } from '../purchase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAddressComponent } from '../add-address/add-address.component';
@@ -6,6 +6,7 @@ import { Address } from '../purchase.model';
 import { EmitterService } from 'src/shared/emitter.service';
 import { LoginService } from 'src/app/login/login.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-address-details',
@@ -15,7 +16,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class AddressDetailsComponent implements OnInit {
 
   getAddress: any = [];
-  displayedColumns: string[] = ['billingName', 'address', 'city', 'email', 'phone', 'action'];
+  // displayedColumns: string[] = ['billingName', 'address', 'city', 'email', 'phone', 'action'];
+  displayedColumns: string[] = ['billingName', 'address', 'phone', 'action'];
   dataSource: any;
   sellerId: number;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -24,8 +26,7 @@ export class AddressDetailsComponent implements OnInit {
     public purchaseService: PurchaseService,
     public dialog: MatDialog,
     public emitterService: EmitterService,
-    public loginService: LoginService,
-    private cdr: ChangeDetectorRef
+    public loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -42,16 +43,12 @@ export class AddressDetailsComponent implements OnInit {
   getAddressDetails() {
     this.purchaseService.getAddressData().subscribe(data => {
       this.getAddress = data;
-      this.dataSource = data;
+      this.dataSource = new MatTableDataSource(this.getAddress);
       this.dataSource.paginator = this.paginator;
-      this.cdr.detectChanges();
       // setTimeout(() => this.dataSource.paginator = this.paginator);
     });
   }
-  detectChanges() {
-    console.log('detect changes called');
-    setTimeout(() => this.dataSource.paginator = this.paginator);
-  }
+
 
   openDialog() {
     this.dialog.open(AddAddressComponent, {

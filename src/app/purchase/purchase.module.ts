@@ -58,13 +58,16 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { DialogViewVendorDataComponent } from './dialog-view-vendor-data/dialog-view-vendor-data.component';
 import { SpecificPriceListComponent } from './specific-price-list/specific-price-list.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { DisableAfterClickDirective } from './disable-after-click.directive';
+import { NgxSpinnerModule } from "ngx-spinner";
+
 
 @NgModule({
   declarations: [VendorComponent, PriceListComponent, PurchaseOrderComponent, GoodsReceiptNotesComponent, PurchaseBillComponent,
     PurchaseCreditNoteComponent, PurchaseDebitNoteComponent, PurchaseReturnComponent, BillPaymentComponent, PaymentDunesComponent,
     OnlinePaymentComponent, DialogContentVendorComponent, DialogContentPriceListComponent, AddAddressComponent, DashboardComponent,
     AddressDetailsComponent, MyPipePipe, GetPriceListComponent, PurchaseReportsComponent, DialogPurchaseReportsComponent, 
-    DialogPurchaseOrderPrintComponent, DialogOrderComponent, DialogViewVendorDataComponent, SpecificPriceListComponent],
+    DialogPurchaseOrderPrintComponent, DialogOrderComponent, DialogViewVendorDataComponent, SpecificPriceListComponent, DisableAfterClickDirective],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -96,7 +99,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     MatSelectFilterModule,
     NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot(),
-    
+    NgxSpinnerModule,
     NgCircleProgressModule.forRoot({
       radius: 100,
       outerStrokeWidth: 23,

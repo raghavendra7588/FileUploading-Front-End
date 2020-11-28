@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { EmitterService } from 'src/shared/emitter.service';
 import { LoginService } from 'src/app/login/login.service';
 import { DialogViewVendorDataComponent } from '../dialog-view-vendor-data/dialog-view-vendor-data.component';
-
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-vendor',
@@ -17,14 +17,18 @@ import { DialogViewVendorDataComponent } from '../dialog-view-vendor-data/dialog
 })
 export class VendorComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'registrationDate', 'email', 'bankName', 'creditLimit', 'creditLimitDays', 'transporter', 'action', 'view'];
+  // displayedColumns: string[] = ['name', 'registrationDate', 'email', 'bankName', 'creditLimit', 'creditLimitDays', 'transporter', 'action', 'view'];
+
+  displayedColumns: string[] = ['name', 'registrationDate', 'bankName', 'action', 'view'];
 
   dataSource: any;
   newRecordSubscription: Subscription;
   sellerId: any;
   strSellerId: string;
+  vendorDetails: any = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog, public purchaseService: PurchaseService, public emitterService: EmitterService, public loginService: LoginService) { }
 
@@ -54,7 +58,9 @@ export class VendorComponent implements OnInit {
 
   getVendorData() {
     this.purchaseService.getAllVendorData(this.strSellerId).subscribe(data => {
-      this.dataSource = data;
+      this.vendorDetails = data;
+      this.dataSource = new MatTableDataSource(this.vendorDetails);
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -75,7 +81,7 @@ export class VendorComponent implements OnInit {
   }
 
   viewVendorDetails(element) {
-    console.log('pass this',element);
+    console.log('pass this', element);
     this.dialog.open(DialogViewVendorDataComponent, {
       height: '600px',
       width: '1000px',

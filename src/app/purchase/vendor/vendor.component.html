@@ -22,48 +22,48 @@
   </div> -->
   <div class="row">
 
-    <!-- ['name', 'registrationDate', 'bankName', 'creditLimit', 'creditLimitDays','transporter', 'action']; -->
+   
     <div class="col-md-12 mt-3">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="registrationDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration Date </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
           <td mat-cell *matCellDef="let element"> {{element.registrationDate === '' ? 'NULL':element.registrationDate}}
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="email">
+        <!-- <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
           <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="bankName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bank Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.bankName}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bank</th>
+          <td mat-cell *matCellDef="let element"> {{element.bankName === 'NULL' ?' ': element.bankName}} </td>
         </ng-container>
-
+<!-- 
         <ng-container matColumnDef="creditLimit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Credit Limit </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Credit Limit</th>
           <td mat-cell *matCellDef="let element"> {{element.creditLimit}} </td>
-        </ng-container>
+        </ng-container> -->
 
-        <ng-container matColumnDef="creditLimitDays">
+        <!-- <ng-container matColumnDef="creditLimitDays">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Credit Limit Days </th>
           <td mat-cell *matCellDef="let element"> {{element.creditLimitDays}} </td>
-        </ng-container>
+        </ng-container> -->
 
-        <ng-container matColumnDef="transporter">
+        <!-- <ng-container matColumnDef="transporter">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Transporter </th>
           <td mat-cell *matCellDef="let element"> {{element.transporter}} </td>
-        </ng-container>
+        </ng-container> -->
 
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <th mat-header-cell *matHeaderCellDef>Edit</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="editEmployee(element)">
               <mat-icon class="mat-18">edit</mat-icon>
@@ -72,7 +72,7 @@
         </ng-container>
 
         <ng-container matColumnDef="view">
-          <th mat-header-cell *matHeaderCellDef> View </th>
+          <th mat-header-cell *matHeaderCellDef>View</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="viewVendorDetails(element)">
               <mat-icon>visibility</mat-icon>
@@ -83,7 +83,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-    
+      <mat-paginator [pageSizeOptions]="[10,50,100]" showFirstLastButtons></mat-paginator>
+
 
     </div>
   </div>

@@ -2,7 +2,7 @@ table {
     width: 100%;
   }
 
-.mat-column-address {
+/* .mat-column-address {
     flex: none;
     width: 200px;
 }
@@ -10,4 +10,22 @@ table {
 .mat-column-id{
   flex: none;
   width: 60px;
+} */
+
+
+.mat-column-billingName {
+  word-wrap: break-word;
+  text-align: left;
+  /* max-width: 60px !important; */
+  padding: 4px;
 }
+
+.mat-column-phone {
+  text-align: left;
+  padding: 4px;
+}
+
+/* .mat-column-action {
+  display:flex !important;
+  justify-content:flex-end!important;
+} */
